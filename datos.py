@@ -1,10 +1,9 @@
-"""Datos de los 20 aminoácidos estándar, sus evoluciones (modificaciones
-postraduccionales), tipos, movimientos, zonas del mapa y glosario.
+"""Datos de los 20 aminoácidos estándar, sus modificaciones
+postraduccionales, tipos, movimientos, zonas del mapa y glosario.
 
 Valores fisicoquímicos: Lehninger, 25 °C (masa del aminoácido libre en g/mol;
 pK1 = α-COOH, pK2 = α-NH3+, pKR = cadena lateral, pI = punto isoeléctrico).
 Hidropatía: escala de Kyte-Doolittle (1982).
-Requerimientos: FAO/OMS/UNU 2007, adulto, mg/kg/día.
 """
 
 # ================================================================== tipos
@@ -50,19 +49,19 @@ NEUTRO = "NEU"     # movimientos que no dependen de la cadena lateral: ×1
 _PARES = {
     ("NP", "NP"): (2, "efecto hidrofóbico"),
     ("NP", "ARO"): (2, "efecto hidrofóbico"),
-    ("NP", "POL"): (0.5, "el agua solvata al grupo polar: no se juntan"),
-    ("NP", "POS"): (0.5, "el agua solvata la carga: no se juntan"),
-    ("NP", "NEG"): (0.5, "el agua solvata la carga: no se juntan"),
+    ("NP", "POL"): (0.5, "el agua los separa"),
+    ("NP", "POS"): (0.5, "el agua los separa"),
+    ("NP", "NEG"): (0.5, "el agua los separa"),
     ("ARO", "ARO"): (2, "apilamiento π–π"),
-    ("ARO", "POL"): (1, "puente de H débil con la nube π"),
+    ("ARO", "POL"): (1, "puente de H X–H···π"),
     ("ARO", "POS"): (2, "interacción catión–π"),
-    ("ARO", "NEG"): (0.5, "la cara π (rica en electrones) repele al anión"),
+    ("ARO", "NEG"): (0.5, "repulsión anión–π"),
     ("POL", "POL"): (2, "puentes de hidrógeno"),
-    ("POL", "POS"): (1, "puente de H con el grupo cargado"),
-    ("POL", "NEG"): (1, "puente de H con el carboxilato"),
-    ("POS", "POS"): (0, "repulsión electrostática (+ con +)"),
+    ("POL", "POS"): (1, "puente de H"),
+    ("POL", "NEG"): (1, "puente de H"),
+    ("POS", "POS"): (0, "repulsión (+ con +)"),
     ("POS", "NEG"): (2, "puente salino"),
-    ("NEG", "NEG"): (0, "repulsión electrostática (− con −)"),
+    ("NEG", "NEG"): (0, "repulsión (− con −)"),
 }
 EFECTIVIDAD = {a: {} for a in ORDEN_TIPOS}
 for (_a, _b), _v in _PARES.items():
@@ -127,11 +126,7 @@ AMINOACIDOS = {
     "G": dict(
         nombre="Glicina", tres="Gly", grupo="alifatico", tipos=("NP",),
         carga="Neutra", pk1=2.34, pk2=9.60, pkr=None, pi=5.97,
-        hidropatia=-0.4, masa=75.07, nutricion="Condicional",
-        precursor="Serina", nota_nutricion="Se sintetiza desde Ser (serina "
-                                         "hidroximetiltransferasa).",
-        destino="Glucogénico", codones=["GGU", "GGC", "GGA", "GGG"],
-        movs=["puente_h_esqueleto", "flexibilidad", "van_der_waals"],
+        hidropatia=-0.4, masa=75.07, nutricion="Condicional", codones=["GGU", "GGC", "GGA", "GGG"],
         cadena=["        H"],
         pista="La más pequeña y la única sin carbono quiral (su R es un H). "
               "Es 1 de cada 3 residuos del colágeno.",
@@ -139,9 +134,7 @@ AMINOACIDOS = {
     "A": dict(
         nombre="Alanina", tres="Ala", grupo="alifatico", tipos=("NP",),
         carga="Neutra", pk1=2.34, pk2=9.69, pkr=None, pi=6.01,
-        hidropatia=1.8, masa=89.09, nutricion="No esencial",
-        destino="Glucogénico", codones=["GCU", "GCC", "GCA", "GCG"],
-        movs=["efecto_hidrofobico", "helice_alfa", "van_der_waals"],
+        hidropatia=1.8, masa=89.09, nutricion="No esencial", codones=["GCU", "GCC", "GCA", "GCG"],
         cadena=["        CH3"],
         pista="Un simple metilo. Es la mejor formadora de hélices α y viaja "
               "del músculo al hígado en el ciclo glucosa-alanina.",
@@ -149,9 +142,7 @@ AMINOACIDOS = {
     "V": dict(
         nombre="Valina", tres="Val", grupo="alifatico", tipos=("NP",),
         carga="Neutra", pk1=2.32, pk2=9.62, pkr=None, pi=5.97,
-        hidropatia=4.2, masa=117.15, nutricion="Esencial", req=26,
-        destino="Glucogénico", codones=["GUU", "GUC", "GUA", "GUG"],
-        movs=["efecto_hidrofobico", "lamina_beta", "van_der_waals"],
+        hidropatia=4.2, masa=117.15, nutricion="Esencial", codones=["GUU", "GUC", "GUA", "GUG"],
         cadena=[
             "        CH",
             "       /  \\",
@@ -163,10 +154,8 @@ AMINOACIDOS = {
     "L": dict(
         nombre="Leucina", tres="Leu", grupo="alifatico", tipos=("NP",),
         carga="Neutra", pk1=2.36, pk2=9.60, pkr=None, pi=5.98,
-        hidropatia=3.8, masa=131.17, nutricion="Esencial", req=39,
-        destino="Cetogénico",
+        hidropatia=3.8, masa=131.17, nutricion="Esencial",
         codones=["UUA", "UUG", "CUU", "CUC", "CUA", "CUG"],
-        movs=["efecto_hidrofobico", "cremallera", "van_der_waals"],
         cadena=[
             "        CH2",
             "        |",
@@ -174,16 +163,13 @@ AMINOACIDOS = {
             "       /  \\",
             "    H3C    CH3",
         ],
-        pista="Isobutilo. Forma 'cremalleras de leucina' en factores de "
-              "transcripción. Junto con Lys, es puramente cetogénica. Es el "
-              "esencial que más se requiere (39 mg/kg/día).",
+        pista="Isobutilo. Forma cremalleras de leucina en factores de "
+              "transcripción como Fos y Jun.",
     ),
     "I": dict(
         nombre="Isoleucina", tres="Ile", grupo="alifatico", tipos=("NP",),
         carga="Neutra", pk1=2.36, pk2=9.68, pkr=None, pi=6.02,
-        hidropatia=4.5, masa=131.17, nutricion="Esencial", req=20,
-        destino="Ambos", codones=["AUU", "AUC", "AUA"],
-        movs=["efecto_hidrofobico", "nucleo_hidrofobico", "lamina_beta", "van_der_waals"],
+        hidropatia=4.5, masa=131.17, nutricion="Esencial", codones=["AUU", "AUC", "AUA"],
         cadena=[
             "    H3C-CH",
             "        |",
@@ -191,16 +177,13 @@ AMINOACIDOS = {
             "        |",
             "        CH3",
         ],
-        pista="La más hidrofóbica (KD 4.5). Tiene DOS carbonos quirales "
+        pista="La más hidrofóbica (KD 4.5). Tiene dos carbonos quirales "
               "(Cα y Cβ). Isómero de Leu.",
     ),
     "M": dict(
         nombre="Metionina", tres="Met", grupo="alifatico", tipos=("NP",),
         carga="Neutra", pk1=2.28, pk2=9.21, pkr=None, pi=5.74,
-        hidropatia=1.9, masa=149.21, nutricion="Esencial", req=15,
-        req_nota="15 mg/kg/día es para Met + Cys juntas (la Cys sale de la Met).",
-        destino="Glucogénico", codones=["AUG"],
-        movs=["codon_inicio", "efecto_hidrofobico", "tioeter", "antioxidante"],
+        hidropatia=1.9, masa=149.21, nutricion="Esencial", codones=["AUG"],
         cadena=[
             "        CH2",
             "        |",
@@ -216,10 +199,7 @@ AMINOACIDOS = {
     "P": dict(
         nombre="Prolina", tres="Pro", grupo="alifatico", tipos=("NP",),
         carga="Neutra", pk1=1.99, pk2=10.96, pkr=None, pi=6.48,
-        hidropatia=-1.6, masa=115.13, nutricion="Condicional",
-        precursor="Glutamato", nota_nutricion="Se sintetiza desde Glu.",
-        destino="Glucogénico", codones=["CCU", "CCC", "CCA", "CCG"],
-        movs=["efecto_hidrofobico", "anillo_rigido", "van_der_waals"],
+        hidropatia=-1.6, masa=115.13, nutricion="Condicional", codones=["CCU", "CCC", "CCA", "CCG"],
         cadena=None,
         completa=[
             "        H",
@@ -230,17 +210,14 @@ AMINOACIDOS = {
             "     \\  /",
             "      CH2",
         ],
-        pista="Iminoácido: su cadena se cierra sobre el N del esqueleto. "
+        pista="Su α-amino es secundario: la cadena lateral se cierra sobre el N. "
               "Ese anillo rígido rompe hélices α y forma giros. Su pK2 (10.96) "
               "es el más alto de todos.",
     ),
     "F": dict(
         nombre="Fenilalanina", tres="Phe", grupo="aromatico", tipos=("ARO", "NP"),
         carga="Neutra", pk1=1.83, pk2=9.13, pkr=None, pi=5.48,
-        hidropatia=2.8, masa=165.19, nutricion="Esencial", req=25,
-        req_nota="25 mg/kg/día es para Phe + Tyr juntas (la Tyr sale de la Phe).",
-        destino="Ambos", codones=["UUU", "UUC"],
-        movs=["apilamiento_pi", "efecto_hidrofobico", "van_der_waals"],
+        hidropatia=2.8, masa=165.19, nutricion="Esencial", codones=["UUU", "UUC"],
         cadena=["        CH2", "        |"] + BENCENO + ["        CH"],
         pista="Bencilo. La fenilalanina hidroxilasa la convierte en Tyr; "
               "si falla esa enzima → fenilcetonuria (PKU).",
@@ -248,12 +225,7 @@ AMINOACIDOS = {
     "Y": dict(
         nombre="Tirosina", tres="Tyr", grupo="aromatico", tipos=("ARO", "POL"),
         carga="Neutra", pk1=2.20, pk2=9.11, pkr=10.07, pi=5.66,
-        hidropatia=-1.3, masa=181.19, nutricion="Condicional",
-        precursor="Fenilalanina",
-        nota_nutricion="Depende de Phe (fenilalanina hidroxilasa); en la PKU "
-                       "se vuelve esencial.",
-        destino="Ambos", codones=["UAU", "UAC"],
-        movs=["apilamiento_pi", "puente_h", "fosforilar"],
+        hidropatia=-1.3, masa=181.19, nutricion="Condicional", codones=["UAU", "UAC"],
         cadena=["        CH2", "        |"] + BENCENO + [
             "        C",
             "        |",
@@ -265,9 +237,7 @@ AMINOACIDOS = {
     "W": dict(
         nombre="Triptófano", tres="Trp", grupo="aromatico", tipos=("ARO", "POL"),
         carga="Neutra", pk1=2.38, pk2=9.39, pkr=None, pi=5.89,
-        hidropatia=-0.9, masa=204.23, nutricion="Esencial", req=4,
-        destino="Ambos", codones=["UGG"],
-        movs=["apilamiento_pi", "fluorescencia", "puente_h", "van_der_waals"],
+        hidropatia=-0.9, masa=204.23, nutricion="Esencial", codones=["UGG"],
         cadena=[
             "        CH2",
             "        |",
@@ -280,16 +250,13 @@ AMINOACIDOS = {
             "   CH===CH",
         ],
         pista="Indol (anillo doble con N). El más grande y el que más "
-              "absorbe a 280 nm. Precursor de serotonina y melatonina. El "
-              "esencial que menos se requiere (4 mg/kg/día).",
+              "absorbe a 280 nm. Precursor de serotonina y melatonina.",
     ),
     "S": dict(
         nombre="Serina", tres="Ser", grupo="polar", tipos=("POL",),
         carga="Neutra", pk1=2.21, pk2=9.15, pkr=None, pi=5.68,
         hidropatia=-0.8, masa=105.09, nutricion="No esencial",
-        destino="Glucogénico",
         codones=["UCU", "UCC", "UCA", "UCG", "AGU", "AGC"],
-        movs=["puente_h", "fosforilar", "van_der_waals"],
         cadena=["        CH2", "        |", "        OH"],
         pista="Hidroximetilo. Nucleófilo de las serín-proteasas "
               "(tripsina, quimotripsina). Blanco clásico de quinasas.",
@@ -297,9 +264,7 @@ AMINOACIDOS = {
     "T": dict(
         nombre="Treonina", tres="Thr", grupo="polar", tipos=("POL",),
         carga="Neutra", pk1=2.11, pk2=9.62, pkr=None, pi=5.87,
-        hidropatia=-0.7, masa=119.12, nutricion="Esencial", req=15,
-        destino="Ambos", codones=["ACU", "ACC", "ACA", "ACG"],
-        movs=["puente_h", "fosforilar", "lamina_beta"],
+        hidropatia=-0.7, masa=119.12, nutricion="Esencial", codones=["ACU", "ACC", "ACA", "ACG"],
         cadena=["        CH-OH", "        |", "        CH3"],
         pista="Como Ser pero con un CH3 extra; también tiene dos carbonos "
               "quirales. Se fosforila igual que Ser.",
@@ -307,22 +272,16 @@ AMINOACIDOS = {
     "C": dict(
         nombre="Cisteína", tres="Cys", grupo="polar", tipos=("POL",),
         carga="Neutra", pk1=1.96, pk2=10.28, pkr=8.18, pi=5.07,
-        hidropatia=2.5, masa=121.16, nutricion="Condicional",
-        precursor="Metionina",
-        nota_nutricion="Depende de Met (transulfuración, junto con Ser).",
-        destino="Glucogénico", codones=["UGU", "UGC"],
-        movs=["puente_disulfuro", "tiol", "van_der_waals"],
+        hidropatia=2.5, masa=121.16, nutricion="Condicional", codones=["UGU", "UGC"],
         cadena=["        CH2", "        |", "        SH"],
         pista="Tiol (SH). Dos Cys se oxidan y forman un puente disulfuro "
-              "(cistina). Lehninger la pone con las polares sin carga, aunque "
-              "su KD (+2.5) dice que es bastante hidrofóbica.",
+              "(cistina). Lehninger la clasifica como polar sin carga, aunque "
+              "su KD (+2.5) indica que es bastante hidrofóbica.",
     ),
     "N": dict(
         nombre="Asparagina", tres="Asn", grupo="polar", tipos=("POL",),
         carga="Neutra", pk1=2.02, pk2=8.80, pkr=None, pi=5.41,
-        hidropatia=-3.5, masa=132.12, nutricion="No esencial",
-        destino="Glucogénico", codones=["AAU", "AAC"],
-        movs=["puente_h", "amida_doble", "van_der_waals"],
+        hidropatia=-3.5, masa=132.12, nutricion="No esencial", codones=["AAU", "AAC"],
         cadena=[
             "        CH2",
             "        |",
@@ -336,12 +295,7 @@ AMINOACIDOS = {
     "Q": dict(
         nombre="Glutamina", tres="Gln", grupo="polar", tipos=("POL",),
         carga="Neutra", pk1=2.17, pk2=9.13, pkr=None, pi=5.65,
-        hidropatia=-3.5, masa=146.15, nutricion="Condicional",
-        precursor="Glutamato",
-        nota_nutricion="Se forma de Glu + NH3 (glutamina sintetasa); la "
-                       "demanda sube mucho en catabolismo (trauma, sepsis).",
-        destino="Glucogénico", codones=["CAA", "CAG"],
-        movs=["puente_h", "amida_doble", "van_der_waals"],
+        hidropatia=-3.5, masa=146.15, nutricion="Condicional", codones=["CAA", "CAG"],
         cadena=[
             "        CH2",
             "        |",
@@ -357,9 +311,7 @@ AMINOACIDOS = {
     "D": dict(
         nombre="Aspartato", tres="Asp", grupo="acido", tipos=("NEG",),
         carga="Negativa (−1)", pk1=1.88, pk2=9.60, pkr=3.65, pi=2.77,
-        hidropatia=-3.5, masa=133.10, nutricion="No esencial",
-        destino="Glucogénico", codones=["GAU", "GAC"],
-        movs=["puente_salino_neg", "unir_calcio", "van_der_waals"],
+        hidropatia=-3.5, masa=133.10, nutricion="No esencial", codones=["GAU", "GAC"],
         cadena=[
             "        CH2",
             "        |",
@@ -374,9 +326,7 @@ AMINOACIDOS = {
     "E": dict(
         nombre="Glutamato", tres="Glu", grupo="acido", tipos=("NEG",),
         carga="Negativa (−1)", pk1=2.19, pk2=9.67, pkr=4.25, pi=3.22,
-        hidropatia=-3.5, masa=147.13, nutricion="No esencial",
-        destino="Glucogénico", codones=["GAA", "GAG"],
-        movs=["puente_salino_neg", "unir_calcio", "van_der_waals"],
+        hidropatia=-3.5, masa=147.13, nutricion="No esencial", codones=["GAA", "GAG"],
         cadena=[
             "        CH2",
             "        |",
@@ -393,9 +343,7 @@ AMINOACIDOS = {
     "K": dict(
         nombre="Lisina", tres="Lys", grupo="basico", tipos=("POS",),
         carga="Positiva (+1)", pk1=2.18, pk2=8.95, pkr=10.53, pi=9.74,
-        hidropatia=-3.9, masa=146.19, nutricion="Esencial", req=30,
-        destino="Cetogénico", codones=["AAA", "AAG"],
-        movs=["puente_salino_pos", "acetilar", "abrazar_adn"],
+        hidropatia=-3.9, masa=146.19, nutricion="Esencial", codones=["AAA", "AAG"],
         cadena=[
             "        CH2",
             "        |",
@@ -408,19 +356,13 @@ AMINOACIDOS = {
             "        NH3+",
         ],
         pista="Cadena de 4 CH2 con amonio. Abunda en histonas y proteínas "
-              "ribosomales; se acetila, metila y ubiquitina. Puramente "
-              "cetogénica (con Leu).",
+              "ribosomales; se acetila, metila y ubiquitina.",
     ),
     "R": dict(
         nombre="Arginina", tres="Arg", grupo="basico", tipos=("POS",),
         carga="Positiva (+1)", pk1=2.17, pk2=9.04, pkr=12.48, pi=10.76,
         hidropatia=-4.5, masa=174.20, nutricion="Condicional",
-        precursor="Citrulina (ciclo de la urea)",
-        nota_nutricion="Se forma en el ciclo de la urea (desde citrulina); "
-                       "esencial en neonatos y prematuros.",
-        destino="Glucogénico",
         codones=["CGU", "CGC", "CGA", "CGG", "AGA", "AGG"],
-        movs=["puente_salino_pos", "guanidinio", "van_der_waals"],
         cadena=[
             "        CH2",
             "        |",
@@ -441,9 +383,7 @@ AMINOACIDOS = {
     "H": dict(
         nombre="Histidina", tres="His", grupo="basico", tipos=("POS",),
         carga="Mayormente neutra (+ parcial)", pk1=1.82, pk2=9.17, pkr=6.00,
-        pi=7.59, hidropatia=-3.2, masa=155.16, nutricion="Esencial", req=10,
-        destino="Glucogénico", codones=["CAU", "CAC"],
-        movs=["puente_salino_pos", "cambio_ph", "van_der_waals"],
+        pi=7.59, hidropatia=-3.2, masa=155.16, nutricion="Esencial", codones=["CAU", "CAC"],
         cadena=[
             "        CH2",
             "        |",
@@ -462,8 +402,6 @@ AMINOACIDOS = {
 ORDEN = list("GAVLIMPFYWSTCNQDEKRH")
 for _c, _aa in AMINOACIDOS.items():
     _aa["una"] = _c
-    _aa.setdefault("req", None)
-    _aa.setdefault("precursor", None)
 
 
 def calcular_pi(aa):
@@ -490,17 +428,16 @@ def carga_cadena(aa, ph):
     return -1 / (1 + 10 ** (pka - ph))
 
 
-# ============================================================ evoluciones
-EVOLUCIONES = {
+# ============================================ modificaciones postraduccionales
+MODIFICACIONES = {
     "Hyp": dict(
-        base="P", nombre="Hidroxiprolina", tres="Hyp", tipos=("POL",), quita=["efecto_hidrofobico"], agrega=["puente_h"],
+        base="P", nombre="Hidroxiprolina", tres="Hyp", tipos=("POL",),
         carga="Neutra", req=dict(nivel=5, objeto="Vitamina C"),
-        mov="triple_helice",
         cambio="Gana un OH en el anillo: de No polar a Polar sin carga.",
         bio="La prolil 4-hidroxilasa (en el RE) le pone un OH usando vitamina "
             "C (ascorbato) como cofactor. La Hyp estabiliza la triple hélice "
             "del colágeno; sin vitamina C el colágeno se deshace → escorbuto.",
-        pista="Algo que abunda en los cítricos…",
+        pista="Hay vitamina C en la matriz extracelular (C en el mapa).",
         completa=[
             "        H",
             "        |",
@@ -512,15 +449,14 @@ EVOLUCIONES = {
         ],
     ),
     "Hyl": dict(
-        base="K", nombre="Hidroxilisina", tres="Hyl", tipos=("POS",), quita=[],
+        base="K", nombre="Hidroxilisina", tres="Hyl", tipos=("POS",),
         carga="Positiva (+1)", req=dict(nivel=5, objeto="Vitamina C"),
-        mov="entrecruzar",
         cambio="Conserva la carga + (sigue en el grupo básico) y gana un OH "
                "en el carbono δ.",
         bio="La lisil hidroxilasa (también dependiente de vitamina C) la "
             "forma en el RE. Sus OH reciben azúcares y crean entrecruzamientos "
             "que dan resistencia a las fibras de colágeno.",
-        pista="La misma vitamina que necesita la prolina.",
+        pista="Hay vitamina C en la matriz extracelular (C en el mapa).",
         cadena=[
             "        CH2", "        |", "        CH2", "        |",
             "        CH-OH", "        |", "        CH2", "        |",
@@ -528,15 +464,14 @@ EVOLUCIONES = {
         ],
     ),
     "Kac": dict(
-        base="K", nombre="Acetil-lisina", tres="Kac", tipos=("POL",), quita=["acetilar", "puente_salino_pos", "abrazar_adn"], agrega=["van_der_waals"],
+        base="K", nombre="Acetil-lisina", tres="Kac", tipos=("POL",),
         carga="Neutra", req=dict(nivel=6, zona="nucleo"),
-        mov="abrir_cromatina",
         cambio="Pierde la carga +: el amonio se vuelve una amida neutra. De "
                "Cargado + a Polar sin carga.",
         bio="Las acetiltransferasas de histonas (HAT) le pasan un acetilo del "
             "acetil-CoA. Sin carga +, la histona suelta al ADN (−): la "
             "cromatina se abre y los genes se expresan. Las HDAC lo revierten.",
-        pista="Ocurre donde están las histonas.",
+        pista="Las HAT actúan en el núcleo; entra por un poro.",
         cadena=[
             "        CH2", "        |", "        CH2", "        |",
             "        CH2", "        |", "        CH2", "        |",
@@ -545,15 +480,14 @@ EVOLUCIONES = {
         ],
     ),
     "Kme3": dict(
-        base="K", nombre="Trimetil-lisina", tres="Kme3", tipos=("POS",), quita=["acetilar"],
+        base="K", nombre="Trimetil-lisina", tres="Kme3", tipos=("POS",),
         carga="Positiva (+1, permanente)", req=dict(nivel=7, zona="nucleo"),
-        mov="marca_epigenetica",
         cambio="Sigue siendo + (amonio cuaternario: ya no puede perder la "
                "carga ni acetilarse, porque su N no tiene H).",
         bio="Las metiltransferasas de histonas (HMT) usan SAM, derivada de la "
             "Met. H3K4me3 marca genes activos; H3K9me3 y H3K27me3, genes "
             "silenciados. No cambia la carga, cambia quién se une.",
-        pista="Ocurre en el núcleo, pero hace falta más experiencia.",
+        pista="Las HMT actúan en el núcleo.",
         cadena=[
             "        CH2", "        |", "        CH2", "        |",
             "        CH2", "        |", "        CH2", "        |",
@@ -561,52 +495,48 @@ EVOLUCIONES = {
         ],
     ),
     "pS": dict(
-        base="S", nombre="Fosfoserina", tres="pSer", tipos=("NEG",), quita=["fosforilar", "puente_h"],
+        base="S", nombre="Fosfoserina", tres="pSer", tipos=("NEG",),
         carga="Negativa (≈ −2)", req=dict(nivel=4, objeto="ATP"),
-        mov="fosfato",
         cambio="Gana un fosfato: de Polar sin carga a Cargado − (≈ −2).",
         bio="Las Ser/Thr quinasas (PKA, PKC, MAPK…) le transfieren el "
             "fosfato γ del ATP. Es el interruptor más común de la célula; las "
             "fosfatasas lo quitan.",
-        pista="La moneda energética que dan en la mitocondria.",
+        pista="La mitocondria (◉) recarga ATP.",
         cadena=["        CH2", "        |", "        O", "        |",
                 "        PO3(2-)"],
     ),
     "pT": dict(
-        base="T", nombre="Fosfotreonina", tres="pThr", tipos=("NEG",), quita=["fosforilar", "puente_h"],
+        base="T", nombre="Fosfotreonina", tres="pThr", tipos=("NEG",),
         carga="Negativa (≈ −2)", req=dict(nivel=4, objeto="ATP"),
-        mov="fosfato",
         cambio="Gana un fosfato: de Polar sin carga a Cargado − (≈ −2).",
         bio="Mismas Ser/Thr quinasas que la serina. El motivo pThr-Pro lo "
             "reconoce la isomerasa Pin1 y controla el ciclo celular (CDKs).",
-        pista="La moneda energética que dan en la mitocondria.",
+        pista="La mitocondria (◉) recarga ATP.",
         cadena=["        CH-O-PO3(2-)", "        |", "        CH3"],
     ),
     "pY": dict(
-        base="Y", nombre="Fosfotirosina", tres="pTyr", tipos=("NEG", "ARO"), quita=["fosforilar", "puente_h"],
+        base="Y", nombre="Fosfotirosina", tres="pTyr", tipos=("NEG", "ARO"),
         carga="Negativa (≈ −2)", req=dict(nivel=5, objeto="ATP"),
-        mov="sh2",
         cambio="El OH del fenol se fosforila: conserva el anillo, pero ahora "
                "tiene carga ≈ −2 (Cargado − / Aromático).",
         bio="Las tirosina quinasas (como el receptor de insulina, un RTK) la "
             "generan. Los dominios SH2 la reconocen con una Arg que forma un "
             "puente salino con el fosfato, y así propagan la señal.",
-        pista="La moneda energética que dan en la mitocondria.",
+        pista="La mitocondria (◉) recarga ATP.",
         cadena=["        CH2", "        |"] + BENCENO + [
             "        C", "        |", "        O-PO3(2-)",
         ],
     ),
     "Cis": dict(
-        base="C", nombre="Cistina", tres="Cys-Cys", tipos=("NP",), quita=["puente_disulfuro", "tiol"], agrega=["efecto_hidrofobico"],
+        base="C", nombre="Cistina", tres="Cys-Cys", tipos=("NP",),
         carga="Neutra", req=dict(nivel=4, zona="re", otra_cys=True),
-        mov="disulfuro_estable",
         cambio="Dos Cys se unen por un enlace S–S covalente y pierden los SH. "
                "Lehninger: los residuos unidos por disulfuro son fuertemente "
                "hidrofóbicos (no polares).",
         bio="En el RE (ambiente oxidante) la PDI, proteína disulfuro "
             "isomerasa, forma y reacomoda puentes S–S. Estabilizan proteínas "
             "que salen de la célula: insulina, anticuerpos, queratina.",
-        pista="Necesita una pareja igual y un ambiente oxidante.",
+        pista="El RE es oxidante; lleva otra Cys en el equipo.",
         cadena=[
             "        CH2", "        |", "        S", "        |",
             "        S", "        |", "        CH2", "        |",
@@ -614,45 +544,42 @@ EVOLUCIONES = {
         ],
     ),
     "Gla": dict(
-        base="E", nombre="γ-carboxiglutamato", tres="Gla", tipos=("NEG",), quita=[],
+        base="E", nombre="γ-carboxiglutamato", tres="Gla", tipos=("NEG",),
         carga="Negativa (≈ −2)", req=dict(nivel=5, objeto="Vitamina K"),
-        mov="coagular",
         cambio="Gana un segundo carboxilo en el carbono γ: carga ≈ −2.",
         bio="La γ-glutamil carboxilasa (en el RE) usa vitamina K. Los Gla de "
             "la protrombina y los factores VII, IX y X atrapan Ca²⁺ y anclan "
             "los factores a la membrana: sin vit. K no hay coagulación (la "
             "warfarina bloquea este ciclo).",
-        pista="La vitamina de la coagulación.",
+        pista="Hay vitamina K en el retículo (K en el mapa).",
         cadena=[
             "        CH2", "        |", "        CH",
             "       /  \\", "   -OOC    COO-",
         ],
     ),
     "Nglc": dict(
-        base="N", nombre="Asn N-glicosilada", tres="Asn-Glc", tipos=("POL",), quita=[],
+        base="N", nombre="Asn N-glicosilada", tres="Asn-Glc", tipos=("POL",),
         carga="Neutra", req=dict(nivel=5, zona="re"),
-        mov="escudo_glicanos",
         cambio="Se le une un árbol de azúcares al N de la amida: aún más polar.",
         bio="La oligosacariltransferasa (OST) del RE la añade en el secuón "
             "N-X-S/T (X ≠ Pro). Los glicanos ayudan al plegamiento (ciclo "
             "calnexina/calreticulina) y al control de calidad.",
-        pista="Ocurre en el retículo, mientras la proteína entra.",
+        pista="La OST trabaja en el retículo endoplásmico.",
         cadena=[
             "        CH2", "        |", "        C", "       // \\",
             "      O    NH", "             \\", "             GlcNAc-GlcNAc-Man…",
         ],
     ),
     "Cit": dict(
-        base="R", nombre="Citrulina", tres="Cit", tipos=("POL",), quita=["puente_salino_pos", "guanidinio"], agrega=["van_der_waals"],
+        base="R", nombre="Citrulina", tres="Cit", tipos=("POL",),
         carga="Neutra", req=dict(nivel=6),
-        mov="citrulinar",
         cambio="Pierde la carga +: el guanidinio se vuelve una urea neutra "
                "(de Cargado + a Polar sin carga).",
         bio="Las PAD (peptidil-arginina deiminasas, dependientes de Ca²⁺) la "
             "generan. PAD4 citrulina histonas en las trampas de neutrófilos "
             "(NETs). En la artritis reumatoide aparecen anticuerpos anti-CCP. "
             "La citrulina libre también es parte del ciclo de la urea.",
-        pista="Solo necesita experiencia.",
+        pista="Solo requiere nivel.",
         cadena=[
             "        CH2", "        |", "        CH2", "        |",
             "        CH2", "        |", "        NH", "        |",
@@ -669,216 +596,135 @@ OBJETOS = {
 
 
 # ============================================================ movimientos
-# tipo: grupo de Lehninger cuya química usa el movimiento (o NEUTRO si no
-#       depende de la cadena lateral).  La animación se elige en combate según
-#       la interacción REAL con el tipo del rival.
-# efecto: clave que interpreta combate.py.  poder 0 = solo cambia a tu
-#       aminoácido (no forma interacción con el rival).
-def _m(nombre, tipo, poder, desc, ciencia=None, efecto=None, anim=None):
+# Todos los movimientos son interacciones no covalentes (o el disulfuro)
+# entre tu aminoácido y el rival. Se nombran por la clase de interacción y el
+# grupo R que la forma; la interacción concreta (puente salino, catión–π,
+# repulsión…) depende del grupo del rival y se muestra en combate.
+
+# Nombre, fórmula y clase química del grupo R
+GRUPO_R = {
+    "G": ("hidrógeno", "–H", "sin cadena lateral"),
+    "A": ("metilo", "–CH₃", "alquilo"),
+    "V": ("isopropilo", "–CH(CH₃)₂", "alquilo ramificado"),
+    "L": ("isobutilo", "–CH₂CH(CH₃)₂", "alquilo ramificado"),
+    "I": ("sec-butilo", "–CH(CH₃)CH₂CH₃", "alquilo ramificado"),
+    "M": ("metiltioetilo", "–CH₂CH₂–S–CH₃", "tioéter"),
+    "P": ("pirrolidina", "–CH₂CH₂CH₂– (cerrado sobre el N)", "amina secundaria cíclica"),
+    "F": ("bencilo", "–CH₂–C₆H₅", "fenilo"),
+    "Y": ("p-hidroxibencilo", "–CH₂–C₆H₄–OH", "fenol"),
+    "W": ("indolilmetilo", "–CH₂–indol", "indol"),
+    "S": ("hidroximetilo", "–CH₂–OH", "alcohol primario"),
+    "T": ("1-hidroxietilo", "–CH(OH)–CH₃", "alcohol secundario"),
+    "C": ("sulfanilmetilo", "–CH₂–SH", "tiol"),
+    "N": ("carbamoilmetilo", "–CH₂–CONH₂", "amida"),
+    "Q": ("2-carbamoiletilo", "–CH₂CH₂–CONH₂", "amida"),
+    "D": ("carboximetilo", "–CH₂–COO⁻", "carboxilato"),
+    "E": ("2-carboxietilo", "–CH₂CH₂–COO⁻", "carboxilato"),
+    "K": ("4-aminobutilo", "–(CH₂)₄–NH₃⁺", "amonio primario"),
+    "R": ("3-guanidinopropilo", "–(CH₂)₃–NH–C(NH₂)₂⁺", "guanidinio"),
+    "H": ("imidazolilmetilo", "–CH₂–imidazol", "imidazol"),
+}
+
+INTERACCION = {"NP": "Efecto hidrofóbico", "ARO": "Interacción π",
+               "POL": "Puente de H", "POS": "Electrostática", "NEG": "Electrostática"}
+
+DESC_TIPO = {
+    "NP": ("Junta su cadena no polar con la del rival y libera el agua "
+           "ordenada que las rodeaba.",
+           "Con no polares y aromáticos: efecto hidrofóbico. Con polares o "
+           "cargados no funciona: el agua solvata a esos grupos."),
+    "ARO": ("La nube π del anillo interactúa con el grupo del rival.",
+            "Con otro anillo: apilamiento π–π. Con un catión: catión–π. Con un "
+            "X–H: puente de H débil hacia la cara π. Con un anión: repulsión."),
+    "POL": ("Forma un puente de H: un H unido a O o N se comparte con un O o "
+            "N del rival.",
+            "Necesita un donador (X–H) y un aceptor (par libre). Con no "
+            "polares no hay con quién formarlo."),
+    "POS": ("Su carga + interactúa electrostáticamente con el rival.",
+            "Con un anión: puente salino. Con un anillo: catión–π. Con un "
+            "grupo polar: puente de H. Con otra carga +: repulsión."),
+    "NEG": ("Su carga − interactúa electrostáticamente con el rival.",
+            "Con un catión: puente salino. Con un grupo polar: puente de H. "
+            "Con un anillo o con otra carga −: repulsión."),
+}
+
+# Interacciones de cadena lateral: (tipo, grupo que la forma, poder)
+INTERACCIONES_R = {
+    "G": [],
+    "A": [("NP", "metilo", 30)],
+    "V": [("NP", "isopropilo", 40)],
+    "L": [("NP", "isobutilo", 45)],
+    "I": [("NP", "sec-butilo", 45)],
+    "M": [("NP", "tioéter", 40)],
+    "P": [("NP", "pirrolidina", 35)],
+    "F": [("ARO", "fenilo", 45), ("NP", "bencilo", 40)],
+    "Y": [("ARO", "fenol", 40), ("POL", "O–H fenólico", 40)],
+    "W": [("ARO", "indol", 50), ("POL", "N–H del indol", 35)],
+    "S": [("POL", "hidroxilo", 40)],
+    "T": [("POL", "hidroxilo", 40)],
+    "C": [("POL", "tiol", 30)],
+    "N": [("POL", "carboxamida", 50)],
+    "Q": [("POL", "carboxamida", 50)],
+    "D": [("NEG", "carboxilato", 45)],
+    "E": [("NEG", "carboxilato", 45)],
+    "K": [("POS", "ε-amonio", 45)],
+    "R": [("POS", "guanidinio", 55)],
+    "H": [("POS", "imidazolio", 40)],
+    "Hyp": [("POL", "hidroxilo de la Hyp", 45)],
+    "Hyl": [("POS", "ε-amonio", 45)],
+    "Kac": [("POL", "acetamida", 45)],
+    "Kme3": [("POS", "trimetilamonio", 50)],
+    "pS": [("NEG", "fosfato", 55)],
+    "pT": [("NEG", "fosfato", 55)],
+    "pY": [("NEG", "fosfato", 55), ("ARO", "fenilo", 40)],
+    "Cis": [("NP", "disulfuro", 50)],
+    "Gla": [("NEG", "dicarboxilato", 55)],
+    "Nglc": [("POL", "glicano (O–H)", 55)],
+    "Cit": [("POL", "ureido", 50)],
+}
+
+
+def _m(nombre, tipo, poder, desc, ciencia=None, efecto=None):
     return dict(nombre=nombre, tipo=tipo, poder=poder, desc=desc,
-                ciencia=ciencia, efecto=efecto, anim=anim)
+                ciencia=ciencia, efecto=efecto)
 
 
 MOVIMIENTOS = {
-    # --- interacciones de cadena lateral
-    "efecto_hidrofobico": _m(
-        "Efecto hidrofóbico", "NP", 40,
-        "Junta su cadena no polar con la del rival y expulsa el agua.",
-        "Al juntarse, se libera el agua ordenada que rodeaba a las cadenas no "
-        "polares: aumenta la entropía. Es la fuerza principal del plegamiento."),
-    "cremallera": _m(
-        "Cremallera de leucinas", "NP", 60,
-        "Interacción no polar muy fuerte entre hélices.",
-        "En los factores bZIP (Fos/Jun) hay una Leu cada 7 residuos: las Leu "
-        "de dos hélices encajan como un cierre."),
-    "nucleo_hidrofobico": _m(
-        "Núcleo hidrofóbico", "NP", 55,
-        "Se entierra junto al rival en el interior de la proteína.",
-        "Ile, Leu, Val y Phe forman el núcleo de casi todas las proteínas "
-        "globulares."),
-    "tioeter": _m(
-        "Tioéter", "NP", 40,
-        "El S de la Met (sin H, no polar) contacta otras cadenas no polares y "
-        "anillos aromáticos.",
-        "Las interacciones Met–aromático son frecuentes en proteínas; el S "
-        "grande y polarizable aporta contactos de van der Waals."),
-    "apilamiento_pi": _m(
-        "Apilamiento π", "ARO", 40,
-        "Su anillo aromático se apila con el del rival o atrae una carga +.",
-        "π–π: dos anillos se apilan desplazados. Catión–π: un NH₃⁺ o "
-        "guanidinio se coloca sobre la cara del anillo."),
-    "puente_h": _m(
-        "Puente de hidrógeno", "POL", 40,
-        "Un H unido a O o N se comparte con otro O o N del rival.",
-        "Cada puente de H vale ~2–5 kcal/mol; en agua compiten con el "
-        "solvente, por eso importan más en el interior de la proteína."),
-    "amida_doble": _m(
-        "Amida doble", "POL", 50,
-        "La amida dona (NH₂) y acepta (C=O) puentes de H a la vez.",
-        "Asn y Gln forman puentes de H bidentados."),
-    "tiol": _m(
-        "Tiol", "POL", 35,
-        "El SH forma puentes de H débiles.",
-        "El S es menos electronegativo que el O: el SH da puentes de H más "
-        "débiles que el OH de la Ser."),
-    "puente_disulfuro": _m(
-        "Puente disulfuro", "POL", 45,
-        "Contra otra Cys forma un enlace covalente S–S (afinidad al máximo). "
-        "Contra los demás es solo un tiol polar.",
-        "2 R–SH → R–S–S–R + 2H⁺ + 2e⁻ (oxidación). Solo ocurre entre dos Cys.",
-        efecto="disulfuro"),
-    "puente_salino_neg": _m(
-        "Puente salino", "NEG", 40,
-        "Tu carboxilato (−) atrae a una carga +.",
-        "Atracción electrostática COO⁻···⁺H₃N (como Asp–Lys)."),
-    "puente_salino_pos": _m(
-        "Puente salino", "POS", 40,
-        "Tu grupo + atrae a un carboxilato (−).",
-        "Atracción electrostática ⁺H₃N···⁻OOC (como Lys–Asp). Necesita "
-        "tener la carga +: si se acetila o se desprotona, no funciona."),
-    "abrazar_adn": _m(
-        "Abrazar ADN", "POS", 55,
-        "Varias cargas + juntas forman puentes salinos múltiples.",
-        "Así las histonas (ricas en Lys y Arg) enrollan 147 pb de ADN, cuyos "
-        "fosfatos son (−)."),
-    "guanidinio": _m(
-        "Guanidinio", "POS", 60,
-        "Puente salino doble y muy estable.",
-        "El guanidinio (pKR 12.5) nunca pierde su carga y forma dos puentes "
-        "de H en paralelo con un carboxilato. También es el mejor socio "
-        "catión–π."),
-    # --- interacciones del esqueleto (iguales para los 20)
     "van_der_waals": _m(
         "Van der Waals", NEUTRO, 25,
-        "Fuerzas de London: débiles, pero existen entre cualquier par de "
-        "átomos (×1 con todos).",
-        "Dipolos instantáneos inducen dipolos en los átomos vecinos."),
+        "Fuerzas de London entre átomos en contacto: débiles, pero existen "
+        "con cualquier grupo (×1).",
+        "Un dipolo instantáneo induce otro en el átomo vecino."),
     "puente_h_esqueleto": _m(
-        "Puente de H del esqueleto", NEUTRO, 35,
-        "El N–H de su esqueleto se une al C=O del esqueleto del rival.",
-        "Todos los aminoácidos tienen N–H y C=O en el enlace peptídico (salvo "
-        "Pro, que no tiene H en el N). Sin cadena lateral, Gly se acerca más."),
-    "lamina_beta": _m(
-        "Lámina β", NEUTRO, 35,
-        "Forma una lámina con el rival: puentes de H entre esqueletos. Además "
-        "recibe la mitad de agitación 2 turnos.",
-        "Los ramificados en β (Val, Ile, Thr) prefieren las láminas β.",
-        efecto="escudo2"),
-    # --- cambios sobre tu propio aminoácido (poder 0)
-    "flexibilidad": _m(
-        "Flexibilidad", NEUTRO, 0,
-        "Esquiva la siguiente agitación del rival.",
-        "Sin cadena lateral, Gly adopta ángulos φ/ψ prohibidos para los demás.",
-        efecto="esquiva", anim="flexible"),
-    "anillo_rigido": _m(
-        "Anillo rígido", NEUTRO, 0,
-        "Recibe la mitad de agitación 3 turnos.",
-        "El anillo de la Pro fija el ángulo φ (≈ −65°): su esqueleto casi no "
-        "se deforma.",
-        efecto="escudo3", anim="rigido"),
-    "helice_alfa": _m(
-        "Hélice α", NEUTRO, 0,
-        "Se enrolla: tu siguiente movimiento vale ×1.5.",
-        "Ala es el residuo con mayor tendencia a formar hélice α (puentes de H "
-        "del C=O del residuo i al N–H del i+4).",
-        efecto="potenciar", anim="helice"),
-    "codon_inicio": _m(
-        "Codón de inicio", NEUTRO, 0,
-        "Toma la iniciativa: tu siguiente movimiento vale ×1.5.",
-        "AUG inicia la traducción: la Met siempre va primero.",
-        efecto="potenciar", anim="codon"),
-    "antioxidante": _m(
-        "Antioxidante", NEUTRO, 0,
-        "Atrapa especies reactivas de oxígeno: recibe la mitad de agitación "
-        "3 turnos.",
-        "Las Met expuestas se oxidan a Met-sulfóxido y protegen a otros "
-        "residuos; la enzima MsrA las regenera.",
-        efecto="escudo3", anim="antioxidante"),
-    "fosforilar": _m(
-        "Fosforilación", NEUTRO, 0,
-        "Gasta 1 ATP: se vuelve Cargado − por 3 turnos.",
-        "Una quinasa pasa el fosforilo γ del ATP al OH: carga ≈ −2.",
-        efecto="fosforilar", anim="fosforilar"),
-    "acetilar": _m(
-        "Acetilación", NEUTRO, 0,
-        "Pierde la carga +: se vuelve Polar sin carga por 3 turnos.",
-        "Una acetiltransferasa (HAT) pasa el acetilo del acetil-CoA al NH₃⁺, "
-        "que queda como amida neutra.",
-        efecto="acetilar", anim="acetilar"),
-    "cambio_ph": _m(
-        "Cambio de pH", NEUTRO, 0,
-        "Alterna entre protonada (Cargado +) y neutra (Polar sin carga).",
-        "Con pKR ≈ 6, la His se protona con solo bajar un poco el pH "
-        "(endosomas, lisosomas).",
-        efecto="ph", anim="ph"),
-    "unir_calcio": _m(
-        "Unir Ca²⁺", NEUTRO, 0,
-        "Dos carboxilatos de tu proteína atrapan un Ca²⁺: se estabiliza y "
-        "recibe la mitad de agitación 3 turnos.",
-        "Así funcionan las manos EF de la calmodulina. El Ca²⁺ se une a TUS "
-        "carboxilatos; no cambia la repulsión con un rival ácido.",
-        efecto="escudo3", anim="calcio"),
-    "fluorescencia": _m(
-        "Fluorescencia", NEUTRO, 0,
-        "Revela el nombre y el grupo del rival.",
-        "El Trp se excita a 295 nm y emite a ~330 nm en un entorno no polar "
-        "o a ~350 nm en uno polar: su color delata a su vecino.",
-        efecto="revelar", anim="fluorescencia"),
-    # --- de evoluciones
-    "triple_helice": _m(
-        "Triple hélice", NEUTRO, 60,
-        "Empaqueta tres cadenas como el colágeno (puentes de H del esqueleto).",
-        "El N–H de la Gly de una cadena se une al C=O de otra; el OH de la "
-        "Hyp estabiliza la hélice a través del agua."),
-    "entrecruzar": _m(
-        "Entrecruzamiento", "POS", 55,
-        "Su amonio forma puentes salinos y, en el colágeno, enlaces covalentes "
-        "entre fibras.",
-        "La lisil oxidasa convierte Lys/Hyl en aldehídos que se unen a otras "
-        "fibras."),
-    "abrir_cromatina": _m(
-        "Unirse a bromodominio", "POL", 50,
-        "La amida del acetilo forma un puente de H.",
-        "Los bromodominios reconocen la acetil-lisina con un puente de H a "
-        "una Asn conservada."),
-    "marca_epigenetica": _m(
-        "Jaula aromática", "POS", 50,
-        "Su carga + permanente se mete en una jaula de anillos aromáticos.",
-        "Los cromodominios (HP1 con H3K9me3) reconocen la metil-lisina con "
-        "2–4 anillos aromáticos: interacción catión–π."),
-    "fosfato": _m(
-        "Fosfato (−2)", "NEG", 55,
-        "Su fosfato forma puentes salinos con Arg y Lys.",
-        "Dominios como 14-3-3 y FHA reconocen pSer/pThr con Arg y Lys."),
-    "sh2": _m(
-        "Unión a SH2", "NEG", 60,
-        "Su fosfato atrapa la Arg del dominio SH2.",
-        "Los dominios SH2 reconocen pTyr con una Arg conservada (vía del "
-        "receptor de insulina, Grb2…)."),
-    "disulfuro_estable": _m(
-        "Disulfuro estable", "NP", 45,
-        "Contacto no polar; además recibe la mitad de agitación 3 turnos.",
-        "Los puentes S–S resisten la desnaturalización.",
-        efecto="escudo3"),
-    "coagular": _m(
-        "Gla (carga −2)", "NEG", 55,
-        "Sus dos carboxilatos forman puentes salinos fuertes.",
-        "En la sangre, los Gla atrapan Ca²⁺ y con él anclan los factores de "
-        "coagulación a la membrana."),
-    "escudo_glicanos": _m(
-        "Escudo de glicanos", NEUTRO, 0,
-        "Recibe la mitad de agitación 3 turnos.",
-        "Los glicanos protegen de proteasas y ayudan al plegamiento.",
-        efecto="escudo3", anim="glicanos"),
-    "imidazol_h": _m(
-        "Puente de H del imidazol", "POL", 40,
-        "Solo si la His está neutra: su imidazol dona y acepta puentes de H.",
-        "Neutro, el imidazol tiene un N–H (donador) y un N: (aceptor)."),
-    "citrulinar": _m(
-        "Urea de la citrulina", "POL", 50,
-        "La urea neutra forma puentes de H.",
-        "La PAD convierte Arg (+) en citrulina (neutra)."),
+        "Puente de H · esqueleto", NEUTRO, 35,
+        "El N–H de su enlace peptídico se une al C=O del esqueleto del rival "
+        "(×1 con todos).",
+        "Así se aparean las hebras de una lámina β. La Pro no puede: su N no "
+        "tiene H. La Gly, sin cadena lateral, se acerca más."),
+    "puente_disulfuro": _m(
+        "Puente disulfuro", "POL", 50,
+        "Enlace covalente S–S. Solo se forma con otra Cys: afinidad máxima. "
+        "Con cualquier otro residuo no ocurre.",
+        "2 R–SH → R–S–S–R + 2H⁺ + 2e⁻ (oxidación)."),
 }
+MOVIMIENTOS["puente_disulfuro"]["efecto"] = "disulfuro"
+for _fid, _lista in INTERACCIONES_R.items():
+    for _tipo, _grupo, _poder in _lista:
+        _desc, _ciencia = DESC_TIPO[_tipo]
+        MOVIMIENTOS[f"{_fid}:{_tipo}"] = _m(
+            f"{INTERACCION[_tipo]} · {_grupo}", _tipo, _poder, _desc, _ciencia)
+
+
+def movimientos_de(fid):
+    """Interacciones de un aminoácido o residuo modificado."""
+    movs = [f"{fid}:{t}" for t, _, _ in INTERACCIONES_R[fid]]
+    if fid == "C":
+        movs.append("puente_disulfuro")
+    base = MODIFICACIONES[fid]["base"] if fid in MODIFICACIONES else fid
+    if base != "P":          # la Pro (y la Hyp) no tiene H en el N del esqueleto
+        movs.append("puente_h_esqueleto")
+    movs.append("van_der_waals")
+    return movs
 
 
 # ================================================================== zonas
@@ -907,7 +753,7 @@ ZONAS = {
     "ribosomas": dict(
         nombre="Polirribosomas", aminos=list("KR"), niveles=(3, 5),
         glifo="∴", color="POS",
-        por_que="Las proteínas ribosomales son ricísimas en Lys y Arg: sus "
+        por_que="Las proteínas ribosomales son muy ricas en Lys y Arg: sus "
                 "cargas + neutralizan los fosfatos (−) del ARN ribosomal. "
                 "Aquí puedes conseguir K y R antes de entrar al núcleo.",
     ),
@@ -956,9 +802,9 @@ ZONAS = {
     "mitocondria": dict(
         nombre="Mitocondria", aminos=[], niveles=(0, 0),
         glifo="◉", color="titulo",
-        por_que="Centro de recuperación: la fosforilación oxidativa produce "
-                "ATP. Tu equipo recupera energía y recibes ATP. Aquí también "
-                "se degradan los ramificados (Val, Leu, Ile).",
+        por_que="La fosforilación oxidativa produce ATP: aquí tu equipo "
+                "restablece su energía y recargas ATP. También es donde se "
+                "degradan los aminoácidos ramificados (Val, Leu, Ile).",
     ),
 }
 
@@ -996,12 +842,7 @@ GLOSARIO = [
                                   "crecimiento rápido. Son 6: Arg, Cys, Gln, "
                                   "Gly, Pro, Tyr."),
     ("No esencial", "Son 5: Ala, Asp, Asn, Glu, Ser."),
-    ("Glucogénico", "Su esqueleto de carbono puede convertirse en glucosa "
-                    "(da piruvato o intermediarios del ciclo de Krebs)."),
-    ("Cetogénico", "Da acetil-CoA o acetoacetato: puede formar cuerpos "
-                   "cetónicos, no glucosa. Solo Leu y Lys son puramente "
-                   "cetogénicos."),
-    ("Código de 1 letra", "Los difíciles: F=Phe, Y=Tyr, W=Trp, N=Asn, Q=Gln, "
+    ("Código de 1 letra", "Los menos intuitivos: F=Phe, Y=Tyr, W=Trp, N=Asn, Q=Gln, "
                           "D=Asp, E=Glu, K=Lys, R=Arg."),
     ("Codón / anticodón", "Triplete del ARNm y su complemento en el ARNt "
                           "(antiparalelo). AUG = Met = inicio."),
@@ -1025,21 +866,20 @@ GLOSARIO = [
 
 # ============================================================ utilidades
 def forma(fid):
-    """Datos de un aminoácido base o de una evolución con interfaz común."""
+    """Datos de un aminoácido o de un residuo modificado con interfaz común."""
     if fid in AMINOACIDOS:
         aa = AMINOACIDOS[fid]
         return dict(
             id=fid, base=fid, nombre=aa["nombre"], tres=aa["tres"],
             tipos=tuple(aa["tipos"]), carga=aa["carga"], masa=aa["masa"],
-            movs=list(aa["movs"]), arte=arte(aa), evo=False,
+            movs=movimientos_de(fid), arte=arte(aa), evo=False,
         )
-    ev = EVOLUCIONES[fid]
+    ev = MODIFICACIONES[fid]
     base = AMINOACIDOS[ev["base"]]
     return dict(
         id=fid, base=ev["base"], nombre=ev["nombre"], tres=ev["tres"],
         tipos=tuple(ev["tipos"]), carga=ev["carga"], masa=base["masa"] + 40,
-        movs=[m for m in base["movs"] if m not in ev["quita"]] + ev.get("agrega", []) + [ev["mov"]],
-        arte=arte(ev), evo=True,
+        movs=movimientos_de(fid), arte=arte(ev), evo=True,
     )
 
 
@@ -1049,8 +889,8 @@ def arte(d):
     return ESQUELETO + d["cadena"]
 
 
-def evoluciones_de(base):
-    return [k for k, v in EVOLUCIONES.items() if v["base"] == base]
+def modificaciones_de(base):
+    return [k for k, v in MODIFICACIONES.items() if v["base"] == base]
 
 
 def nombre_tipos(tipos, corto=False):

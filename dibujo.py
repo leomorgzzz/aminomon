@@ -19,8 +19,19 @@ _PALETA = {
     "agua": (109, curses.COLOR_CYAN),
     "bien": (108, curses.COLOR_GREEN),
     "mal": (138, curses.COLOR_RED),
+    # átomos (colores CPK lavados) y esqueleto
+    "atC": (252, curses.COLOR_WHITE),
+    "atH": (246, curses.COLOR_WHITE),
+    "atN": (110, curses.COLOR_BLUE),
+    "atO": (174, curses.COLOR_RED),
+    "atS": (186, curses.COLOR_YELLOW),
+    "atP": (180, curses.COLOR_YELLOW),
+    "enlace": (243, curses.COLOR_WHITE),
+    "esqueleto": (240, curses.COLOR_WHITE),
 }
 _PARES = {}
+_FONDOS = {}          # (nombre, fondo) -> número de par
+_SIGUIENTE = [0]
 
 COLOR_GRUPO = {
     "alifatico": "NP", "aromatico": "ARO", "polar": "POL",
@@ -39,15 +50,26 @@ def init_colores():
     for i, (nombre, (c256, c8)) in enumerate(_PALETA.items(), start=1):
         curses.init_pair(i, c256 if muchos else c8, fondo)
         _PARES[nombre] = i
+    _SIGUIENTE[0] = len(_PALETA) + 1
 
 
-def c(nombre, extra=0):
-    if nombre in _PARES:
-        attr = curses.color_pair(_PARES[nombre])
-        if nombre in ("tenue", "oscuro") and curses.COLORS < 256:
-            attr |= curses.A_DIM
-        return attr | extra
-    return extra
+def c(nombre, extra=0, fondo=None):
+    """Atributo de color. fondo: índice xterm-256 de gris para el fondo."""
+    if nombre not in _PARES:
+        return extra
+    if fondo is not None and curses.COLORS >= 256:
+        clave = (nombre, fondo)
+        if clave not in _FONDOS:
+            if _SIGUIENTE[0] >= curses.COLOR_PAIRS:
+                return c(nombre, extra)
+            curses.init_pair(_SIGUIENTE[0], _PALETA[nombre][0], fondo)
+            _FONDOS[clave] = _SIGUIENTE[0]
+            _SIGUIENTE[0] += 1
+        return curses.color_pair(_FONDOS[clave]) | extra
+    attr = curses.color_pair(_PARES[nombre])
+    if nombre in ("tenue", "oscuro") and curses.COLORS < 256:
+        attr |= curses.A_DIM
+    return attr | extra
 
 
 def etiqueta_tipos(win, y, x, tipos, corto=False):
@@ -56,10 +78,10 @@ def etiqueta_tipos(win, y, x, tipos, corto=False):
     cx = x
     for t in tipos:
         nombre = datos.TIPOS[t]["corto" if corto else "nombre"] if t in datos.TIPOS else "Neutro"
-        texto = f"[{nombre}]"
-        put(win, y, cx, texto, c(t, curses.A_BOLD))
-        cx += len(texto)
-    return cx - x
+        texto = f" {nombre} "
+        put(win, y, cx, texto, c(t, curses.A_BOLD | curses.A_REVERSE))
+        cx += len(texto) + 1
+    return cx - x - 1
 
 
 def put(win, y, x, texto, attr=0):
@@ -96,10 +118,76 @@ def barra(win, y, x, ancho, valor, maximo, attr):
     put(win, y, x + llenos, "░" * (ancho - llenos), c("tenue"))
 
 
-def estructura(win, y, x, lineas, attr=None):
-    attr = c("texto") if attr is None else attr
+ATOMOS = {"C": "atC", "H": "atH", "N": "atN", "O": "atO", "S": "atS", "P": "atP"}
+ENLACES = set("|/\\=─│╱╲")
+
+
+def _filas_esqueleto(lineas):
+    """Filas que pertenecen al esqueleto común (H, Cα, NH3+, COO−)."""
+    n = 3 if len(lineas) >= 3 and "COO-" in lineas[2] else 0
+    if n and len(lineas) > 3 and lineas[3].strip() == "|":
+        n = 4
+    return n
+
+
+def _colorear(linea, esqueleto=False):
+    """Divide una línea de estructura en (texto, color) por átomo (CPK)."""
+    if esqueleto:
+        return [(linea, "esqueleto")]
+    trozos, ultimo, i = [], "atC", 0
+    while i < len(linea):
+        ch = linea[i]
+        sig = linea[i + 1] if i + 1 < len(linea) else ""
+        ant = linea[i - 1] if i else ""
+        if ch.isupper() and sig.islower() and sig not in "αβγδε":
+            j = i
+            while j < len(linea) and linea[j].isalpha():
+                j += 1
+            trozos.append((linea[i:j], "tenue"))      # rótulo (GlcNAc, Man…)
+            i = j
+            continue
+        if ch in ATOMOS:
+            ultimo = ATOMOS[ch]
+            color = ultimo
+        elif ch.isdigit() or ch in "()αβγδε":
+            color = ultimo
+        elif ch == "+":
+            color = "POS"
+        elif ch == "-":
+            es_carga = (ant.isalnum() or ant == ")") and sig in (" ", ")", "")
+            color = "NEG" if es_carga else "enlace"
+        elif ch in ENLACES:
+            color = "enlace"
+        else:
+            color = "tenue"
+        trozos.append((ch, color))
+        i += 1
+    return trozos
+
+
+def estructura(win, y, x, lineas, attr=None, cpk=True, etiqueta_r=None, color_r="texto"):
+    """Dibuja una estructura. Con cpk=True colorea por átomo, atenúa el
+    esqueleto común y resalta el grupo R; etiqueta_r rotula la cadena lateral."""
+    if not cpk:
+        attr = c("texto") if attr is None else attr
+        for i, l in enumerate(lineas):
+            put(win, y + i, x, l, attr)
+        return
+    n_esq = _filas_esqueleto(lineas)
     for i, l in enumerate(lineas):
-        put(win, y + i, x, l, attr)
+        cx = x
+        for texto, color in _colorear(l, esqueleto=i < n_esq):
+            negrita = curses.A_BOLD if i >= n_esq and color.startswith("at") else 0
+            put(win, y + i, cx, texto, c(color, negrita))
+            cx += len(texto)
+    if etiqueta_r and n_esq < len(lineas):
+        # barra de color junto a la cadena lateral y su nombre debajo
+        filas_r = [l for l in lineas[n_esq:] if l.strip()]
+        sangria = min(len(l) - len(l.lstrip()) for l in filas_r)
+        for i in range(n_esq, len(lineas)):
+            put(win, y + i, x + max(0, sangria - 2), "┃", c(color_r))
+        put(win, y + len(lineas) + 1, x + max(0, sangria - 2), "grupo R: ", c("tenue"))
+        put(win, y + len(lineas) + 1, x + max(0, sangria - 2) + 9, etiqueta_r, c(color_r, curses.A_BOLD))
 
 
 def envolver(texto, ancho):
@@ -222,3 +310,43 @@ def pedir_texto(win, y, x, prompt, largo=10, attr=None):
                 texto += k
     finally:
         curses.curs_set(0)
+
+
+# --------------------------------------------------------------- tablas
+def anchos_columnas(filas, sep=2):
+    """Ancho de cada columna (el texto más largo + separación)."""
+    anchos = []
+    for fila in filas:
+        for i, celda in enumerate(fila):
+            texto = celda[0] if isinstance(celda, tuple) else celda
+            if i >= len(anchos):
+                anchos.append(0)
+            anchos[i] = max(anchos[i], len(texto) + sep)
+    return anchos
+
+
+def alinear(filas, sep=2):
+    """Rellena cada celda hasta el ancho de su columna (como tabuladores
+    calculados según el contenido). Celdas: str o (texto, color[, attr])."""
+    anchos = anchos_columnas(filas, sep)
+    salida = []
+    for fila in filas:
+        nueva = []
+        for i, celda in enumerate(fila):
+            if not isinstance(celda, tuple):
+                celda = (celda, "texto")
+            texto, resto = celda[0], celda[1:]
+            ultima = i == len(fila) - 1
+            nueva.append((texto if ultima else texto.ljust(anchos[i]),) + tuple(resto))
+        salida.append(nueva)
+    return salida
+
+
+def fila_tabla(win, y, x, celdas):
+    """Dibuja una fila ya alineada con alinear()."""
+    cx = x
+    for celda in celdas:
+        texto, color = celda[0], celda[1]
+        extra = celda[2] if len(celda) > 2 else 0
+        put(win, y, cx, texto, c(color, extra))
+        cx += len(texto)

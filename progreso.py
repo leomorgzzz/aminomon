@@ -45,7 +45,7 @@ def cargar():
     for k, v in base["objetos"].items():
         juego["objetos"].setdefault(k, v)
     juego["equipo"] = [m for m in juego["equipo"]
-                       if m["id"] in datos.AMINOACIDOS or m["id"] in datos.EVOLUCIONES]
+                       if m["id"] in datos.AMINOACIDOS or m["id"] in datos.MODIFICACIONES]
     return juego
 
 
@@ -74,9 +74,9 @@ def dar_xp(mon, cantidad):
         mon["nivel"] += 1
         mon["energia"] = energia_max(mon)
         nombre = datos.forma(mon["id"])["nombre"]
-        mensajes.append(f"¡{nombre} subió al nivel {mon['nivel']}!")
-        if evoluciones_posibles_base(mon):
-            mensajes.append(f"{nombre} podría evolucionar: revisa tu Equipo [E].")
+        mensajes.append(f"{nombre} sube al nivel {mon['nivel']}.")
+        if modificaciones_posibles(mon):
+            mensajes.append(f"{nombre} ya puede modificarse (Equipo [E] → V).")
     return mensajes
 
 
@@ -102,16 +102,16 @@ def bases_capturadas(juego):
     }
 
 
-# -------------------------------------------------------------- evolución
-def evoluciones_posibles_base(mon):
+# ------------------------------------------- modificación postraduccional
+def modificaciones_posibles(mon):
     if mon["id"] not in datos.AMINOACIDOS:
         return []
-    return datos.evoluciones_de(mon["id"])
+    return datos.modificaciones_de(mon["id"])
 
 
 def requisitos(juego, mon, evo_id, zona_actual):
-    """Lista de (texto, cumplido) para evolucionar."""
-    req = datos.EVOLUCIONES[evo_id]["req"]
+    """Lista de (texto, cumplido) para la modificación."""
+    req = datos.MODIFICACIONES[evo_id]["req"]
     lista = [(f"Nivel {req['nivel']} (tiene {mon['nivel']})",
               mon["nivel"] >= req["nivel"])]
     if "objeto" in req:
@@ -127,8 +127,8 @@ def requisitos(juego, mon, evo_id, zona_actual):
     return lista
 
 
-def evolucionar(juego, mon, evo_id):
-    req = datos.EVOLUCIONES[evo_id]["req"]
+def modificar(juego, mon, evo_id):
+    req = datos.MODIFICACIONES[evo_id]["req"]
     if "objeto" in req:
         juego["objetos"][req["objeto"]] -= 1
     if req.get("otra_cys"):

@@ -1,4 +1,4 @@
-"""Menú de equipo: elegir líder y evolucionar."""
+"""Menú de equipo: líder, orden y modificaciones postraduccionales."""
 
 import curses
 import unicodedata
@@ -45,7 +45,7 @@ def mostrar(win, juego, zona_actual):
         if orden:
             d.put(win, 0, max(60, ancho - 28), f"orden: {orden}", d.c("tenue"))
         d.put(win, 1, 0, "─" * ancho, d.c("tenue"))
-        visibles = alto - 9
+        visibles = alto - 12
         inicio = max(0, min(sel - visibles // 2, len(equipo) - visibles))
         for fila, i in enumerate(range(inicio, min(len(equipo), inicio + visibles))):
             m = equipo[i]
@@ -63,22 +63,25 @@ def mostrar(win, juego, zona_actual):
             m = equipo[sel]
             f = datos.forma(m["id"])
             d.estructura(win, 2, 52, f["arte"], d.c(f["tipos"][0]))
-            y = alto - 6
-            d.put(win, y, 1, f"{f['nombre']} ({f['tres']})", d.c("texto", curses.A_BOLD))
-            ancho_t = d.etiqueta_tipos(win, y, 3 + len(f["nombre"]) + len(f["tres"]) + 3, f["tipos"])
-            d.put(win, y, 7 + len(f["nombre"]) + len(f["tres"]) + ancho_t,
-                  f"carga {f['carga']} · XP {m['xp']}/{progreso.xp_necesaria(m)}", d.c("texto"))
-            movs = ", ".join(f"{datos.MOVIMIENTOS[x]['nombre']} [{datos.TIPOS.get(datos.MOVIMIENTOS[x]['tipo'], {}).get('corto', 'Neutro')}]"
+            movs = ", ".join(f"{datos.MOVIMIENTOS[x]['nombre']} "
+                             f"[{datos.TIPOS.get(datos.MOVIMIENTOS[x]['tipo'], {}).get('corto', 'Neutro')}]"
                              for x in f["movs"])
-            d.put(win, y + 1, 1, f"Movimientos: {movs}"[: ancho - 2], d.c("tenue"))
-            evos = progreso.evoluciones_posibles_base(m)
+            filas = [[("Nombre", "tenue"), (f"{f['nombre']} ({f['tres']})", "texto", curses.A_BOLD)],
+                     [("Grupo", "tenue"), (datos.nombre_tipos(f["tipos"]), f["tipos"][0])],
+                     [("Carga pH 7", "tenue"), f["carga"]],
+                     [("Nivel · XP", "tenue"), f"{m['nivel']} · {m['xp']}/{progreso.xp_necesaria(m)}"],
+                     [("Interacciones", "tenue"), movs[: ancho - 20]]]
+            evos = progreso.modificaciones_posibles(m)
             if evos:
-                nombres = ", ".join(datos.EVOLUCIONES[e]["nombre"] for e in evos)
-                d.put(win, y + 2, 1, f"Puede evolucionar a: {nombres}"[: ancho - 2], d.c("agua"))
+                filas.append([("Modificable a", "tenue"),
+                              (", ".join(datos.MODIFICACIONES[e]["nombre"] for e in evos), "agua")])
+            y = alto - 4 - len(filas)
+            for k, fila in enumerate(d.alinear(filas)):
+                d.fila_tabla(win, y + k, 1, fila)
         objs = "  ".join(f"{k}: {v}" for k, v in juego["objetos"].items())
-        d.put(win, alto - 3, 1, f"Objetos: {objs}", d.c("titulo"))
+        d.put(win, alto - 3, 1, f"Objetos   {objs}", d.c("titulo"))
         d.put(win, alto - 1, 1, "↑/↓ elegir  Enter hacer líder  O ordenar (A-Z/nivel/grupo)  "
-                                "V evolucionar  Esc salir", d.c("tenue"))
+                                "V modificar  Esc salir", d.c("tenue"))
         win.refresh()
         k = d.tecla(win)
         if k == d.ESC or d.es(k, "q", "e"):
@@ -93,7 +96,7 @@ def mostrar(win, juego, zona_actual):
             equipo.insert(0, equipo.pop(sel))
             sel = 0
         elif d.es(k, "v"):
-            evolucionar(win, juego, equipo[sel], zona_actual)
+            modificar(win, juego, equipo[sel], zona_actual)
         elif d.es(k, "o"):
             ajustes = juego.setdefault("ajustes", {})
             actual = ajustes.get("orden_equipo")
@@ -103,40 +106,41 @@ def mostrar(win, juego, zona_actual):
             sel = 0
         elif d.es(k, "m", "?"):
             import manual
-            manual.mostrar(win, juego, "evoluciones")
+            manual.mostrar(win, juego, "modificaciones")
 
 
-def evolucionar(win, juego, mon, zona_actual):
-    evos = progreso.evoluciones_posibles_base(mon)
+def modificar(win, juego, mon, zona_actual):
+    evos = progreso.modificaciones_posibles(mon)
     f = datos.forma(mon["id"])
     if not evos:
-        d.popup(win, f"{f['nombre']} no tiene evoluciones (o ya evolucionó).", "Evolución")
+        d.popup(win, f"{f['nombre']} no tiene modificaciones disponibles en el juego (o ya está modificada).", "Modificación")
         return
     opciones = []
     for e in evos:
         ok = all(c for _, c in progreso.requisitos(juego, mon, e, zona_actual))
-        opciones.append(f"{datos.EVOLUCIONES[e]['nombre']}  {'✓ lista' if ok else ''}")
-    sel = d.menu(win, f"¿{f['nombre']} evoluciona a…?", opciones) if len(evos) > 1 else 0
+        opciones.append(f"{datos.MODIFICACIONES[e]['nombre']}  {'✓ lista' if ok else ''}")
+    sel = d.menu(win, f"¿Qué modificación de {f['nombre']}?", opciones) if len(evos) > 1 else 0
     if sel is None:
         return
     eid = evos[sel]
-    ev = datos.EVOLUCIONES[eid]
+    ev = datos.MODIFICACIONES[eid]
     reqs = progreso.requisitos(juego, mon, eid, zona_actual)
     if not all(c for _, c in reqs):
         lineas = [f"{'✓' if c else '✗'} {t}" for t, c in reqs]
         d.popup(win, "Requisitos:\n" + "\n".join(lineas) + f"\n\nPista: {ev['pista']}",
                 f"{f['nombre']} → {ev['nombre']}")
         return
-    progreso.evolucionar(juego, mon, eid)
+    progreso.modificar(juego, mon, eid)
     win.erase()
-    d.put(win, 0, 1, f"¿Qué? ¡{f['nombre']} está cambiando!", d.c("titulo", curses.A_BOLD))
+    d.put(win, 0, 1, f"Modificación postraduccional de {f['nombre']}…", d.c("titulo", curses.A_BOLD))
     anim.destello(win, 2, 1, f["arte"], datos.forma(eid)["arte"], f["tipos"][0], ev["tipos"][0])
     d.put(win, 0, 1, " " * 60)
-    d.put(win, 0, 1, f"¡{f['nombre']} evolucionó a {ev['nombre']}!",
+    d.put(win, 0, 1, f"{f['nombre']} → {ev['nombre']}",
           d.c("bien", curses.A_BOLD))
     texto = (f"{ev['cambio']}\n\nGrupo: {datos.nombre_tipos(f['tipos'])} → "
              f"{datos.nombre_tipos(ev['tipos'])}\n"
-             f"Nuevo movimiento: {datos.MOVIMIENTOS[ev['mov']]['nombre']}\n\n"
+             "Interacciones: " + ", ".join(datos.MOVIMIENTOS[m]["nombre"] for m in datos.forma(eid)["movs"]
+                                          if datos.MOVIMIENTOS[m]["tipo"] != datos.NEUTRO) + "\n\n"
              f"{ev['bio']}")
     for i, l in enumerate(d.envolver(texto, 52)):
         d.put(win, 2 + i, 26, l, d.c("texto"))

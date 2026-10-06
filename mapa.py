@@ -58,7 +58,7 @@ CARTELES = {
                "Pisa sus crestas para recuperar la energía de tu equipo y "
                "recargar ATP."),
     "c_liso": ((25, 30), "Lisosoma",
-               "La bomba V-ATPasa mete H⁺ y baja el pH a ~5. A ese pH la His "
+               "La V-ATPasa bombea H⁺ al interior y baja el pH a ~5. A ese pH la His "
                "(pKR 6) está protonada: aquí cuenta como +."),
     "c_membrana": ((75, 6), "Bicapa lipídica",
                    "Cabezas polares (◦) hacia el agua, colas hidrofóbicas (≈) "
@@ -287,6 +287,14 @@ def glifo(x, y, juego):
     return g, color
 
 
+# Fondo gris (R=G=B) de cada compartimento: sombrea los organelos sin teñirlos
+FONDO = {"N": 236, "c": 236, "u": 237, "O": 236, "m": 237, "l": 237, "~": 235, "h": 235}
+
+
+def fondo(x, y):
+    return FONDO.get(MAPA[y][x])
+
+
 def _attr_especial(nombre, juego):
     if nombre.startswith("jefe"):
         if nombre[5:] in juego["insignias"]:
@@ -316,16 +324,17 @@ def dibujar(win, oy, ox, vh, vw, juego):
     cols = min(vw, ANCHO)
     for fy in range(filas):
         y = cy + fy
-        corrida, color_c, x0 = [], None, 0
+        corrida, clave_c, x0 = [], None, 0
         for fx in range(cols):
             g, color = glifo(cx + fx, y, juego)
-            if color != color_c and corrida:
-                d.put(win, oy + my + fy, ox + mx + x0, "".join(corrida), d.c(color_c))
+            clave = (color, fondo(cx + fx, y))
+            if clave != clave_c and corrida:
+                d.put(win, oy + my + fy, ox + mx + x0, "".join(corrida), d.c(clave_c[0], fondo=clave_c[1]))
                 corrida, x0 = [], fx
-            color_c = color
+            clave_c = clave
             corrida.append(g)
         if corrida:
-            d.put(win, oy + my + fy, ox + mx + x0, "".join(corrida), d.c(color_c))
+            d.put(win, oy + my + fy, ox + mx + x0, "".join(corrida), d.c(clave_c[0], fondo=clave_c[1]))
     for nombre, (x, y, g) in ESPECIALES.items():
         if cx <= x < cx + cols and cy <= y < cy + filas:
             otro, attr = _attr_especial(nombre, juego)

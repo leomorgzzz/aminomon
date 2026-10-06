@@ -77,7 +77,7 @@ class Combate:
         self.win, self.juego, self.zona = win, juego, zona
         self.aa = aa
         conocido = progreso.capturado(juego, aa)
-        self.salvaje = dict(nivel=nivel, afinidad=0, aturdido=False)
+        self.salvaje = dict(nivel=nivel, afinidad=0)
         self.nombre_visible = conocido
         self.tipos_visible = conocido
         self.turno = 1
@@ -99,15 +99,14 @@ class Combate:
         return None
 
     def _reiniciar_estado(self):
-        self.estado = dict(tipos_temp=None, turnos_temp=0, escudo=0, esquiva=False,
-                           potenciar=False, extra=[], his_neutra=False)
+        pass
 
     @property
     def mon(self):
         return self.juego["equipo"][self.activo]
 
     def tipos_mio(self):
-        return self.estado["tipos_temp"] or datos.forma(self.mon["id"])["tipos"]
+        return datos.forma(self.mon["id"])["tipos"]
 
     def tipos_salvaje(self):
         return datos.AMINOACIDOS[self.aa]["tipos"]
@@ -116,13 +115,7 @@ class Combate:
         return datos.AMINOACIDOS[self.aa]["nombre"] if self.nombre_visible else "¿¿??"
 
     def movimientos(self):
-        f = datos.forma(self.mon["id"])
-        return f["movs"] + [m for m in self.estado["extra"] if m not in f["movs"]]
-
-    def disponible(self, mid):
-        """Un movimiento con química de un grupo solo sirve si tienes ese grupo."""
-        t = datos.MOVIMIENTOS[mid]["tipo"]
-        return t == datos.NEUTRO or t in self.tipos_mio()
+        return datos.forma(self.mon["id"])["movs"]
 
     def decir(self, texto):
         self.log.append(texto)
@@ -134,6 +127,8 @@ class Combate:
 
     # ------------------------------------------------------ química real
     def _papel_mio(self, tipo_mov):
+        if self.mon["id"] == "Kme3":
+            return ""            # N⁺(CH₃)₃: sin H que donar ni par libre
         if tipo_mov in CARGADO:
             return CARGADO[tipo_mov][0]
         return HB.get(self.mon["id"], ("DA",))[0]
@@ -149,21 +144,32 @@ class Combate:
 
     def _mult_mov(self, mid):
         m = datos.MOVIMIENTOS[mid]
+        if m["efecto"] == "disulfuro":
+            if self.aa == "C":
+                return 2.0, [("POL", 2, "puente disulfuro (covalente)")]
+            return 0.0, [(self.tipos_salvaje()[0], 0, "sin otra Cys no hay disulfuro")]
         mult, partes = datos.multiplicador(m["tipo"], self.tipos_salvaje())
         if m["tipo"] == datos.NEUTRO:
-            return mult, partes
+            texto = "puente de H del esqueleto" if mid == "puente_h_esqueleto" else "van der Waals"
+            return mult, [(t, pm, texto) for t, pm, _ in partes]
         nuevas = []
         for t, pm, texto in partes:
             if (m["tipo"], t) in INTERACCION_H and not self._hb_posible(m["tipo"], t):
                 if m["tipo"] == "POL":
-                    pm, texto = 0.5, "no se forma puente de H (falta donador o aceptor)"
+                    pm, texto = 0.5, "sin puente de H (falta donador/aceptor)"
                 else:
-                    pm, texto = 1, "ese grupo no puede formar puente de H con el tuyo"
+                    pm, texto = 1, "atracción ion–dipolo"
             nuevas.append((t, pm, texto))
         total = 1.0
         for _, pm, _ in nuevas:
             total *= pm
         return total, nuevas
+
+    @staticmethod
+    def _interaccion_principal(partes):
+        if any(pm == 0 for _, pm, _ in partes):
+            return next(tx for _, pm, tx in partes if pm == 0)
+        return max(partes, key=lambda p: p[1])[2] if partes else "interacción"
 
     # -------------------------------------------------------------- layout
     def layout(self):
@@ -200,7 +206,7 @@ class Combate:
         x, cw = L["x"], L["w"]
         a = datos.AMINOACIDOS[self.aa]
         zona = datos.ZONAS[self.zona]["nombre"]
-        d.put(w, 0, 1, f"¡Un aminoácido salvaje!  ·  {zona}  ·  turno {self.turno}",
+        d.put(w, 0, 1, f"Aminoácido salvaje  ·  {zona}  ·  turno {self.turno}",
               d.c("titulo", curses.A_BOLD))
 
         color = a["tipos"][0] if self.tipos_visible else "texto"
@@ -222,7 +228,7 @@ class Combate:
                 d.c("bien" if listo else "agua"))
         d.put(w, y, x + 12 + ancho_barra, f"{int(self.salvaje['afinidad']):3d}/100", d.c("tenue"))
         if listo:
-            d.put(w, y, x + 21 + ancho_barra, "¡[T] ARNt!", d.c("bien", curses.A_BOLD))
+            d.put(w, y, x + 21 + ancho_barra, "listo: [T] ARNt", d.c("bien", curses.A_BOLD))
 
         d.caja(w, L["arena"], x, L["ah"], cw, None, d.c("oscuro"))
         anim.dibujar_cuadro(w, L["arena"] + 1, x + 1, L["ah"] - 2, cw - 2, self.cuadro)
@@ -233,9 +239,7 @@ class Combate:
         y = L["yo"] + 1
         d.put(w, y, x + 2, f["nombre"][:20], d.c("texto", curses.A_BOLD))
         d.put(w, y, x + 23, f"Nv {self.mon['nivel']}", d.c("tenue"))
-        ancho_t = d.etiqueta_tipos(w, y, x + 30, tipos, corto=True)
-        if self.estado["tipos_temp"]:
-            d.put(w, y, x + 31 + ancho_t, f"({self.estado['turnos_temp']} t)", d.c("tenue"))
+        d.etiqueta_tipos(w, y, x + 30, tipos, corto=True)
         y += 1
         emax = progreso.energia_max(self.mon)
         d.put(w, y, x + 2, "Energía", d.c("texto"))
@@ -243,31 +247,37 @@ class Combate:
         d.put(w, y, x + 12 + ancho_barra, f"{self.mon['energia']:3d}/{emax}", d.c("tenue"))
         d.put(w, y, x + 21 + ancho_barra, f"ATP {self.juego['objetos']['ATP']}", d.c("tenue"))
 
-        d.caja(w, L["movs"], x, L["nmov"] + 2, cw, "Movimientos")
+        d.caja(w, L["movs"], x, L["nmov"] + 2, cw, "Interacciones")
+        con_chip = cw >= 90       # si no cabe la etiqueta, el color del nombre indica el grupo
+        filas = []
         for i, mid in enumerate(self.movimientos()):
             m = datos.MOVIMIENTOS[mid]
-            yy = L["movs"] + 1 + i
-            ok = self.disponible(mid)
-            d.put(w, yy, x + 2, f"{i + 1}) {m['nombre'][:25]}", d.c("texto" if ok else "oscuro"))
-            d.etiqueta_tipos(w, yy, x + 30, [m["tipo"]], corto=True)
-            if not ok:
-                d.put(w, yy, x + 41, "sin esa química ahora", d.c("oscuro"))
-                continue
-            if m["poder"] == 0:
-                d.put(w, yy, x + 41, "—  efecto propio", d.c("tenue"))
-                continue
-            d.put(w, yy, x + 41, f"{m['poder']:>3}", d.c("tenue"))
-            if m["tipo"] in tipos:
-                d.put(w, yy, x + 45, "★", d.c("titulo"))
+            nombre_t = datos.TIPOS[m["tipo"]]["corto"] if m["tipo"] in datos.TIPOS else "Neutro"
+            fila = [(f"{i + 1}) {m['nombre']}", "texto" if con_chip else m["tipo"])]
+            if con_chip:
+                fila.append((f" {nombre_t} ", m["tipo"], curses.A_BOLD | curses.A_REVERSE))
+            fila.append((f"{m['poder']:>3}", "tenue"))
             if self.tipos_visible:
-                mult, _ = self._mult_mov(mid)
+                mult, partes = self._mult_mov(mid)
                 col = "bien" if mult >= 2 else "mal" if mult == 0 else "tenue" if mult < 1 else "texto"
-                d.put(w, yy, x + 47, f"×{datos.fmt_mult(mult)} {flechas(mult)}",
-                      d.c(col, curses.A_BOLD if mult != 1 else 0))
+                fila.append((f"×{datos.fmt_mult(mult)} {flechas(mult)}", col,
+                             curses.A_BOLD if mult != 1 else 0))
+                fila.append((self._interaccion_principal(partes), "tenue"))
             else:
-                d.put(w, yy, x + 47, "×?", d.c("tenue"))
-        if cw >= 70:
-            d.put(w, L["movs"], x + cw - 26, " ★ = tu grupo (×1.5) ", d.c("tenue"))
+                fila.append(("×?", "tenue"))
+            filas.append(fila)
+        filas = d.alinear(filas)
+        for fila in filas:
+            # la última columna (la interacción concreta) se recorta al ancho del recuadro
+            usado = sum(len(celda[0]) for celda in fila[:-1])
+            libre = cw - 4 - usado
+            ultima = fila[-1]
+            if self.tipos_visible and libre < 16:
+                fila.pop()                     # no cabe: se ve en el registro y con [I]
+            elif len(ultima[0]) > libre:
+                fila[-1] = (ultima[0][: max(0, libre - 1)] + "…",) + tuple(ultima[1:])
+        for i, fila in enumerate(filas):
+            d.fila_tabla(w, L["movs"] + 1 + i, x + 2, fila)
 
         lineas = self.log[-L["nlog"]:]
         for i, l in enumerate(lineas):
@@ -275,8 +285,12 @@ class Combate:
             d.put(w, L["log"] + i, x, ("› " + l)[:cw].ljust(cw), d.c("texto" if ultimo else "tenue"))
         # el registro se desplaza cada turno: se repintan esas filas completas
         w.redrawln(L["log"], L["nlog"])
-        d.put(w, L["H"] - 1, 1, f"1-5 mover · T ARNt · D deducir · C cambiar · H huir · I info · "
-                                f"M manual · V vel: {self.velocidad}", d.c("titulo"))
+        if L["W"] >= 100:
+            pie = (f"1-5 mover · T ARNt · D deducir · C cambiar · H huir · I info · "
+                   f"M manual · V velocidad: {self.velocidad}")
+        else:
+            pie = f"1-5 mover  T ARNt  D deducir  C cambiar  H huir  I info  M manual  V {self.velocidad}"
+        d.put(w, L["H"] - 1, 1, pie, d.c("titulo"))
 
         if L["amplio"]:
             arte = f["arte"]
@@ -294,8 +308,6 @@ class Combate:
         visible = self.nombre_visible or self.tipos_visible
         fid = self.mon["id"]
         mio = GRUPO.get(fid, ("─R", "R─"))[0]
-        if fid == "H" and self.estado["his_neutra"]:
-            mio = "─imidazol"
         rival = GRUPO[self.aa][1] if visible else "R?─"
         return dict(
             mio=mio, rival=rival,
@@ -354,6 +366,8 @@ class Combate:
                            color_anillo=ctx["color_mio"])
             return "oh_pi", ctx
         if par in INTERACCION_H:
+            if T in CARGADO and not self._hb_posible(T, rt):
+                return "vdw", ctx          # solo atracción ion–dipolo
             return self._ctx_puente_h(T, rt, ctx)
         # no polar o anión frente a un grupo polar/cargado: el agua los separa
         ctx["polar_lado"] = "der" if rt in ("POL", "POS", "NEG") else "izq"
@@ -390,165 +404,72 @@ class Combate:
 
     # ---------------------------------------------------------- acciones
     def usar(self, mid):
-        """Devuelve False si el movimiento no se pudo usar (no gasta turno)."""
+        """Forma la interacción con el rival."""
         m = datos.MOVIMIENTOS[mid]
         f = datos.forma(self.mon["id"])
-        e = self.estado
-        efecto = m["efecto"]
-        if not self.disponible(mid):
-            self.decir(f"{f['nombre']} no puede usar {m['nombre']}: ahora es "
-                       f"{datos.nombre_tipos(self.tipos_mio())}, no "
-                       f"{datos.TIPOS[m['tipo']]['nombre']}.")
-            return False
-        tipo_txt = datos.TIPOS[m["tipo"]]["nombre"] if m["tipo"] in datos.TIPOS else "Neutro"
-        self.decir(f"{f['nombre']} usa {m['nombre']} [{tipo_txt}].")
-
-        # --- efectos sobre tu propio aminoácido
-        if efecto == "fosforilar":
-            if self.juego["objetos"]["ATP"] < 1:
-                self.decir("¡Sin ATP! La quinasa necesita ATP como donador de fosforilo.")
-                return True
-            self.juego["objetos"]["ATP"] -= 1
-            nuevos = ("NEG", "ARO") if "ARO" in self.tipos_mio() else ("NEG",)
-            e["tipos_temp"], e["turnos_temp"] = nuevos, 3
-            e["extra"] = ["fosfato"]
-            self.animar("fosforilar", self.ctx_base())
-            self.decir(f"Gana un fosfato (≈ −2): ahora es {datos.nombre_tipos(nuevos)} "
-                       "y puede usar «Fosfato (−2)».")
-            return True
-        if efecto == "acetilar":
-            e["tipos_temp"], e["turnos_temp"] = ("POL",), 3
-            e["extra"] = ["abrir_cromatina"]
-            self.animar("acetilar", self.ctx_base())
-            self.decir("Pierde su carga +: ahora es Polar sin carga (ya no hace puentes salinos).")
-            return True
-        if efecto == "ph":
-            ctx = self.ctx_base()
-            if not e["his_neutra"]:
-                e["his_neutra"] = True
-                e["tipos_temp"], e["turnos_temp"] = ("POL",), 3
-                e["extra"] = ["imidazol_h"]
-                ctx["ph_destino"] = 7.4
-                self.animar("ph", ctx)
-                self.decir("pH 7.4 > pKR 6: el imidazol suelta su H+ (neutro: Polar sin carga).")
-            else:
-                e["his_neutra"] = False
-                e["tipos_temp"], e["turnos_temp"], e["extra"] = None, 0, []
-                ctx["ph_destino"] = 5
-                self.animar("ph", ctx)
-                self.decir("pH 5 < pKR 6: el imidazol se protona (Cargado +).")
-            return True
-        if efecto == "revelar":
-            ts = self.tipos_salvaje()
-            polar = any(t in ("POL", "POS", "NEG") for t in ts)
-            nombre = datos.AMINOACIDOS[self.aa]["nombre"]
-            ctx = self.ctx_base()
-            ctx["lambda"] = 350 if polar else 330
-            ctx["revelado"] = f"vecino {'polar' if polar else 'no polar'}: es {nombre}"
-            self.animar("fluorescencia", ctx)
-            self.nombre_visible = self.tipos_visible = True
-            self.decir(f"Emisión a ~{ctx['lambda']} nm: entorno {'polar' if polar else 'no polar'}. "
-                       f"¡Es {nombre} ({datos.nombre_tipos(ts)})!")
-            return True
-        if m["poder"] == 0:
-            self.animar(m["anim"], self.ctx_base())
-            if efecto == "esquiva":
-                e["esquiva"] = True
-                self.decir("Su esqueleto flexible esquivará la próxima agitación.")
-            elif efecto == "potenciar":
-                e["potenciar"] = True
-                self.decir("Tu siguiente movimiento vale ×1.5.")
-            elif efecto in ("escudo2", "escudo3"):
-                e["escudo"] = 2 if efecto == "escudo2" else 3
-                self.decir(f"Se estabiliza: recibirá la mitad de agitación {e['escudo']} turnos.")
-            return True
-
-        # --- interacción con el rival
+        self.decir(f"{f['nombre']}: {m['nombre']}.")
         mult, partes = self._mult_mov(mid)
-        stab = 1.5 if m["tipo"] in self.tipos_mio() else 1.0
-        extra = 1.0
-        if e["potenciar"]:
-            extra = 1.5
-            e["potenciar"] = False
+        principal = self._interaccion_principal(partes)
+        texto_m = f"×{datos.fmt_mult(mult)} {flechas(mult)}".strip()
+
+        if m["efecto"] == "disulfuro" and self.aa != "C":
+            self.animar("sin_puente_h", dict(self.ctx_base(), hb_izq="─CH₂─S─H",
+                                             hb_der=GRUPO[self.aa][1] if self.nombre_visible else "R?─",
+                                             motivo="el disulfuro solo se forma entre dos Cys",
+                                             nombre="sin otra Cys no hay disulfuro"))
+            self.decir("Sin otra Cys no hay disulfuro: no se forma ninguna interacción.")
+            self.ultimo_mult = 1.0
+            return
 
         nombre_anim, ctx = self.animacion_interaccion(mid, partes)
-        principal = max(partes, key=lambda p: p[1])[2] if partes else "interacción"
-        if any(pm == 0 for _, pm, _ in partes):
-            principal = next(tx for _, pm, tx in partes if pm == 0)
-        texto_m = f"×{datos.fmt_mult(mult)} {flechas(mult)}".strip()
         ctx["nombre"] = f"{principal} ({texto_m})"
         color_v = "bien" if mult >= 2 else "mal" if mult == 0 else "tenue" if mult < 1 else "texto"
         self.animar(nombre_anim, ctx, (texto_m, color_v))
 
-        if efecto == "disulfuro":
-            if self.aa == "C":
-                self.salvaje["afinidad"] = 100
-                self.ultimo_mult = 2.0
-                self.decir("¡Enlace covalente S–S entre las dos Cys! Afinidad al máximo.")
-                progreso.dar_xp(self.mon, 3)
-                return True
-            self.decir("Sin otra Cys no hay disulfuro: solo actúa como tiol polar.")
+        if m["efecto"] == "disulfuro":
+            self.salvaje["afinidad"] = 100
+            self.ultimo_mult = 2.0
+            self.decir("Enlace covalente S–S entre las dos Cys: afinidad máxima.")
+            progreso.dar_xp(self.mon, 3)
+            return
 
         factor = (1 + self.mon["nivel"] / 8) * (1 - min(0.4, self.salvaje["nivel"] / 30))
-        ganancia = m["poder"] * 0.32 * mult * stab * extra * factor * random.uniform(0.85, 1.15)
+        ganancia = m["poder"] * 0.45 * mult * factor * random.uniform(0.85, 1.15)
         self.salvaje["afinidad"] = min(100, self.salvaje["afinidad"] + ganancia)
         self.ultimo_mult = mult
 
         if len(partes) > 1 and self.tipos_visible:
             desglose = " · ".join(f"{datos.TIPOS[t]['corto']} ×{datos.fmt_mult(pm)}"
                                   for t, pm, _ in partes)
-            self.decir(f"{principal[:1].upper() + principal[1:]}: {desglose} → ×{datos.fmt_mult(mult)}"
-                       + (" · ★×1.5" if stab > 1 else ""))
+            self.decir(f"{principal[:1].upper() + principal[1:]}: {desglose} → ×{datos.fmt_mult(mult)}")
         else:
-            self.decir(f"{principal[:1].upper() + principal[1:]} (×{datos.fmt_mult(mult)})"
-                       + (" · ★ tu grupo ×1.5" if stab > 1 else ""))
+            self.decir(f"{principal[:1].upper() + principal[1:]} (×{datos.fmt_mult(mult)})")
         if mult == 0:
-            self.decir("¡No hay afinidad: se repelen!")
+            self.decir("Sin afinidad: se repelen.")
         elif mult >= 2:
-            self.decir(f"¡Súper afín! +{int(ganancia)} de afinidad")
+            self.decir(f"Muy afín: +{int(ganancia)} de afinidad")
             self.sacudir_salvaje()
             for msg in progreso.dar_xp(self.mon, 3):
                 self.decir(msg)
         else:
             self.decir(f"+{int(ganancia)} de afinidad" + ("  (poco afín)" if mult < 1 else ""))
-        if efecto in ("escudo2", "escudo3"):
-            e["escudo"] = 2 if efecto == "escudo2" else 3
-            self.decir(f"Además se estabiliza: mitad de agitación {e['escudo']} turnos.")
-        return True
 
     def turno_salvaje(self):
         """Devuelve 'huyo' si el salvaje escapa."""
-        s, e = self.salvaje, self.estado
+        s = self.salvaje
         nombre = self.nombre_salvaje()
         resultado = None
-        if s["aturdido"]:
-            s["aturdido"] = False
-            self.decir(f"{nombre} pierde su turno.")
-        elif self.ultimo_mult == 0 and random.random() < 0.35:
-            self.decir(f"La repulsión empuja a {nombre} lejos… ¡se escapó!")
+        if self.ultimo_mult == 0 and random.random() < 0.35:
+            self.decir(f"La repulsión aleja a {nombre}: escapó.")
             resultado = "huyo"
         else:
             dano = random.randint(3, 6) + s["nivel"]
-            if e["esquiva"]:
-                e["esquiva"] = False
-                self.decir(f"{nombre} se agita, pero tu aminoácido lo esquiva.")
-                dano = 0
-            elif e["escudo"] > 0:
-                dano //= 2
-            if dano:
-                self.animar("agitacion", self.ctx_base())
-                self.mon["energia"] = max(0, self.mon["energia"] - dano)
-                self.decir(f"Agitación térmica de {nombre}: −{dano} de energía.")
+            self.animar("agitacion", self.ctx_base())
+            self.mon["energia"] = max(0, self.mon["energia"] - dano)
+            self.decir(f"Agitación térmica de {nombre}: −{dano} de energía.")
             if s["afinidad"] > 0 and random.random() < 0.2:
                 s["afinidad"] = max(0, s["afinidad"] - 6)
                 self.decir(f"{nombre} se desordena un poco (−6 afinidad).")
-        if e["escudo"] > 0:
-            e["escudo"] -= 1
-        if e["tipos_temp"]:
-            e["turnos_temp"] -= 1
-            if e["turnos_temp"] <= 0:
-                e["tipos_temp"], e["extra"], e["his_neutra"] = None, [], False
-                self.decir("El efecto temporal terminó: vuelve a su grupo original.")
         self.turno += 1
         return resultado
 
@@ -556,8 +477,7 @@ class Combate:
         self.turnos_jugador += 1
         if not self.tipos_visible and self.turnos_jugador >= TURNOS_PARA_REVELAR:
             self.tipos_visible = True
-            self.decir(f"Ya observaste bastante su química: es "
-                       f"{datos.nombre_tipos(self.tipos_salvaje())}.")
+            self.decir(f"Su grupo ya es evidente: {datos.nombre_tipos(self.tipos_salvaje())}.")
 
     def deducir(self):
         """Adivinar el grupo del salvaje. Devuelve True si gastó el turno."""
@@ -580,7 +500,7 @@ class Combate:
         if set(elegidos) == set(self.tipos_salvaje()):
             self.salvaje["afinidad"] = min(100, self.salvaje["afinidad"] + 10)
             msgs = progreso.dar_xp(self.mon, 5)
-            self.decir(f"¡Correcto! {datos.nombre_tipos(self.tipos_salvaje())}. +10 afinidad, +5 XP")
+            self.decir(f"Correcto: {datos.nombre_tipos(self.tipos_salvaje())}. +10 afinidad, +5 XP")
             for msg in msgs:
                 self.decir(msg)
             return False      # acertar no gasta el turno
@@ -589,14 +509,15 @@ class Combate:
 
     def cambiar(self, forzado=False):
         equipo = self.juego["equipo"]
-        opciones, indices = [], []
+        filas, indices = [], []
         for i, m in enumerate(equipo):
             if i == self.activo or m["energia"] <= 0:
                 continue
             f = datos.forma(m["id"])
-            opciones.append(f"{f['nombre']:<20} Nv{m['nivel']:>2}  "
-                            f"{datos.nombre_tipos(f['tipos'], corto=True):<17} E {m['energia']}")
+            filas.append([f["nombre"], f"Nv {m['nivel']}",
+                          datos.nombre_tipos(f["tipos"], corto=True), f"energía {m['energia']}"])
             indices.append(i)
+        opciones = ["".join(c[0] for c in fila) for fila in d.alinear(filas)]
         if not opciones:
             return False
         while True:
@@ -607,7 +528,7 @@ class Combate:
                 return False
         self.activo = indices[sel]
         self._reiniciar_estado()
-        self.decir(f"¡Adelante, {datos.forma(self.mon['id'])['nombre']}!")
+        self.decir(f"Entra {datos.forma(self.mon['id'])['nombre']}.")
         return True
 
     def lanzar_trna(self):
@@ -630,12 +551,12 @@ class Combate:
             self.animar("trna", ctx)
             progreso.capturar(self.juego, self.aa, self.salvaje["nivel"])
             msgs = progreso.dar_xp(self.mon, 15)
-            texto = (f"¡{a['nombre']} ({a['tres']}, {self.aa}) fue capturado y se "
-                     f"une a tu equipo!\n\nGrupo: {datos.nombre_tipos(a['tipos'])}\n"
-                     f"Su ficha completa ya está en la Aminodex [X].")
+            texto = (f"{a['nombre']} ({a['tres']}, {self.aa}) se une a tu equipo.\n\n"
+                     f"Grupo: {datos.nombre_tipos(a['tipos'])}\n"
+                     f"Ficha completa en la Aminodex [X].")
             if msgs:
                 texto += "\n\n" + "\n".join(msgs)
-            d.popup(self.win, texto, "¡Capturado!", attr=d.c("bien"))
+            d.popup(self.win, texto, "Captura", attr=d.c("bien"))
             return "capturado"
         self.salvaje["afinidad"] = max(0, self.salvaje["afinidad"] - 20)
         self.decir("El ARNt se suelta (−20 afinidad).")
@@ -645,36 +566,39 @@ class Combate:
         return self.turno_salvaje()
 
     def info(self):
-        lineas = [f"Tu grupo ahora: {datos.nombre_tipos(self.tipos_mio())}. Los movimientos "
-                  "de tu mismo grupo (★) valen ×1.5; los de un grupo que no tienes no se "
-                  "pueden usar.", ""]
+        f = datos.forma(self.mon["id"])
+        nombre_r = datos.GRUPO_R.get(f["base"], ("", "", ""))
+        lineas = [f"Grupo: {datos.nombre_tipos(f['tipos'])}"]
+        if not f["evo"]:
+            lineas.append(f"Grupo R: {nombre_r[0]}  {nombre_r[1]}  ({nombre_r[2]})")
+        lineas.append("")
         for i, mid in enumerate(self.movimientos()):
             m = datos.MOVIMIENTOS[mid]
             tipo = datos.TIPOS[m["tipo"]]["nombre"] if m["tipo"] in datos.TIPOS else "Neutro"
-            mult = ""
-            if self.tipos_visible and m["poder"] > 0 and self.disponible(mid):
-                mult = f"  → ×{datos.fmt_mult(self._mult_mov(mid)[0])} contra el rival"
-            lineas.append(f"{i + 1}) {m['nombre']} [{tipo}] poder {m['poder']}{mult}")
+            contra = ""
+            if self.tipos_visible:
+                mult, partes = self._mult_mov(mid)
+                contra = f"  → {self._interaccion_principal(partes)} ×{datos.fmt_mult(mult)}"
+            lineas.append(f"{i + 1}) {m['nombre']} [{tipo}] poder {m['poder']}{contra}")
             lineas.append(f"   {m['desc']}")
             if m.get("ciencia"):
                 lineas.append(f"   ↳ {m['ciencia']}")
-        d.popup(self.win, "\n".join(lineas),
-                f"Movimientos de {datos.forma(self.mon['id'])['nombre']}", ancho=86)
+        d.popup(self.win, "\n".join(lineas), f"Interacciones de {f['nombre']}", ancho=86)
 
     # -------------------------------------------------------------- bucle
     def jugar(self):
         if self.activo is None:
             return "derrota"
-        self.decir("Observa la estructura: ¿de qué grupo es? D para deducir, 1-5 para interactuar.")
+        self.decir("Deduce su grupo [D] o interactúa [1-5].")
         while True:
             self.dibujar()
             k = d.tecla(self.win)
             resultado = None
             movs = self.movimientos()
             if isinstance(k, str) and k.isdigit() and 1 <= int(k) <= len(movs):
-                if self.usar(movs[int(k) - 1]):
-                    self.tras_mi_turno()
-                    resultado = self.turno_salvaje()
+                self.usar(movs[int(k) - 1])
+                self.tras_mi_turno()
+                resultado = self.turno_salvaje()
             elif d.es(k, "t"):
                 resultado = self.lanzar_trna()
                 if resultado == "capturado":
@@ -688,7 +612,7 @@ class Combate:
             elif d.es(k, "h"):
                 if random.random() < 0.8:
                     return "huiste"
-                self.decir("¡No pudiste escapar!")
+                self.decir("No lograste escapar.")
                 resultado = self.turno_salvaje()
             elif d.es(k, "v"):
                 i = anim.ORDEN_VEL.index(self.velocidad)
@@ -705,7 +629,7 @@ class Combate:
                 return "huyo"
             if self.mon["energia"] <= 0:
                 nombre = datos.forma(self.mon["id"])["nombre"]
-                self.decir(f"¡{nombre} se desnaturalizó!")
+                self.decir(f"{nombre} se desnaturalizó.")
                 self.dibujar()
                 if not self.cambiar(forzado=True):
                     return "derrota"

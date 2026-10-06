@@ -74,7 +74,7 @@ JEFES = {
                                ("Carga neta ≥ +4", carga_neta(s) >= 4)],
         bio="La NLS clásica es PKKKRKV (antígeno T de SV40). Las importinas "
             "reconocen ese parche básico y llevan la proteína a través del "
-            "poro nuclear. ¡Los poros ya te dejan pasar!",
+            "poro nuclear. Ya puedes cruzar los poros.",
         premio=("ATP", 3),
     ),
     "re": dict(
@@ -143,7 +143,7 @@ def pista_faltantes(juego, zona):
     for c in faltan:
         donde = ", ".join(datos.ZONAS[z]["nombre"] for z in datos.zonas_de(c))
         partes.append(f"{AA[c]['tres']} ({c}) → {donde}")
-    return "Te conviene capturar: " + "; ".join(partes)
+    return "Útiles y aún sin capturar: " + "; ".join(partes)
 
 
 # ================================================== dibujo de tu péptido
@@ -231,7 +231,7 @@ def mostrar_exito(win, juego, zona, seq):
     j = JEFES[zona]
     alto, ancho = win.getmaxyx()
     win.erase()
-    d.put(win, 0, 1, f"¡{j['reto']}!  Tu péptido: {seq}", d.c("bien", curses.A_BOLD))
+    d.put(win, 0, 1, f"Reto superado: {j['reto']}  ·  {seq}", d.c("bien", curses.A_BOLD))
     if zona == "membrana":
         y = dibujar_membrana(win, 2, 2, seq[: max(1, alto - 14)])
     else:
@@ -257,9 +257,8 @@ def mostrar_exito(win, juego, zona, seq):
 def retar(win, juego, zona):
     j = JEFES[zona]
     disponibles = sorted(progreso.bases_capturadas(juego), key=datos.ORDEN.index)
-    intro = (f"{j['nombre']}: «Para pasar debes construir: {j['reto']}.»\n\n{j['desc']}\n\n"
-             "Solo puedes usar aminoácidos que ya capturaste (escribe su código "
-             "de 1 letra). La secuencia va del extremo N al C.")
+    intro = (f"Reto: {j['reto']}.\n\n{j['desc']}\n\nUsa aminoácidos capturados, en "
+             "código de 1 letra, del extremo N al C.")
     pista = pista_faltantes(juego, zona)
     if pista:
         intro += "\n\n" + pista
@@ -386,13 +385,12 @@ def dibujar_pliegue(win, y, x, aciertos, fallos):
 def chaperona(win, juego):
     if len(juego["insignias"]) < len(JEFES):
         faltan = [JEFES[z]["reto"] for z in JEFES if z not in juego["insignias"]]
-        d.popup(win, "Chaperona: «Ayudo a las proteínas a plegarse bien… pero "
-                     f"solo examino a quien tenga las {len(JEFES)} insignias.»\n\n"
-                     "Te faltan: " + ", ".join(faltan), "Chaperona")
+        d.popup(win, "La Hsp70 asiste el plegamiento de las proteínas recién "
+                     f"sintetizadas. Para presentar su examen necesitas las {len(JEFES)} "
+                     "insignias.\n\nPendientes: " + ", ".join(faltan), "Chaperona")
         return
-    d.dialogo(win, ["Chaperona (Hsp70): «Te haré 10 preguntas. Cada acierto pliega "
-                    "una parte de tu proteína: hélices, láminas, núcleo hidrofóbico… "
-                    "Con 8 aciertos queda en su estado nativo.»"], "Chaperona")
+    d.dialogo(win, ["Examen de 10 preguntas. Cada respuesta correcta pliega una "
+                    "región de la proteína; con 8 alcanza su estado nativo."], "Chaperona")
     aciertos = fallos = 0
     for i in range(10):
         aa, tipo = preguntas.elegir_aleatoria(juego)
@@ -417,11 +415,11 @@ def chaperona(win, juego):
     dibujar_pliegue(win, 1, (ancho - 40) // 2, aciertos, fallos)
     if aciertos >= 8:
         juego["terminado"] = True
-        texto = (f"¡{aciertos}/10! Tu proteína alcanzó su estado nativo y la Chaperona "
-                 "te otorga el título de Maestría en Aminoácidos.\n\nPuedes seguir "
-                 "explorando y estudiando. Y si quieres un reto más fuerte, habla con "
-                 "el Profesor Ribosoma (R): te espera el examen del Ribosoma Maestro.")
-        d.popup(win, texto, "¡Estado nativo!", attr=d.c("bien"))
+        texto = (f"{aciertos}/10. La proteína alcanzó su estado nativo: obtienes la "
+                 "Maestría en Aminoácidos.\n\nPuedes seguir explorando. El siguiente "
+                 "nivel es el examen del Ribosoma Maestro; habla con el Profesor "
+                 "Ribosoma (R).")
+        d.popup(win, texto, "Estado nativo", attr=d.c("bien"))
     else:
         d.popup(win, f"{aciertos}/10. Quedaron regiones hidrofóbicas expuestas: la "
                      "Hsp70 se une a ellas, gasta ATP y te deja intentar de nuevo. "
@@ -557,7 +555,7 @@ def traducir(win, juego, n, total):
     codones = [arn[i:i + 3] for i in range(ini, ini + 3 * (len(prot) + 1), 3)]
     lectura = "  ".join(f"{cod}={CODIGO[cod] if CODIGO[cod] != '*' else 'paro'}" for cod in codones)
     progreso.registrar(juego, "maestro:traduccion", bien)
-    d.popup(win, ("¡Correcto! " if bien else f"Incorrecto. Era {prot}. ")
+    d.popup(win, ("Correcto. " if bien else f"Incorrecto. Era {prot}. ")
             + f"UTR 5' de {ini} nt, luego: {lectura}",
             "Traducción", ancho=min(ancho - 2, 90), attr=d.c("bien" if bien else "mal"))
     return bien
@@ -591,16 +589,15 @@ def mutacion(win, juego, caso, n, total):
             break
     bien = ops[int(k) - 1] == caso["correcta"]
     progreso.registrar(juego, "maestro:mutacion", bien)
-    d.popup(win, ("¡Correcto! " if bien else f"Incorrecto. Era: {caso['correcta']}.\n\n")
+    d.popup(win, ("Correcto. " if bien else f"Incorrecto. Era: {caso['correcta']}.\n\n")
             + caso["expl"], "Resultado", ancho=w, attr=d.c("bien" if bien else "mal"))
     return bien
 
 
 def ribosoma_maestro(win, juego):
     d.dialogo(win, [
-        "Profesor Ribosoma: «Ya conoces a los 20. Ahora piensa como yo: 3 ARNm "
-        "para traducir y 5 mutaciones reales de enfermedades humanas. Con 7 de "
-        "8 te ganas el Doctorado en Proteínas.»"], "Ribosoma Maestro")
+        "Traduce 3 ARNm y analiza 5 mutaciones asociadas a enfermedades "
+        "humanas. Se aprueba con 7 de 8."], "Ribosoma Maestro")
     total = 8
     aciertos = 0
     for n in range(1, 4):
@@ -609,10 +606,9 @@ def ribosoma_maestro(win, juego):
         aciertos += mutacion(win, juego, caso, n, total)
     if aciertos >= 7:
         juego["doctorado"] = True
-        d.popup(win, f"¡{aciertos}/8! Doctorado en Proteínas. Leíste el código "
-                     "genético y entendiste cómo un solo cambio de aminoácido "
-                     "cambia la química de una proteína.", "¡Doctorado!", attr=d.c("bien"))
+        d.popup(win, f"{aciertos}/8. Aprobado: Doctorado en Proteínas.",
+                "Ribosoma Maestro", attr=d.c("bien"))
     else:
-        d.popup(win, f"{aciertos}/8. Repasa codones (pestaña Chuleta) y las "
-                     "propiedades de cada grupo, y vuelve cuando quieras: las "
-                     "preguntas cambian cada vez.", "Ribosoma Maestro")
+        d.popup(win, f"{aciertos}/8. No aprobado. Repasa los codones (pestaña "
+                     "Chuleta) y las propiedades de cada grupo; las preguntas "
+                     "cambian en cada intento.", "Ribosoma Maestro")

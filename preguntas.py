@@ -9,16 +9,14 @@ import progreso
 
 AA = datos.AMINOACIDOS
 
-TIPOS_PROPIEDAD = ["carga", "grupo", "nutricion", "destino", "codon", "hidro",
-                   "pka", "pi", "calc_pi", "precursor"]
+TIPOS_PROPIEDAD = ["carga", "grupo", "nutricion", "codon", "hidro", "pka", "pi",
+                   "calc_pi"]
 
 
 def aplica(aa, tipo):
     a = AA[aa]
     if tipo in ("pka", "calc_pi"):
         return a["pkr"] is not None
-    if tipo == "precursor":
-        return a["precursor"] is not None
     return True
 
 
@@ -84,16 +82,7 @@ def generar(aa, tipo):
             respuesta=a["nutricion"],
             explicacion="Esenciales (9): His Ile Leu Lys Met Phe Thr Trp Val. "
                         "Condicionales (6): Arg Cys Gln Gly Pro Tyr. "
-                        "No esenciales (5): Ala Asp Asn Glu Ser."
-                        + (f" {a['nota_nutricion']}" if a.get("nota_nutricion") else ""),
-        )
-    if tipo == "destino":
-        return dict(
-            texto=f"Metabólicamente, {a['nombre']} es…",
-            opciones=["Glucogénico", "Cetogénico", "Ambos"],
-            respuesta=a["destino"],
-            explicacion="Solo Leu y Lys son puramente cetogénicos. Ambos: "
-                        "Ile, Phe, Trp, Tyr, Thr. El resto, glucogénicos.",
+                        "No esenciales (5): Ala Asp Asn Glu Ser.",
         )
     if tipo == "codon":
         otros = [cod for k, x in AA.items() if k != aa for cod in x["codones"]]
@@ -146,15 +135,6 @@ def generar(aa, tipo):
             explicacion=f"Se promedian los dos pKa que rodean la forma neutra. "
                         f"Para este aminoácido {tipo_g}: ({p1:.2f} + {p2:.2f}) / 2 = "
                         f"{a['pi']:.2f}.",
-        )
-    if tipo == "precursor":
-        otros = [x["precursor"] for x in AA.values() if x["precursor"]]
-        otros += ["Alanina", "Aspartato", "Triptófano", "Leucina"]
-        return dict(
-            texto=f"{a['nombre']} es condicionalmente esencial. ¿De qué depende "
-                  "su síntesis?",
-            opciones=_opciones(a["precursor"], otros), respuesta=a["precursor"],
-            explicacion=a["nota_nutricion"],
         )
     raise ValueError(tipo)
 
@@ -219,7 +199,7 @@ def preguntar(win, juego, aa, tipo, y, x, ancho):
     bien = eleccion.lower() == p["respuesta"].lower()
     progreso.registrar(juego, f"{aa}:{tipo}", bien)
     if bien:
-        texto = "¡Correcto! " + p["explicacion"]
+        texto = "Correcto. " + p["explicacion"]
         attr = d.c("bien")
     else:
         texto = f"Incorrecto. Era: {p['respuesta']}. " + p["explicacion"]

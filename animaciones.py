@@ -251,17 +251,6 @@ def esqueleto(h, w, ctx):
     return _final(cuadros, h, w, ctx.get("nombre", "puentes de H del esqueleto"))
 
 
-def esqueleto_triple(h, w, ctx):
-    y = max(0, h // 2 - 2)
-    largo = w - 8
-    cuadros = []
-    for i in range(1, 10):
-        n = largo * i // 9
-        filas = []
-        for k, col in enumerate((ctx["color_mio"], "tenue", ctx["color_rival"])):
-            filas.append((y + k, 4, "".join("╲╱"[(j + k) % 2] for j in range(n)), col))
-        cuadros.append(filas + [_sub(h, w, "tres cadenas Gly–X–Y se enrollan")])
-    return _final(cuadros, h, w, ctx.get("nombre", "triple hélice: N–H de Gly ··· O═C de otra cadena"))
 
 
 def disulfuro(h, w, ctx):
@@ -277,196 +266,30 @@ def disulfuro(h, w, ctx):
     return cuadros
 
 
-def enlace(h, w, ctx):
-    izq, der = ctx["mio"], ctx["rival"]
-    cuadros, (y, fi, fd) = _acercar(h, w, izq, der, ctx["color_mio"], ctx["color_rival"],
-                                    hueco=3, sub="dos grupos se acercan")
-    base = _sin_sub(cuadros[-1], h)
-    for i in range(5):
-        cuadros.append(base + [(y, fi + len(izq), "═══" if i % 2 == 0 else "───", "titulo"),
-                               _sub(h, w, "se forma un enlace entre fibras")])
-    return _final(cuadros, h, w, ctx.get("nombre", "entrecruzamiento"))
 
 
-# ------------------------------------------- cambios sobre tu aminoácido
-def fosforilar(h, w, ctx):
-    y = h // 2 - 1
-    xa, xo = 2, w - 8
-    cuadros = []
-    for i in range(12):
-        x = _lerp(xa + 4, xo - 5, i / 11)
-        cuadros.append([(y, xa, "ATP", "titulo"), (y, xo, "─O─H", ctx["color_mio"]),
-                        (y - 1, x, "PO₃²⁻", "NEG"), (y + 1, 1, "quinasa", "tenue"),
-                        _sub(h, w, "la quinasa toma el fosforilo γ del ATP")])
-    for i in range(4):
-        cuadros.append([(y, xa, "ADP", "tenue"), (y, xo - 6, "─O─PO₃²⁻", "NEG"),
-                        (y + 1, 1, "quinasa", "tenue"),
-                        _sub(h, w, "y lo une al OH: ATP → ADP + H⁺")])
-    return _final(cuadros, h, w, "fosforilado: carga ≈ −2 (Cargado −)", "NEG")
 
 
-def acetilar(h, w, ctx):
-    y = h // 2 - 1
-    xa, xo = 2, w - 8
-    cuadros = []
-    for i in range(12):
-        x = _lerp(xa + 11, xo - 6, i / 11)
-        cuadros.append([(y, xa, "acetil-CoA", "titulo"), (y, xo, "─NH₃⁺", "POS"),
-                        (y - 1, x, "CH₃CO", "texto"), (y + 1, 1, "HAT", "tenue"),
-                        _sub(h, w, "la HAT toma el acetilo del acetil-CoA")])
-    for i in range(4):
-        cuadros.append([(y, xa, "CoA─SH", "tenue"), (y, xo - 6, "─NH─COCH₃", "POL"),
-                        (y + 1, 1, "HAT   + H⁺", "tenue"),
-                        _sub(h, w, "el NH₃⁺ suelta un H⁺ y queda como amida neutra")])
-    return _final(cuadros, h, w, "acetilada: sin carga (Polar sin carga)", "POL")
 
 
-def calcio(h, w, ctx):
-    y = h // 2 - 1
-    xi, xd = w // 2 - 8, w // 2 + 4
-    cuadros = []
-    for i in range(y + 1):
-        cuadros.append([(y, xi, "─COO⁻", ctx["color_mio"]), (y, xd, "⁻OOC─", ctx["color_mio"]),
-                        (i, w // 2 - 2, "Ca²⁺", "titulo"), (y + 1, xi - 1, "tu proteína (mano EF)", "tenue"),
-                        _sub(h, w, "un Ca²⁺ llega a DOS carboxilatos de tu proteína")])
-    base = _sin_sub(cuadros[-1], h)
-    for i in range(4):
-        cuadros.append(base + [(y, xi + 5, "·" if i % 2 == 0 else " ", "bien"),
-                               (y, xd - 1, "·" if i % 2 == 0 else " ", "bien"),
-                               _sub(h, w, "el Ca²⁺ ordena y estabiliza la estructura")])
-    return _final(cuadros, h, w, "Ca²⁺ unido: tu proteína se estabiliza")
 
 
-def helice(h, w, ctx):
-    y = max(0, h // 2 - 2)
-    cuadros = []
-    vueltas = max(2, (w - 8) // 4)
-    for i in range(1, vueltas + 1):
-        c = []
-        for k in range(i):
-            x = 3 + k * 4
-            c += [(y, x, " _", ctx["color_mio"]), (y + 1, x, "/ \\", ctx["color_mio"]),
-                  (y + 2, x + 2, "\\_", ctx["color_mio"])]
-        c.append(_sub(h, w, "la cadena se enrolla sobre sí misma"))
-        cuadros.append(c)
-    return _final(cuadros, h, w, "hélice α: C=O(i) ··· H–N(i+4), 3.6 residuos por vuelta")
 
 
-def lamina(h, w, ctx):
-    y = max(0, h // 2 - 2)
-    largo = w - 8
-    cuadros = []
-    for i in range(1, 9):
-        n = largo * i // 8
-        cuadros.append([(y, 3, ("═" * n)[:-1] + "►" if n else "", ctx["color_mio"]),
-                        (y + 2, 3 + largo - n, "◄" + "═" * max(0, n - 1), ctx["color_rival"]),
-                        _sub(h, w, "dos hebras se alinean en sentidos opuestos")])
-    base = _sin_sub(cuadros[-1], h)
-    for i in range(5):
-        enlaces = "".join("⁞" if (k + i) % 4 == 0 else " " for k in range(largo))
-        cuadros.append(base + [(y + 1, 4, enlaces, "titulo"),
-                               _sub(h, w, "N–H ··· O═C entre las hebras")])
-    return _final(cuadros, h, w, "lámina β antiparalela (puentes de H del esqueleto)")
 
 
-def flexible(h, w, ctx):
-    y = h // 2 - 1
-    cuadros = []
-    for i in range(14):
-        linea = "".join("╱╲"[(k + i) % 2] for k in range(w - 6))
-        cuadros.append([(y, 3, linea, ctx["color_mio"]),
-                        _sub(h, w, "sin cadena lateral, su esqueleto gira con libertad")])
-    return _final(cuadros, h, w, "Gly: ángulos φ/ψ que otros no pueden")
 
 
-def rigido(h, w, ctx):
-    y = max(0, h // 2 - 3)
-    anillo = ["  N───Cα", "  │    │", "  Cδ   Cβ", "   ╲  ╱", "    Cγ"]
-    cuadros = []
-    for i in range(1, len(anillo) + 1):
-        cuadros.append([(y + k, w // 2 - 5, l, ctx["color_mio"]) for k, l in enumerate(anillo[:i])
-                        if y + k < h - 1]
-                       + [_sub(h, w, "la cadena lateral se cierra sobre el N del esqueleto")])
-    base = _sin_sub(cuadros[-1], h)
-    for i in range(5):
-        cuadros.append(base + [(y + 1, w // 2 + 6, "φ ≈ −65° fijo" if i % 2 == 0 else "", "titulo"),
-                               _sub(h, w, "el anillo bloquea el giro del esqueleto")])
-    return _final(cuadros, h, w, "anillo rígido: resiste la agitación")
 
 
-def codon(h, w, ctx):
-    y = h // 2 - 1
-    arn = "5'─AUG─GCU─UCA─AAG─3'"
-    cuadros = []
-    for i in range(1, len(arn) + 1, 2):
-        cuadros.append([(y, 2, arn[:i], "texto"), _sub(h, w, "el ribosoma busca el codón de inicio")])
-    for i in range(6):
-        cuadros.append([(y, 2, arn, "texto"),
-                        (y, 6, "AUG", "titulo" if i % 2 == 0 else "texto"),
-                        (y + 1, 6, "UAC", "agua"), (y + 1, 10, "← anticodón 3'-UAC-5'", "tenue"),
-                        (y - 1, 6, "Met", "NP"),
-                        _sub(h, w, "el ARNt iniciador trae la Met")])
-    return _final(cuadros, h, w, "¡AUG! la traducción empieza con Met")
 
 
-def ph(h, w, ctx):
-    y = h // 2 - 1
-    cuadros = []
-    escala = "pH 4 ──── 5 ──── 6 ──── 7 ──── 8"
-    x0 = _centro(w, escala)
-    destino = ctx.get("ph_destino", 5)
-    origen = 7.4 if destino < 7 else 5
-    for i in range(12):
-        valor = origen + (destino - origen) * i / 11
-        pos = x0 + 3 + round((valor - 4) * 6)
-        cuadros.append([(y, x0, escala, "tenue"), (y - 1, pos, "▼", "titulo"),
-                        (y + 1, x0 + 15, "pKR 6", "POS"),
-                        _sub(h, w, "cambia el pH alrededor de la His")])
-    texto = ("pH < pKR: el imidazol toma un H⁺ (Cargado +)" if destino < 6
-             else "pH > pKR: el imidazol suelta su H⁺ (neutro)")
-    return _final(cuadros, h, w, texto, "POS" if destino < 6 else "POL")
 
 
-def antioxidante(h, w, ctx):
-    y = h // 2 - 1
-    cuadros = []
-    for i in range(12):
-        x = _lerp(2, w - 18, i / 11)
-        cuadros.append([(y - 1, x, "H₂O₂", "mal"), (y, w - 12, "─S─CH₃", ctx["color_mio"]),
-                        _sub(h, w, "una especie reactiva de oxígeno se acerca")])
-    for i in range(4):
-        cuadros.append([(y, w - 14, "─S(═O)─CH₃", "titulo"), (y + 1, 2, "H₂O", "agua"),
-                        _sub(h, w, "la Met se oxida a Met-sulfóxido y la neutraliza")])
-    return _final(cuadros, h, w, "antioxidante: protege a los demás residuos")
 
 
-def fluorescencia(h, w, ctx):
-    y = h // 2 - 1
-    cuadros = []
-    for i in range(0, w // 2 - 6, 2):
-        cuadros.append([(y, 1, "~" * i + "»", "agua"), (y - 1, 1, "excitación 295 nm", "tenue"),
-                        (y, w // 2 - 2, "Trp", ctx["color_mio"]),
-                        _sub(h, w, "el indol absorbe luz UV")])
-    lam = ctx.get("lambda", 340)
-    for i in range(0, w // 2 - 6, 2):
-        cuadros.append([(y, w // 2 - 2, "Trp", ctx["color_mio"]),
-                        (y, w // 2 + 2, "~" * i + "»", "titulo"),
-                        (y - 1, w // 2 + 2, f"emisión ~{lam} nm", "tenue"),
-                        _sub(h, w, "y emite: el color depende de qué tan polar es su vecino")])
-    return _final(cuadros, h, w, ctx.get("revelado", "¡identificado!"))
 
 
-def glicanos(h, w, ctx):
-    y = max(0, h // 2 - 2)
-    arbol = ["        ◇─◇", "  ◇─◇─◇<", "        ◇─◇"]
-    cuadros = []
-    for i in range(1, 12):
-        c = [(y + 1, 2, "Asn─N", ctx["color_mio"])]
-        for k, l in enumerate(arbol):
-            c.append((y + k, 7, l[:i], "POL"))
-        c.append(_sub(h, w, "un árbol de azúcares cubre la superficie"))
-        cuadros.append(c)
-    return _final(cuadros, h, w, "los glicanos protegen de proteasas")
 
 
 def agitacion(h, w, ctx):
@@ -510,12 +333,8 @@ ANIMACIONES = {
     "salino": salino, "repulsion": repulsion, "hidrofobico": hidrofobico,
     "solvatacion": solvatacion, "puente_h": puente_h, "sin_puente_h": sin_puente_h,
     "pi": pi, "cation_pi": cation_pi, "oh_pi": oh_pi, "vdw": vdw,
-    "esqueleto": esqueleto, "esqueleto_triple": esqueleto_triple,
-    "disulfuro": disulfuro, "enlace": enlace, "fosforilar": fosforilar,
-    "acetilar": acetilar, "calcio": calcio, "helice": helice, "lamina": lamina,
-    "flexible": flexible, "rigido": rigido, "codon": codon, "ph": ph,
-    "antioxidante": antioxidante, "fluorescencia": fluorescencia,
-    "glicanos": glicanos, "agitacion": agitacion, "trna": trna,
+    "esqueleto": esqueleto, "disulfuro": disulfuro, "agitacion": agitacion,
+    "trna": trna,
 }
 
 
@@ -579,7 +398,7 @@ def sacudir(win, y, x, arte, color, veces=4):
 
 
 def destello(win, y, x, arte_a, arte_b, color_a, color_b, veces=5):
-    """Alterna entre dos sprites (evolución)."""
+    """Alterna entre dos sprites (modificación postraduccional)."""
     alto = max(len(arte_a), len(arte_b))
     ancho = max(len(l) for l in arte_a + arte_b) + 1
     for i in range(veces * 2 + 1):
@@ -592,3 +411,20 @@ def destello(win, y, x, arte_a, arte_b, color_a, color_b, veces=5):
             d.put(win, y + k, x, l, d.c(color, curses.A_BOLD if i % 2 else 0))
         win.refresh()
         curses.napms(160 + i * 30)
+
+
+def transicion(win):
+    """Barrido de pantalla al empezar un combate: bandas que se cierran desde
+    arriba y abajo con los colores de los cinco grupos."""
+    alto, ancho = win.getmaxyx()
+    colores = ["NP", "ARO", "POL", "POS", "NEG"]
+    pasos = (alto + 1) // 2
+    for i in range(pasos):
+        color = colores[i % len(colores)]
+        for fila in (i, alto - 1 - i):
+            d.put(win, fila, 0, "▀▄" * (ancho // 2), d.c(color))
+        win.refresh()
+        curses.napms(18)
+    curses.napms(120)
+    win.erase()
+    win.refresh()

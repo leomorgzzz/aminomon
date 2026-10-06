@@ -6,6 +6,7 @@ import locale
 import random
 
 import aminodex
+import animaciones as anim
 import combate
 import datos
 import dibujo as d
@@ -41,20 +42,29 @@ def esperar_tamano(win):
 
 def titulo(win):
     hay_partida = progreso.cargar() is not None
+    destacado = random.choice([c for c in datos.ORDEN if c != "G"])
     while True:
         alto, ancho = win.getmaxyx()
         win.erase()
         y0 = max(1, alto // 2 - 9)
         x0 = (ancho - len(LOGO[0])) // 2
         for i, l in enumerate(LOGO):
-            d.put(win, y0 + i, x0, l, d.c("titulo", curses.A_BOLD))
+            # cada fila del logotipo con el color de un grupo de Lehninger
+            d.put(win, y0 + i, x0, l, d.c(["NP", "ARO", "POL", "POS"][i], curses.A_BOLD))
         sub = "Atrapa y aprende los 20 aminoácidos"
         d.put(win, y0 + 5, (ancho - len(sub)) // 2, sub, d.c("tenue"))
-        muestra = ["K", "D", "W", "S", "C", "P", "L"]
-        xm = (ancho - len(muestra) * 11) // 2
+        muestra = datos.ORDEN
+        xm = (ancho - len(muestra) * 3) // 2
         for i, c in enumerate(muestra):
-            a = datos.AMINOACIDOS[c]
-            d.put(win, y0 + 7, xm + i * 11, f"{a['tres']} ({c})", d.c(a["tipos"][0]))
+            d.put(win, y0 + 7, xm + i * 3, c, d.c(datos.AMINOACIDOS[c]["tipos"][0], curses.A_BOLD))
+        if alto >= 34 and ancho >= 100:
+            a = datos.AMINOACIDOS[destacado]
+            arte = datos.forma(destacado)["arte"]
+            xs = ancho // 2 + 16
+            d.put(win, y0 + 10, xs, f"{a['nombre']} · {datos.GRUPO_R[destacado][0]}",
+                  d.c(a["tipos"][0], curses.A_BOLD))
+            d.estructura(win, y0 + 12, xs + 1, arte, etiqueta_r=datos.GRUPO_R[destacado][2],
+                         color_r=a["tipos"][0])
         if ancho < 120 or alto < 36:
             aviso = f"Consejo: pon la terminal en pantalla completa (F11). Ahora: {ancho}×{alto}"
             d.put(win, alto - 2, (ancho - len(aviso)) // 2, aviso, d.c("agua"))
@@ -74,17 +84,17 @@ def titulo(win):
 def intro(win):
     juego = progreso.nuevo_juego(mapa.INICIO)
     d.dialogo(win, [
-        "¡Hola! Soy el Profesor Ribosoma. Traduzco ARN mensajero a proteínas, "
-        "pero me faltan aminoácidos… ¿me ayudas a encontrarlos?",
-        "En esta célula viven los 20 aminoácidos estándar. Cada uno vive donde "
-        "su química lo hace sentir cómodo: los no polares en la membrana, los "
-        "básicos con el ARN de los ribosomas y con el ADN del núcleo…",
-        "Cada aminoácido es de uno de los 5 grupos de Lehninger (no polar "
-        "alifático, aromático, polar sin carga, cargado + y cargado −) y cada "
-        "movimiento usa la química de uno de ellos. Si entiendes la química "
-        "sabrás qué movimiento es más afín. [M] abre el manual cuando quieras.",
-        "Primero, toma esta Metionina. Toda proteína empieza con ella: su "
-        "codón AUG es la señal de inicio.",
+        "Soy el Profesor Ribosoma. Traduzco ARN mensajero a proteína y para "
+        "eso necesito los 20 aminoácidos estándar. Tu trabajo es encontrarlos "
+        "y caracterizarlos.",
+        "Cada aminoácido abunda donde su química es favorable: los no polares "
+        "en la membrana, los básicos junto al ARN ribosomal y al ADN.",
+        "Cada aminoácido pertenece a uno de los 5 grupos de Lehninger y cada "
+        "movimiento usa la química de uno de ellos. La afinidad depende de la "
+        "interacción real entre los dos grupos; la tabla completa está en el "
+        "manual [M].",
+        "Empiezas con Metionina: AUG es el codón de inicio, así que toda "
+        "proteína comienza con ella.",
     ], "Profesor Ribosoma")
     progreso.capturar(juego, "M", 3)
 
@@ -93,7 +103,7 @@ def intro(win):
         win.erase()
         col = max(26, min(36, ancho // 3))
         x0 = (ancho - col * 3) // 2
-        d.put(win, 0, x0, "Elige a tu compañero (1-3)", d.c("titulo", curses.A_BOLD))
+        d.put(win, 0, x0, "Elige un segundo aminoácido (1-3)", d.c("titulo", curses.A_BOLD))
         textos = [
             "Cargado +. Puente salino ×2 contra los ácidos del RE y catión–π "
             "contra los aromáticos.",
@@ -119,14 +129,14 @@ def intro(win):
                 break
     progreso.capturar(juego, c, 3)
     d.dialogo(win, [
-        f"¡{a['nombre']} se une a tu equipo junto con Metionina!",
-        "Camina por las zonas con símbolos para encontrar aminoácidos "
-        "salvajes. Deduce su tipo con [D], elige movimientos afines y, cuando "
-        "su AFINIDAD llegue a 50, lanza un ARNt [T].",
-        "La mitocondria (◉) recupera a tu equipo y te da ATP. Los jefes (J) te "
-        "piden construir péptidos. Para entrar al núcleo necesitarás una NLS "
-        "hecha de Lys (K) y Arg (R): búscalos en los polirribosomas (∴).",
-        "Los carteles (i) explican cada parte de la célula. ¡Suerte!",
+        f"Tu equipo inicial: Metionina y {a['nombre']}.\n\n"
+        "En las zonas marcadas con símbolos aparecen aminoácidos salvajes. "
+        "Deduce su grupo [D], usa movimientos afines y, con afinidad ≥ 50, "
+        "lanza un ARNt [T].",
+        "La mitocondria (◉) restablece a tu equipo y recarga ATP. Los jefes "
+        "(J) piden construir péptidos. Para entrar al núcleo necesitas una NLS "
+        "con Lys (K) y Arg (R), que encontrarás en los polirribosomas (∴). Los "
+        "carteles (i) describen cada compartimento.",
     ], "Profesor Ribosoma")
     progreso.guardar(juego)
     return juego
@@ -269,15 +279,14 @@ class Partida:
         if zona == "mitocondria":
             progreso.curar_equipo(j)
             j["objetos"]["ATP"] = max(j["objetos"]["ATP"], 5)
-            self.mensaje = "Mitocondria: tu equipo recupera toda su energía y tienes 5 ATP."
+            self.mensaje = "Mitocondria: equipo restablecido y ATP recargado (5)."
         if zona not in j["zonas_visitadas"]:
             j["zonas_visitadas"].append(zona)
             self.zona = zona
             self.dibujar()
             texto = info["por_que"]
             if info["aminos"]:
-                texto += (f"\n\nAquí aparecen {len(info['aminos'])} aminoácidos "
-                          "distintos. ¿Puedes adivinar cuáles?")
+                texto += f"\n\nEn esta zona aparecen {len(info['aminos'])} aminoácidos distintos."
             d.popup(self.win, texto, info["nombre"])
 
     def interactuar(self, especial):
@@ -318,20 +327,19 @@ class Partida:
         j = self.juego
         faltan = [c for c in datos.ORDEN if not j["capturados"].get(c)]
         if not faltan:
-            texto = ("¡Completaste la Aminodex! Ahora busca todas las evoluciones "
+            texto = ("Aminodex completa. Quedan por conseguir las modificaciones "
                      "y el examen de la Chaperona (H).")
         else:
             zonas = [z for z, info in datos.ZONAS.items()
                      if any(c in info["aminos"] for c in faltan)]
             nombres = ", ".join(datos.ZONAS[z]["nombre"] for z in zonas)
-            texto = (f"Te faltan {len(faltan)} aminoácidos. Aún hay por "
-                     f"descubrir en: {nombres}.")
+            texto = f"Faltan {len(faltan)} aminoácidos. Zonas con especies pendientes: {nombres}."
         pendientes = [jefes.JEFES[z]["reto"] for z in jefes.JEFES if z not in j["insignias"]]
         if pendientes:
             texto += f"\n\nRetos pendientes: {', '.join(pendientes)}."
         if not all(m["energia"] > 0 for m in j["equipo"]):
             texto += "\n\nTu equipo está cansado: ve a la mitocondria (◉)."
-        d.popup(self.win, "Profesor Ribosoma: «" + texto + "»", "Profesor Ribosoma")
+        d.popup(self.win, texto, "Profesor Ribosoma")
 
     def encuentro(self, zona):
         j = self.juego
@@ -340,15 +348,15 @@ class Partida:
         nivel = random.randint(*info["niveles"])
         self.dibujar()
         curses.flushinp()
-        curses.napms(250)
+        anim.transicion(self.win)
         curses.flushinp()
-        d.popup(self.win, "¡Algo se mueve entre las moléculas!", info["nombre"], ancho=44)
+        d.popup(self.win, "Un aminoácido salvaje se acerca.", info["nombre"], ancho=44)
         curses.flushinp()
         resultado = combate.combate(self.win, j, aa, nivel, zona)
         if resultado == "capturado":
             if all(j["capturados"].get(c) for c in datos.ORDEN):
-                d.popup(self.win, "¡Capturaste a los 20 aminoácidos! La Aminodex "
-                                  "está completa.", "¡Aminodex completa!",
+                d.popup(self.win, "Capturaste los 20 aminoácidos estándar.",
+                        "Aminodex completa",
                         attr=d.c("bien"))
             progreso.guardar(j)
             self.mensaje = "Partida guardada."
@@ -356,8 +364,9 @@ class Partida:
             progreso.curar_equipo(j)
             j["pos"] = list(mapa.CENTRO_MITO)
             self.zona = "mitocondria"
-            d.popup(self.win, "Todo tu equipo se desnaturalizó… Despiertas en la "
-                              "mitocondria con la energía recuperada.", "Ups")
+            d.popup(self.win, "Todo tu equipo se desnaturalizó. Vuelves a la "
+                              "mitocondria con la energía restablecida.",
+                    "Equipo desnaturalizado")
         elif resultado == "huiste":
             self.mensaje = "Escapaste sin problemas."
 
