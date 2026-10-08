@@ -173,11 +173,12 @@ def elegir_aleatoria(juego):
     return random.choices(claves, pesos)[0]
 
 
-def preguntar(win, juego, aa, tipo, y, x, ancho):
-    """Muestra la pregunta en un área y devuelve True si acierta."""
+def preguntar(win, juego, aa, tipo, y, x, ancho, alto_min=0):
+    """Muestra la pregunta en un área y devuelve True si acierta. alto_min
+    estira el recuadro para tapar por completo lo que haya debajo."""
     p = generar(aa, tipo)
     texto = d.envolver(p["texto"], ancho - 4)
-    alto = len(texto) + (len(p["opciones"]) if p["opciones"] else 2) + 4
+    alto = max(alto_min, len(texto) + (len(p["opciones"]) if p["opciones"] else 2) + 4)
     d.limpiar_area(win, y, x, alto, ancho)
     d.caja(win, y, x, alto, ancho, "Pregunta")
     for i, l in enumerate(texto):

@@ -217,18 +217,21 @@ class Combate:
         d.put(w, y, x + 2, self.nombre_salvaje(), d.c("texto", curses.A_BOLD))
         d.put(w, y, x + 17, f"Nv {self.salvaje['nivel']}", d.c("tenue"))
         if self.tipos_visible:
-            d.etiqueta_tipos(w, y, x + 24, a["tipos"])
+            # con recuadros angostos los nombres largos de dos tipos no caben
+            d.etiqueta_tipos(w, y, x + 24, a["tipos"], corto=cw < 64)
         else:
             d.put(w, y, x + 24, "[¿grupo?]  D: deducir", d.c("tenue"))
         y += 1
         d.put(w, y, x + 2, "Afinidad", d.c("texto"))
         listo = self.salvaje["afinidad"] >= AFINIDAD_TRNA
-        ancho_barra = max(10, cw - 34)
+        # etiqueta(11) + barra + número(9) + "listo: [T] ARNt"(15) + borde(2)
+        ancho_barra = max(10, cw - 38)
         d.barra(w, y, x + 11, ancho_barra, self.salvaje["afinidad"], 100,
                 d.c("bien" if listo else "agua"))
         d.put(w, y, x + 12 + ancho_barra, f"{int(self.salvaje['afinidad']):3d}/100", d.c("tenue"))
         if listo:
-            d.put(w, y, x + 21 + ancho_barra, "listo: [T] ARNt", d.c("bien", curses.A_BOLD))
+            aviso = "listo: [T] ARNt" if cw - 23 - ancho_barra >= 15 else "[T] ARNt"
+            d.put(w, y, x + 21 + ancho_barra, aviso, d.c("bien", curses.A_BOLD))
 
         d.caja(w, L["arena"], x, L["ah"], cw, None, d.c("oscuro"))
         anim.dibujar_cuadro(w, L["arena"] + 1, x + 1, L["ah"] - 2, cw - 2, self.cuadro)
@@ -539,8 +542,10 @@ class Combate:
         self.dibujar()
         L = self.layout()
         tipo = preguntas.elegir_tipo(self.juego, self.aa)
+        # la pregunta tapa la arena y tu recuadro completos, sin salirse
         bien = preguntas.preguntar(self.win, self.juego, self.aa, tipo,
-                                   L["arena"], L["x"], L["w"])
+                                   L["arena"], L["x"], L["w"],
+                                   alto_min=L["yo"] + 4 - L["arena"])
         a = datos.AMINOACIDOS[self.aa]
         if bien:
             self.nombre_visible = self.tipos_visible = True
