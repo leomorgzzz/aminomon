@@ -139,14 +139,37 @@ def puente_h(h, w, ctx):
                                     hueco=5, sub="un H unido a O o N se acerca a otro O o N")
     base = _sin_sub(cuadros[-1], h)
     don_izq = ctx.get("donador") == "izq"
+    cargas = [(y - 1, fi + len(izq) - 1, "δ+" if don_izq else "δ−", "tenue"),
+              (y - 1, fd, "δ−" if don_izq else "δ+", "tenue")]
+    # el O/N/S que sostiene al H también es δ−: el H queda entre dos δ−
+    k = _atomo_donador(izq if don_izq else der, desde_der=don_izq)
+    if k is not None:
+        cargas.append((y - 1, (fi if don_izq else fd) + k, "δ−", "tenue"))
+        porque = "H δ+ entre dos átomos δ−: se atraen, no se repelen"
+    else:
+        porque = "el H δ+ apunta al par libre δ−: se atraen"
     for i in range(1, 6):
-        cuadros.append(base + [
+        cuadros.append(base + cargas + [
             (y, fi + len(izq) + 1, "·" * min(i, 3), "titulo"),
-            (y - 1, fi + len(izq) - 1, "δ+" if don_izq else "δ−", "tenue"),
-            (y - 1, fd, "δ−" if don_izq else "δ+", "tenue"),
             _sub(h, w, "H (δ+) del donador ··· par libre (δ−) del aceptor"),
         ])
+    for _ in range(4):
+        cuadros.append(base + cargas + [
+            (y, fi + len(izq) + 1, "···", "titulo"),
+            _sub(h, w, porque),
+        ])
     return _final(cuadros, h, w, ctx.get("nombre", "puente de hidrógeno"))
+
+
+def _atomo_donador(texto, desde_der):
+    """Columna del O/N/S unido al H que se dona (─O─H o H─O─), o None."""
+    if desde_der and texto.endswith("─H"):
+        cols = range(len(texto) - 3, -1, -1)
+    elif not desde_der and texto.startswith("H─"):
+        cols = range(2, len(texto))
+    else:
+        return None
+    return next((k for k in cols if texto[k] in "NOS"), None)
 
 
 def sin_puente_h(h, w, ctx):
