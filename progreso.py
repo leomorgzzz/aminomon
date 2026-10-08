@@ -96,10 +96,15 @@ def capturado(juego, aa):
     return juego["capturados"].get(aa, 0) > 0
 
 
-def bases_capturadas(juego):
-    return {datos.forma(m["id"])["base"] for m in juego["equipo"]} | {
-        k for k, v in juego["capturados"].items() if v > 0
-    }
+def conteo_equipo(juego):
+    """Cuántos residuos de cada aminoácido estándar hay en el equipo. Un
+    residuo modificado cuenta como su aminoácido base y la cistina, como dos
+    Cys."""
+    conteo = {}
+    for m in juego["equipo"]:
+        base = datos.forma(m["id"])["base"]
+        conteo[base] = conteo.get(base, 0) + (2 if m["id"] == "Cis" else 1)
+    return conteo
 
 
 # ------------------------------------------- modificación postraduccional

@@ -256,9 +256,11 @@ def mostrar_exito(win, juego, zona, seq):
 
 def retar(win, juego, zona):
     j = JEFES[zona]
-    disponibles = sorted(progreso.bases_capturadas(juego), key=datos.ORDEN.index)
-    intro = (f"Reto: {j['reto']}.\n\n{j['desc']}\n\nUsa aminoácidos capturados, en "
-             "código de 1 letra, del extremo N al C.")
+    conteo = progreso.conteo_equipo(juego)
+    disponibles = sorted(conteo, key=datos.ORDEN.index)
+    intro = (f"Reto: {j['reto']}.\n\n{j['desc']}\n\nUsa los aminoácidos de tu equipo, en "
+             "código de 1 letra, del extremo N al C. Cada uno se puede usar tantas "
+             "veces como lo tengas en el equipo (×n).")
     pista = pista_faltantes(juego, zona)
     if pista:
         intro += "\n\n" + pista
@@ -274,18 +276,19 @@ def retar(win, juego, zona):
             d.put(win, y, 1, l, d.c("texto"))
             y += 1
         y += 1
-        d.put(win, y, 1, "Disponibles:", d.c("tenue"))
-        cx = 14
+        d.put(win, y, 1, "En tu equipo:", d.c("tenue"))
+        cx = 15
         for c in disponibles:
             a = AA[c]
-            texto = f"{c}={a['tres']}({a['hidropatia']:+.1f}) "
+            quedan = conteo[c] - seq.count(c)
+            texto = f"{c}={a['tres']}×{quedan}({a['hidropatia']:+.1f}) "
             if cx + len(texto) > ancho - 1:
                 y += 1
-                cx = 14
-            d.put(win, y, cx, texto, d.c(a["tipos"][0]))
+                cx = 15
+            d.put(win, y, cx, texto, d.c(a["tipos"][0]) if quedan else d.c("oscuro"))
             cx += len(texto)
         if not disponibles:
-            d.put(win, y, 14, "(ninguno)", d.c("mal"))
+            d.put(win, y, 15, "(ninguno)", d.c("mal"))
         if pista:
             y += 1
             for l in d.envolver(pista, ancho - 4):
@@ -335,7 +338,11 @@ def retar(win, juego, zona):
                 aviso = f"'{c}' no es el código de ningún aminoácido estándar."
             elif c not in disponibles:
                 donde = ", ".join(datos.ZONAS[z]["nombre"] for z in datos.zonas_de(c))
-                aviso = f"Aún no has capturado {AA[c]['nombre']} ({c}). Búscalo en: {donde}."
+                aviso = f"No tienes {AA[c]['nombre']} ({c}) en tu equipo. Búscalo en: {donde}."
+            elif seq.count(c) >= conteo[c]:
+                donde = ", ".join(datos.ZONAS[z]["nombre"] for z in datos.zonas_de(c))
+                aviso = (f"Solo tienes {conteo[c]} {AA[c]['nombre']} ({c}) en tu equipo. "
+                         f"Captura más en: {donde}.")
             elif len(seq) < 20:
                 seq += c
 
