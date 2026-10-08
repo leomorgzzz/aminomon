@@ -1,5 +1,5 @@
-"""Jefes de zona (construir péptidos), examen de la Chaperona y el reto final
-del Ribosoma Maestro (traducción y mutaciones clínicas)."""
+"""Jefes de zona (construir péptidos), examen de la Chaperona y el examen
+final del René-virus (traducción y mutaciones clínicas)."""
 
 import curses
 import random
@@ -455,8 +455,8 @@ def chaperona(win, juego):
             juego["objetos"]["ATP"] += extras
             nombres = " y ".join(t.removeprefix("extra: ") for t, _ in EXTRAS[:extras])
             texto += f"\n\nExtra: {nombres}. Recibes {extras} ATP."
-        texto += ("\n\nPuedes seguir explorando. El siguiente nivel es el examen del "
-                  "Ribosoma Maestro; habla con el Profesor Ribosoma (R).")
+        texto += ("\n\nPuedes seguir explorando. El siguiente nivel es el examen "
+                  "final; habla con el René-virus (V).")
         d.popup(win, texto, "Estado nativo", attr=d.c("bien"))
     else:
         d.popup(win, f"{aciertos}/{total}. Quedaron regiones hidrofóbicas expuestas: la "
@@ -464,7 +464,7 @@ def chaperona(win, juego):
                      "Repasa el manual y vuelve cuando quieras.", "Chaperona")
 
 
-# ================================================ reto final: Ribosoma Maestro
+# ============================================ examen final: René-virus
 STOP = ("UAA", "UAG", "UGA")
 CODIGO = {cod: c for c, a in AA.items() for cod in a["codones"]}
 for _s in STOP:
@@ -576,7 +576,7 @@ def traducir(win, juego, n, total):
     arn, prot, ini = _arn_aleatorio()
     alto, ancho = win.getmaxyx()
     win.erase()
-    d.put(win, 0, 1, f"RIBOSOMA MAESTRO · {n}/{total} · Traducción", d.c("titulo", curses.A_BOLD))
+    d.put(win, 0, 1, f"EXAMEN DEL RENÉ-VIRUS · {n}/{total} · Traducción", d.c("titulo", curses.A_BOLD))
     texto = ("Lee este ARNm como un ribosoma: busca el primer AUG, lee de 3 en 3 "
              "y detente en el codón de paro (UAA, UAG o UGA). Escribe la proteína "
              "en código de 1 letra (incluye la Met inicial, no el paro).")
@@ -602,7 +602,7 @@ def traducir(win, juego, n, total):
 def mutacion(win, juego, caso, n, total):
     alto, ancho = win.getmaxyx()
     win.erase()
-    d.put(win, 0, 1, f"RIBOSOMA MAESTRO · {n}/{total} · Mutaciones reales",
+    d.put(win, 0, 1, f"EXAMEN DEL RENÉ-VIRUS · {n}/{total} · Mutaciones reales",
           d.c("titulo", curses.A_BOLD))
     w = min(ancho - 2, 90)
     x = (ancho - w) // 2
@@ -632,10 +632,10 @@ def mutacion(win, juego, caso, n, total):
     return bien
 
 
-def ribosoma_maestro(win, juego):
+def examen_rene(win, juego):
     d.dialogo(win, [
         "Traduce 3 ARNm y analiza 5 mutaciones asociadas a enfermedades "
-        "humanas. Se aprueba con 7 de 8."], "Ribosoma Maestro")
+        "humanas. Se aprueba con 7 de 8."], "René-virus")
     total = 8
     aciertos = 0
     for n in range(1, 4):
@@ -645,8 +645,8 @@ def ribosoma_maestro(win, juego):
     if aciertos >= 7:
         juego["doctorado"] = True
         d.popup(win, f"{aciertos}/8. Aprobado: Doctorado en Proteínas.",
-                "Ribosoma Maestro", attr=d.c("bien"))
+                "René-virus", attr=d.c("bien"))
     else:
         d.popup(win, f"{aciertos}/8. No aprobado. Repasa los codones (pestaña "
                      "Chuleta) y las propiedades de cada grupo; las preguntas "
-                     "cambian en cada intento.", "Ribosoma Maestro")
+                     "cambian en cada intento.", "René-virus")

@@ -81,10 +81,10 @@ def p_jugar(juego, rival, an):
         L(""),
         T("Símbolos del mapa"),
         *tabla([[("≈", "NP"), "membrana (colas)", ("◦", "ARO"), "interfase", ("·", "POL"), "citosol"],
-                [("∴", "POS"), "polirribosomas", ("░", "NEG"), "retículo", ("═", "POL"), "Golgi"],
+                [("∴", "POS"), "ribosomas", ("░", "NEG"), "retículo", ("═", "POL"), "Golgi"],
                 [("●", "NEG"), "lisosoma", ("§", "POS"), "cromatina", ("▓", "POS"), "nucléolo"],
                 [("╳", "tenue"), "colágeno", ("◉", "titulo"), "mitocondria", ("O", "mal"), "poro nuclear"],
-                [("█", "oscuro"), "envoltura", ("R", "titulo"), "Prof. Ribosoma", ("H", "titulo"), "Chaperona"],
+                [("█", "oscuro"), "envoltura", ("V", "titulo"), "René-virus", ("H", "titulo"), "Chaperona"],
                 [("J", "mal"), "jefe", ("i", "agua"), "cartel", ("C K", "titulo"), "vitaminas C y K"]]),
         L(""),
         T("Combate"),
@@ -118,14 +118,14 @@ def p_jugar(juego, rival, an):
         *parrafo("Cada jefe pide construir un péptido con lo que ya capturaste; "
                  "al lograrlo ves tu péptido dibujado. El poro nuclear es un jefe: "
                  "necesitas una NLS con al menos 4 Lys (viven en los "
-                 "polirribosomas ∴) para entrar al núcleo. La Arg solo vive "
+                 "ribosomas ∴) para entrar al núcleo. La Arg solo vive "
                  "adentro (núcleo y nucléolo). En cada reto puedes usar cada "
                  "aminoácido tantas veces como lo tengas en tu equipo.", an),
         L(""),
         T("Después de la Chaperona"),
-        *parrafo("Habla con el Profesor Ribosoma (R): el examen del Ribosoma "
-                 "Maestro te pide traducir ARNm y analizar mutaciones reales "
-                 "(anemia falciforme, fibrosis quística, KRAS, Huntington…).", an),
+        *parrafo("Habla con el René-virus (V): su examen final te pide traducir "
+                 "ARNm y analizar mutaciones reales (anemia falciforme, fibrosis "
+                 "quística, KRAS, Huntington…).", an),
     ]
 
 

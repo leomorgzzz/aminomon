@@ -800,10 +800,11 @@ ZONAS = {
                 "solubles forman puentes de H con el agua.",
     ),
     "ribosomas": dict(
-        nombre="Polirribosomas", aminos=list("K"), niveles=(3, 5),
+        nombre="Ribosomas", aminos=list("K"), niveles=(3, 5),
         glifo="∴", color="POS",
-        por_que="Las proteínas ribosomales son muy ricas en Lys: sus cargas + "
-                "neutralizan los fosfatos (−) del ARN ribosomal. Aquí "
+        por_que="Ribosomas libres traduciendo ARNm en el citosol. Sus proteínas "
+                "ribosomales son muy ricas en Lys: sus cargas + neutralizan los "
+                "fosfatos (−) del ARN ribosomal. Aquí "
                 "consigues las Lys para tu NLS; la Arg solo vive dentro del "
                 "núcleo.",
     ),

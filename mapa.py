@@ -49,7 +49,7 @@ CARTELES = {
                "Doble membrana con poros (O). Las moléculas pequeñas (< ~40 kDa) "
                "difunden; las proteínas grandes necesitan una señal de "
                "localización nuclear (NLS): un parche rico en Lys y Arg. Afuera "
-               "solo hay Lys (en los polirribosomas ∴): con 4 basta para entrar, "
+               "solo hay Lys (en los ribosomas ∴): con 4 basta para entrar, "
                "y adentro te espera la Arg."),
     "c_golgi": ((50, 24), "Aparato de Golgi",
                 "Cara cis (hacia el RE) → cara trans (hacia la membrana). Las "
@@ -72,9 +72,10 @@ CARTELES = {
     "c_centro": ((CENTROSOMA[0] + 2, CENTROSOMA[1] + 1), "Centrosoma",
                  "De aquí salen los microtúbulos (─ │ ╱ ╲): rieles por los que "
                  "las vesículas viajan del Golgi a la membrana."),
-    "c_ribo": ((52, 15), "Polirribosomas",
-               "Varios ribosomas traduciendo el mismo ARNm. Sus proteínas "
-               "ribosomales son ricas en Lys (K)."),
+    "c_ribo": ((52, 15), "Ribosomas",
+               "Ribosomas libres: cada uno lee un ARNm y une aminoácidos con "
+               "enlaces peptídicos. Sus proteínas ribosomales son ricas en "
+               "Lys (K)."),
 }
 
 
@@ -245,7 +246,7 @@ def _cercano(objetivo, chars):
 
 # Puntos especiales: nombre -> (x, y, glifo)
 _ESPECIALES_OBJ = {
-    "ribosoma": ((58, 24), " ", "R"),
+    "rene": ((58, 24), " ", "V"),
     "chaperona": ((70, 27), " ", "H"),
     "jefe_membrana": ((75, 3), "~", "J"),
     "jefe_citosol": ((40, 20), ",", "J"),
@@ -266,7 +267,7 @@ for _n, (_obj, _t, _txt) in CARTELES.items():
     DECO.pop((_x, _y), None)
 for _n, (_x, _y, _g) in ESPECIALES.items():
     DECO.pop((_x, _y), None)
-INICIO = (ESPECIALES["ribosoma"][0] + 2, ESPECIALES["ribosoma"][1])
+INICIO = (ESPECIALES["rene"][0] + 2, ESPECIALES["rene"][1])
 CENTRO_MITO = (MITOS[0][0], MITOS[0][1])
 
 

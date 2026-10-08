@@ -66,7 +66,7 @@ del esqueleto y van der Waals, que todos tienen.
 | `combate.py` | turnos, deducción de tipos, captura |
 | `animaciones.py` | animaciones de cada interacción |
 | `preguntas.py` | preguntas con repaso espaciado |
-| `jefes.py` | 7 retos de péptidos, examen de la Chaperona y reto final del Ribosoma Maestro |
+| `jefes.py` | 7 retos de péptidos, examen de la Chaperona y examen final del René-virus |
 | `manual.py`, `aminodex.py`, `equipo.py` | pantallas |
 | `dibujo.py` | colores y utilidades de curses |
 | `progreso.py` | guardado, experiencia, modificaciones |

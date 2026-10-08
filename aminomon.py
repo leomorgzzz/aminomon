@@ -84,9 +84,10 @@ def titulo(win):
 def intro(win):
     juego = progreso.nuevo_juego(mapa.INICIO)
     d.dialogo(win, [
-        "Soy el Profesor Ribosoma. Traduzco ARN mensajero a proteína y para "
-        "eso necesito los 20 aminoácidos estándar. Tu trabajo es encontrarlos "
-        "y caracterizarlos.",
+        "Soy el René-virus, un virus inofensivo: no enfermo a nadie, solo "
+        "estudio proteómica. Como todo virus, no tengo ribosomas propios: mis "
+        "proteínas las fabrican los ribosomas de la célula con los 20 "
+        "aminoácidos estándar. Tu trabajo es encontrarlos y caracterizarlos.",
         "Cada aminoácido abunda donde su química es favorable: los no polares "
         "en la membrana, los básicos junto al ARN ribosomal y al ADN.",
         "Cada aminoácido pertenece a uno de los 5 grupos de Lehninger y cada "
@@ -95,7 +96,7 @@ def intro(win):
         "manual [M].",
         "Empiezas con Metionina: AUG es el codón de inicio, así que toda "
         "proteína comienza con ella.",
-    ], "Profesor Ribosoma")
+    ], "René-virus")
     progreso.capturar(juego, "M", 3)
 
     while True:
@@ -135,10 +136,10 @@ def intro(win):
         "lanza un ARNt [T].",
         "La mitocondria (◉) restablece a tu equipo y recarga ATP. Los jefes "
         "(J) piden construir péptidos. Para entrar al núcleo necesitas una NLS "
-        "rica en Lys (K), que encontrarás en los polirribosomas (∴); la Arg (R) "
+        "rica en Lys (K), que encontrarás en los ribosomas (∴); la Arg (R) "
         "solo vive dentro del núcleo. Los carteles (i) describen cada "
-        "compartimento.",
-    ], "Profesor Ribosoma")
+        "compartimento. Yo soy la V del mapa: búscame cuando quieras un consejo.",
+    ], "René-virus")
     progreso.guardar(juego)
     return juego
 
@@ -256,7 +257,7 @@ class Partida:
         if mapa.tile(nx, ny) == "O" and "nucleo" not in j["insignias"]:
             if not jefes.retar(self.win, j, "nucleo"):
                 self.mensaje = ("El poro nuclear no te deja pasar sin una NLS (≥ 4 Lys). "
-                                "Búscalas en los polirribosomas (∴).")
+                                "Búscalas en los ribosomas (∴).")
                 return
             progreso.guardar(j)
         j["pos"] = [nx, ny]
@@ -295,14 +296,14 @@ class Partida:
 
     def interactuar(self, especial):
         j = self.juego
-        if especial == "ribosoma":
+        if especial == "rene":
             self.consejo()
             if j.get("terminado"):
-                titulo_r = "¿Tomar el examen del Ribosoma Maestro?"
+                titulo_r = "¿Tomar el examen final del René-virus?"
                 if j.get("doctorado"):
-                    titulo_r = "¿Repetir el examen del Ribosoma Maestro?"
+                    titulo_r = "¿Repetir el examen final del René-virus?"
                 if d.menu(self.win, titulo_r, ["Sí", "Ahora no"]) == 0:
-                    jefes.ribosoma_maestro(self.win, j)
+                    jefes.examen_rene(self.win, j)
                     progreso.guardar(j)
         elif especial == "chaperona":
             jefes.chaperona(self.win, j)
@@ -343,7 +344,7 @@ class Partida:
             texto += f"\n\nRetos pendientes: {', '.join(pendientes)}."
         if not all(m["energia"] > 0 for m in j["equipo"]):
             texto += "\n\nTu equipo está cansado: ve a la mitocondria (◉)."
-        d.popup(self.win, texto, "Profesor Ribosoma")
+        d.popup(self.win, texto, "René-virus")
 
     def encuentro(self, zona):
         j = self.juego
