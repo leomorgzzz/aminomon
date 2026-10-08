@@ -48,8 +48,9 @@ CARTELES = {
     "c_poro": ((76, 21), "Envoltura nuclear",
                "Doble membrana con poros (O). Las moléculas pequeñas (< ~40 kDa) "
                "difunden; las proteínas grandes necesitan una señal de "
-               "localización nuclear (NLS): un parche rico en Lys y Arg. Si te "
-               "faltan K o R, búscalos en los polirribosomas (∴)."),
+               "localización nuclear (NLS): un parche rico en Lys y Arg. Afuera "
+               "solo hay Lys (en los polirribosomas ∴): con 4 basta para entrar, "
+               "y adentro te espera la Arg."),
     "c_golgi": ((50, 24), "Aparato de Golgi",
                 "Cara cis (hacia el RE) → cara trans (hacia la membrana). Las "
                 "proteínas avanzan cisterna por cisterna mientras maduran sus "
@@ -73,7 +74,7 @@ CARTELES = {
                  "las vesículas viajan del Golgi a la membrana."),
     "c_ribo": ((52, 15), "Polirribosomas",
                "Varios ribosomas traduciendo el mismo ARNm. Sus proteínas "
-               "ribosomales son ricas en Lys (K) y Arg (R)."),
+               "ribosomales son ricas en Lys (K)."),
 }
 
 

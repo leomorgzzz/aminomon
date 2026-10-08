@@ -117,8 +117,10 @@ def p_jugar(juego, rival, an):
         T("Jefes"),
         *parrafo("Cada jefe pide construir un péptido con lo que ya capturaste; "
                  "al lograrlo ves tu péptido dibujado. El poro nuclear es un jefe: "
-                 "necesitas una NLS (K y R, que viven en los polirribosomas ∴) "
-                 "para entrar al núcleo.", an),
+                 "necesitas una NLS con al menos 4 Lys (viven en los "
+                 "polirribosomas ∴) para entrar al núcleo. La Arg solo vive "
+                 "adentro (núcleo y nucléolo). En cada reto puedes usar cada "
+                 "aminoácido tantas veces como lo tengas en tu equipo.", an),
         L(""),
         T("Después de la Chaperona"),
         *parrafo("Habla con el Profesor Ribosoma (R): el examen del Ribosoma "

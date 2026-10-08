@@ -800,18 +800,21 @@ ZONAS = {
                 "solubles forman puentes de H con el agua.",
     ),
     "ribosomas": dict(
-        nombre="Polirribosomas", aminos=list("KR"), niveles=(3, 5),
+        nombre="Polirribosomas", aminos=list("K"), niveles=(3, 5),
         glifo="∴", color="POS",
-        por_que="Las proteínas ribosomales son muy ricas en Lys y Arg: sus "
-                "cargas + neutralizan los fosfatos (−) del ARN ribosomal. "
-                "Aquí puedes conseguir K y R antes de entrar al núcleo.",
+        por_que="Las proteínas ribosomales son muy ricas en Lys: sus cargas + "
+                "neutralizan los fosfatos (−) del ARN ribosomal. Aquí "
+                "consigues las Lys para tu NLS; la Arg solo vive dentro del "
+                "núcleo.",
     ),
     "nucleo": dict(
         nombre="Núcleo (cromatina)", aminos=list("KR"), niveles=(5, 8),
         glifo="§", color="POS",
         por_que="Las histonas son ricas en Lys y Arg y abrazan al ADN, "
-                "cargado (−) por sus fosfatos. Para entrar, tu proteína "
-                "necesita una señal de localización nuclear (NLS).",
+                "cargado (−) por sus fosfatos; H3 y H4 son las histonas "
+                "«ricas en Arg». La Arg solo aparece aquí y en el nucléolo. "
+                "Para entrar, tu proteína necesita una señal de localización "
+                "nuclear (NLS).",
     ),
     "nucleolo": dict(
         nombre="Nucléolo", aminos=list("RG"), niveles=(6, 8),

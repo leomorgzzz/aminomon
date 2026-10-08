@@ -68,8 +68,9 @@ JEFES = {
     "nucleo": dict(
         nombre="Complejo del Poro Nuclear", reto="Señal de localización nuclear",
         desc="Para entrar al núcleo, construye una NLS: entre 4 y 8 residuos "
-             "con carga neta ≥ +4 (K, R = +1; D, E = −1).",
-        utiles="KR",
+             "con carga neta ≥ +4 (K, R = +1; D, E = −1). Necesitas al menos 4 "
+             "Lys en tu equipo.",
+        utiles="K",
         condiciones=lambda s: [("Entre 4 y 8 residuos", 4 <= len(s) <= 8),
                                ("Carga neta ≥ +4", carga_neta(s) >= 4)],
         bio="La NLS clásica es PKKKRKV (antígeno T de SV40). Las importinas "

@@ -135,8 +135,9 @@ def intro(win):
         "lanza un ARNt [T].",
         "La mitocondria (◉) restablece a tu equipo y recarga ATP. Los jefes "
         "(J) piden construir péptidos. Para entrar al núcleo necesitas una NLS "
-        "con Lys (K) y Arg (R), que encontrarás en los polirribosomas (∴). Los "
-        "carteles (i) describen cada compartimento.",
+        "rica en Lys (K), que encontrarás en los polirribosomas (∴); la Arg (R) "
+        "solo vive dentro del núcleo. Los carteles (i) describen cada "
+        "compartimento.",
     ], "Profesor Ribosoma")
     progreso.guardar(juego)
     return juego
@@ -254,8 +255,8 @@ class Partida:
             return
         if mapa.tile(nx, ny) == "O" and "nucleo" not in j["insignias"]:
             if not jefes.retar(self.win, j, "nucleo"):
-                self.mensaje = ("El poro nuclear no te deja pasar sin una NLS (K y R). "
-                                "Búscalos en los polirribosomas (∴).")
+                self.mensaje = ("El poro nuclear no te deja pasar sin una NLS (≥ 4 Lys). "
+                                "Búscalas en los polirribosomas (∴).")
                 return
             progreso.guardar(j)
         j["pos"] = [nx, ny]
@@ -285,8 +286,11 @@ class Partida:
             self.zona = zona
             self.dibujar()
             texto = info["por_que"]
-            if info["aminos"]:
-                texto += f"\n\nEn esta zona aparecen {len(info['aminos'])} aminoácidos distintos."
+            n = len(info["aminos"])
+            if n == 1:
+                texto += "\n\nEn esta zona aparece un solo aminoácido."
+            elif n:
+                texto += f"\n\nEn esta zona aparecen {n} aminoácidos distintos."
             d.popup(self.win, texto, info["nombre"])
 
     def interactuar(self, especial):
