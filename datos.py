@@ -399,6 +399,29 @@ AMINOACIDOS = {
     ),
 }
 
+# Casos en los que el grupo de Lehninger y el signo de KD parecen contradecirse.
+# KD combina la energía de pasar del agua al vapor con qué tan seguido aparece
+# enterrado cada residuo en proteínas de estructura conocida.
+NOTA_KD = {
+    "G": "No polar no es lo mismo que hidrofóbico. La Gly es no polar porque su "
+         "R es un H, pero ese H no tiene superficie que esconder del agua: el "
+         "efecto hidrofóbico crece con la superficie de C–H que se entierra. Sin "
+         "cadena lateral pesa más su esqueleto polar (N–H y C=O), por eso KD ≈ 0 "
+         "(−0.4). Lehninger: es formalmente no polar, pero su cadena tan pequeña "
+         "no contribuye de verdad a las interacciones hidrofóbicas.",
+    "P": "Su anillo es de C–H, pero KD −1.6: rompe hélices y suele quedar en "
+         "giros y lazos expuestos al agua, en la superficie de la proteína.",
+    "C": "Es polar sin carga por el S–H, pero el S casi no es más electronegativo "
+         "que el C (2.58 frente a 2.55): el S–H es muy poco polar y forma puentes "
+         "de H débiles. Además suele estar enterrada en las proteínas (sola o en "
+         "disulfuros), así que su KD es +2.5. Otros libros la ponen con los "
+         "hidrofóbicos.",
+    "Y": "Su anillo es poco polar, pero el O–H del fenol forma puentes de H con el "
+         "agua: KD −1.3, mucho menos hidrofóbica que la Phe (+2.8).",
+    "W": "El indol es grande y poco polar, pero su N–H forma puentes de H y suele "
+         "quedar en la interfase membrana-agua: KD −0.9.",
+}
+
 ORDEN = list("GAVLIMPFYWSTCNQDEKRH")
 for _c, _aa in AMINOACIDOS.items():
     _aa["una"] = _c
@@ -831,6 +854,12 @@ GLOSARIO = [
                          "protonación se usa PROPKA."),
     ("Hidropatía (KD)", "Escala de Kyte-Doolittle: positivo = hidrofóbico "
                         "(Ile 4.5), negativo = hidrofílico (Arg −4.5)."),
+    ("No polar ≠ hidrofóbico", "No polar habla de la química del grupo R "
+                               "(sin O–H ni N–H, no forma puentes de H). "
+                               "Hidrofóbico habla de cuánto le conviene esconderse "
+                               "del agua, y eso depende de su superficie de C–H. "
+                               "Por eso Gly (no polar) tiene KD −0.4 y Cys (polar) "
+                               "tiene KD +2.5."),
     ("GRAVY", "Promedio de la hidropatía de una secuencia. > 0 tiende a "
               "estar en membranas; < 0, soluble en agua."),
     ("Carga neta", "Suma de cargas: +1 por K y R, −1 por D y E (His ≈ 0 a "

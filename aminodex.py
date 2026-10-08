@@ -65,9 +65,16 @@ def ficha(win, juego, c, y, x, ancho):
     fy += 1
     for l in d.envolver(a["pista"], ancho):
         if fy >= alto - 1:
-            break
+            return
         d.put(win, fy, x, l, d.c("agua"))
         fy += 1
+    if c in datos.NOTA_KD:
+        fy += 1
+        for l in d.envolver("Hidropatía: " + datos.NOTA_KD[c], ancho):
+            if fy >= alto - 1:
+                return
+            d.put(win, fy, x, l, d.c("tenue"))
+            fy += 1
 
 
 def ficha_modificacion(win, juego, eid, y, x, ancho):

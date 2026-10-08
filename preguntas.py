@@ -98,7 +98,7 @@ def generar(aa, tipo):
             texto=f"Según Kyte-Doolittle, {a['nombre']} es…",
             opciones=["Hidrofóbico (KD > 0)", "Hidrofílico (KD < 0)"],
             respuesta=r,
-            explicacion=f"KD de {a['tres']} = {a['hidropatia']:+.1f}.",
+            explicacion=f"KD de {a['tres']} = {a['hidropatia']:+.1f}. " + datos.NOTA_KD.get(aa, ""),
         )
     if tipo == "pka":
         correcta = f"{a['pkr']:.2f}"
