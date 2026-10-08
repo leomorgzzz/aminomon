@@ -643,10 +643,111 @@ def examen_rene(win, juego):
     for n, caso in enumerate(random.sample(MUTACIONES, 5), start=4):
         aciertos += mutacion(win, juego, caso, n, total)
     if aciertos >= 7:
+        primera = not juego.get("doctorado")
         juego["doctorado"] = True
-        d.popup(win, f"{aciertos}/8. Aprobado: Doctorado en Proteínas.",
-                "René-virus", attr=d.c("bien"))
+        texto = f"{aciertos}/8. Aprobado: Doctorado en Proteínas."
+        if primera:
+            texto += ("\n\nAhora puedo hacerte encargos de síntesis: péptidos reales "
+                      f"({len(datos.PEPTIDOS)} en el catálogo) que tendrás que traducir "
+                      "de su ARNm y construir con los residuos de tu equipo. Habla "
+                      "conmigo (V) cuando quieras. El catálogo está al final de la "
+                      "Aminodex [X].")
+        d.popup(win, texto, "René-virus", attr=d.c("bien"))
     else:
         d.popup(win, f"{aciertos}/8. No aprobado. Repasa los codones (pestaña "
                      "Chuleta) y las propiedades de cada grupo; las preguntas "
                      "cambian en cada intento.", "René-virus")
+
+
+# ============================================ post-juego: encargos de síntesis
+def faltantes(juego, seq):
+    """{aminoácido: cuántos faltan en el equipo} para construir seq."""
+    conteo = progreso.conteo_equipo(juego)
+    return {c: seq.count(c) - conteo.get(c, 0) for c in dict.fromkeys(seq)
+            if seq.count(c) > conteo.get(c, 0)}
+
+
+def dibujar_resumen(win, y, x, ancho, pep):
+    """Secuencia dibujada, propiedades y biología de un péptido."""
+    seq = pep["seq"]
+    y = dibujar_peptido(win, y, x, ancho, seq, None)
+    d.put(win, y, x + 1, f"Largo {len(seq)}   GRAVY {gravy(seq):+.2f}   "
+                         f"Carga neta pH 7 {carga_neta(seq):+d}", d.c("titulo"))
+    y += 2
+    for l in d.envolver(pep["bio"], min(ancho - 2, 96)):
+        d.put(win, y, x + 1, l, d.c("texto"))
+        y += 1
+    return y
+
+
+def encargo(win, juego):
+    """El René-virus pide un péptido: traducir su ARNm y construirlo."""
+    hechos = juego["peptidos"]
+    ids = list(datos.PEPTIDOS)
+    opciones = [f"{'✓' if p in hechos else ' '} {datos.PEPTIDOS[p]['nombre']} "
+                f"({len(datos.PEPTIDOS[p]['seq'])} aa)" for p in ids]
+    sel = d.menu(win, f"Encargos de síntesis ({len(hechos)}/{len(ids)})", opciones)
+    if sel is None:
+        return
+    pid = ids[sel]
+    pep = datos.PEPTIDOS[pid]
+    seq = pep["seq"]
+    arn = "".join(random.choice(AA[c]["codones"]) for c in seq) + random.choice(STOP)
+
+    alto, ancho = win.getmaxyx()
+    win.erase()
+    d.put(win, 0, 1, f"ENCARGO DEL RENÉ-VIRUS · {pep['nombre']}", d.c("titulo", curses.A_BOLD))
+    texto = ("Necesito este péptido. Aquí está su ARNm, ya recortado: el marco empieza "
+             "en la primera base. Tradúcelo de 3 en 3 hasta el codón de paro y escribe "
+             "el péptido en código de 1 letra. Después lo sintetizo con los residuos "
+             "de tu equipo.")
+    y = 2
+    for l in d.envolver(texto, min(ancho - 4, 90)):
+        d.put(win, y, 2, l, d.c("texto"))
+        y += 1
+    y += 1
+    d.put(win, y, 2, f"5'-{arn}-3'", d.c("titulo", curses.A_BOLD))
+    y += 2
+    r = d.pedir_texto(win, y, 2, "Péptido: ", len(seq) + 3)
+    if r is None:
+        return
+    bien = r.strip().upper() == seq
+    progreso.registrar(juego, "encargo:traduccion", bien)
+    if not bien:
+        codones = [arn[i:i + 3] for i in range(0, len(arn), 3)]
+        lectura = "  ".join(f"{cod}={CODIGO[cod] if CODIGO[cod] != '*' else 'paro'}"
+                            for cod in codones)
+        d.popup(win, f"Incorrecto. Era {seq}: {lectura}\n\nCada vez que lo pidas el "
+                     "ARNm usa codones distintos.", "Traducción",
+                ancho=min(ancho - 2, 90), attr=d.c("mal"))
+        return
+    faltan = faltantes(juego, seq)
+    if faltan:
+        lineas = [f"{n} {AA[c]['nombre']} ({c}) → "
+                  + ", ".join(datos.ZONAS[z]["nombre"] for z in datos.zonas_de(c))
+                  for c, n in faltan.items()]
+        d.popup(win, "Traducción correcta, pero a tu equipo le faltan residuos para "
+                     "sintetizarlo:\n\n" + "\n".join(lineas)
+                + "\n\nCaptúralos y vuelve.", "René-virus", ancho=min(ancho - 2, 70))
+        return
+
+    primera = pid not in hechos
+    if primera:
+        hechos.append(pid)
+        juego["objetos"]["ATP"] += 1
+    for m in juego["equipo"]:
+        progreso.dar_xp(m, 5)
+    win.erase()
+    d.put(win, 0, 1, f"Péptido sintetizado: {pep['nombre']}  ·  {seq}", d.c("bien", curses.A_BOLD))
+    y = dibujar_resumen(win, 2, 1, ancho - 2, pep) + 1
+    premio = "+5 XP para todo tu equipo" + (" y 1 ATP." if primera else ".")
+    if primera and len(hechos) == len(ids):
+        premio += (" ¡Completaste el catálogo de péptidos! Puedes repetir los encargos "
+                   "para seguir practicando la traducción.")
+    for l in d.envolver(premio, min(ancho - 4, 96)):
+        d.put(win, y, 2, l, d.c("bien"))
+        y += 1
+    d.put(win, alto - 1, 1, "[Enter] seguir", d.c("tenue"))
+    win.refresh()
+    while d.tecla(win) not in d.ENTER:
+        pass

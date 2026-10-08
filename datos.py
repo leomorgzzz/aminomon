@@ -635,6 +635,79 @@ MODIFICACIONES = {
     ),
 }
 
+# ============================================ péptidos (encargos post-juego)
+# Péptidos reales que el René-virus encarga tras el examen final: se traducen
+# de su ARNm y se construyen con los residuos del equipo.
+PEPTIDOS = {
+    "rgd": dict(
+        nombre="Motivo RGD", seq="RGD",
+        bio="Arg-Gly-Asp: el motivo de la fibronectina que reconocen las "
+            "integrinas para pegar la célula a la matriz extracelular. Algunos "
+            "antiplaquetarios imitan este motivo."),
+    "trh": dict(
+        nombre="TRH (tiroliberina)", seq="QHP",
+        bio="El hipotálamo la libera para que la hipófisis secrete TSH. Madura "
+            "con dos modificaciones: la Gln N-terminal se cicla a piroglutamato y "
+            "el extremo C queda amidado."),
+    "devd": dict(
+        nombre="Sitio de la caspasa-3", seq="DEVD",
+        bio="La caspasa-3, verdugo de la apoptosis, corta justo después del Asp "
+            "de DEVD (por ejemplo, en PARP). Las caspasas son cisteín-proteasas "
+            "que cortan después de un Asp."),
+    "metenc": dict(
+        nombre="Met-encefalina", seq="YGGFM",
+        bio="Opioide endógeno que se une a receptores δ y μ y reduce el dolor. "
+            "Sale del corte de la proencefalina."),
+    "leuenc": dict(
+        nombre="Leu-encefalina", seq="YGGFL",
+        bio="Como la Met-encefalina, pero termina en Leu. Su Tyr N-terminal es "
+            "clave: el fenol de la morfina imita a ese Tyr."),
+    "abeta": dict(
+        nombre="Aβ(16–22)", seq="KLVFFAE",
+        bio="Fragmento central del péptido β-amiloide del Alzheimer. Su parche "
+            "hidrofóbico (Leu, Val, Phe, Phe) hace que las hebras se apilen en "
+            "fibras amiloides."),
+    "nls": dict(
+        nombre="NLS del antígeno T de SV40", seq="PKKKRKV",
+        bio="La NLS clásica, de un virus: las importinas reconocen su parche de "
+            "Lys y Arg y llevan la proteína al núcleo a través del poro."),
+    "ang2": dict(
+        nombre="Angiotensina II", seq="DRVYIHPF",
+        bio="La ECA la corta de la angiotensina I. Contrae los vasos y sube la "
+            "presión; los IECA (como el enalapril) bloquean su formación."),
+    "oxi": dict(
+        nombre="Oxitocina", seq="CYIQNCPLG",
+        bio="Hormona de la hipófisis posterior: contracciones del parto y "
+            "salida de la leche. Sus Cys 1 y 6 forman un disulfuro que cierra un "
+            "anillo, y el extremo C está amidado."),
+    "avp": dict(
+        nombre="Vasopresina", seq="CYFQNCPRG",
+        bio="Hormona antidiurética: el riñón retiene agua. Difiere de la "
+            "oxitocina solo en las posiciones 3 (Phe) y 8 (Arg); también tiene el "
+            "disulfuro Cys1–Cys6."),
+    "bradi": dict(
+        nombre="Bradicinina", seq="RPPGFSPFR",
+        bio="Vasodilatador e inflamatorio. La ECA también la degrada: por eso los "
+            "IECA pueden causar tos seca."),
+    "gnrh": dict(
+        nombre="GnRH", seq="QHWSYGLRPG",
+        bio="Del hipotálamo: hace que la hipófisis libere LH y FSH. Como la TRH, "
+            "empieza con piroglutamato y termina amidada."),
+    "kiss": dict(
+        nombre="Kisspeptina-10", seq="YNWNSFGLRF",
+        bio="Activa a las neuronas de GnRH y dispara la pubertad. Termina en "
+            "Arg-Phe-NH₂, como toda la familia de péptidos RF-amida."),
+    "sustp": dict(
+        nombre="Sustancia P", seq="RPKPQQFFGLM",
+        bio="Neuropéptido del dolor y la inflamación. Termina en "
+            "Phe-X-Gly-Leu-Met-NH₂, la firma de las taquicininas."),
+    "tat": dict(
+        nombre="Péptido Tat del VIH-1", seq="YGRKKRRQRRR",
+        bio="Residuos 47–57 de la proteína Tat del VIH-1: tan rico en Arg que "
+            "atraviesa membranas. Se usa como péptido penetrante para meter "
+            "fármacos a las células. Al René-virus le cae bien."),
+}
+
 OBJETOS = {
     "ATP": "Donador de fosfato para las quinasas. Lo da la mitocondria.",
     "Vitamina C": "Cofactor de las hidroxilasas de Pro y Lys (colágeno).",

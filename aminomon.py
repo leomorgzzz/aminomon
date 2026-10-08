@@ -259,6 +259,10 @@ class Partida:
         n = sum(1 for v in j["capturados"].values() if v)
         d.put(w, y, x + 1, f"Aminodex {n}/20", d.c("texto"))
         y += 1
+        if j.get("doctorado"):
+            d.put(w, y, x + 1, f"Péptidos {len(j['peptidos'])}/{len(datos.PEPTIDOS)}",
+                  d.c("texto"))
+            y += 1
         d.put(w, y, x + 1, "Insignias ", d.c("texto"))
         cx = x + 11
         for z in jefes.JEFES:
@@ -328,7 +332,16 @@ class Partida:
         if especial == "rene":
             self.regalos()
             self.consejo()
-            if j.get("terminado"):
+            if j.get("doctorado"):
+                op = d.menu(self.win, "René-virus", ["Encargo de síntesis",
+                                                     "Repetir el examen final",
+                                                     "Nada por ahora"])
+                if op == 0:
+                    jefes.encargo(self.win, j)
+                elif op == 1:
+                    jefes.examen_rene(self.win, j)
+                progreso.guardar(j)
+            elif j.get("terminado"):
                 titulo_r = "¿Tomar el examen final del René-virus?"
                 if j.get("doctorado"):
                     titulo_r = "¿Repetir el examen final del René-virus?"
@@ -407,6 +420,15 @@ class Partida:
         elif not j.get("doctorado"):
             partes.append("Ya tienes la Maestría de la Chaperona. Solo te falta mi "
                           "examen final.")
+        else:
+            n, total = len(j["peptidos"]), len(datos.PEPTIDOS)
+            if n < total:
+                partes.append(f"Encargos de síntesis: {n}/{total} péptidos del "
+                              "catálogo. Los largos piden varias copias del mismo "
+                              "aminoácido: sigue capturando.")
+            else:
+                partes.append("Catálogo de péptidos completo. Puedes repetir encargos "
+                              "y mi examen para seguir practicando.")
         if not all(m["energia"] > 0 for m in j["equipo"]):
             partes.append("Tu equipo está cansado: ve a la mitocondria (◉).")
         d.popup(self.win, "\n\n".join(partes), "René-virus")

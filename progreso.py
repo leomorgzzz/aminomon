@@ -23,6 +23,7 @@ def nuevo_juego(pos):
         aciertos={},
         terminado=False,
         recompensas=[],       # avisos y regalos del René-virus ya entregados
+        peptidos=[],          # encargos de síntesis cumplidos (post-juego)
     )
 
 

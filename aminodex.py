@@ -4,6 +4,7 @@ import curses
 
 import datos
 import dibujo as d
+import jefes
 
 AA = datos.AMINOACIDOS
 
@@ -123,15 +124,25 @@ def ficha_modificacion(win, juego, eid, y, x, ancho):
         fy += 1
 
 
+def ficha_peptido(win, juego, pid, y, x, ancho):
+    pep = datos.PEPTIDOS[pid]
+    d.put(win, y, x, pep["nombre"], d.c("titulo", curses.A_BOLD))
+    d.put(win, y + 1, x, "péptido sintetizado para el René-virus", d.c("tenue"))
+    jefes.dibujar_resumen(win, y + 3, x, ancho, pep)
+
+
 def entradas(juego):
     """Lista de la Aminodex: cada aminoácido seguido de las formas modificadas
-    que ya conseguiste (las demás no aparecen)."""
+    que ya conseguiste (las demás no aparecen). Tras el examen final, al final
+    va el catálogo de péptidos."""
     lista = []
     for c in datos.ORDEN:
         lista.append(("aa", c))
         for e in datos.modificaciones_de(c):
             if e in juego["evos_vistas"]:
                 lista.append(("evo", e))
+    if juego.get("doctorado"):
+        lista += [("pep", p) for p in datos.PEPTIDOS]
     return lista
 
 
@@ -152,7 +163,8 @@ def columna_ficha(lista, cid, ancho):
     lista (así no salta al cambiar de entrada); si con eso la ficha queda muy
     angosta, a la derecha de la estructura actual."""
     base = 46 if ancho < 100 else 50
-    comun = max(base, X_ESTRUCTURA + max(_ancho_dibujo(c) for _, c in lista) + 3)
+    comun = max(base, X_ESTRUCTURA + max(_ancho_dibujo(c) for clase, c in lista
+                                         if clase != "pep") + 3)
     if ancho - comun >= 48:
         return comun
     return max(base, X_ESTRUCTURA + _ancho_dibujo(cid) + 3)
@@ -166,9 +178,11 @@ def mostrar(win, juego):
         win.erase()
         n = sum(1 for c in datos.ORDEN if juego["capturados"].get(c))
         ne = len(juego["evos_vistas"])
-        d.put(win, 0, 1, f"AMINODEX  ·  capturados {n}/20  ·  vistos {len(juego['vistos'])}/20  "
-                         f"·  modificaciones {ne}/{len(datos.MODIFICACIONES)}",
-              d.c("titulo", curses.A_BOLD))
+        cabecera = (f"AMINODEX  ·  capturados {n}/20  ·  vistos {len(juego['vistos'])}/20  "
+                    f"·  modificaciones {ne}/{len(datos.MODIFICACIONES)}")
+        if juego.get("doctorado"):
+            cabecera += f"  ·  péptidos {len(juego['peptidos'])}/{len(datos.PEPTIDOS)}"
+        d.put(win, 0, 1, cabecera, d.c("titulo", curses.A_BOLD))
         d.put(win, 1, 0, "─" * ancho, d.c("tenue"))
         visibles = alto - 3
         inicio = max(0, min(sel - visibles // 2, len(lista) - visibles))
@@ -183,6 +197,12 @@ def mostrar(win, juego):
                     texto, attr = f"{num:2} · ¿¿??", d.c("tenue")
                 else:
                     texto, attr = f"{num:2}   ------", d.c("tenue")
+            elif clase == "pep":
+                num = list(datos.PEPTIDOS).index(cid) + 1
+                if cid in juego["peptidos"]:
+                    texto, attr = f"P{num:<2}✓ {datos.PEPTIDOS[cid]['nombre'][:15]}", d.c("titulo")
+                else:
+                    texto, attr = f"P{num:<2}  ------", d.c("tenue")
             else:
                 ev = datos.MODIFICACIONES[cid]
                 texto, attr = f"   └ {ev['nombre'][:16]}", d.c(ev["tipos"][0])
@@ -191,8 +211,14 @@ def mostrar(win, juego):
             d.put(win, 2 + fila, 1, f"{texto:<21}", attr)
 
         clase, cid = lista[sel]
-        x_ficha = columna_ficha(lista, cid, ancho)
-        if clase == "aa":
+        x_ficha = columna_ficha(lista, cid, ancho) if clase != "pep" else X_ESTRUCTURA
+        if clase == "pep":
+            if cid in juego["peptidos"]:
+                ficha_peptido(win, juego, cid, 2, x_ficha, ancho - x_ficha - 1)
+            else:
+                d.put(win, 8, x_ficha, f"Péptido {list(datos.PEPTIDOS).index(cid) + 1}: aún no "
+                      "lo sintetizas. Pídeselo al René-virus (V).", d.c("tenue"))
+        elif clase == "aa":
             if juego["capturados"].get(cid):
                 d.estructura(win, 2, X_ESTRUCTURA, datos.forma(cid)["arte"],
                              etiqueta_r=datos.GRUPO_R[cid][0], color_r=AA[cid]["tipos"][0])

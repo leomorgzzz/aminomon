@@ -126,6 +126,14 @@ def p_jugar(juego, rival, an):
         *parrafo("Habla con el René-virus (V): su examen final te pide traducir "
                  "ARNm y analizar mutaciones reales (anemia falciforme, fibrosis "
                  "quística, KRAS, Huntington…).", an),
+        L(""),
+        T("Después del examen final"),
+        *parrafo("El René-virus te hace encargos de síntesis: péptidos reales "
+                 "(encefalinas, oxitocina, angiotensina II, sustancia P, Tat del "
+                 "VIH…). Traduces su ARNm y, si tu equipo tiene suficientes copias "
+                 "de cada residuo, se sintetiza y entra al catálogo de péptidos, al "
+                 "final de la Aminodex. Los largos piden varias Arg, Gly o Phe: "
+                 "sigue capturando.", an),
     ]
 
 

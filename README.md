@@ -32,6 +32,7 @@ en `~/.aminomon.json`.
 | X | Aminodex |
 | E | equipo: líder (Enter), ordenar (O) y modificar (V) |
 | G / Q | guardar / guardar y salir |
+| P | mostrar u ocultar la cadena que te sigue (regalo por la Aminodex completa) |
 
 | Combate | |
 |---|---|
@@ -42,6 +43,26 @@ en `~/.aminomon.json`.
 | C / H / I | cambiar / huir / detalle de tus interacciones |
 
 Cualquier tecla salta una animación.
+
+## Progreso
+
+1. Captura los 20 aminoácidos. Cada uno vive donde su química es favorable; la
+   Arg solo aparece dentro del núcleo, y para entrar necesitas una NLS con al
+   menos 4 Lys (en los ribosomas ∴).
+2. Vence a los 7 jefes (J): cada uno pide construir un péptido, y cada
+   aminoácido se puede usar tantas veces como lo tengas en tu equipo.
+3. Consigue las modificaciones postraduccionales (Equipo → V).
+4. Presenta el examen de la Chaperona (H): con 8 aciertos la proteína queda
+   nativa; los aciertos 9 y 10 son extras.
+5. Presenta el examen final del René-virus (V), un virus inofensivo que usa
+   los ribosomas de la célula: traducir ARNm y analizar mutaciones reales.
+6. Post-juego: el René-virus te hace encargos de síntesis de péptidos reales
+   (encefalinas, oxitocina, angiotensina II, Tat del VIH…). Los traduces de su
+   ARNm y, si tu equipo tiene las copias necesarias de cada residuo, entran al
+   catálogo de péptidos de la Aminodex.
+
+Al completar la Aminodex y luego todas las modificaciones, el René-virus te
+da regalos que cambian cómo se ve el mapa.
 
 ## Tipos
 
@@ -60,13 +81,13 @@ del esqueleto y van der Waals, que todos tienen.
 
 | Archivo | Contenido |
 |---|---|
-| `datos.py` | aminoácidos (valores Lehninger), tipos, tabla de afinidad, movimientos, modificaciones postraduccionales, zonas, glosario |
+| `datos.py` | aminoácidos (valores Lehninger), tipos, tabla de afinidad, movimientos, modificaciones postraduccionales, zonas, péptidos del post-juego, glosario |
 | `aminomon.py` | inicio, intro, mapa con cámara y panel lateral |
 | `mapa.py` | célula de 150×48 generada con geometría, minimapa |
 | `combate.py` | turnos, deducción de tipos, captura |
 | `animaciones.py` | animaciones de cada interacción |
 | `preguntas.py` | preguntas con repaso espaciado |
-| `jefes.py` | 7 retos de péptidos, examen de la Chaperona y examen final del René-virus |
+| `jefes.py` | 7 retos de péptidos, examen de la Chaperona, examen final del René-virus y encargos de síntesis |
 | `manual.py`, `aminodex.py`, `equipo.py` | pantallas |
 | `dibujo.py` | colores y utilidades de curses |
 | `progreso.py` | guardado, experiencia, modificaciones |
