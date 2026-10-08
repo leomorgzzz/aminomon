@@ -593,6 +593,30 @@ MODIFICACIONES = {
             "      O    NH", "             \\", "             GlcNAc-GlcNAc-Man…",
         ],
     ),
+    "gS": dict(
+        base="S", nombre="Ser O-glicosilada", tres="Ser-GalNAc", tipos=("POL",),
+        carga="Neutra", req=dict(nivel=5, zona="golgi"),
+        cambio="Se le une una N-acetilgalactosamina (GalNAc) al O del OH: sigue "
+               "siendo polar, pero ahora carga un azúcar.",
+        bio="Las GalNAc-transferasas (GALNT) del Golgi le ponen la GalNAc y luego "
+            "se alarga a un O-glicano tipo mucina. A diferencia de la "
+            "N-glicosilación de la Asn (en el RE, sobre el secuón N-X-S/T), no "
+            "tiene secuencia consenso y empieza en el Golgi. La GalNAc sola es el "
+            "antígeno Tn, que aparece en muchos tumores.",
+        pista="Las GALNT trabajan en el aparato de Golgi.",
+        cadena=["        CH2", "        |", "        O", "        |", "        GalNAc…"],
+    ),
+    "gT": dict(
+        base="T", nombre="Thr O-glicosilada", tres="Thr-GalNAc", tipos=("POL",),
+        carga="Neutra", req=dict(nivel=5, zona="golgi"),
+        cambio="Se le une una GalNAc al O del OH: sigue siendo polar, pero ahora "
+               "carga un azúcar.",
+        bio="Mismas GalNAc-transferasas del Golgi; muchas prefieren Thr. En las "
+            "mucinas, los tramos ricos en Pro, Thr y Ser (PTS) quedan cubiertos de "
+            "O-glicanos que atrapan agua: así se forma el moco.",
+        pista="Las GALNT trabajan en el aparato de Golgi.",
+        cadena=["        CH-O-GalNAc…", "        |", "        CH3"],
+    ),
     "Cit": dict(
         base="R", nombre="Citrulina", tres="Cit", tipos=("POL",),
         carga="Neutra", req=dict(nivel=6),
@@ -703,6 +727,8 @@ INTERACCIONES_R = {
     "Cis": [("NP", "disulfuro", 50)],
     "Gla": [("NEG", "dicarboxilato", 55)],
     "Nglc": [("POL", "glicano (O–H)", 55)],
+    "gS": [("POL", "O-glicano (O–H)", 55)],
+    "gT": [("POL", "O-glicano (O–H)", 55)],
     "Cit": [("POL", "ureido", 50)],
 }
 

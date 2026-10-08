@@ -92,14 +92,19 @@ JEFES = {
     "golgi": dict(
         nombre="Guardián del Golgi", reto="Dominio tipo mucina",
         desc="En el Golgi se añaden O-glicanos al OH de Ser y Thr. Construye un "
-             "dominio tipo mucina: al menos 6 residuos y al menos 60% de S o T.",
+             "dominio tipo mucina: al menos 6 residuos y al menos 60% de S o T. "
+             "(La Asn llega del RE ya N-glicosilada; aquí solo se recorta su "
+             "glicano.)",
         utiles="ST",
         condiciones=lambda s: [("Al menos 6 residuos", len(s) >= 6),
                                ("≥ 60% de Ser o Thr", frac_st(s) >= 0.6)],
         bio="Las mucinas tienen dominios ricos en Pro, Thr y Ser (PTS). En el "
             "Golgi, las GalNAc-transferasas ponen O-glicanos en casi todas sus "
             "Ser/Thr: la proteína queda cubierta de azúcares y atrapa agua "
-            "(el moco).",
+            "(el moco). La N-glicosilación de la Asn es igual de común, pero "
+            "empieza antes: la OST del RE la pone durante la traducción sobre el "
+            "secuón N-X-S/T. Con nivel 5, tus Ser y Thr se pueden O-glicosilar "
+            "dentro del Golgi (Equipo → V).",
         premio=("ATP", 3),
     ),
     "lisosoma": dict(
@@ -170,6 +175,8 @@ def _nota(zona, seq, i):
     if zona == "re":
         return ("▶ receptor", "titulo") if i >= len(seq) - 4 else ("", "tenue")
     if zona == "golgi":
+        if c == "N" and i + 2 < len(seq) and seq[i + 1] != "P" and seq[i + 2] in "ST":
+            return "◆ N-glic.", "POL"          # secuón N-X-S/T: glicano del RE
         return ("◇ O-GalNAc", "POL") if c in "ST" else ("", "tenue")
     if zona == "mec":
         o = marco_colageno(seq) or 0

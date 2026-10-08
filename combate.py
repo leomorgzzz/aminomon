@@ -33,6 +33,7 @@ GRUPO = {
     "pY": ("─fenil─O─PO₃²⁻", "²⁻O₃P─O─fenil─"), "Cis": ("─S─S─", "─S─S─"),
     "Gla": ("─CH(COO⁻)₂", "(⁻OOC)₂CH─"), "Nglc": ("─CONH─glicano", "glicano─HNOC─"),
     "Cit": ("─NH─CO─NH₂", "H₂N─OC─NH─"),
+    "gS": ("─CH₂─O─GalNAc", "GalNAc─O─CH₂─"), "gT": ("─CH(CH₃)─O─GalNAc", "GalNAc─O─CH─"),
 }
 
 # Puentes de H: papel del grupo polar (D = donador, A = aceptor) y cómo se
@@ -50,6 +51,8 @@ HB = {
     "Kac": ("DA", "─N(Ac)─H", "─(HN)C═O:", "H─N(Ac)─", ":O═C(NH)─"),
     "Nglc": ("DA", "─CON(H)─H", "─(HN)C═O:", "H─N(H)OC─", ":O═C(NH)─"),
     "Cit": ("DA", "─CON(H)─H", "─(H₂N)C═O:", "H─N(H)OC─", ":O═C(NH₂)─"),
+    "gS": ("DA", "─GalNAc─O─H", "─GalNAc(H)O:", "H─O─GalNAc─", ":O(H)GalNAc─"),
+    "gT": ("DA", "─GalNAc─O─H", "─GalNAc(H)O:", "H─O─GalNAc─", ":O(H)GalNAc─"),
     "H": ("DA", "─imidazol─N─H", "─imidazol─N:", "H─N─imidazol─", ":N─imidazol─"),
 }
 CARGADO = {
