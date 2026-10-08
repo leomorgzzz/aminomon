@@ -22,6 +22,7 @@ def nuevo_juego(pos):
         fallos={},            # "K:carga" -> n
         aciertos={},
         terminado=False,
+        recompensas=[],       # avisos y regalos del René-virus ya entregados
     )
 
 
@@ -94,6 +95,14 @@ def capturar(juego, aa, nivel):
 
 def capturado(juego, aa):
     return juego["capturados"].get(aa, 0) > 0
+
+
+def aminodex_completa(juego):
+    return all(capturado(juego, c) for c in datos.ORDEN)
+
+
+def modificaciones_completas(juego):
+    return all(e in juego["evos_vistas"] for e in datos.MODIFICACIONES)
 
 
 def conteo_equipo(juego):

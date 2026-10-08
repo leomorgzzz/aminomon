@@ -18,6 +18,7 @@ import progreso
 
 PROB_ENCUENTRO = 0.10
 PANEL_W = 34
+LARGO_CADENA = 12         # residuos del equipo que te siguen por el mapa
 LOGO = [
     "   _   __  __ ___ _  _  ___  __  __  ___  _  _ ",
     "  /_\\ |  \\/  |_ _| \\| |/ _ \\|  \\/  |/ _ \\| \\| |",
@@ -152,6 +153,7 @@ class Partida:
         if not mapa.transitable(*juego["pos"]):
             juego["pos"] = list(mapa.INICIO)
         self.zona = mapa.zona(*juego["pos"])
+        self.rastro = []          # casillas por las que pasaste, la más reciente primero
 
     # ------------------------------------------------------------ dibujo
     def dimensiones(self):
@@ -167,20 +169,45 @@ class Partida:
         alto, ancho, panel, vh, vw = self.dimensiones()
         info = datos.ZONAS.get(self.zona, {})
         n = sum(1 for v in j["capturados"].values() if v)
-        d.put(w, 0, 1, "AMINOMON", d.c("titulo", curses.A_BOLD))
+        if "ptm" in j["recompensas"]:
+            # regalo por completar las modificaciones: el título con los 5 grupos
+            for i, letra in enumerate("AMINOMON"):
+                d.put(w, 0, 1 + i, letra, d.c(datos.ORDEN_TIPOS[i % 5], curses.A_BOLD))
+        else:
+            d.put(w, 0, 1, "AMINOMON", d.c("titulo", curses.A_BOLD))
         d.put(w, 0, 11, f"· {info.get('nombre', '')}", d.c(info.get("color", "texto"), curses.A_BOLD))
         if not panel:
             d.put(w, 0, max(40, vw - 42),
                   f"Aminodex {n}/20  Insignias {len(j['insignias'])}/{len(jefes.JEFES)}  "
                   f"ATP {j['objetos']['ATP']}", d.c("tenue"))
-        mapa.dibujar(w, 1, 0, vh, vw, j)
+        mapa.dibujar(w, 1, 0, vh, vw, j, self.cadena())
         d.put(w, alto - 2, 1, self.mensaje[: ancho - 2], d.c("texto"))
-        d.put(w, alto - 1, 1, "WASD/flechas mover · M manual · X aminodex · E equipo · "
-                              "G guardar · Q salir", d.c("tenue"))
+        pie = "WASD/flechas mover · M manual · X aminodex · E equipo · G guardar · Q salir"
+        if "cadena" in j["recompensas"]:
+            pie += " · P cadena"
+        d.put(w, alto - 1, 1, pie, d.c("tenue"))
         if panel:
             self.panel(ancho - PANEL_W, alto)
         w.redrawln(alto - 2, 1)
         w.refresh()
+
+    def cadena(self):
+        """Tu equipo te sigue como un péptido (regalo por la Aminodex completa).
+        Con todas las modificaciones, los residuos modificados se marcan."""
+        j = self.juego
+        if "cadena" not in j["recompensas"] or not j.setdefault("ajustes", {}).get("cadena", True):
+            return []
+        marcar = "ptm" in j["recompensas"]
+        casillas = []
+        for (x, y), m in zip(self.rastro, j["equipo"]):
+            f = datos.forma(m["id"])
+            base = datos.AMINOACIDOS[f["base"]]
+            if f["evo"] and marcar:
+                attr = d.c(f["tipos"][0], curses.A_BOLD | curses.A_REVERSE)
+            else:
+                attr = d.c(base["tipos"][0], curses.A_BOLD)
+            casillas.append((x, y, f["base"], attr))
+        return casillas
 
     def panel(self, x, alto):
         w, j = self.win, self.juego
@@ -260,6 +287,8 @@ class Partida:
                                 "Búscalas en los ribosomas (∴).")
                 return
             progreso.guardar(j)
+        self.rastro.insert(0, (x, y))
+        del self.rastro[LARGO_CADENA:]
         j["pos"] = [nx, ny]
         self.mensaje = ""
         zona = mapa.zona(nx, ny)
@@ -297,6 +326,7 @@ class Partida:
     def interactuar(self, especial):
         j = self.juego
         if especial == "rene":
+            self.regalos()
             self.consejo()
             if j.get("terminado"):
                 titulo_r = "¿Tomar el examen final del René-virus?"
@@ -328,23 +358,58 @@ class Partida:
             self.dibujar()
             d.popup(self.win, texto, titulo_c)
 
+    def regalos(self):
+        """Regalos del René-virus por completar la Aminodex y las modificaciones."""
+        j = self.juego
+        if progreso.aminodex_completa(j) and "cadena" not in j["recompensas"]:
+            j["recompensas"].append("cadena")
+            self.dibujar()
+            d.popup(self.win, "¡Completaste la Aminodex! Te regalo una cadena "
+                              "naciente: desde ahora tu equipo te sigue por el mapa "
+                              "como un péptido, cada residuo con su código de 1 letra "
+                              "y el color de su grupo. [P] la muestra u oculta.",
+                    "René-virus", attr=d.c("bien"))
+        if progreso.modificaciones_completas(j) and "ptm" not in j["recompensas"]:
+            j["recompensas"].append("ptm")
+            self.dibujar()
+            d.popup(self.win, "¡Conseguiste todas las modificaciones "
+                              "postraduccionales! En tu cadena, los residuos "
+                              "modificados ahora se ven marcados con el color de su "
+                              "nuevo grupo, y el título del mapa se pinta con los 5 "
+                              "grupos de Lehninger.",
+                    "René-virus", attr=d.c("bien"))
+        progreso.guardar(j)
+
     def consejo(self):
         j = self.juego
+        partes = []
         faltan = [c for c in datos.ORDEN if not j["capturados"].get(c)]
-        if not faltan:
-            texto = ("Aminodex completa. Quedan por conseguir las modificaciones "
-                     "y el examen de la Chaperona (H).")
-        else:
+        if faltan:
             zonas = [z for z, info in datos.ZONAS.items()
                      if any(c in info["aminos"] for c in faltan)]
             nombres = ", ".join(datos.ZONAS[z]["nombre"] for z in zonas)
-            texto = f"Faltan {len(faltan)} aminoácidos. Zonas con especies pendientes: {nombres}."
+            partes.append(f"Faltan {len(faltan)} aminoácidos. Zonas con especies "
+                          f"pendientes: {nombres}.")
+        else:
+            mods = [ev["nombre"] for e, ev in datos.MODIFICACIONES.items()
+                    if e not in j["evos_vistas"]]
+            if mods:
+                partes.append(f"Aminodex completa. Te faltan {len(mods)} modificaciones: "
+                              f"{', '.join(mods)}. Sus requisitos están en el manual [M].")
+            else:
+                partes.append("Aminodex completa, con todas las modificaciones.")
         pendientes = [jefes.JEFES[z]["reto"] for z in jefes.JEFES if z not in j["insignias"]]
         if pendientes:
-            texto += f"\n\nRetos pendientes: {', '.join(pendientes)}."
+            partes.append(f"Retos pendientes: {', '.join(pendientes)}.")
+        elif not j.get("terminado"):
+            partes.append("Ya tienes todas las insignias: presenta el examen de la "
+                          "Chaperona (H).")
+        elif not j.get("doctorado"):
+            partes.append("Ya tienes la Maestría de la Chaperona. Solo te falta mi "
+                          "examen final.")
         if not all(m["energia"] > 0 for m in j["equipo"]):
-            texto += "\n\nTu equipo está cansado: ve a la mitocondria (◉)."
-        d.popup(self.win, texto, "René-virus")
+            partes.append("Tu equipo está cansado: ve a la mitocondria (◉).")
+        d.popup(self.win, "\n\n".join(partes), "René-virus")
 
     def encuentro(self, zona):
         j = self.juego
@@ -359,8 +424,11 @@ class Partida:
         curses.flushinp()
         resultado = combate.combate(self.win, j, aa, nivel, zona)
         if resultado == "capturado":
-            if all(j["capturados"].get(c) for c in datos.ORDEN):
-                d.popup(self.win, "Capturaste los 20 aminoácidos estándar.",
+            # se avisa una sola vez: al capturar el último que faltaba
+            if progreso.aminodex_completa(j) and "aviso_aminodex" not in j["recompensas"]:
+                j["recompensas"].append("aviso_aminodex")
+                d.popup(self.win, "Capturaste los 20 aminoácidos estándar. Habla con "
+                                  "el René-virus (V): tiene algo para ti.",
                         "Aminodex completa",
                         attr=d.c("bien"))
             progreso.guardar(j)
@@ -368,6 +436,7 @@ class Partida:
         elif resultado == "derrota":
             progreso.curar_equipo(j)
             j["pos"] = list(mapa.CENTRO_MITO)
+            self.rastro = []
             self.zona = "mitocondria"
             d.popup(self.win, "Todo tu equipo se desnaturalizó. Vuelves a la "
                               "mitocondria con la energía restablecida.",
@@ -393,6 +462,10 @@ class Partida:
                 aminodex.mostrar(self.win, self.juego)
             elif d.es(k, "e"):
                 equipo.mostrar(self.win, self.juego, self.zona)
+            elif d.es(k, "p") and "cadena" in self.juego["recompensas"]:
+                ajustes = self.juego.setdefault("ajustes", {})
+                ajustes["cadena"] = not ajustes.get("cadena", True)
+                self.mensaje = "Cadena " + ("visible." if ajustes["cadena"] else "oculta.")
             elif d.es(k, "g"):
                 progreso.guardar(self.juego)
                 self.mensaje = "Partida guardada en ~/.aminomon.json"

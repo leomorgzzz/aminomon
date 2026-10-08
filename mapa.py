@@ -316,8 +316,10 @@ def camara(juego, vh, vw):
     return cx, cy
 
 
-def dibujar(win, oy, ox, vh, vw, juego):
-    """Dibuja la vista de la cámara en el rectángulo (oy, ox, vh, vw)."""
+def dibujar(win, oy, ox, vh, vw, juego, extra=()):
+    """Dibuja la vista de la cámara en el rectángulo (oy, ox, vh, vw).
+    extra: casillas (x, y, glifo, attr) que van encima del mapa y debajo del
+    jugador, como la cadena que te sigue."""
     cx, cy = camara(juego, vh, vw)
     # si el mundo cabe entero, se centra
     mx = max(0, (vw - ANCHO) // 2)
@@ -341,6 +343,9 @@ def dibujar(win, oy, ox, vh, vw, juego):
         if cx <= x < cx + cols and cy <= y < cy + filas:
             otro, attr = _attr_especial(nombre, juego)
             d.put(win, oy + my + y - cy, ox + mx + x - cx, otro or g, attr)
+    for x, y, g, attr in extra:
+        if cx <= x < cx + cols and cy <= y < cy + filas and especial_en(x, y) is None:
+            d.put(win, oy + my + y - cy, ox + mx + x - cx, g, attr)
     px, py = juego["pos"]
     d.put(win, oy + my + py - cy, ox + mx + px - cx, "@",
           d.c("texto", curses.A_BOLD | curses.A_REVERSE))
