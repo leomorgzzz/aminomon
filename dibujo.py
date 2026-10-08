@@ -190,6 +190,17 @@ def estructura(win, y, x, lineas, attr=None, cpk=True, etiqueta_r=None, color_r=
         put(win, y + len(lineas) + 1, x + max(0, sangria - 2) + 9, etiqueta_r, c(color_r, curses.A_BOLD))
 
 
+def ancho_estructura(lineas, etiqueta_r=None):
+    """Columnas que ocupa estructura(), contando el rótulo «grupo R: …»."""
+    ancho = max((len(l) for l in lineas), default=0)
+    n_esq = _filas_esqueleto(lineas)
+    filas_r = [l for l in lineas[n_esq:] if l.strip()]
+    if etiqueta_r and filas_r:
+        sangria = min(len(l) - len(l.lstrip()) for l in filas_r)
+        ancho = max(ancho, max(0, sangria - 2) + 9 + len(etiqueta_r))
+    return ancho
+
+
 def envolver(texto, ancho):
     salida = []
     for parrafo in str(texto).split("\n"):

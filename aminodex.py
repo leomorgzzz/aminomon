@@ -128,6 +128,29 @@ def entradas(juego):
     return lista
 
 
+X_ESTRUCTURA = 24
+
+
+def _ancho_dibujo(cid):
+    """Columnas de la estructura de una entrada con su rótulo de grupo R."""
+    if cid in datos.MODIFICACIONES:
+        etiqueta = datos.MODIFICACIONES[cid]["nombre"]
+    else:
+        etiqueta = datos.GRUPO_R[cid][0]
+    return d.ancho_estructura(datos.forma(cid)["arte"], etiqueta)
+
+
+def columna_ficha(lista, cid, ancho):
+    """Columna de la ficha: a la derecha de la estructura más ancha de la
+    lista (así no salta al cambiar de entrada); si con eso la ficha queda muy
+    angosta, a la derecha de la estructura actual."""
+    base = 46 if ancho < 100 else 50
+    comun = max(base, X_ESTRUCTURA + max(_ancho_dibujo(c) for _, c in lista) + 3)
+    if ancho - comun >= 48:
+        return comun
+    return max(base, X_ESTRUCTURA + _ancho_dibujo(cid) + 3)
+
+
 def mostrar(win, juego):
     lista = entradas(juego)
     sel = 0
@@ -161,14 +184,14 @@ def mostrar(win, juego):
             d.put(win, 2 + fila, 1, f"{texto:<21}", attr)
 
         clase, cid = lista[sel]
-        x_ficha = 46 if ancho < 100 else 50
+        x_ficha = columna_ficha(lista, cid, ancho)
         if clase == "aa":
             if juego["capturados"].get(cid):
-                d.estructura(win, 2, 24, datos.forma(cid)["arte"],
+                d.estructura(win, 2, X_ESTRUCTURA, datos.forma(cid)["arte"],
                              etiqueta_r=datos.GRUPO_R[cid][0], color_r=AA[cid]["tipos"][0])
                 ficha(win, juego, cid, 2, x_ficha, min(ancho - x_ficha - 1, 70))
             elif cid in juego["vistos"]:
-                d.estructura(win, 2, 24, datos.forma(cid)["arte"], d.c("tenue"))
+                d.estructura(win, 2, X_ESTRUCTURA, datos.forma(cid)["arte"], d.c("tenue"))
                 d.put(win, 2, x_ficha, "¿¿??", d.c("texto", curses.A_BOLD))
                 for i, l in enumerate(d.envolver(
                         "Estructura observada, aún sin capturar. Aparece en: " +
@@ -180,7 +203,7 @@ def mostrar(win, juego):
         else:
             ev = datos.MODIFICACIONES[cid]
             if juego["capturados"].get(ev["base"]):
-                d.estructura(win, 2, 24, datos.forma(cid)["arte"],
+                d.estructura(win, 2, X_ESTRUCTURA, datos.forma(cid)["arte"],
                              etiqueta_r=ev["nombre"], color_r=ev["tipos"][0])
                 ficha_modificacion(win, juego, cid, 2, x_ficha, min(ancho - x_ficha - 1, 70))
             else:
