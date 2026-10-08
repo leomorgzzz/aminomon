@@ -365,6 +365,8 @@ def retar(win, juego, zona):
 
 # ===================================================== examen: plegamiento
 # Cada acierto pliega una parte de la proteína. (fila, col, texto, color)
+# Las 8 primeras forman el estado nativo completo; los aciertos 9 y 10 añaden
+# extras que la estabilizan más, pero no le faltan a la proteína nativa.
 PLIEGUE = [
     ("hélice α 1: C=O(i) ··· H–N(i+4)",
      [(0, 0, " _   _   _", "titulo"), (1, 0, "/ \\_/ \\_/ \\_", "titulo")]),
@@ -376,25 +378,38 @@ PLIEGUE = [
     ("giro β (Gly–Pro) que dobla la cadena", [(4, 11, "╮", "NP"), (5, 11, "│", "NP"), (6, 11, "╯", "NP")]),
     ("hebra β 2: lámina antiparalela", [(6, 0, "◄══════════", "POL")]),
     ("puentes de H entre las hebras", [(5, 1, "⁞  ⁞  ⁞  ⁞", "titulo")]),
-    ("núcleo hidrofóbico: Leu, Ile, Val, Phe adentro",
+    ("núcleo hidrofóbico: estado nativo",
      [(3, 15, "●Leu ●Ile", "NP"), (4, 15, "●Val ●Phe", "NP")]),
-    ("puente salino en la superficie: Lys⁺···⁻Asp", [(6, 15, "Lys⁺···⁻Asp", "POS")]),
-    ("puente disulfuro Cys–S–S–Cys (proteína secretada)", [(7, 2, "Cys─S─S─Cys", "titulo")]),
 ]
+NATIVO = len(PLIEGUE)
+EXTRAS = [
+    ("extra: puente salino Lys⁺···⁻Asp", [(6, 15, "Lys⁺···⁻Asp", "POS")]),
+    ("extra: disulfuro Cys–S–S–Cys", [(7, 2, "Cys─S─S─Cys", "titulo")]),
+]
+PREGUNTAS_CHAPERONA = NATIVO + len(EXTRAS)
 
 
 def dibujar_pliegue(win, y, x, aciertos, fallos):
-    d.caja(win, y, x, 12, 40, f"Plegamiento {aciertos}/10")
+    extras = max(0, aciertos - NATIVO)
+    titulo = f"Plegamiento {min(aciertos, NATIVO)}/{NATIVO}"
+    if extras:
+        titulo += f" +{extras} extra" + ("s" if extras > 1 else "")
+    d.caja(win, y, x, 12, 40, titulo)
     for k, (texto, piezas) in enumerate(PLIEGUE):
         for fy, fx, t, col in piezas:
             if k < aciertos:
                 d.put(win, y + 1 + fy, x + 2 + fx, t, d.c(col, curses.A_BOLD))
             else:
                 d.put(win, y + 1 + fy, x + 2 + fx, "·" * len(t.strip()), d.c("oscuro"))
+    # los extras no dejan hueco: solo aparecen si se ganan
+    for texto, piezas in EXTRAS[:extras]:
+        for fy, fx, t, col in piezas:
+            d.put(win, y + 1 + fy, x + 2 + fx, t, d.c(col, curses.A_BOLD))
     if fallos:
         d.put(win, y + 9, x + 2, ("~" * fallos)[:30] + " mal plegado", d.c("mal"))
     if aciertos:
-        d.put(win, y + 10, x + 2, ("✓ " + PLIEGUE[aciertos - 1][0])[:36], d.c("bien"))
+        ultimo = (PLIEGUE + EXTRAS)[aciertos - 1][0]
+        d.put(win, y + 10, x + 2, ("✓ " + ultimo)[:36], d.c("bien"))
 
 
 def chaperona(win, juego):
@@ -404,14 +419,17 @@ def chaperona(win, juego):
                      f"sintetizadas. Para presentar su examen necesitas las {len(JEFES)} "
                      "insignias.\n\nPendientes: " + ", ".join(faltan), "Chaperona")
         return
-    d.dialogo(win, ["Examen de 10 preguntas. Cada respuesta correcta pliega una "
-                    "región de la proteína; con 8 alcanza su estado nativo."], "Chaperona")
+    total = PREGUNTAS_CHAPERONA
+    d.dialogo(win, [f"Examen de {total} preguntas. Cada respuesta correcta pliega una "
+                    f"región de la proteína: con {NATIVO} queda completa en su estado "
+                    "nativo. Cada acierto de más le añade un extra que la estabiliza "
+                    "(un puente salino y un disulfuro) y te da 1 ATP."], "Chaperona")
     aciertos = fallos = 0
-    for i in range(10):
+    for i in range(total):
         aa, tipo = preguntas.elegir_aleatoria(juego)
         alto, ancho = win.getmaxyx()
         win.erase()
-        d.put(win, 0, 1, f"EXAMEN DE LA CHAPERONA · pregunta {i + 1}/10 · aciertos {aciertos}",
+        d.put(win, 0, 1, f"EXAMEN DE LA CHAPERONA · pregunta {i + 1}/{total} · aciertos {aciertos}",
               d.c("titulo", curses.A_BOLD))
         if ancho >= 112:
             w = min(64, ancho - 46)
@@ -428,15 +446,20 @@ def chaperona(win, juego):
     win.erase()
     alto, ancho = win.getmaxyx()
     dibujar_pliegue(win, 1, (ancho - 40) // 2, aciertos, fallos)
-    if aciertos >= 8:
+    if aciertos >= NATIVO:
         juego["terminado"] = True
-        texto = (f"{aciertos}/10. La proteína alcanzó su estado nativo: obtienes la "
-                 "Maestría en Aminoácidos.\n\nPuedes seguir explorando. El siguiente "
-                 "nivel es el examen del Ribosoma Maestro; habla con el Profesor "
-                 "Ribosoma (R).")
+        extras = aciertos - NATIVO
+        texto = (f"{aciertos}/{total}. La proteína alcanzó su estado nativo: obtienes la "
+                 "Maestría en Aminoácidos.")
+        if extras:
+            juego["objetos"]["ATP"] += extras
+            nombres = " y ".join(t.removeprefix("extra: ") for t, _ in EXTRAS[:extras])
+            texto += f"\n\nExtra: {nombres}. Recibes {extras} ATP."
+        texto += ("\n\nPuedes seguir explorando. El siguiente nivel es el examen del "
+                  "Ribosoma Maestro; habla con el Profesor Ribosoma (R).")
         d.popup(win, texto, "Estado nativo", attr=d.c("bien"))
     else:
-        d.popup(win, f"{aciertos}/10. Quedaron regiones hidrofóbicas expuestas: la "
+        d.popup(win, f"{aciertos}/{total}. Quedaron regiones hidrofóbicas expuestas: la "
                      "Hsp70 se une a ellas, gasta ATP y te deja intentar de nuevo. "
                      "Repasa el manual y vuelve cuando quieras.", "Chaperona")
 
