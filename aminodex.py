@@ -5,8 +5,22 @@ import curses
 import datos
 import dibujo as d
 import jefes
+from idioma import tr
 
 AA = datos.AMINOACIDOS
+HIDRO = tr("Hidropatía")
+
+
+def como_modificar(req):
+    """Requisitos de una modificación en una lista de textos cortos."""
+    como = [tr("nivel {n}", n=req["nivel"])]
+    if "objeto" in req:
+        como.append(f"1 {tr(req['objeto'])}")
+    if "zona" in req:
+        como.append(tr("estar en {zona}", zona=datos.ZONAS[req["zona"]]["nombre"]))
+    if req.get("otra_cys"):
+        como.append(tr("otra Cys en el equipo"))
+    return como
 
 
 def ficha(win, juego, c, y, x, ancho):
@@ -19,7 +33,7 @@ def ficha(win, juego, c, y, x, ancho):
     d.etiqueta_tipos(win, fy, x, a["tipos"])
     fy += 2
     nombre_r, formula, clase = datos.GRUPO_R[c]
-    d.put(win, fy, x, "Grupo R  ", d.c("tenue"))
+    d.put(win, fy, x, tr("Grupo R  "), d.c("tenue"))
     d.put(win, fy, x + 9, nombre_r, d.c(a["tipos"][0], curses.A_BOLD | curses.A_UNDERLINE))
     d.put(win, fy, x + 10 + len(nombre_r), formula, d.c("titulo"))
     fy += 1
@@ -27,34 +41,34 @@ def ficha(win, juego, c, y, x, ancho):
     fy += 2
 
     filas = [
-        ("Grupo", datos.GRUPOS[a["grupo"]]),
-        ("Carga pH 7", a["carga"]),
+        (tr("Grupo"), datos.GRUPOS[a["grupo"]]),
+        (tr("Carga pH 7"), a["carga"]),
         ("pK1 · pK2", f"{a['pk1']:.2f} (α-COOH) · {a['pk2']:.2f} (α-NH3+)"),
-        ("pKR", f"{a['pkr']:.2f}" if a["pkr"] else "— (cadena no ionizable)"),
+        ("pKR", f"{a['pkr']:.2f}" if a["pkr"] else tr("— (cadena no ionizable)")),
         ("pI", f"{a['pi']:.2f}  = ({datos.calcular_pi(c)[1][0]:.2f} + "
                f"{datos.calcular_pi(c)[1][1]:.2f}) / 2"),
-        ("Hidropatía", None),
-        ("Masa", f"{a['masa']:.2f} g/mol"),
-        ("Nutrición", a["nutricion"]),
+        (HIDRO, None),
+        (tr("Masa"), f"{a['masa']:.2f} g/mol"),
+        (tr("Nutrición"), a["nutricion"]),
     ]
     filas += [
-        ("Codones", " ".join(a["codones"])),
-        ("Interacciones", ", ".join(datos.MOVIMIENTOS[m]["nombre"] for m in datos.forma(c)["movs"])),
+        (tr("Codones"), " ".join(a["codones"])),
+        (tr("Interacciones"), ", ".join(datos.MOVIMIENTOS[m]["nombre"] for m in datos.forma(c)["movs"])),
     ]
     todas = datos.modificaciones_de(c)
     obtenidas = [datos.MODIFICACIONES[e]["nombre"] for e in todas if e in juego["evos_vistas"]]
     faltan = len(todas) - len(obtenidas)
     texto_mod = ", ".join(obtenidas)
     if faltan:
-        texto_mod += (" · " if obtenidas else "") + f"{faltan} por descubrir"
-    filas.append(("Modificaciones", texto_mod or "—"))
+        texto_mod += (" · " if obtenidas else "") + tr("{n} por descubrir", n=faltan)
+    filas.append((tr("Modificaciones"), texto_mod or "—"))
 
     col = max(len(etq) for etq, _ in filas) + 2      # columna de valores alineada
     for etq, valor in filas:
         if fy >= alto - 2:
             return
         d.put(win, fy, x, etq, d.c("tenue"))
-        if etq == "Hidropatía":
+        if etq == HIDRO:
             kd = a["hidropatia"]
             d.barra(win, fy, x + col, 12, kd + 4.5, 9, d.c("NP" if kd > 0 else "agua"))
             d.put(win, fy, x + col + 13, f"{kd:+.1f}", d.c("texto"))
@@ -71,7 +85,7 @@ def ficha(win, juego, c, y, x, ancho):
         fy += 1
     if c in datos.NOTA_KD:
         fy += 1
-        for l in d.envolver("Hidropatía: " + datos.NOTA_KD[c], ancho):
+        for l in d.envolver(f"{HIDRO}: {datos.NOTA_KD[c]}", ancho):
             if fy >= alto - 1:
                 return
             d.put(win, fy, x, l, d.c("tenue"))
@@ -84,28 +98,21 @@ def ficha_modificacion(win, juego, eid, y, x, ancho):
     alto = win.getmaxyx()[0]
     d.put(win, y, x, ev["nombre"], d.c(ev["tipos"][0], curses.A_BOLD))
     d.put(win, y, x + len(ev["nombre"]) + 2, ev["tres"], d.c("texto"))
-    d.put(win, y + 1, x, "modificación postraduccional", d.c("tenue"))
+    d.put(win, y + 1, x, tr("modificación postraduccional"), d.c("tenue"))
     fy = y + 2
     ancho_b = d.etiqueta_tipos(win, fy, x, base["tipos"])
     d.put(win, fy, x + ancho_b + 1, "→", d.c("tenue"))
     d.etiqueta_tipos(win, fy, x + ancho_b + 3, ev["tipos"])
     fy += 2
-    req = ev["req"]
-    como = [f"nivel {req['nivel']}"]
-    if "objeto" in req:
-        como.append(f"1 {req['objeto']}")
-    if "zona" in req:
-        como.append(f"estar en {datos.ZONAS[req['zona']]['nombre']}")
-    if req.get("otra_cys"):
-        como.append("otra Cys en el equipo")
+    como = como_modificar(ev["req"])
     propias = [datos.MOVIMIENTOS[m]["nombre"] for m in datos.forma(eid)["movs"]
                if datos.MOVIMIENTOS[m]["tipo"] != datos.NEUTRO]
     filas = [
-        ("De", f"{base['nombre']} ({base['tres']})"),
-        ("Carga", ev["carga"]),
-        ("Cómo", ", ".join(como)),
-        ("Interacciones", ", ".join(propias)),
-        ("Cambio", ev["cambio"]),
+        (tr("De"), f"{base['nombre']} ({base['tres']})"),
+        (tr("Carga"), ev["carga"]),
+        (tr("Cómo"), ", ".join(como)),
+        (tr("Interacciones"), ", ".join(propias)),
+        (tr("Cambio"), ev["cambio"]),
     ]
     col = max(len(etq) for etq, _ in filas) + 2
     for etq, valor in filas:
@@ -127,7 +134,7 @@ def ficha_modificacion(win, juego, eid, y, x, ancho):
 def ficha_peptido(win, juego, pid, y, x, ancho):
     pep = datos.PEPTIDOS[pid]
     d.put(win, y, x, pep["nombre"], d.c("titulo", curses.A_BOLD))
-    d.put(win, y + 1, x, "péptido sintetizado para el René-virus", d.c("tenue"))
+    d.put(win, y + 1, x, tr("péptido sintetizado para el René-virus"), d.c("tenue"))
     jefes.dibujar_resumen(win, y + 3, x, ancho, pep)
 
 
@@ -178,10 +185,12 @@ def mostrar(win, juego):
         win.erase()
         n = sum(1 for c in datos.ORDEN if juego["capturados"].get(c))
         ne = len(juego["evos_vistas"])
-        cabecera = (f"AMINODEX  ·  capturados {n}/20  ·  vistos {len(juego['vistos'])}/20  "
-                    f"·  modificaciones {ne}/{len(datos.MODIFICACIONES)}")
+        cabecera = tr("AMINODEX  ·  capturados {n}/20  ·  vistos {vistos}/20  ·  "
+                      "modificaciones {ne}/{total}", n=n, vistos=len(juego["vistos"]),
+                      ne=ne, total=len(datos.MODIFICACIONES))
         if juego.get("doctorado"):
-            cabecera += f"  ·  péptidos {len(juego['peptidos'])}/{len(datos.PEPTIDOS)}"
+            cabecera += tr("  ·  péptidos {n}/{total}", n=len(juego["peptidos"]),
+                           total=len(datos.PEPTIDOS))
         d.put(win, 0, 1, cabecera, d.c("titulo", curses.A_BOLD))
         d.put(win, 1, 0, "─" * ancho, d.c("tenue"))
         visibles = alto - 3
@@ -216,8 +225,9 @@ def mostrar(win, juego):
             if cid in juego["peptidos"]:
                 ficha_peptido(win, juego, cid, 2, x_ficha, ancho - x_ficha - 1)
             else:
-                d.put(win, 8, x_ficha, f"Péptido {list(datos.PEPTIDOS).index(cid) + 1}: aún no "
-                      "lo sintetizas. Pídeselo al René-virus (V).", d.c("tenue"))
+                d.put(win, 8, x_ficha, tr("Péptido {n}: aún no lo sintetizas. Pídeselo al "
+                                          "René-virus (V).", n=list(datos.PEPTIDOS).index(cid) + 1),
+                      d.c("tenue"))
         elif clase == "aa":
             if juego["capturados"].get(cid):
                 d.estructura(win, 2, X_ESTRUCTURA, datos.forma(cid)["arte"],
@@ -227,12 +237,12 @@ def mostrar(win, juego):
                 d.estructura(win, 2, X_ESTRUCTURA, datos.forma(cid)["arte"], d.c("tenue"))
                 d.put(win, 2, x_ficha, "¿¿??", d.c("texto", curses.A_BOLD))
                 for i, l in enumerate(d.envolver(
-                        "Estructura observada, aún sin capturar. Aparece en: " +
+                        tr("Estructura observada, aún sin capturar. Aparece en: ") +
                         ", ".join(datos.ZONAS[z]["nombre"] for z in datos.zonas_de(cid)),
                         ancho - x_ficha - 2)):
                     d.put(win, 4 + i, x_ficha, l, d.c("tenue"))
             else:
-                d.put(win, 8, 30, "Aún no lo has encontrado.", d.c("tenue"))
+                d.put(win, 8, 30, tr("Aún no lo has encontrado."), d.c("tenue"))
         else:
             ev = datos.MODIFICACIONES[cid]
             if juego["capturados"].get(ev["base"]):
@@ -240,9 +250,10 @@ def mostrar(win, juego):
                              etiqueta_r=ev["nombre"], color_r=ev["tipos"][0])
                 ficha_modificacion(win, juego, cid, 2, x_ficha, min(ancho - x_ficha - 1, 70))
             else:
-                d.put(win, 8, 24, f"Captura primero a {AA[ev['base']]['nombre'] if ev['base'] in juego['vistos'] else 'su forma base'}.",
+                base = AA[ev["base"]]["nombre"] if ev["base"] in juego["vistos"] else tr("su forma base")
+                d.put(win, 8, 24, tr("Captura primero a {base}.", base=base),
                       d.c("tenue"))
-        d.put(win, alto - 1, 1, "↑/↓ elegir   ←/→ saltar de aminoácido   M manual   Esc salir",
+        d.put(win, alto - 1, 1, tr("↑/↓ elegir   ←/→ saltar de aminoácido   M manual   Esc salir"),
               d.c("tenue"))
         win.refresh()
         k = d.tecla(win)

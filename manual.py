@@ -4,6 +4,7 @@ import curses
 
 import datos
 import dibujo as d
+from idioma import tr
 
 PESTANAS = [
     ("jugar", "Jugar", "Jugar"),
@@ -16,6 +17,7 @@ PESTANAS = [
     ("glosario", "Glosario", "Glos."),
     ("chuleta", "Chuleta", "Chuleta"),
 ]
+PESTANAS = [(k, tr(largo), tr(corto)) for k, largo, corto in PESTANAS]
 
 AA = datos.AMINOACIDOS
 T_ = datos.TIPOS
@@ -64,107 +66,113 @@ def _tipos_seg(tipos, corto=True):
 # ---------------------------------------------------------------- pestañas
 def p_jugar(juego, rival, an):
     return [
-        T("Objetivo"),
-        *parrafo("Recorre la célula, encuentra a los 20 aminoácidos, captúralos y "
-                 "completa la Aminodex. Vence a los 7 jefes (J) y al final a la "
-                 "Chaperona (H).", an), L(""),
-        T("Pantalla completa"),
-        *parrafo("El juego se adapta al tamaño de la terminal: en pantalla completa "
-                 "(F11) ves toda la célula, el panel lateral con el minimapa y a tu "
-                 "aminoácido en combate.", an), L(""),
-        T("Controles en el mapa"),
-        *tabla([[("←↑→↓ / WASD", "titulo"), "moverse"],
-                [("M o ?", "titulo"), "este manual"],
-                [("X", "titulo"), "Aminodex"],
-                [("E", "titulo"), "equipo: líder, orden y modificaciones"],
-                [("G / Q", "titulo"), "guardar / guardar y salir"]]),
+        T(tr("Objetivo")),
+        *parrafo(tr("Recorre la célula, encuentra a los 20 aminoácidos, captúralos y "
+                    "completa la Aminodex. Vence a los 7 jefes (J) y al final a la "
+                    "Chaperona (H)."), an), L(""),
+        T(tr("Pantalla completa")),
+        *parrafo(tr("El juego se adapta al tamaño de la terminal: en pantalla completa "
+                    "(F11) ves toda la célula, el panel lateral con el minimapa y a tu "
+                    "aminoácido en combate."), an), L(""),
+        T(tr("Controles en el mapa")),
+        *tabla([[("←↑→↓ / WASD", "titulo"), tr("moverse")],
+                [(tr("M o ?"), "titulo"), tr("este manual")],
+                [("X", "titulo"), tr("Aminodex")],
+                [("E", "titulo"), tr("equipo: líder, orden y modificaciones")],
+                [("G / Q", "titulo"), tr("guardar / guardar y salir")]]),
         L(""),
-        T("Símbolos del mapa"),
-        *tabla([[("≈", "NP"), "membrana (colas)", ("◦", "ARO"), "interfase", ("·", "POL"), "citosol"],
-                [("∴", "POS"), "ribosomas", ("░", "NEG"), "retículo", ("═", "POL"), "Golgi"],
-                [("●", "NEG"), "lisosoma", ("§", "POS"), "cromatina", ("▓", "POS"), "nucléolo"],
-                [("╳", "tenue"), "colágeno", ("◉", "titulo"), "mitocondria", ("O", "mal"), "poro nuclear"],
-                [("█", "oscuro"), "envoltura", ("V", "titulo"), "René-virus", ("H", "titulo"), "Chaperona"],
-                [("J", "mal"), "jefe", ("i", "agua"), "cartel", ("C K", "titulo"), "vitaminas C y K"]]),
+        T(tr("Símbolos del mapa")),
+        *tabla([[("≈", "NP"), tr("membrana (colas)"), ("◦", "ARO"), tr("interfase"),
+                 ("·", "POL"), tr("citosol")],
+                [("∴", "POS"), tr("ribosomas"), ("░", "NEG"), tr("retículo"), ("═", "POL"), "Golgi"],
+                [("●", "NEG"), tr("lisosoma"), ("§", "POS"), tr("cromatina"), ("▓", "POS"),
+                 tr("nucléolo")],
+                [("╳", "tenue"), tr("colágeno"), ("◉", "titulo"), tr("mitocondria"), ("O", "mal"),
+                 tr("poro nuclear")],
+                [("█", "oscuro"), tr("envoltura"), ("V", "titulo"), tr("René-virus"),
+                 ("H", "titulo"), tr("Chaperona")],
+                [("J", "mal"), tr("jefe"), ("i", "agua"), tr("cartel"), ("C K", "titulo"),
+                 tr("vitaminas C y K")]]),
         L(""),
-        T("Combate"),
-        *parrafo("En las zonas marcadas con símbolos aparecen aminoácidos salvajes. "
-                 "Solo ves su estructura: deduce su grupo [D] para ganar +10 de "
-                 "afinidad y ver qué interacción formará cada movimiento. Si no, "
-                 "el grupo se revela tras 3 turnos.", an),
-        *parrafo("Cada movimiento es una interacción formada por tu grupo R (o por "
-                 "tu esqueleto) con el rival. Su nombre indica la clase de "
-                 "interacción y el grupo que la forma; la interacción concreta "
-                 "(puente salino, catión–π, repulsión…) depende del grupo del rival "
-                 "y se muestra a la derecha de cada movimiento. Si el rival tiene "
-                 "dos tipos, los factores se multiplican (×2 · ×2 = ×4).", an),
-        *parrafo("Con afinidad ≥ 50 lanza un ARNt (T) y responde bien la pregunta. "
-                 "El rival responde con agitación térmica que baja tu ENERGÍA.", an),
+        T(tr("Combate")),
+        *parrafo(tr("En las zonas marcadas con símbolos aparecen aminoácidos salvajes. "
+                    "Solo ves su estructura: deduce su grupo [D] para ganar +10 de "
+                    "afinidad y ver qué interacción formará cada movimiento. Si no, "
+                    "el grupo se revela tras 3 turnos."), an),
+        *parrafo(tr("Cada movimiento es una interacción formada por tu grupo R (o por "
+                    "tu esqueleto) con el rival. Su nombre indica la clase de "
+                    "interacción y el grupo que la forma; la interacción concreta "
+                    "(puente salino, catión–π, repulsión…) depende del grupo del rival "
+                    "y se muestra a la derecha de cada movimiento. Si el rival tiene "
+                    "dos tipos, los factores se multiplican (×2 · ×2 = ×4)."), an),
+        *parrafo(tr("Con afinidad ≥ 50 lanza un ARNt (T) y responde bien la pregunta. "
+                    "El rival responde con agitación térmica que baja tu ENERGÍA."), an),
         L(""),
-        *tabla([[("1-5", "titulo"), "interacciones", ("T", "titulo"), "lanzar ARNt"],
-                [("D", "titulo"), "deducir el grupo", ("C", "titulo"), "cambiar de aminoácido"],
-                [("H", "titulo"), "huir", ("I", "titulo"), "detalle de las interacciones"],
-                [("V", "titulo"), "velocidad de animación", ("M", "titulo"), "manual"]]),
-        *parrafo("Las animaciones muestran los grupos químicos reales y un "
-                 "subtítulo con cada paso; cualquier tecla las salta.", an, "tenue"),
+        *tabla([[("1-5", "titulo"), tr("interacciones"), ("T", "titulo"), tr("lanzar ARNt")],
+                [("D", "titulo"), tr("deducir el grupo"), ("C", "titulo"),
+                 tr("cambiar de aminoácido")],
+                [("H", "titulo"), tr("huir"), ("I", "titulo"), tr("detalle de las interacciones")],
+                [("V", "titulo"), tr("velocidad de animación"), ("M", "titulo"), tr("manual")]]),
+        *parrafo(tr("Las animaciones muestran los grupos químicos reales y un "
+                    "subtítulo con cada paso; cualquier tecla las salta."), an, "tenue"),
         L(""),
-        T("Captura"),
-        *parrafo("1.ª vez: ¿cuál es? 2.ª: código de 3 letras. 3.ª: de 1 letra. "
-                 "Después: carga, grupo, pKR, pI (y calcularlo), nutrición, "
-                 "codones e hidropatía. Lo que fallas "
-                 "vuelve más seguido.", an),
+        T(tr("Captura")),
+        *parrafo(tr("1.ª vez: ¿cuál es? 2.ª: código de 3 letras. 3.ª: de 1 letra. "
+                    "Después: carga, grupo, pKR, pI (y calcularlo), nutrición, "
+                    "codones e hidropatía. Lo que fallas vuelve más seguido."), an),
         L(""),
-        T("Jefes"),
-        *parrafo("Cada jefe pide construir un péptido con lo que ya capturaste; "
-                 "al lograrlo ves tu péptido dibujado. El poro nuclear es un jefe: "
-                 "necesitas una NLS con al menos 4 Lys (viven en los "
-                 "ribosomas ∴) para entrar al núcleo. La Arg solo vive "
-                 "adentro (núcleo y nucléolo). En cada reto puedes usar cada "
-                 "aminoácido tantas veces como lo tengas en tu equipo.", an),
+        T(tr("Jefes")),
+        *parrafo(tr("Cada jefe pide construir un péptido con lo que ya capturaste; "
+                    "al lograrlo ves tu péptido dibujado. El poro nuclear es un jefe: "
+                    "necesitas una NLS con al menos 4 Lys (viven en los "
+                    "ribosomas ∴) para entrar al núcleo. La Arg solo vive "
+                    "adentro (núcleo y nucléolo). En cada reto puedes usar cada "
+                    "aminoácido tantas veces como lo tengas en tu equipo."), an),
         L(""),
-        T("Después de la Chaperona"),
-        *parrafo("Habla con el René-virus (V): su examen final te pide traducir "
-                 "ARNm y analizar mutaciones reales (anemia falciforme, fibrosis "
-                 "quística, KRAS, Huntington…).", an),
+        T(tr("Después de la Chaperona")),
+        *parrafo(tr("Habla con el René-virus (V): su examen final te pide traducir "
+                    "ARNm y analizar mutaciones reales (anemia falciforme, fibrosis "
+                    "quística, KRAS, Huntington…)."), an),
         L(""),
-        T("Después del examen final"),
-        *parrafo("El René-virus te hace encargos de síntesis: péptidos reales "
-                 "(encefalinas, oxitocina, angiotensina II, sustancia P, Tat del "
-                 "VIH…). Traduces su ARNm y, si tu equipo tiene suficientes copias "
-                 "de cada residuo, se sintetiza y entra al catálogo de péptidos, al "
-                 "final de la Aminodex. Los largos piden varias Arg, Gly o Phe: "
-                 "sigue capturando.", an),
+        T(tr("Después del examen final")),
+        *parrafo(tr("El René-virus te hace encargos de síntesis: péptidos reales "
+                    "(encefalinas, oxitocina, angiotensina II, sustancia P, Tat del "
+                    "VIH…). Traduces su ARNm y, si tu equipo tiene suficientes copias "
+                    "de cada residuo, se sintetiza y entra al catálogo de péptidos, al "
+                    "final de la Aminodex. Los largos piden varias Arg, Gly o Phe: "
+                    "sigue capturando."), an),
     ]
 
 
 def p_tipos(juego, rival, an):
-    out = [T("Los 5 grupos de Lehninger"), *parrafo("Cada aminoácido tiene un tipo (puro) o dos "
-                                                     "(doble). ✓ = ya lo capturaste.", an, "tenue"), L("")]
+    out = [T(tr("Los 5 grupos de Lehninger")),
+           *parrafo(tr("Cada aminoácido tiene un tipo (puro) o dos (doble). ✓ = ya lo "
+                       "capturaste."), an, "tenue"), L("")]
     for t, info in T_.items():
         puros = [c for c in datos.ORDEN if AA[c]["tipos"] == (t,)]
         dobles = [c for c in datos.ORDEN if t in AA[c]["tipos"] and len(AA[c]["tipos"]) == 2]
         out.append(L((f"■ {info['nombre']}", t, curses.A_BOLD)))
         out += parrafo(info["desc"], an, sangria="  ")
         if puros:
-            out += parrafo("Puros: " + "  ".join(f"{_marca(juego, c)}{_nombre(c)}" for c in puros),
+            out += parrafo(tr("Puros: ") + "  ".join(f"{_marca(juego, c)}{_nombre(c)}" for c in puros),
                            an, t, "  ")
         if dobles:
-            out += parrafo("Dobles: " + "  ".join(
+            out += parrafo(tr("Dobles: ") + "  ".join(
                 f"{_marca(juego, c)}{_nombre(c)} ({datos.nombre_tipos(AA[c]['tipos'], True)})"
                 for c in dobles), an, t, "  ")
         out.append(L(""))
-    out += [T("¿Por qué solo los aromáticos tienen dos tipos?"),
-            *parrafo("Los tipos del juego son exactamente los 5 grupos de "
-                     "Lehninger. Solo los aromáticos llevan un segundo tipo, y sale "
-                     "del mismo libro: «Phe, Tyr y Trp son relativamente no polares; "
-                     "Tyr y Trp son bastante más polares que Phe por el OH de Tyr y "
-                     "el N del indol de Trp».", an, sangria="  "),
-            *parrafo("Phe = Aromático / No polar.  Tyr = Aromático / Polar (O–H).  "
-                     "Trp = Aromático / Polar (N–H).", an, sangria="  "),
-            *parrafo("Nota sobre His: Lehninger la clasifica como cargado +, aunque a "
-                     "pH 7 solo ~10% está protonada (pKR 6).", an, sangria="  "),
+    out += [T(tr("¿Por qué solo los aromáticos tienen dos tipos?")),
+            *parrafo(tr("Los tipos del juego son exactamente los 5 grupos de "
+                        "Lehninger. Solo los aromáticos llevan un segundo tipo, y sale "
+                        "del mismo libro: «Phe, Tyr y Trp son relativamente no polares; "
+                        "Tyr y Trp son bastante más polares que Phe por el OH de Tyr y "
+                        "el N del indol de Trp»."), an, sangria="  "),
+            *parrafo(tr("Phe = Aromático / No polar.  Tyr = Aromático / Polar (O–H).  "
+                        "Trp = Aromático / Polar (N–H)."), an, sangria="  "),
+            *parrafo(tr("Nota sobre His: Lehninger la clasifica como cargado +, aunque a "
+                        "pH 7 solo ~10% está protonada (pKR 6)."), an, sangria="  "),
             L(""),
-            T("Resumen por grupo")]
+            T(tr("Resumen por grupo"))]
     for g, nombre in datos.GRUPOS.items():
         miembros = [c for c in datos.ORDEN if AA[c]["grupo"] == g]
         out += parrafo(f"{nombre}: " + "  ".join(_nombre(c) for c in miembros), an,
@@ -174,10 +182,10 @@ def p_tipos(juego, rival, an):
 
 def p_afinidad(juego, rival, an):
     tipos = datos.ORDEN_TIPOS
-    out = [T("¿Qué tan afín es cada tipo de movimiento con cada tipo?"),
-           *parrafo("Fila = tipo de TU movimiento. Columna = tipo del RIVAL.", an, "tenue"),
+    out = [T(tr("¿Qué tan afín es cada tipo de movimiento con cada tipo?")),
+           *parrafo(tr("Fila = tipo de TU movimiento. Columna = tipo del RIVAL."), an, "tenue"),
            L("")]
-    filas = [[("Movimiento ↓ / Rival →", "tenue")] +
+    filas = [[(tr("Movimiento ↓ / Rival →"), "tenue")] +
              [(T_[t]["corto"], t, curses.A_BOLD | curses.A_UNDERLINE if rival and t in rival else curses.A_BOLD)
               for t in tipos]]
     for a in tipos:
@@ -187,71 +195,74 @@ def p_afinidad(juego, rival, an):
             color = {2: "bien", 0: "mal", 0.5: "tenue"}.get(m, "texto")
             fila.append((f"×{datos.fmt_mult(m)}", color, curses.A_BOLD if rival and b in rival else 0))
         filas.append(fila)
-    filas.append([("Neutro", "NEU", curses.A_BOLD)] + [("×1", "texto")] * len(tipos))
+    filas.append([(tr("Neutro"), "NEU", curses.A_BOLD)] + [("×1", "texto")] * len(tipos))
     out += tabla(filas, sep=3)
     out.append(L(""))
     if rival:
-        out.append(L(("▶ Tu rival es ", "titulo"), *_tipos_seg(rival, False)))
+        out.append(L((tr("▶ Tu rival es "), "titulo"), *_tipos_seg(rival, False)))
         filas = sorted(((datos.multiplicador(a, rival)[0], a) for a in tipos), reverse=True)
         buenos = [(f"{T_[a]['nombre']} ×{datos.fmt_mult(m)}  ", a) for m, a in filas if m >= 2]
-        out.append(L(("  Mejores: ", "bien"), *(buenos or [("ninguno llega a ×2", "tenue")])))
+        out.append(L((tr("  Mejores: "), "bien"),
+                     *(buenos or [(tr("ninguno llega a ×2"), "tenue")])))
         malos = [(f"{T_[a]['nombre']} ×{datos.fmt_mult(m)}  ", a) for m, a in filas if m <= 0.5]
         if malos:
-            out.append(L(("  Evita:   ", "mal"), *malos))
+            out.append(L((tr("  Evita:   "), "mal"), *malos))
         out.append(L(""))
     out += [
-        T("La química detrás (la tabla es simétrica)"),
-        *tabla([[("Pareja", "tenue"), ("Interacción", "tenue"), ("×", "tenue")],
-                [("No polar + No polar / Aromático", "NP"), "efecto hidrofóbico", ("×2", "bien")],
-                [("No polar + Polar / cargado", "NP"), "el agua solvata al grupo polar", ("×½", "tenue")],
-                [("Aromático + Aromático", "ARO"), "apilamiento π–π", ("×2", "bien")],
-                [("Aromático + Cargado +", "ARO"), "catión–π", ("×2", "bien")],
-                [("Aromático + Cargado −", "ARO"), "la cara π repele al anión", ("×½", "tenue")],
-                [("Polar + Polar", "POL"), "puentes de H", ("×2", "bien")],
-                [("Polar + cargado", "POL"), "puente de H", ("×1", "texto")],
-                [("Cargado + + Cargado −", "POS"), "puente salino", ("×2", "bien")],
-                [("Misma carga", "NEG"), "repulsión (el rival puede huir)", ("×0", "mal")],
-                [("Neutro + cualquiera", "NEU"), "esqueleto peptídico o van der Waals", ("×1", "texto")]]),
+        T(tr("La química detrás (la tabla es simétrica)")),
+        *tabla([[(tr("Pareja"), "tenue"), (tr("Interacción"), "tenue"), ("×", "tenue")],
+                [(tr("No polar + No polar / Aromático"), "NP"), tr("efecto hidrofóbico"), ("×2", "bien")],
+                [(tr("No polar + Polar / cargado"), "NP"), tr("el agua solvata al grupo polar"),
+                 ("×½", "tenue")],
+                [(tr("Aromático + Aromático"), "ARO"), tr("apilamiento π–π"), ("×2", "bien")],
+                [(tr("Aromático + Cargado +"), "ARO"), tr("catión–π"), ("×2", "bien")],
+                [(tr("Aromático + Cargado −"), "ARO"), tr("la cara π repele al anión"), ("×½", "tenue")],
+                [(tr("Polar + Polar"), "POL"), tr("puentes de H"), ("×2", "bien")],
+                [(tr("Polar + cargado"), "POL"), tr("puente de H"), ("×1", "texto")],
+                [(tr("Cargado + + Cargado −"), "POS"), tr("puente salino"), ("×2", "bien")],
+                [(tr("Misma carga"), "NEG"), tr("repulsión (el rival puede huir)"), ("×0", "mal")],
+                [(tr("Neutro + cualquiera"), "NEU"), tr("esqueleto peptídico o van der Waals"),
+                 ("×1", "texto")]]),
         L(""),
-        T("Reglas químicas que el juego respeta"),
-        *parrafo("• Un puente de H necesita un DONADOR (X–H) y un ACEPTOR (par "
-                 "libre). El N–H del Trp solo dona: con Lys, Arg o His (que también "
-                 "solo donan) no hay puente de H (×½).", an, sangria="  "),
-        *parrafo("• Cada aminoácido solo forma interacciones de su propio grupo R, "
-                 "más las del esqueleto peptídico y van der Waals, que todos tienen.",
+        T(tr("Reglas químicas que el juego respeta")),
+        *parrafo(tr("• Un puente de H necesita un DONADOR (X–H) y un ACEPTOR (par "
+                    "libre). El N–H del Trp solo dona: con Lys, Arg o His (que también "
+                    "solo donan) no hay puente de H (×½)."), an, sangria="  "),
+        *parrafo(tr("• Cada aminoácido solo forma interacciones de su propio grupo R, "
+                    "más las del esqueleto peptídico y van der Waals, que todos tienen."),
                  an, sangria="  "),
-        *parrafo("• El N⁺(CH₃)₃ de la trimetil-lisina no tiene H: con grupos polares "
-                 "solo hay atracción ion–dipolo, sin puente de H.", an, sangria="  "),
-        *parrafo("• La Pro (y la Hyp) no tiene H en el N del esqueleto: no forma el "
-                 "puente de H del esqueleto como donador.", an, sangria="  "),
-        *parrafo("• El puente disulfuro solo existe entre dos Cys.", an, sangria="  "),
+        *parrafo(tr("• El N⁺(CH₃)₃ de la trimetil-lisina no tiene H: con grupos polares "
+                    "solo hay atracción ion–dipolo, sin puente de H."), an, sangria="  "),
+        *parrafo(tr("• La Pro (y la Hyp) no tiene H en el N del esqueleto: no forma el "
+                    "puente de H del esqueleto como donador."), an, sangria="  "),
+        *parrafo(tr("• El puente disulfuro solo existe entre dos Cys."), an, sangria="  "),
         L(""),
-        T("Tipos dobles"),
-        *parrafo("Contra un rival de dos tipos se multiplican los factores. Con un "
-                 "movimiento No polar: Phe (Aromático/No polar) ×2·×2 = ×4, Tyr "
-                 "y Trp (Aromático/Polar) ×2·×½ = ×1: Phe es la más hidrofóbica de "
-                 "las tres.", an, sangria="  "),
+        T(tr("Tipos dobles")),
+        *parrafo(tr("Contra un rival de dos tipos se multiplican los factores. Con un "
+                    "movimiento No polar: Phe (Aromático/No polar) ×2·×2 = ×4, Tyr "
+                    "y Trp (Aromático/Polar) ×2·×½ = ×1: Phe es la más hidrofóbica de "
+                    "las tres."), an, sangria="  "),
     ]
     return out
 
 
 def p_interacciones(juego, rival, an):
-    out = [T("Interacciones por aminoácido"),
-           *parrafo("Cada interacción se nombra por su clase y por el grupo R que la "
-                    "forma. Todos tienen además «Van der Waals» y, salvo la Pro, "
-                    "«Puente de H · esqueleto».", an, "tenue"), L("")]
-    filas = [[("", "tenue"), ("Grupo R", "tenue"), ("Clase", "tenue"),
-              ("Interacciones de cadena lateral", "tenue")]]
+    out = [T(tr("Interacciones por aminoácido")),
+           *parrafo(tr("Cada interacción se nombra por su clase y por el grupo R que la "
+                       "forma. Todos tienen además «Van der Waals» y, salvo la Pro, "
+                       "«Puente de H · esqueleto»."), an, "tenue"), L("")]
+    filas = [[("", "tenue"), (tr("Grupo R"), "tenue"), (tr("Clase"), "tenue"),
+              (tr("Interacciones de cadena lateral"), "tenue")]]
     for c in datos.ORDEN:
         a = AA[c]
         nombre_r, _, clase = datos.GRUPO_R[c]
         propias = [datos.MOVIMIENTOS[m] for m in datos.forma(c)["movs"]
                    if datos.MOVIMIENTOS[m]["tipo"] != datos.NEUTRO]
-        texto = ", ".join(f"{m['nombre']} ({m['poder']})" for m in propias) or "— (su R es un H)"
+        texto = ", ".join(f"{m['nombre']} ({m['poder']})" for m in propias) or tr("— (su R es un H)")
         filas.append([(a["tres"], a["tipos"][0], curses.A_BOLD), (nombre_r, a["tipos"][0]),
                       (clase, "tenue"), texto])
     out += tabla(filas)
-    out += [L(""), T("Qué hace cada clase de interacción")]
+    out += [L(""), T(tr("Qué hace cada clase de interacción"))]
     for t in datos.ORDEN_TIPOS:
         desc, ciencia = datos.DESC_TIPO[t]
         out.append(L((f"  {datos.INTERACCION[t]} ({T_[t]['nombre']})", t, curses.A_BOLD)))
@@ -259,79 +270,81 @@ def p_interacciones(juego, rival, an):
         out += parrafo(ciencia, an, "agua", "    ")
     for mid in ("puente_h_esqueleto", "van_der_waals", "puente_disulfuro"):
         m = datos.MOVIMIENTOS[mid]
-        out.append(L((f"  {m['nombre']}", "titulo", curses.A_BOLD), (f"  poder {m['poder']}", "tenue")))
+        out.append(L((f"  {m['nombre']}", "titulo", curses.A_BOLD),
+                     (tr("  poder {n}", n=m["poder"]), "tenue")))
         out += parrafo(m["desc"], an, sangria="    ")
         out += parrafo(m["ciencia"], an, "agua", "    ")
     return out
 
 
 def p_modificaciones(juego, rival, an):
-    out = [T("Modificaciones postraduccionales"),
-           *parrafo("Se activan desde el menú Equipo [E] → V cuando se cumplen los "
-                    "requisitos. ✓ = ya la conseguiste.", an), L("")]
+    out = [T(tr("Modificaciones postraduccionales")),
+           *parrafo(tr("Se activan desde el menú Equipo [E] → V cuando se cumplen los "
+                       "requisitos. ✓ = ya la conseguiste."), an), L("")]
     for eid, ev in datos.MODIFICACIONES.items():
         base = AA[ev["base"]]
         visto = "✓ " if eid in juego["evos_vistas"] else "  "
         req = ev["req"]
-        como = [f"nivel {req['nivel']}"]
+        como = [tr("nivel {n}", n=req["nivel"])]
         if "objeto" in req:
-            como.append(f"1 {req['objeto']}")
+            como.append(f"1 {tr(req['objeto'])}")
         if "zona" in req:
-            como.append(f"estar en {datos.ZONAS[req['zona']]['nombre']}")
+            como.append(tr("estar en {zona}", zona=datos.ZONAS[req["zona"]]["nombre"]))
         if req.get("otra_cys"):
-            como.append("otra Cys en el equipo (se fusionan)")
+            como.append(tr("otra Cys en el equipo (se fusionan)"))
         out.append(L((visto, "bien"),
                      (f"{base['nombre']} ({base['tres']})", base["tipos"][0], curses.A_BOLD),
                      ("  →  ", "tenue"),
                      (f"{ev['nombre']} ({ev['tres']})", ev["tipos"][0], curses.A_BOLD)))
-        out.append(L(("    Cómo: ", "titulo"), ", ".join(como)))
-        out.append(L(("    Tipos: ", "titulo"), *_tipos_seg(base["tipos"]), ("  →  ", "tenue"),
+        out.append(L((tr("    Cómo: "), "titulo"), ", ".join(como)))
+        out.append(L((tr("    Tipos: "), "titulo"), *_tipos_seg(base["tipos"]), ("  →  ", "tenue"),
                      *_tipos_seg(ev["tipos"])))
         propias = [datos.MOVIMIENTOS[m] for m in datos.forma(eid)["movs"]
                    if datos.MOVIMIENTOS[m]["tipo"] != datos.NEUTRO]
-        out.append(L(("    Interacciones: ", "titulo"),
+        out.append(L((tr("    Interacciones: "), "titulo"),
                      *[(f"{m['nombre']}  ", m["tipo"]) for m in propias]))
-        out += parrafo("Cambio: " + ev["cambio"], an, sangria="    ")
-        out += parrafo("Biología: " + ev["bio"], an, "agua", "    ")
+        out += parrafo(tr("Cambio: ") + ev["cambio"], an, sangria="    ")
+        out += parrafo(tr("Biología: ") + ev["bio"], an, "agua", "    ")
         out.append(L(""))
-    out.append(L(("Objetos: ", "titulo"),
-                 "  ".join(f"{k} ({juego['objetos'].get(k, 0)})" for k in datos.OBJETOS)))
+    out.append(L((tr("Objetos: "), "titulo"),
+                 "  ".join(f"{tr(k)} ({juego['objetos'].get(k, 0)})" for k in datos.OBJETOS)))
     for k, v in datos.OBJETOS.items():
-        out += parrafo(f"• {k}: {v}", an, sangria="  ")
+        out += parrafo(f"• {tr(k)}: {v}", an, sangria="  ")
     return out
 
 
 def p_zonas(juego, rival, an):
-    out = [T("Zonas de la célula")]
+    out = [T(tr("Zonas de la célula"))]
     for z, info in datos.ZONAS.items():
-        visitada = "" if z in juego["zonas_visitadas"] else "   (sin visitar)"
+        visitada = "" if z in juego["zonas_visitadas"] else tr("   (sin visitar)")
         out.append(L((f" {info['glifo']} ", info["color"]),
                      (info["nombre"], info["color"], curses.A_BOLD), (visitada, "tenue")))
         if info["aminos"]:
-            out.append(L(("   Aparecen: ", "titulo"),
+            out.append(L((tr("   Aparecen: "), "titulo"),
                          ", ".join(_nombre(c) for c in info["aminos"]),
-                         (f"   (niveles {info['niveles'][0]}–{info['niveles'][1]})", "tenue")))
+                         (tr("   (niveles {a}–{b})", a=info["niveles"][0], b=info["niveles"][1]),
+                          "tenue")))
         out += parrafo(info["por_que"], an, sangria="   ")
         out.append(L(""))
     return out
 
 
 def p_nutricion(juego, rival, an):
-    out = [T("Clasificación nutricional en humanos")]
+    out = [T(tr("Clasificación nutricional en humanos"))]
     for cat, desc in datos.NUTRICION.items():
         miembros = [c for c in datos.ORDEN if AA[c]["nutricion"] == cat]
         out.append(L((f"■ {cat} ({len(miembros)})", "titulo", curses.A_BOLD)))
         out += parrafo(desc, an, sangria="  ")
         out += parrafo("  ".join(_nombre(c) for c in miembros), an, "texto", "  ")
         out.append(L(""))
-    out.append(T("Truco para los esenciales"))
-    out += parrafo("'PVT TIM HaLL': Phe Val Thr Trp Ile Met His (Arg) Leu Lys. La A "
-                   "es Arg, que solo es esencial en neonatos (condicional).", an, sangria="  ")
+    out.append(T(tr("Truco para los esenciales")))
+    out += parrafo(tr("'PVT TIM HaLL': Phe Val Thr Trp Ile Met His (Arg) Leu Lys. La A "
+                      "es Arg, que solo es esencial en neonatos (condicional)."), an, sangria="  ")
     return out
 
 
 def p_glosario(juego, rival, an):
-    out = [T("Glosario")]
+    out = [T(tr("Glosario"))]
     for termino, definicion in datos.GLOSARIO:
         out.append(L((f"  {termino}", "titulo", curses.A_BOLD)))
         out += parrafo(definicion, an, sangria="    ")
@@ -339,14 +352,14 @@ def p_glosario(juego, rival, an):
 
 
 def p_chuleta(juego, rival, an):
-    out = [T("Preguntas que pueden salir al lanzar el ARNt"),
-           L("  1.ª: ¿qué aminoácido es?  2.ª: código de 3 letras  3.ª: código de 1 letra"),
-           L("  Después: carga · grupo · pKR · pI · calcular el pI · nutrición ·"),
-           L("           codón · hidropatía"),
-           L(""), T("Tabla rápida (Lehninger, 25 °C)"),
+    out = [T(tr("Preguntas que pueden salir al lanzar el ARNt")),
+           L(tr("  1.ª: ¿qué aminoácido es?  2.ª: código de 3 letras  3.ª: código de 1 letra")),
+           L(tr("  Después: carga · grupo · pKR · pI · calcular el pI · nutrición ·")),
+           L(tr("           codón · hidropatía")),
+           L(""), T(tr("Tabla rápida (Lehninger, 25 °C)")),
            ]
-    filas = [[(h, "tenue") for h in ("1L", "3L", "Nombre", "Tipos", "MW", "pK1", "pK2",
-                                     "pKR", "pI", "KD", "Nutrición")]]
+    filas = [[(h, "tenue") for h in (tr("1L"), tr("3L"), tr("Nombre"), tr("Tipos"), "MW", "pK1",
+                                     "pK2", "pKR", "pI", "KD", tr("Nutrición"))]]
     for c in datos.ORDEN:
         a = AA[c]
         filas.append([
@@ -358,13 +371,15 @@ def p_chuleta(juego, rival, an):
             f"{a['hidropatia']:+.1f}".replace("-", "−").rjust(4), a["nutricion"],
         ])
     out += tabla(filas)
-    out += [L(""), T("Trucos"),
-            *parrafo("• Códigos de 1 letra menos intuitivos: F=Fenilalanina, Y=tYrosina, W=Trp (doble "
-                     "anillo), N=asparagiNe, Q=Q-tamina, D=asparDate, "
-                     "E=glutEmate, K=antes de L, R=aRginina.", an, sangria="  "),
-            *parrafo("• Cargas a pH 7: D E (−), K R (+), H ≈ neutra (+ a pH 5).", an, sangria="  "),
-            *parrafo("• pI: ácidos (pK1+pKR)/2, básicos (pK2+pKR)/2, el resto "
-                     "(pK1+pK2)/2. Asp 2.77 es el más bajo; Arg 10.76 el más alto.", an, sangria="  ")]
+    out += [L(""), T(tr("Trucos")),
+            *parrafo(tr("• Códigos de 1 letra menos intuitivos: F=Fenilalanina, Y=tYrosina, "
+                        "W=Trp (doble anillo), N=asparagiNe, Q=Q-tamina, D=asparDate, "
+                        "E=glutEmate, K=antes de L, R=aRginina."), an, sangria="  "),
+            *parrafo(tr("• Cargas a pH 7: D E (−), K R (+), H ≈ neutra (+ a pH 5)."), an,
+                     sangria="  "),
+            *parrafo(tr("• pI: ácidos (pK1+pKR)/2, básicos (pK2+pKR)/2, el resto "
+                        "(pK1+pK2)/2. Asp 2.77 es el más bajo; Arg 10.76 el más alto."), an,
+                     sangria="  ")]
     return out
 
 
@@ -400,7 +415,7 @@ def mostrar(win, juego, pestana="jugar", rival=None):
             for texto, color, extra in linea:
                 d.put(win, 2 + i, cx, texto, d.c(color, extra))
                 cx += len(texto)
-        pie = "←/→ pestaña  ↑/↓ desplazar  1-9 ir  Esc cerrar"
+        pie = tr("←/→ pestaña  ↑/↓ desplazar  1-9 ir  Esc cerrar")
         if len(lineas) > visibles:
             pie += f"   [{scroll + 1}-{min(len(lineas), scroll + visibles)}/{len(lineas)}]"
         d.put(win, alto - 1, x0, pie, d.c("tenue"))

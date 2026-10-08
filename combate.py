@@ -9,6 +9,7 @@ import dibujo as d
 import manual
 import preguntas
 import progreso
+from idioma import tr
 
 AFINIDAD_TRNA = 50
 TURNOS_PARA_REVELAR = 3
@@ -19,19 +20,19 @@ SPRITE_W = 24
 GRUPO = {
     "G": ("─H", "H─"), "A": ("─CH₃", "H₃C─"), "V": ("─CH(CH₃)₂", "(H₃C)₂CH─"),
     "L": ("─CH₂CH(CH₃)₂", "(H₃C)₂CHCH₂─"), "I": ("─CH(CH₃)C₂H₅", "H₅C₂(H₃C)CH─"),
-    "M": ("─CH₂CH₂SCH₃", "H₃CSCH₂CH₂─"), "P": ("─pirrolidina", "pirrolidina─"),
-    "F": ("─CH₂─fenilo", "fenilo─CH₂─"), "Y": ("─fenol─OH", "HO─fenol─"),
-    "W": ("─indol(N─H)", "(H─N)indol─"), "S": ("─CH₂─OH", "HO─CH₂─"),
+    "M": ("─CH₂CH₂SCH₃", "H₃CSCH₂CH₂─"), "P": (tr("─pirrolidina"), tr("pirrolidina─")),
+    "F": (tr("─CH₂─fenilo"), tr("fenilo─CH₂─")), "Y": (tr("─fenol─OH"), tr("HO─fenol─")),
+    "W": (tr("─indol(N─H)"), tr("(H─N)indol─")), "S": ("─CH₂─OH", "HO─CH₂─"),
     "T": ("─CH(CH₃)OH", "HO(H₃C)CH─"), "C": ("─CH₂─SH", "HS─CH₂─"),
     "N": ("─CONH₂", "H₂NOC─"), "Q": ("─CH₂CONH₂", "H₂NOCCH₂─"),
     "D": ("─COO⁻", "⁻OOC─"), "E": ("─CH₂COO⁻", "⁻OOCCH₂─"),
-    "K": ("─NH₃⁺", "⁺H₃N─"), "R": ("─guanidinio⁺", "⁺guanidinio─"),
-    "H": ("─imidazol(H⁺)", "(H⁺)imidazol─"),
-    "Hyp": ("─pirrolidina─OH", "HO─pirrolidina─"), "Hyl": ("─NH₃⁺", "⁺H₃N─"),
+    "K": ("─NH₃⁺", "⁺H₃N─"), "R": (tr("─guanidinio⁺"), tr("⁺guanidinio─")),
+    "H": (tr("─imidazol(H⁺)"), tr("(H⁺)imidazol─")),
+    "Hyp": (tr("─pirrolidina─OH"), tr("HO─pirrolidina─")), "Hyl": ("─NH₃⁺", "⁺H₃N─"),
     "Kac": ("─NH─COCH₃", "H₃COC─NH─"), "Kme3": ("─N⁺(CH₃)₃", "(H₃C)₃N⁺─"),
     "pS": ("─O─PO₃²⁻", "²⁻O₃P─O─"), "pT": ("─O─PO₃²⁻", "²⁻O₃P─O─"),
-    "pY": ("─fenil─O─PO₃²⁻", "²⁻O₃P─O─fenil─"), "Cis": ("─S─S─", "─S─S─"),
-    "Gla": ("─CH(COO⁻)₂", "(⁻OOC)₂CH─"), "Nglc": ("─CONH─glicano", "glicano─HNOC─"),
+    "pY": (tr("─fenil─O─PO₃²⁻"), tr("²⁻O₃P─O─fenil─")), "Cis": ("─S─S─", "─S─S─"),
+    "Gla": ("─CH(COO⁻)₂", "(⁻OOC)₂CH─"), "Nglc": (tr("─CONH─glicano"), tr("glicano─HNOC─")),
     "Cit": ("─NH─CO─NH₂", "H₂N─OC─NH─"),
     "gS": ("─CH₂─O─GalNAc", "GalNAc─O─CH₂─"), "gT": ("─CH(CH₃)─O─GalNAc", "GalNAc─O─CH─"),
 }
@@ -42,8 +43,8 @@ GRUPO = {
 HB = {
     "S": ("DA", "─O─H", "─(H)O:", "H─O─", ":O(H)─"),
     "T": ("DA", "─O─H", "─(H)O:", "H─O─", ":O(H)─"),
-    "Y": ("DA", "─fenol─O─H", "─fenol(H)O:", "H─O─fenol─", ":O(H)─fenol─"),
-    "W": ("D", "─indol─N─H", None, "H─N─indol─", None),
+    "Y": ("DA", tr("─fenol─O─H"), tr("─fenol(H)O:"), tr("H─O─fenol─"), tr(":O(H)─fenol─")),
+    "W": ("D", tr("─indol─N─H"), None, tr("H─N─indol─"), None),
     "N": ("DA", "─CON(H)─H", "─(H₂N)C═O:", "H─N(H)OC─", ":O═C(NH₂)─"),
     "Q": ("DA", "─CON(H)─H", "─(H₂N)C═O:", "H─N(H)OC─", ":O═C(NH₂)─"),
     "C": ("DA", "─S─H", "─(H)S:", "H─S─", ":S(H)─"),
@@ -53,7 +54,7 @@ HB = {
     "Cit": ("DA", "─CON(H)─H", "─(H₂N)C═O:", "H─N(H)OC─", ":O═C(NH₂)─"),
     "gS": ("DA", "─GalNAc─O─H", "─GalNAc(H)O:", "H─O─GalNAc─", ":O(H)GalNAc─"),
     "gT": ("DA", "─GalNAc─O─H", "─GalNAc(H)O:", "H─O─GalNAc─", ":O(H)GalNAc─"),
-    "H": ("DA", "─imidazol─N─H", "─imidazol─N:", "H─N─imidazol─", ":N─imidazol─"),
+    "H": ("DA", tr("─imidazol─N─H"), tr("─imidazol─N:"), tr("H─N─imidazol─"), tr(":N─imidazol─")),
 }
 CARGADO = {
     "POS": ("D", "─NH₃⁺", "⁺H₃N─"),
@@ -115,7 +116,7 @@ class Combate:
         return datos.AMINOACIDOS[self.aa]["tipos"]
 
     def nombre_salvaje(self):
-        return datos.AMINOACIDOS[self.aa]["nombre"] if self.nombre_visible else "¿¿??"
+        return datos.AMINOACIDOS[self.aa]["nombre"] if self.nombre_visible else tr("¿¿??")
 
     def movimientos(self):
         return datos.forma(self.mon["id"])["movs"]
@@ -149,19 +150,19 @@ class Combate:
         m = datos.MOVIMIENTOS[mid]
         if m["efecto"] == "disulfuro":
             if self.aa == "C":
-                return 2.0, [("POL", 2, "puente disulfuro (covalente)")]
-            return 0.0, [(self.tipos_salvaje()[0], 0, "sin otra Cys no hay disulfuro")]
+                return 2.0, [("POL", 2, tr("puente disulfuro (covalente)"))]
+            return 0.0, [(self.tipos_salvaje()[0], 0, tr("sin otra Cys no hay disulfuro"))]
         mult, partes = datos.multiplicador(m["tipo"], self.tipos_salvaje())
         if m["tipo"] == datos.NEUTRO:
-            texto = "puente de H del esqueleto" if mid == "puente_h_esqueleto" else "van der Waals"
+            texto = tr("puente de H del esqueleto") if mid == "puente_h_esqueleto" else "van der Waals"
             return mult, [(t, pm, texto) for t, pm, _ in partes]
         nuevas = []
         for t, pm, texto in partes:
             if (m["tipo"], t) in INTERACCION_H and not self._hb_posible(m["tipo"], t):
                 if m["tipo"] == "POL":
-                    pm, texto = 0.5, "sin puente de H (falta donador/aceptor)"
+                    pm, texto = 0.5, tr("sin puente de H (falta donador/aceptor)")
                 else:
-                    pm, texto = 1, "atracción ion–dipolo"
+                    pm, texto = 1, tr("atracción ion–dipolo")
             nuevas.append((t, pm, texto))
         total = 1.0
         for _, pm, _ in nuevas:
@@ -172,7 +173,7 @@ class Combate:
     def _interaccion_principal(partes):
         if any(pm == 0 for _, pm, _ in partes):
             return next(tx for _, pm, tx in partes if pm == 0)
-        return max(partes, key=lambda p: p[1])[2] if partes else "interacción"
+        return max(partes, key=lambda p: p[1])[2] if partes else tr("interacción")
 
     # -------------------------------------------------------------- layout
     def layout(self):
@@ -209,23 +210,23 @@ class Combate:
         x, cw = L["x"], L["w"]
         a = datos.AMINOACIDOS[self.aa]
         zona = datos.ZONAS[self.zona]["nombre"]
-        d.put(w, 0, 1, f"Aminoácido salvaje  ·  {zona}  ·  turno {self.turno}",
+        d.put(w, 0, 1, tr("Aminoácido salvaje  ·  {zona}  ·  turno {n}", zona=zona, n=self.turno),
               d.c("titulo", curses.A_BOLD))
 
         color = a["tipos"][0] if self.tipos_visible else "texto"
         d.estructura(w, 2, 1, datos.forma(self.aa)["arte"], d.c(color))
 
-        d.caja(w, L["rival"], x, 4, cw, "Salvaje")
+        d.caja(w, L["rival"], x, 4, cw, tr("Salvaje"))
         y = L["rival"] + 1
         d.put(w, y, x + 2, self.nombre_salvaje(), d.c("texto", curses.A_BOLD))
-        d.put(w, y, x + 17, f"Nv {self.salvaje['nivel']}", d.c("tenue"))
+        d.put(w, y, x + 17, tr("Nv {n}", n=self.salvaje["nivel"]), d.c("tenue"))
         if self.tipos_visible:
             # con recuadros angostos los nombres largos de dos tipos no caben
             d.etiqueta_tipos(w, y, x + 24, a["tipos"], corto=cw < 64)
         else:
-            d.put(w, y, x + 24, "[¿grupo?]  D: deducir", d.c("tenue"))
+            d.put(w, y, x + 24, tr("[¿grupo?]  D: deducir"), d.c("tenue"))
         y += 1
-        d.put(w, y, x + 2, "Afinidad", d.c("texto"))
+        d.put(w, y, x + 2, tr("Afinidad"), d.c("texto"))
         listo = self.salvaje["afinidad"] >= AFINIDAD_TRNA
         # etiqueta(11) + barra + número(9) + "listo: [T] ARNt"(15) + borde(2)
         ancho_barra = max(10, cw - 38)
@@ -233,7 +234,7 @@ class Combate:
                 d.c("bien" if listo else "agua"))
         d.put(w, y, x + 12 + ancho_barra, f"{int(self.salvaje['afinidad']):3d}/100", d.c("tenue"))
         if listo:
-            aviso = "listo: [T] ARNt" if cw - 23 - ancho_barra >= 15 else "[T] ARNt"
+            aviso = tr("listo: [T] ARNt") if cw - 23 - ancho_barra >= 15 else tr("[T] ARNt")
             d.put(w, y, x + 21 + ancho_barra, aviso, d.c("bien", curses.A_BOLD))
 
         d.caja(w, L["arena"], x, L["ah"], cw, None, d.c("oscuro"))
@@ -241,24 +242,24 @@ class Combate:
 
         f = datos.forma(self.mon["id"])
         tipos = self.tipos_mio()
-        d.caja(w, L["yo"], x, 4, cw, "Tu aminoácido")
+        d.caja(w, L["yo"], x, 4, cw, tr("Tu aminoácido"))
         y = L["yo"] + 1
         d.put(w, y, x + 2, f["nombre"][:20], d.c("texto", curses.A_BOLD))
-        d.put(w, y, x + 23, f"Nv {self.mon['nivel']}", d.c("tenue"))
+        d.put(w, y, x + 23, tr("Nv {n}", n=self.mon["nivel"]), d.c("tenue"))
         d.etiqueta_tipos(w, y, x + 30, tipos, corto=True)
         y += 1
         emax = progreso.energia_max(self.mon)
-        d.put(w, y, x + 2, "Energía", d.c("texto"))
+        d.put(w, y, x + 2, tr("Energía"), d.c("texto"))
         d.barra(w, y, x + 11, ancho_barra, self.mon["energia"], emax, d.c("titulo"))
         d.put(w, y, x + 12 + ancho_barra, f"{self.mon['energia']:3d}/{emax}", d.c("tenue"))
         d.put(w, y, x + 21 + ancho_barra, f"ATP {self.juego['objetos']['ATP']}", d.c("tenue"))
 
-        d.caja(w, L["movs"], x, L["nmov"] + 2, cw, "Interacciones")
+        d.caja(w, L["movs"], x, L["nmov"] + 2, cw, tr("Interacciones"))
         con_chip = cw >= 90       # si no cabe la etiqueta, el color del nombre indica el grupo
         filas = []
         for i, mid in enumerate(self.movimientos()):
             m = datos.MOVIMIENTOS[mid]
-            nombre_t = datos.TIPOS[m["tipo"]]["corto"] if m["tipo"] in datos.TIPOS else "Neutro"
+            nombre_t = datos.TIPOS[m["tipo"]]["corto"] if m["tipo"] in datos.TIPOS else tr("Neutro")
             fila = [(f"{i + 1}) {m['nombre']}", "texto" if con_chip else m["tipo"])]
             if con_chip:
                 fila.append((f" {nombre_t} ", m["tipo"], curses.A_BOLD | curses.A_REVERSE))
@@ -292,17 +293,18 @@ class Combate:
         # el registro se desplaza cada turno: se repintan esas filas completas
         w.redrawln(L["log"], L["nlog"])
         if L["W"] >= 100:
-            pie = (f"1-5 mover · T ARNt · D deducir · C cambiar · H huir · I info · "
-                   f"M manual · V velocidad: {self.velocidad}")
+            pie = tr("1-5 mover · T ARNt · D deducir · C cambiar · H huir · I info · "
+                     "M manual · V velocidad: {vel}", vel=tr(self.velocidad))
         else:
-            pie = f"1-5 mover  T ARNt  D deducir  C cambiar  H huir  I info  M manual  V {self.velocidad}"
+            pie = tr("1-5 mover  T ARNt  D deducir  C cambiar  H huir  I info  M manual  V {vel}",
+                     vel=tr(self.velocidad))
         d.put(w, L["H"] - 1, 1, pie, d.c("titulo"))
 
         if L["amplio"]:
             arte = f["arte"]
             xs = min(L["W"] - SPRITE_W - 1, x + cw + 3)
             yy = min(L["yo"], max(1, L["H"] - len(arte) - 2))
-            d.put(w, yy, xs, f"tu {f['tres']}", d.c("tenue"))
+            d.put(w, yy, xs, tr("tu {tres}", tres=f["tres"]), d.c("tenue"))
             d.estructura(w, yy + 1, xs, arte, d.c(tipos[0]))
         w.refresh()
 
@@ -310,14 +312,14 @@ class Combate:
     def ctx_base(self, tipo_rival=None):
         tm = self.tipos_mio()
         ts = self.tipos_salvaje()
-        tr = tipo_rival or ts[0]
+        t_rival = tipo_rival or ts[0]
         visible = self.nombre_visible or self.tipos_visible
         fid = self.mon["id"]
         mio = GRUPO.get(fid, ("─R", "R─"))[0]
         rival = GRUPO[self.aa][1] if visible else "R?─"
         return dict(
             mio=mio, rival=rival,
-            color_mio=tm[0], color_rival=tr if self.tipos_visible else "texto",
+            color_mio=tm[0], color_rival=t_rival if self.tipos_visible else "texto",
             carga_mio="+" if "POS" in tm else "−" if "NEG" in tm else "δ",
             carga_rival="+" if "POS" in ts else "−" if "NEG" in ts else "δ",
             tres=datos.forma(fid)["tres"],
@@ -399,7 +401,7 @@ class Combate:
         if "A" in papel_m and "D" in papel_r:
             ctx.update(hb_izq=mio_a, hb_der=riv_d, donador="der")
             return "puente_h", ctx
-        motivo = "los dos solo pueden donar H" if "D" in papel_m else "los dos solo pueden aceptar H"
+        motivo = tr("los dos solo pueden donar H") if "D" in papel_m else tr("los dos solo pueden aceptar H")
         ctx.update(hb_izq=mio_d, hb_der=riv_d, motivo=motivo)
         return "sin_puente_h", ctx
 
@@ -421,9 +423,9 @@ class Combate:
         if m["efecto"] == "disulfuro" and self.aa != "C":
             self.animar("sin_puente_h", dict(self.ctx_base(), hb_izq="─CH₂─S─H",
                                              hb_der=GRUPO[self.aa][1] if self.nombre_visible else "R?─",
-                                             motivo="el disulfuro solo se forma entre dos Cys",
-                                             nombre="sin otra Cys no hay disulfuro"))
-            self.decir("Sin otra Cys no hay disulfuro: no se forma ninguna interacción.")
+                                             motivo=tr("el disulfuro solo se forma entre dos Cys"),
+                                             nombre=tr("sin otra Cys no hay disulfuro")))
+            self.decir(tr("Sin otra Cys no hay disulfuro: no se forma ninguna interacción."))
             self.ultimo_mult = 1.0
             return
 
@@ -435,7 +437,7 @@ class Combate:
         if m["efecto"] == "disulfuro":
             self.salvaje["afinidad"] = 100
             self.ultimo_mult = 2.0
-            self.decir("Enlace covalente S–S entre las dos Cys: afinidad máxima.")
+            self.decir(tr("Enlace covalente S–S entre las dos Cys: afinidad máxima."))
             progreso.dar_xp(self.mon, 3)
             return
 
@@ -451,14 +453,14 @@ class Combate:
         else:
             self.decir(f"{principal[:1].upper() + principal[1:]} (×{datos.fmt_mult(mult)})")
         if mult == 0:
-            self.decir("Sin afinidad: se repelen.")
+            self.decir(tr("Sin afinidad: se repelen."))
         elif mult >= 2:
-            self.decir(f"Muy afín: +{int(ganancia)} de afinidad")
+            self.decir(tr("Muy afín: +{n} de afinidad", n=int(ganancia)))
             self.sacudir_salvaje()
             for msg in progreso.dar_xp(self.mon, 3):
                 self.decir(msg)
         else:
-            self.decir(f"+{int(ganancia)} de afinidad" + ("  (poco afín)" if mult < 1 else ""))
+            self.decir(tr("+{n} de afinidad", n=int(ganancia)) + (tr("  (poco afín)") if mult < 1 else ""))
 
     def turno_salvaje(self):
         """Devuelve 'huyo' si el salvaje escapa."""
@@ -466,16 +468,16 @@ class Combate:
         nombre = self.nombre_salvaje()
         resultado = None
         if self.ultimo_mult == 0 and random.random() < 0.35:
-            self.decir(f"La repulsión aleja a {nombre}: escapó.")
+            self.decir(tr("La repulsión aleja a {nombre}: escapó.", nombre=nombre))
             resultado = "huyo"
         else:
             dano = random.randint(3, 6) + s["nivel"]
             self.animar("agitacion", self.ctx_base())
             self.mon["energia"] = max(0, self.mon["energia"] - dano)
-            self.decir(f"Agitación térmica de {nombre}: −{dano} de energía.")
+            self.decir(tr("Agitación térmica de {nombre}: −{n} de energía.", nombre=nombre, n=dano))
             if s["afinidad"] > 0 and random.random() < 0.2:
                 s["afinidad"] = max(0, s["afinidad"] - 6)
-                self.decir(f"{nombre} se desordena un poco (−6 afinidad).")
+                self.decir(tr("{nombre} se desordena un poco (−6 afinidad).", nombre=nombre))
         self.turno += 1
         return resultado
 
@@ -483,22 +485,22 @@ class Combate:
         self.turnos_jugador += 1
         if not self.tipos_visible and self.turnos_jugador >= TURNOS_PARA_REVELAR:
             self.tipos_visible = True
-            self.decir(f"Su grupo ya es evidente: {datos.nombre_tipos(self.tipos_salvaje())}.")
+            self.decir(tr("Su grupo ya es evidente: {grupo}.", grupo=datos.nombre_tipos(self.tipos_salvaje())))
 
     def deducir(self):
         """Adivinar el grupo del salvaje. Devuelve True si gastó el turno."""
         if self.tipos_visible:
-            self.decir("Ya conoces su grupo.")
+            self.decir(tr("Ya conoces su grupo."))
             return False
         nombres = [datos.TIPOS[t]["nombre"] for t in datos.ORDEN_TIPOS]
-        p = d.menu(self.win, "¿Grupo de Lehninger?", nombres,
-                   ayuda="¿Solo C/H? ¿anillo? ¿OH/SH/amida? ¿NH₃⁺? ¿COO⁻?")
+        p = d.menu(self.win, tr("¿Grupo de Lehninger?"), nombres,
+                   ayuda=tr("¿Solo C/H? ¿anillo? ¿OH/SH/amida? ¿NH₃⁺? ¿COO⁻?"))
         if p is None:
             return False
         elegidos = (datos.ORDEN_TIPOS[p],)
         if elegidos == ("ARO",):
-            s = d.menu(self.win, "¿Y su carácter?", ["Más no polar (sin OH ni N–H)",
-                                                     "Algo polar (tiene OH o N–H)"])
+            s = d.menu(self.win, tr("¿Y su carácter?"), [tr("Más no polar (sin OH ni N–H)"),
+                                                         tr("Algo polar (tiene OH o N–H)")])
             if s is None:
                 return False
             elegidos = ("ARO", "NP" if s == 0 else "POL")
@@ -506,11 +508,12 @@ class Combate:
         if set(elegidos) == set(self.tipos_salvaje()):
             self.salvaje["afinidad"] = min(100, self.salvaje["afinidad"] + 10)
             msgs = progreso.dar_xp(self.mon, 5)
-            self.decir(f"Correcto: {datos.nombre_tipos(self.tipos_salvaje())}. +10 afinidad, +5 XP")
+            self.decir(tr("Correcto: {grupo}. +10 afinidad, +5 XP",
+                          grupo=datos.nombre_tipos(self.tipos_salvaje())))
             for msg in msgs:
                 self.decir(msg)
             return False      # acertar no gasta el turno
-        self.decir(f"No. Era {datos.nombre_tipos(self.tipos_salvaje())}. Pierdes el turno.")
+        self.decir(tr("No. Era {grupo}. Pierdes el turno.", grupo=datos.nombre_tipos(self.tipos_salvaje())))
         return True
 
     def cambiar(self, forzado=False):
@@ -520,27 +523,28 @@ class Combate:
             if i == self.activo or m["energia"] <= 0:
                 continue
             f = datos.forma(m["id"])
-            filas.append([f["nombre"], f"Nv {m['nivel']}",
-                          datos.nombre_tipos(f["tipos"], corto=True), f"energía {m['energia']}"])
+            filas.append([f["nombre"], tr("Nv {n}", n=m["nivel"]),
+                          datos.nombre_tipos(f["tipos"], corto=True),
+                          tr("energía {n}", n=m["energia"])])
             indices.append(i)
         opciones = ["".join(c[0] for c in fila) for fila in d.alinear(filas)]
         if not opciones:
             return False
         while True:
-            sel = d.menu(self.win, "¿Quién entra?", opciones)
+            sel = d.menu(self.win, tr("¿Quién entra?"), opciones)
             if sel is not None:
                 break
             if not forzado:
                 return False
         self.activo = indices[sel]
         self._reiniciar_estado()
-        self.decir(f"Entra {datos.forma(self.mon['id'])['nombre']}.")
+        self.decir(tr("Entra {nombre}.", nombre=datos.forma(self.mon["id"])["nombre"]))
         return True
 
     def lanzar_trna(self):
         """Devuelve 'capturado', 'huyo' o None."""
         if self.salvaje["afinidad"] < AFINIDAD_TRNA:
-            self.decir(f"El ARNt no se une: la afinidad debe ser ≥ {AFINIDAD_TRNA}.")
+            self.decir(tr("El ARNt no se une: la afinidad debe ser ≥ {n}.", n=AFINIDAD_TRNA))
             return None
         self.dibujar()
         L = self.layout()
@@ -559,45 +563,47 @@ class Combate:
             self.animar("trna", ctx)
             progreso.capturar(self.juego, self.aa, self.salvaje["nivel"])
             msgs = progreso.dar_xp(self.mon, 15)
-            texto = (f"{a['nombre']} ({a['tres']}, {self.aa}) se une a tu equipo.\n\n"
-                     f"Grupo: {datos.nombre_tipos(a['tipos'])}\n"
-                     f"Ficha completa en la Aminodex [X].")
+            texto = tr("{nombre} ({tres}, {una}) se une a tu equipo.\n\nGrupo: {grupo}\n"
+                       "Ficha completa en la Aminodex [X].", nombre=a["nombre"], tres=a["tres"],
+                       una=self.aa, grupo=datos.nombre_tipos(a["tipos"]))
             if msgs:
                 texto += "\n\n" + "\n".join(msgs)
-            d.popup(self.win, texto, "Captura", attr=d.c("bien"))
+            d.popup(self.win, texto, tr("Captura"), attr=d.c("bien"))
             return "capturado"
         self.salvaje["afinidad"] = max(0, self.salvaje["afinidad"] - 20)
-        self.decir("El ARNt se suelta (−20 afinidad).")
+        self.decir(tr("El ARNt se suelta (−20 afinidad)."))
         if random.random() < 0.3:
-            self.decir(f"{self.nombre_salvaje()} aprovechó para escapar.")
+            self.decir(tr("{nombre} aprovechó para escapar.", nombre=self.nombre_salvaje()))
             return "huyo"
         return self.turno_salvaje()
 
     def info(self):
         f = datos.forma(self.mon["id"])
         nombre_r = datos.GRUPO_R.get(f["base"], ("", "", ""))
-        lineas = [f"Grupo: {datos.nombre_tipos(f['tipos'])}"]
+        lineas = [tr("Grupo: {grupo}", grupo=datos.nombre_tipos(f["tipos"]))]
         if not f["evo"]:
-            lineas.append(f"Grupo R: {nombre_r[0]}  {nombre_r[1]}  ({nombre_r[2]})")
+            lineas.append(tr("Grupo R: {nombre}  {formula}  ({clase})", nombre=nombre_r[0],
+                             formula=nombre_r[1], clase=nombre_r[2]))
         lineas.append("")
         for i, mid in enumerate(self.movimientos()):
             m = datos.MOVIMIENTOS[mid]
-            tipo = datos.TIPOS[m["tipo"]]["nombre"] if m["tipo"] in datos.TIPOS else "Neutro"
+            tipo = datos.TIPOS[m["tipo"]]["nombre"] if m["tipo"] in datos.TIPOS else tr("Neutro")
             contra = ""
             if self.tipos_visible:
                 mult, partes = self._mult_mov(mid)
                 contra = f"  → {self._interaccion_principal(partes)} ×{datos.fmt_mult(mult)}"
-            lineas.append(f"{i + 1}) {m['nombre']} [{tipo}] poder {m['poder']}{contra}")
+            lineas.append(tr("{i}) {nombre} [{tipo}] poder {poder}{contra}", i=i + 1, nombre=m["nombre"],
+                             tipo=tipo, poder=m["poder"], contra=contra))
             lineas.append(f"   {m['desc']}")
             if m.get("ciencia"):
                 lineas.append(f"   ↳ {m['ciencia']}")
-        d.popup(self.win, "\n".join(lineas), f"Interacciones de {f['nombre']}", ancho=86)
+        d.popup(self.win, "\n".join(lineas), tr("Interacciones de {nombre}", nombre=f["nombre"]), ancho=86)
 
     # -------------------------------------------------------------- bucle
     def jugar(self):
         if self.activo is None:
             return "derrota"
-        self.decir("Deduce su grupo [D] o interactúa [1-5].")
+        self.decir(tr("Deduce su grupo [D] o interactúa [1-5]."))
         while True:
             self.dibujar()
             k = d.tecla(self.win)
@@ -620,12 +626,12 @@ class Combate:
             elif d.es(k, "h"):
                 if random.random() < 0.8:
                     return "huiste"
-                self.decir("No lograste escapar.")
+                self.decir(tr("No lograste escapar."))
                 resultado = self.turno_salvaje()
             elif d.es(k, "v"):
                 i = anim.ORDEN_VEL.index(self.velocidad)
                 self.juego["ajustes"]["velocidad"] = anim.ORDEN_VEL[(i + 1) % len(anim.ORDEN_VEL)]
-                self.decir(f"Velocidad de animación: {self.velocidad}.")
+                self.decir(tr("Velocidad de animación: {vel}.", vel=tr(self.velocidad)))
             elif d.es(k, "m", "?"):
                 tipos = self.tipos_salvaje() if self.tipos_visible else None
                 manual.mostrar(self.win, self.juego, "afinidad", rival=tipos)
@@ -633,11 +639,11 @@ class Combate:
                 self.info()
             if resultado == "huyo":
                 self.dibujar()
-                d.popup(self.win, f"{self.nombre_salvaje()} se escapó.", "Combate")
+                d.popup(self.win, tr("{nombre} se escapó.", nombre=self.nombre_salvaje()), tr("Combate"))
                 return "huyo"
             if self.mon["energia"] <= 0:
                 nombre = datos.forma(self.mon["id"])["nombre"]
-                self.decir(f"{nombre} se desnaturalizó.")
+                self.decir(tr("{nombre} se desnaturalizó.", nombre=nombre))
                 self.dibujar()
                 if not self.cambiar(forzado=True):
                     return "derrota"

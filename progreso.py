@@ -4,6 +4,7 @@ import json
 import os
 
 import datos
+from idioma import tr
 
 ARCHIVO = os.path.expanduser("~/.aminomon.json")
 
@@ -76,9 +77,9 @@ def dar_xp(mon, cantidad):
         mon["nivel"] += 1
         mon["energia"] = energia_max(mon)
         nombre = datos.forma(mon["id"])["nombre"]
-        mensajes.append(f"{nombre} sube al nivel {mon['nivel']}.")
+        mensajes.append(tr("{nombre} sube al nivel {nivel}.", nombre=nombre, nivel=mon["nivel"]))
         if modificaciones_posibles(mon):
-            mensajes.append(f"{nombre} ya puede modificarse (Equipo [E] → V).")
+            mensajes.append(tr("{nombre} ya puede modificarse (Equipo [E] → V).", nombre=nombre))
     return mensajes
 
 
@@ -127,18 +128,18 @@ def modificaciones_posibles(mon):
 def requisitos(juego, mon, evo_id, zona_actual):
     """Lista de (texto, cumplido) para la modificación."""
     req = datos.MODIFICACIONES[evo_id]["req"]
-    lista = [(f"Nivel {req['nivel']} (tiene {mon['nivel']})",
+    lista = [(tr("Nivel {req} (tiene {nivel})", req=req["nivel"], nivel=mon["nivel"]),
               mon["nivel"] >= req["nivel"])]
     if "objeto" in req:
         n = juego["objetos"].get(req["objeto"], 0)
-        lista.append((f"1 {req['objeto']} (tienes {n})", n >= 1))
+        lista.append((tr("1 {objeto} (tienes {n})", objeto=tr(req["objeto"]), n=n), n >= 1))
     if "zona" in req:
         nombre = datos.ZONAS[req["zona"]]["nombre"]
         dentro = zona_actual == req["zona"] or (req["zona"] == "nucleo" and zona_actual == "nucleolo")
-        lista.append((f"Estar en: {nombre}", dentro))
+        lista.append((tr("Estar en: {zona}", zona=nombre), dentro))
     if req.get("otra_cys"):
         otras = sum(1 for m in juego["equipo"] if m["id"] == "C" and m is not mon)
-        lista.append(("Otra Cys en el equipo", otras >= 1))
+        lista.append((tr("Otra Cys en el equipo"), otras >= 1))
     return lista
 
 

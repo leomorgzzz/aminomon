@@ -4,7 +4,12 @@ postraduccionales, tipos, movimientos, zonas del mapa y glosario.
 Valores fisicoquímicos: Lehninger, 25 °C (masa del aminoácido libre en g/mol;
 pK1 = α-COOH, pK2 = α-NH3+, pKR = cadena lateral, pI = punto isoeléctrico).
 Hidropatía: escala de Kyte-Doolittle (1982).
+
+Los textos están en español; en inglés se traducen al final de cada sección
+con idioma.traducir() (las traducciones viven en en.py).
 """
+
+from idioma import tr, traducir
 
 # ================================================================== tipos
 # Los tipos son los 5 grupos de Lehninger (según la cadena lateral R).
@@ -64,16 +69,15 @@ _PARES = {
     ("NEG", "NEG"): (0, "repulsión (− con −)"),
 }
 EFECTIVIDAD = {a: {} for a in ORDEN_TIPOS}
-for (_a, _b), _v in _PARES.items():
-    EFECTIVIDAD[_a][_b] = _v
-    EFECTIVIDAD[_b][_a] = _v
+for (_a, _b), (_mult, _texto) in _PARES.items():
+    EFECTIVIDAD[_a][_b] = EFECTIVIDAD[_b][_a] = (_mult, tr(_texto))
 
 
 def multiplicador(tipo_mov, tipos_def):
     """Multiplicador total contra un defensor de uno o dos tipos.
     Devuelve (multiplicador, [(tipo_def, mult_parcial, interacción)])."""
     if tipo_mov == NEUTRO:
-        return 1.0, [(t, 1, "interacción del esqueleto / van der Waals") for t in tipos_def]
+        return 1.0, [(t, 1, tr("interacción del esqueleto / van der Waals")) for t in tipos_def]
     total, partes = 1.0, []
     for t in tipos_def:
         m, texto = EFECTIVIDAD[tipo_mov][t]
@@ -806,6 +810,12 @@ INTERACCIONES_R = {
 }
 
 
+INTERACCION = {k: tr(v) for k, v in INTERACCION.items()}
+DESC_TIPO = {k: (tr(a), tr(b)) for k, (a, b) in DESC_TIPO.items()}
+INTERACCIONES_R = {k: [(t, tr(g), p) for t, g, p in v] for k, v in INTERACCIONES_R.items()}
+GRUPO_R = {k: tuple(tr(x) for x in v) for k, v in GRUPO_R.items()}
+
+
 def _m(nombre, tipo, poder, desc, ciencia=None, efecto=None):
     return dict(nombre=nombre, tipo=tipo, poder=poder, desc=desc,
                 ciencia=ciencia, efecto=efecto)
@@ -830,6 +840,7 @@ MOVIMIENTOS = {
         "2 R–SH → R–S–S–R + 2H⁺ + 2e⁻ (oxidación)."),
 }
 MOVIMIENTOS["puente_disulfuro"]["efecto"] = "disulfuro"
+traducir(MOVIMIENTOS, "nombre", "desc", "ciencia")      # los fijos (los de R ya vienen traducidos)
 for _fid, _lista in INTERACCIONES_R.items():
     for _tipo, _grupo, _poder in _lista:
         _desc, _ciencia = DESC_TIPO[_tipo]
@@ -994,6 +1005,20 @@ GLOSARIO = [
                       "y cargado −. Otras fuentes ponen Gly, Cys o Trp en "
                       "otros grupos según la escala de hidrofobicidad."),
 ]
+
+
+# ============================================================ traducción
+# Las claves de OBJETOS se quedan en español: son las del archivo de guardado.
+traducir(TIPOS, "nombre", "corto", "desc")
+GRUPOS = {k: tr(v) for k, v in GRUPOS.items()}
+NUTRICION = {tr(k): tr(v) for k, v in NUTRICION.items()}
+traducir(AMINOACIDOS, "nombre", "carga", "nutricion", "pista")
+NOTA_KD = {k: tr(v) for k, v in NOTA_KD.items()}
+traducir(MODIFICACIONES, "nombre", "carga", "cambio", "bio", "pista")
+OBJETOS = {k: tr(v) for k, v in OBJETOS.items()}
+traducir(ZONAS, "nombre", "por_que")
+GLOSARIO = [(tr(a), tr(b)) for a, b in GLOSARIO]
+traducir(PEPTIDOS, "nombre", "bio")
 
 
 # ============================================================ utilidades

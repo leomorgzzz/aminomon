@@ -3,6 +3,8 @@
 import curses
 import textwrap
 
+from idioma import tr
+
 # Paleta: grises neutros + acentos desaturados (índices xterm-256).
 # (color 256, respaldo de 8 colores)
 _PALETA = {
@@ -186,7 +188,7 @@ def estructura(win, y, x, lineas, attr=None, cpk=True, etiqueta_r=None, color_r=
         sangria = min(len(l) - len(l.lstrip()) for l in filas_r)
         for i in range(n_esq, len(lineas)):
             put(win, y + i, x + max(0, sangria - 2), "┃", c(color_r))
-        put(win, y + len(lineas) + 1, x + max(0, sangria - 2), "grupo R: ", c("tenue"))
+        put(win, y + len(lineas) + 1, x + max(0, sangria - 2), tr("grupo R: "), c("tenue"))
         put(win, y + len(lineas) + 1, x + max(0, sangria - 2) + 9, etiqueta_r, c(color_r, curses.A_BOLD))
 
 
@@ -244,7 +246,8 @@ def popup(win, texto, titulo=None, ancho=60, attr=None, esperar=True):
     for i, l in enumerate(lineas[: h - 4]):
         put(win, y0 + 1 + i, x0 + 2, l, attr if attr is not None else c("texto"))
     if esperar:
-        put(win, y0 + h - 2, x0 + ancho - 18, "[Enter] seguir", c("tenue"))
+        seguir = tr("[Enter] seguir")
+        put(win, y0 + h - 2, x0 + ancho - len(seguir) - 4, seguir, c("tenue"))
         win.refresh()
         while True:
             k = tecla(win)

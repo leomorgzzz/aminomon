@@ -10,6 +10,7 @@ import math
 import random
 
 import dibujo as d
+from idioma import tr
 
 # ms por cuadro, ms de pausa final
 VELOCIDADES = {"lenta": (140, 1800), "normal": (75, 900), "rápida": (30, 250)}
@@ -61,7 +62,7 @@ def _final(cuadros, h, w, texto, color="titulo"):
 def salino(h, w, ctx):
     izq, der = ctx["mio"], ctx["rival"]
     cuadros, (y, fi, fd) = _acercar(h, w, izq, der, ctx["color_mio"], ctx["color_rival"],
-                                    sub="dos grupos con carga opuesta se atraen")
+                                    sub=tr("dos grupos con carga opuesta se atraen"))
     base = _sin_sub(cuadros[-1], h)
     for i in range(1, 7):
         puntos = "·" * max(1, min(i, fd - fi - len(izq) - 2))
@@ -69,23 +70,23 @@ def salino(h, w, ctx):
             (y - 1, fi + len(izq) - 1, ctx["carga_mio"], ctx["color_mio"]),
             (y - 1, fd, ctx["carga_rival"], ctx["color_rival"]),
             (y, fi + len(izq) + 1, puntos, "titulo"),
-            _sub(h, w, "atracción electrostática entre + y −"),
+            _sub(h, w, tr("atracción electrostática entre + y −")),
         ])
-    return _final(cuadros, h, w, ctx.get("nombre", "puente salino"))
+    return _final(cuadros, h, w, ctx.get("nombre", tr("puente salino")))
 
 
 def repulsion(h, w, ctx):
     izq, der = ctx["mio"], ctx["rival"]
     cuadros, (y, fi, fd) = _acercar(h, w, izq, der, ctx["color_mio"], ctx["color_rival"],
-                                    n=9, hueco=9, sub="se acercan dos grupos con la MISMA carga…")
+                                    n=9, hueco=9, sub=tr("se acercan dos grupos con la MISMA carga…"))
     for i in range(1, 8):
         cuadros.append([(y, fi - i * 2, izq, ctx["color_mio"]),
                         (y, fd + i * 2, der, ctx["color_rival"]),
                         (y - 1, max(0, fi - i * 2 + len(izq) - 1), ctx["carga_mio"], "mal"),
                         (y - 1, fd + i * 2, ctx["carga_rival"], "mal"),
                         (y, w // 2 - 3, "⟵ ✕ ⟶", "mal"),
-                        _sub(h, w, "cargas iguales se repelen")])
-    return _final(cuadros, h, w, ctx.get("nombre", "repulsión electrostática"), "mal")
+                        _sub(h, w, tr("cargas iguales se repelen"))])
+    return _final(cuadros, h, w, ctx.get("nombre", tr("repulsión electrostática")), "mal")
 
 
 def hidrofobico(h, w, ctx):
@@ -107,18 +108,18 @@ def hidrofobico(h, w, ctx):
             ay = cy + int(math.sin(ang) * rr * h * 0.45)
             if 0 <= ay < h - 1 and 0 <= ax < w - 3 and ay != cy:
                 c.append((ay, ax, "H₂O", "agua"))
-        texto = ("cada cadena no polar está rodeada de agua ordenada" if t < 0.5
-                 else "al juntarse, esa agua ordenada queda libre")
+        texto = (tr("cada cadena no polar está rodeada de agua ordenada") if t < 0.5
+                 else tr("al juntarse, esa agua ordenada queda libre"))
         c.append(_sub(h, w, texto))
         cuadros.append(c)
-    return _final(cuadros, h, w, ctx.get("nombre", "efecto hidrofóbico: ↑ entropía del agua"))
+    return _final(cuadros, h, w, ctx.get("nombre", tr("efecto hidrofóbico: ↑ entropía del agua")))
 
 
 def solvatacion(h, w, ctx):
     """No polar con polar/cargado: el agua se queda pegada al grupo polar."""
     izq, der = ctx["mio"], ctx["rival"]
     cuadros, (y, fi, fd) = _acercar(h, w, izq, der, ctx["color_mio"], ctx["color_rival"],
-                                    n=10, hueco=13, sub="intentan juntarse…")
+                                    n=10, hueco=13, sub=tr("intentan juntarse…"))
     polar_der = ctx.get("polar_lado", "der") == "der"
     base = _sin_sub(cuadros[-1], h)
     posiciones = [(-1, 0), (1, 0), (-1, 4), (1, 4), (0, -5)]
@@ -129,14 +130,14 @@ def solvatacion(h, w, ctx):
                 capa.append((y + dy, fd - 1 + dx, "H₂O", "agua"))
             else:
                 capa.append((y + dy, fi + len(izq) - 3 - dx, "H₂O", "agua"))
-        cuadros.append(base + capa + [_sub(h, w, "el agua forma una capa alrededor del grupo polar")])
-    return _final(cuadros, h, w, ctx.get("nombre", "el agua los mantiene separados"), "tenue")
+        cuadros.append(base + capa + [_sub(h, w, tr("el agua forma una capa alrededor del grupo polar"))])
+    return _final(cuadros, h, w, ctx.get("nombre", tr("el agua los mantiene separados")), "tenue")
 
 
 def puente_h(h, w, ctx):
     izq, der = ctx["hb_izq"], ctx["hb_der"]
     cuadros, (y, fi, fd) = _acercar(h, w, izq, der, ctx["color_mio"], ctx["color_rival"],
-                                    hueco=5, sub="un H unido a O o N se acerca a otro O o N")
+                                    hueco=5, sub=tr("un H unido a O o N se acerca a otro O o N"))
     base = _sin_sub(cuadros[-1], h)
     don_izq = ctx.get("donador") == "izq"
     cargas = [(y - 1, fi + len(izq) - 1, "δ+" if don_izq else "δ−", "tenue"),
@@ -145,20 +146,20 @@ def puente_h(h, w, ctx):
     k = _atomo_donador(izq if don_izq else der, desde_der=don_izq)
     if k is not None:
         cargas.append((y - 1, (fi if don_izq else fd) + k, "δ−", "tenue"))
-        porque = "H δ+ entre dos átomos δ−: se atraen, no se repelen"
+        porque = tr("H δ+ entre dos átomos δ−: se atraen, no se repelen")
     else:
-        porque = "el H δ+ apunta al par libre δ−: se atraen"
+        porque = tr("el H δ+ apunta al par libre δ−: se atraen")
     for i in range(1, 6):
         cuadros.append(base + cargas + [
             (y, fi + len(izq) + 1, "·" * min(i, 3), "titulo"),
-            _sub(h, w, "H (δ+) del donador ··· par libre (δ−) del aceptor"),
+            _sub(h, w, tr("H (δ+) del donador ··· par libre (δ−) del aceptor")),
         ])
     for _ in range(4):
         cuadros.append(base + cargas + [
             (y, fi + len(izq) + 1, "···", "titulo"),
             _sub(h, w, porque),
         ])
-    return _final(cuadros, h, w, ctx.get("nombre", "puente de hidrógeno"))
+    return _final(cuadros, h, w, ctx.get("nombre", tr("puente de hidrógeno")))
 
 
 def _atomo_donador(texto, desde_der):
@@ -175,12 +176,12 @@ def _atomo_donador(texto, desde_der):
 def sin_puente_h(h, w, ctx):
     izq, der = ctx["hb_izq"], ctx["hb_der"]
     cuadros, (y, fi, fd) = _acercar(h, w, izq, der, ctx["color_mio"], ctx["color_rival"],
-                                    hueco=7, sub="se acercan…")
+                                    hueco=7, sub=tr("se acercan…"))
     base = _sin_sub(cuadros[-1], h)
     for i in range(6):
         cuadros.append(base + [(y, w // 2 - 1, "✕" if i % 2 == 0 else " ", "mal"),
-                               _sub(h, w, ctx.get("motivo", "falta un donador o un aceptor"), "mal")])
-    return _final(cuadros, h, w, ctx.get("nombre", "no se forma puente de H"), "mal")
+                               _sub(h, w, ctx.get("motivo", tr("falta un donador o un aceptor")), "mal")])
+    return _final(cuadros, h, w, ctx.get("nombre", tr("no se forma puente de H")), "mal")
 
 
 ANILLO = [" __ ", "/  \\", "\\__/"]
@@ -200,13 +201,13 @@ def pi(h, w, ctx):
         for k, l in enumerate(ANILLO):
             c.append((cy + 1 + k, xi, l, ctx["color_mio"]))
             c.append((yd + k, xd, l, ctx["color_rival"]))
-        c.append(_sub(h, w, "dos anillos aromáticos se acercan"))
+        c.append(_sub(h, w, tr("dos anillos aromáticos se acercan")))
         cuadros.append(c)
     base = _sin_sub(cuadros[-1], h)
     for i in range(5):
         cuadros.append(base + [(cy + 4, cx + 6, "← ~3.5 Å" if i % 2 == 0 else "", "tenue"),
-                               _sub(h, w, "se apilan cara a cara, desplazados")])
-    return _final(cuadros, h, w, ctx.get("nombre", "apilamiento π–π"))
+                               _sub(h, w, tr("se apilan cara a cara, desplazados"))])
+    return _final(cuadros, h, w, ctx.get("nombre", tr("apilamiento π–π")))
 
 
 def cation_pi(h, w, ctx):
@@ -216,13 +217,13 @@ def cation_pi(h, w, ctx):
     for i in range(base_y - 1):
         c = [(base_y + k, cx, l, ctx["color_anillo"]) for k, l in enumerate(ANILLO) if base_y + k < h - 1]
         c.append((i, cx - 1, ctx["cation"], ctx["color_cation"]))
-        c.append(_sub(h, w, "un catión baja hacia la cara del anillo"))
+        c.append(_sub(h, w, tr("un catión baja hacia la cara del anillo")))
         cuadros.append(c)
     base = _sin_sub(cuadros[-1], h)
     for i in range(5):
         cuadros.append(base + [(base_y - 1, cx + 7, "+···π" if i % 2 == 0 else "", "titulo"),
-                               _sub(h, w, "la nube π (rica en electrones) atrae la carga +")])
-    return _final(cuadros, h, w, ctx.get("nombre", "interacción catión–π"))
+                               _sub(h, w, tr("la nube π (rica en electrones) atrae la carga +"))])
+    return _final(cuadros, h, w, ctx.get("nombre", tr("interacción catión–π")))
 
 
 def oh_pi(h, w, ctx):
@@ -232,26 +233,26 @@ def oh_pi(h, w, ctx):
     for i in range(base_y - 1):
         c = [(base_y + k, cx, l, ctx["color_anillo"]) for k, l in enumerate(ANILLO) if base_y + k < h - 1]
         c.append((i, cx, ctx["donador_txt"], ctx["color_donador"]))
-        c.append(_sub(h, w, "un X–H apunta hacia la cara del anillo"))
+        c.append(_sub(h, w, tr("un X–H apunta hacia la cara del anillo")))
         cuadros.append(c)
     base = _sin_sub(cuadros[-1], h)
     for i in range(4):
         cuadros.append(base + [(base_y - 1, cx + 7, "H···π" if i % 2 == 0 else "", "titulo"),
-                               _sub(h, w, "puente de H débil: la nube π hace de aceptor")])
-    return _final(cuadros, h, w, ctx.get("nombre", "puente de H X–H···π"))
+                               _sub(h, w, tr("puente de H débil: la nube π hace de aceptor"))])
+    return _final(cuadros, h, w, ctx.get("nombre", tr("puente de H X–H···π")))
 
 
 def vdw(h, w, ctx):
     izq, der = ctx["mio"], ctx["rival"]
     cuadros, (y, fi, fd) = _acercar(h, w, izq, der, ctx["color_mio"], ctx["color_rival"],
-                                    hueco=3, sub="dos grupos se acercan hasta casi tocarse")
+                                    hueco=3, sub=tr("dos grupos se acercan hasta casi tocarse"))
     base = _sin_sub(cuadros[-1], h)
     for i in range(8):
         signos = ("δ+", "δ−") if i % 2 == 0 else ("δ−", "δ+")
         cuadros.append(base + [(y - 1, fi, signos[0], "tenue"),
                                (y - 1, fd + len(der) - 2, signos[1], "tenue"),
-                               _sub(h, w, "un dipolo instantáneo induce otro en el vecino")])
-    return _final(cuadros, h, w, ctx.get("nombre", "fuerzas de London (van der Waals)"))
+                               _sub(h, w, tr("un dipolo instantáneo induce otro en el vecino"))])
+    return _final(cuadros, h, w, ctx.get("nombre", tr("fuerzas de London (van der Waals)")))
 
 
 def esqueleto(h, w, ctx):
@@ -263,15 +264,15 @@ def esqueleto(h, w, ctx):
     for i in range(1, 9):
         n = largo * i // 8
         cuadros.append([(y, 4, arriba[:n], ctx["color_mio"]), (y + 3, 4, abajo[:n], ctx["color_rival"]),
-                        _sub(h, w, "dos esqueletos peptídicos se alinean")])
+                        _sub(h, w, tr("dos esqueletos peptídicos se alinean"))])
     base = _sin_sub(cuadros[-1], h)
     for i in range(6):
         enlaces = []
         for k in range(1, largo - 2, 8):
             if (k // 8 + i) % 2 == 0 or i > 3:
                 enlaces += [(y + 1, 4 + k, "H", "tenue"), (y + 2, 4 + k, "⁞", "titulo")]
-        cuadros.append(base + enlaces + [_sub(h, w, "N–H de un esqueleto ··· O═C del otro")])
-    return _final(cuadros, h, w, ctx.get("nombre", "puentes de H del esqueleto"))
+        cuadros.append(base + enlaces + [_sub(h, w, tr("N–H de un esqueleto ··· O═C del otro"))])
+    return _final(cuadros, h, w, ctx.get("nombre", tr("puentes de H del esqueleto")))
 
 
 
@@ -279,13 +280,13 @@ def esqueleto(h, w, ctx):
 def disulfuro(h, w, ctx):
     izq, der = "Cys─SH", "HS─Cys"
     cuadros, (y, fi, fd) = _acercar(h, w, izq, der, ctx["color_mio"], ctx["color_rival"],
-                                    hueco=1, sub="dos tioles (SH) se acercan")
+                                    hueco=1, sub=tr("dos tioles (SH) se acercan"))
     for i in range(1, 7):
         cuadros.append([(y, fi, "Cys─S ", ctx["color_mio"]), (y, fd, " S─Cys", ctx["color_rival"]),
                         (max(0, y - i), fi + 5, "H", "agua"), (max(0, y - i), fd, "H", "agua"),
-                        _sub(h, w, "se oxidan: salen 2H⁺ + 2e⁻")])
+                        _sub(h, w, tr("se oxidan: salen 2H⁺ + 2e⁻"))])
     final = [(y, w // 2 - 6, "Cys─S─S─Cys", "titulo"), (0, 1, "2H⁺ + 2e⁻", "tenue")]
-    cuadros.append(final + [_sub(h, w, "enlace covalente S–S (cistina)", "titulo")])
+    cuadros.append(final + [_sub(h, w, tr("enlace covalente S–S (cistina)"), "titulo")])
     return cuadros
 
 
@@ -317,12 +318,13 @@ def disulfuro(h, w, ctx):
 
 def agitacion(h, w, ctx):
     y = h // 2 - 1
+    texto = tr("agitación térmica")
     cuadros = []
     for i in range(10):
         olas = "".join("≈ "[(k + i) % 2] for k in range(w - 4))
         cuadros.append([(y - 1, 2, olas, "mal"), (y + 1, 2, olas[::-1], "mal"),
-                        (y, _centro(w, "agitación térmica"), "agitación térmica", "mal"),
-                        _sub(h, w, "el movimiento térmico desordena tus interacciones")])
+                        (y, _centro(w, texto), texto, "mal"),
+                        _sub(h, w, tr("el movimiento térmico desordena tus interacciones"))])
     return cuadros
 
 
@@ -342,13 +344,13 @@ def trna(h, w, ctx):
         for k, (l, color) in enumerate(figura):
             if 1 <= paso + k < h - 1:
                 c.append((paso + k, xc, l, color))
-        c.append(_sub(h, w, f"el ARNt trae la {ctx['tres']} unida a su extremo 3'"))
+        c.append(_sub(h, w, tr("el ARNt trae la {tres} unida a su extremo 3'", tres=ctx["tres"])))
         cuadros.append(c)
     final = [(0, xa, arn, "texto"), (0, xc, cod, "bien"),
              (1, xc, "│││", "bien"), (2, xc, anti, "bien"),
-             (1, xc + 5, f"codón     5'-{cod}-3'", "tenue"),
-             (2, xc + 5, f"anticodón 3'-{anti}-5'", "tenue")]
-    cuadros.append(final + [_sub(h, w, "bases complementarias y antiparalelas: A·U, G·C", "titulo")])
+             (1, xc + 5, tr("codón     5'-{cod}-3'", cod=cod), "tenue"),
+             (2, xc + 5, tr("anticodón 3'-{cod}-5'", cod=anti), "tenue")]
+    cuadros.append(final + [_sub(h, w, tr("bases complementarias y antiparalelas: A·U, G·C"), "titulo")])
     return cuadros
 
 

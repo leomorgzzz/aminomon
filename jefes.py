@@ -8,6 +8,7 @@ import datos
 import dibujo as d
 import preguntas
 import progreso
+from idioma import tr, traducir
 
 AA = datos.AMINOACIDOS
 CARGA = {"K": 1, "R": 1, "D": -1, "E": -1}
@@ -45,8 +46,8 @@ JEFES = {
         desc="Construye un segmento que pueda atravesar la bicapa: al menos 6 "
              "residuos con GRAVY > 1.5.",
         utiles="VLIFAM",
-        condiciones=lambda s: [("Al menos 6 residuos", len(s) >= 6),
-                               ("GRAVY > 1.5", len(s) > 0 and gravy(s) > 1.5)],
+        condiciones=lambda s: [(tr("Al menos 6 residuos"), len(s) >= 6),
+                               (tr("GRAVY > 1.5"), len(s) > 0 and gravy(s) > 1.5)],
         bio="Las hélices transmembrana reales tienen ~20 residuos no polares: "
             "≈ 30 Å, el grosor del núcleo de la bicapa. Así las predice el "
             "gráfico de hidropatía de Kyte-Doolittle.",
@@ -57,9 +58,9 @@ JEFES = {
         desc="Construye una superficie soluble: al menos 6 residuos, GRAVY < "
              "−1.0 y al menos un sitio de fosforilación (S, T o Y).",
         utiles="STYNQ",
-        condiciones=lambda s: [("Al menos 6 residuos", len(s) >= 6),
-                               ("GRAVY < −1.0", len(s) > 0 and gravy(s) < -1.0),
-                               ("Contiene S, T o Y", any(c in "STY" for c in s))],
+        condiciones=lambda s: [(tr("Al menos 6 residuos"), len(s) >= 6),
+                               (tr("GRAVY < −1.0"), len(s) > 0 and gravy(s) < -1.0),
+                               (tr("Contiene S, T o Y"), any(c in "STY" for c in s))],
         bio="Las proteínas solubles exponen residuos polares al agua. Los "
             "S/T/Y expuestos son blancos de quinasas: así se encienden y "
             "apagan las vías de señalización.",
@@ -71,8 +72,8 @@ JEFES = {
              "con carga neta ≥ +4 (K, R = +1; D, E = −1). Necesitas al menos 4 "
              "Lys en tu equipo.",
         utiles="K",
-        condiciones=lambda s: [("Entre 4 y 8 residuos", 4 <= len(s) <= 8),
-                               ("Carga neta ≥ +4", carga_neta(s) >= 4)],
+        condiciones=lambda s: [(tr("Entre 4 y 8 residuos"), 4 <= len(s) <= 8),
+                               (tr("Carga neta ≥ +4"), carga_neta(s) >= 4)],
         bio="La NLS clásica es PKKKRKV (antígeno T de SV40). Las importinas "
             "reconocen ese parche básico y llevan la proteína a través del "
             "poro nuclear. Ya puedes cruzar los poros.",
@@ -84,8 +85,8 @@ JEFES = {
              "C-terminal para no escaparse. Construye un péptido de al menos 4 "
              "residuos que termine en esa señal: K-D-E-L.",
         utiles="KDEL",
-        condiciones=lambda s: [("Al menos 4 residuos", len(s) >= 4),
-                               ("Termina en KDEL", s.endswith("KDEL"))],
+        condiciones=lambda s: [(tr("Al menos 4 residuos"), len(s) >= 4),
+                               (tr("Termina en KDEL"), s.endswith("KDEL"))],
         bio="BiP, la PDI y la calreticulina terminan en KDEL. Si escapan al "
             "Golgi, el receptor de KDEL las regresa al RE en vesículas COPI.",
         premio=("Vitamina K", 2),
@@ -97,8 +98,8 @@ JEFES = {
              "(La Asn llega del RE ya N-glicosilada; aquí solo se recorta su "
              "glicano.)",
         utiles="ST",
-        condiciones=lambda s: [("Al menos 6 residuos", len(s) >= 6),
-                               ("≥ 60% de Ser o Thr", frac_st(s) >= 0.6)],
+        condiciones=lambda s: [(tr("Al menos 6 residuos"), len(s) >= 6),
+                               (tr("≥ 60% de Ser o Thr"), frac_st(s) >= 0.6)],
         bio="Las mucinas tienen dominios ricos en Pro, Thr y Ser (PTS). En el "
             "Golgi, las GalNAc-transferasas ponen O-glicanos en casi todas sus "
             "Ser/Thr: la proteína queda cubierta de azúcares y atrapa agua "
@@ -115,9 +116,9 @@ JEFES = {
              "positivo en el lisosoma (carga ≥ +2 a pH 5). Se cuentan solo las "
              "cadenas laterales.",
         utiles="H",
-        condiciones=lambda s: [("Entre 3 y 8 residuos", 3 <= len(s) <= 8),
-                               ("Carga a pH 7.4 entre −1 y +1", -1 <= carga_ph(s, 7.4) <= 1),
-                               ("Carga a pH 5.0 ≥ +2", carga_ph(s, 5.0) >= 2)],
+        condiciones=lambda s: [(tr("Entre 3 y 8 residuos"), 3 <= len(s) <= 8),
+                               (tr("Carga a pH 7.4 entre −1 y +1"), -1 <= carga_ph(s, 7.4) <= 1),
+                               (tr("Carga a pH 5.0 ≥ +2"), carga_ph(s, 5.0) >= 2)],
         bio="La His (pKR 6) es la única cadena lateral que cambia mucho de "
             "carga entre pH 7.4 y 5. Así funcionan los péptidos que escapan de "
             "endosomas y muchos sensores de pH en proteínas.",
@@ -129,15 +130,18 @@ JEFES = {
              "una Gly cada 3 (puede empezar en la posición 1, 2 o 3) y al menos "
              "una P.",
         utiles="GP",
-        condiciones=lambda s: [("Al menos 9 residuos", len(s) >= 9),
-                               ("Gly cada 3 residuos", marco_colageno(s) is not None),
-                               ("Contiene Pro", "P" in s)],
+        condiciones=lambda s: [(tr("Al menos 9 residuos"), len(s) >= 9),
+                               (tr("Gly cada 3 residuos"), marco_colageno(s) is not None),
+                               (tr("Contiene Pro"), "P" in s)],
         bio="Cada tercer residuo debe ser Gly: es la única cadena lateral (un "
             "H) que cabe en el centro de la triple hélice. Las mutaciones de "
             "esas Gly causan osteogénesis imperfecta.",
         premio=("Vitamina C", 2),
     ),
 }
+
+
+traducir(JEFES, "nombre", "reto", "desc", "bio")
 
 
 def pista_faltantes(juego, zona):
@@ -149,7 +153,7 @@ def pista_faltantes(juego, zona):
     for c in faltan:
         donde = ", ".join(datos.ZONAS[z]["nombre"] for z in datos.zonas_de(c))
         partes.append(f"{AA[c]['tres']} ({c}) → {donde}")
-    return "Útiles y aún sin capturar: " + "; ".join(partes)
+    return tr("Útiles y aún sin capturar: ") + "; ".join(partes)
 
 
 # ================================================== dibujo de tu péptido
@@ -168,21 +172,21 @@ def _nota(zona, seq, i):
     c = seq[i]
     if zona == "citosol":
         if c in "STY":
-            return "◆ quinasa", "NEG"
+            return tr("◆ quinasa"), "NEG"
         return ("H₂O ✓", "agua") if AA[c]["hidropatia"] < 0 else ("", "tenue")
     if zona == "nucleo":
-        return {"K": ("+ importina", "POS"), "R": ("+ importina", "POS"),
+        return {"K": (tr("+ importina"), "POS"), "R": (tr("+ importina"), "POS"),
                 "D": ("−", "NEG"), "E": ("−", "NEG")}.get(c, ("", "tenue"))
     if zona == "re":
-        return ("▶ receptor", "titulo") if i >= len(seq) - 4 else ("", "tenue")
+        return (tr("▶ receptor"), "titulo") if i >= len(seq) - 4 else ("", "tenue")
     if zona == "golgi":
         if c == "N" and i + 2 < len(seq) and seq[i + 1] != "P" and seq[i + 2] in "ST":
-            return "◆ N-glic.", "POL"          # secuón N-X-S/T: glicano del RE
+            return tr("◆ N-glic."), "POL"          # secuón N-X-S/T: glicano del RE
         return ("◇ O-GalNAc", "POL") if c in "ST" else ("", "tenue")
     if zona == "mec":
         o = marco_colageno(seq) or 0
         pos = (i - o) % 3
-        return [("▼ centro", "titulo"), ("X (fuera)", "tenue"), ("Y (fuera)", "tenue")][pos]
+        return [(tr("▼ centro"), "titulo"), (tr("X (fuera)"), "tenue"), (tr("Y (fuera)"), "tenue")][pos]
     if zona == "lisosoma":
         return f"{carga_ph(c, 7.4):+.2f}→{carga_ph(c, 5.0):+.2f}", "POS" if c == "H" else "tenue"
     return "", "tenue"
@@ -231,7 +235,7 @@ def dibujar_membrana(win, y, x, seq):
             a = AA[c]
             d.put(win, y + k, x + 14, f"{a['tres']}", d.c(a["tipos"][0], curses.A_BOLD))
             d.put(win, y + k, x + 40, f"KD {a['hidropatia']:+.1f}", d.c("tenue"))
-    d.put(win, y + 1, x + 40, "N-terminal ↓", d.c("tenue"))
+    d.put(win, y + 1, x + 40, tr("N-terminal ↓"), d.c("tenue"))
     return y + len(filas) + 1
 
 
@@ -239,24 +243,25 @@ def mostrar_exito(win, juego, zona, seq):
     j = JEFES[zona]
     alto, ancho = win.getmaxyx()
     win.erase()
-    d.put(win, 0, 1, f"Reto superado: {j['reto']}  ·  {seq}", d.c("bien", curses.A_BOLD))
+    d.put(win, 0, 1, tr("Reto superado: {reto}  ·  {seq}", reto=j["reto"], seq=seq),
+          d.c("bien", curses.A_BOLD))
     if zona == "membrana":
         y = dibujar_membrana(win, 2, 2, seq[: max(1, alto - 14)])
     else:
         y = dibujar_peptido(win, 2, 1, ancho - 2, seq, zona)
     if zona == "lisosoma":
-        d.put(win, y, 1, f"carga a pH 7.4: {carga_ph(seq, 7.4):+.2f}   →   a pH 5.0: "
-                         f"{carga_ph(seq, 5.0):+.2f}", d.c("titulo"))
+        d.put(win, y, 1, tr("carga a pH 7.4: {a:+.2f}   →   a pH 5.0: {b:+.2f}",
+                            a=carga_ph(seq, 7.4), b=carga_ph(seq, 5.0)), d.c("titulo"))
         y += 2
     objeto, n = j["premio"]
-    texto = (f"{j['bio']}\n\nRecibes la insignia «{j['reto']}», {n} {objeto} y +10 XP "
-             "para todo tu equipo.")
+    texto = j["bio"] + "\n\n" + tr("Recibes la insignia «{reto}», {n} {objeto} y +10 XP para "
+                                    "todo tu equipo.", reto=j["reto"], n=n, objeto=tr(objeto))
     for l in d.envolver(texto, min(ancho - 4, 96)):
         if y >= alto - 2:
             break
         d.put(win, y, 2, l, d.c("texto"))
         y += 1
-    d.put(win, alto - 1, 1, "[Enter] seguir", d.c("tenue"))
+    d.put(win, alto - 1, 1, tr("[Enter] seguir"), d.c("tenue"))
     win.refresh()
     while d.tecla(win) not in d.ENTER:
         pass
@@ -266,9 +271,10 @@ def retar(win, juego, zona):
     j = JEFES[zona]
     conteo = progreso.conteo_equipo(juego)
     disponibles = sorted(conteo, key=datos.ORDEN.index)
-    intro = (f"Reto: {j['reto']}.\n\n{j['desc']}\n\nUsa los aminoácidos de tu equipo, en "
-             "código de 1 letra, del extremo N al C. Cada uno se puede usar tantas "
-             "veces como lo tengas en el equipo (×n).")
+    intro = (tr("Reto: {reto}.", reto=j["reto"]) + f"\n\n{j['desc']}\n\n"
+             + tr("Usa los aminoácidos de tu equipo, en código de 1 letra, del extremo N "
+                  "al C. Cada uno se puede usar tantas veces como lo tengas en el equipo "
+                  "(×n)."))
     pista = pista_faltantes(juego, zona)
     if pista:
         intro += "\n\n" + pista
@@ -284,37 +290,39 @@ def retar(win, juego, zona):
             d.put(win, y, 1, l, d.c("texto"))
             y += 1
         y += 1
-        d.put(win, y, 1, "En tu equipo:", d.c("tenue"))
-        cx = 15
+        etiqueta = tr("En tu equipo:")
+        d.put(win, y, 1, etiqueta, d.c("tenue"))
+        x_lista = cx = len(etiqueta) + 2
         for c in disponibles:
             a = AA[c]
             quedan = conteo[c] - seq.count(c)
             texto = f"{c}={a['tres']}×{quedan}({a['hidropatia']:+.1f}) "
             if cx + len(texto) > ancho - 1:
                 y += 1
-                cx = 15
+                cx = x_lista
             d.put(win, y, cx, texto, d.c(a["tipos"][0]) if quedan else d.c("oscuro"))
             cx += len(texto)
         if not disponibles:
-            d.put(win, y, 15, "(ninguno)", d.c("mal"))
+            d.put(win, y, x_lista, tr("(ninguno)"), d.c("mal"))
         if pista:
             y += 1
             for l in d.envolver(pista, ancho - 4):
                 y += 1
                 d.put(win, y, 1, l, d.c("agua"))
         y += 2
-        d.put(win, y, 1, "Secuencia: N─", d.c("texto"))
-        cx = 14
+        etiqueta = tr("Secuencia: N─")
+        d.put(win, y, 1, etiqueta, d.c("texto"))
+        cx = len(etiqueta) + 1
         for c in seq:
             d.put(win, y, cx, c, d.c(AA[c]["tipos"][0], curses.A_BOLD))
             cx += 1
         d.put(win, y, cx, "_", d.c("tenue", curses.A_BLINK))
         y += 2
-        resumen = (f"Largo {len(seq)}   GRAVY {gravy(seq):+.2f}   "
-                   f"Carga neta pH 7 {carga_neta(seq):+d}")
+        resumen = tr("Largo {n}   GRAVY {gravy:+.2f}   Carga neta pH 7 {carga:+d}",
+                     n=len(seq), gravy=gravy(seq), carga=carga_neta(seq))
         if zona == "lisosoma":
-            resumen = (f"Largo {len(seq)}   Carga pH 7.4 {carga_ph(seq, 7.4):+.2f}   "
-                       f"Carga pH 5.0 {carga_ph(seq, 5.0):+.2f}")
+            resumen = tr("Largo {n}   Carga pH 7.4 {a:+.2f}   Carga pH 5.0 {b:+.2f}",
+                         n=len(seq), a=carga_ph(seq, 7.4), b=carga_ph(seq, 5.0))
         if zona == "golgi":
             resumen += f"   Ser+Thr {frac_st(seq):.0%}"
         d.put(win, y, 1, resumen, d.c("titulo"))
@@ -324,8 +332,8 @@ def retar(win, juego, zona):
                   d.c("bien" if ok else "mal"))
         if aviso:
             d.put(win, y + 3 + len(conds), 1, aviso, d.c("mal"))
-        d.put(win, alto - 1, 1, "Letras: agregar  Retroceso: borrar  Enter: presentar  "
-                                "? manual  Esc salir", d.c("tenue"))
+        d.put(win, alto - 1, 1, tr("Letras: agregar  Retroceso: borrar  Enter: presentar  "
+                                   "? manual  Esc salir"), d.c("tenue"))
         win.refresh()
         k = d.tecla(win)
         aviso = ""
@@ -334,7 +342,7 @@ def retar(win, juego, zona):
         if k in d.ENTER:
             if all(ok for _, ok in conds):
                 break
-            aviso = "Todavía no cumple todas las condiciones."
+            aviso = tr("Todavía no cumple todas las condiciones.")
         elif k in (curses.KEY_BACKSPACE, "\x7f", "\b", 127, 8):
             seq = seq[:-1]
         elif k == "?":
@@ -343,14 +351,15 @@ def retar(win, juego, zona):
         elif isinstance(k, str) and k.isalpha():
             c = k.upper()
             if c not in AA:
-                aviso = f"'{c}' no es el código de ningún aminoácido estándar."
+                aviso = tr("'{c}' no es el código de ningún aminoácido estándar.", c=c)
             elif c not in disponibles:
                 donde = ", ".join(datos.ZONAS[z]["nombre"] for z in datos.zonas_de(c))
-                aviso = f"No tienes {AA[c]['nombre']} ({c}) en tu equipo. Búscalo en: {donde}."
+                aviso = tr("No tienes {nombre} ({c}) en tu equipo. Búscalo en: {donde}.",
+                           nombre=AA[c]["nombre"], c=c, donde=donde)
             elif seq.count(c) >= conteo[c]:
                 donde = ", ".join(datos.ZONAS[z]["nombre"] for z in datos.zonas_de(c))
-                aviso = (f"Solo tienes {conteo[c]} {AA[c]['nombre']} ({c}) en tu equipo. "
-                         f"Captura más en: {donde}.")
+                aviso = tr("Solo tienes {n} {nombre} ({c}) en tu equipo. Captura más en: {donde}.",
+                           n=conteo[c], nombre=AA[c]["nombre"], c=c, donde=donde)
             elif len(seq) < 20:
                 seq += c
 
@@ -381,17 +390,19 @@ PLIEGUE = [
     ("núcleo hidrofóbico: estado nativo",
      [(3, 15, "●Leu ●Ile", "NP"), (4, 15, "●Val ●Phe", "NP")]),
 ]
+PLIEGUE = [(tr(texto), piezas) for texto, piezas in PLIEGUE]
 NATIVO = len(PLIEGUE)
 EXTRAS = [
     ("extra: puente salino Lys⁺···⁻Asp", [(6, 15, "Lys⁺···⁻Asp", "POS")]),
     ("extra: disulfuro Cys–S–S–Cys", [(7, 2, "Cys─S─S─Cys", "titulo")]),
 ]
+EXTRAS = [(tr(texto), piezas) for texto, piezas in EXTRAS]
 PREGUNTAS_CHAPERONA = NATIVO + len(EXTRAS)
 
 
 def dibujar_pliegue(win, y, x, aciertos, fallos):
     extras = max(0, aciertos - NATIVO)
-    titulo = f"Plegamiento {min(aciertos, NATIVO)}/{NATIVO}"
+    titulo = tr("Plegamiento {n}/{total}", n=min(aciertos, NATIVO), total=NATIVO)
     if extras:
         titulo += f" +{extras} extra" + ("s" if extras > 1 else "")
     d.caja(win, y, x, 12, 40, titulo)
@@ -406,7 +417,7 @@ def dibujar_pliegue(win, y, x, aciertos, fallos):
         for fy, fx, t, col in piezas:
             d.put(win, y + 1 + fy, x + 2 + fx, t, d.c(col, curses.A_BOLD))
     if fallos:
-        d.put(win, y + 9, x + 2, ("~" * fallos)[:30] + " mal plegado", d.c("mal"))
+        d.put(win, y + 9, x + 2, ("~" * fallos)[:30] + tr(" mal plegado"), d.c("mal"))
     if aciertos:
         ultimo = (PLIEGUE + EXTRAS)[aciertos - 1][0]
         d.put(win, y + 10, x + 2, ("✓ " + ultimo)[:36], d.c("bien"))
@@ -415,21 +426,23 @@ def dibujar_pliegue(win, y, x, aciertos, fallos):
 def chaperona(win, juego):
     if len(juego["insignias"]) < len(JEFES):
         faltan = [JEFES[z]["reto"] for z in JEFES if z not in juego["insignias"]]
-        d.popup(win, "La Hsp70 asiste el plegamiento de las proteínas recién "
-                     f"sintetizadas. Para presentar su examen necesitas las {len(JEFES)} "
-                     "insignias.\n\nPendientes: " + ", ".join(faltan), "Chaperona")
+        d.popup(win, tr("La Hsp70 asiste el plegamiento de las proteínas recién sintetizadas. "
+                        "Para presentar su examen necesitas las {n} insignias.\n\nPendientes: ",
+                        n=len(JEFES)) + ", ".join(faltan), tr("Chaperona"))
         return
     total = PREGUNTAS_CHAPERONA
-    d.dialogo(win, [f"Examen de {total} preguntas. Cada respuesta correcta pliega una "
-                    f"región de la proteína: con {NATIVO} queda completa en su estado "
-                    "nativo. Cada acierto de más le añade un extra que la estabiliza "
-                    "(un puente salino y un disulfuro) y te da 1 ATP."], "Chaperona")
+    d.dialogo(win, [tr("Examen de {total} preguntas. Cada respuesta correcta pliega una "
+                       "región de la proteína: con {nativo} queda completa en su estado "
+                       "nativo. Cada acierto de más le añade un extra que la estabiliza "
+                       "(un puente salino y un disulfuro) y te da 1 ATP.",
+                       total=total, nativo=NATIVO)], tr("Chaperona"))
     aciertos = fallos = 0
     for i in range(total):
         aa, tipo = preguntas.elegir_aleatoria(juego)
         alto, ancho = win.getmaxyx()
         win.erase()
-        d.put(win, 0, 1, f"EXAMEN DE LA CHAPERONA · pregunta {i + 1}/{total} · aciertos {aciertos}",
+        d.put(win, 0, 1, tr("EXAMEN DE LA CHAPERONA · pregunta {i}/{total} · aciertos {n}",
+                            i=i + 1, total=total, n=aciertos),
               d.c("titulo", curses.A_BOLD))
         if ancho >= 112:
             w = min(64, ancho - 46)
@@ -449,19 +462,19 @@ def chaperona(win, juego):
     if aciertos >= NATIVO:
         juego["terminado"] = True
         extras = aciertos - NATIVO
-        texto = (f"{aciertos}/{total}. La proteína alcanzó su estado nativo: obtienes la "
-                 "Maestría en Aminoácidos.")
+        texto = tr("{n}/{total}. La proteína alcanzó su estado nativo: obtienes la "
+                   "Maestría en Aminoácidos.", n=aciertos, total=total)
         if extras:
             juego["objetos"]["ATP"] += extras
-            nombres = " y ".join(t.removeprefix("extra: ") for t, _ in EXTRAS[:extras])
-            texto += f"\n\nExtra: {nombres}. Recibes {extras} ATP."
-        texto += ("\n\nPuedes seguir explorando. El siguiente nivel es el examen "
-                  "final; habla con el René-virus (V).")
-        d.popup(win, texto, "Estado nativo", attr=d.c("bien"))
+            nombres = tr(" y ").join(t.removeprefix("extra: ") for t, _ in EXTRAS[:extras])
+            texto += "\n\n" + tr("Extra: {nombres}. Recibes {n} ATP.", nombres=nombres, n=extras)
+        texto += "\n\n" + tr("Puedes seguir explorando. El siguiente nivel es el examen "
+                             "final; habla con el René-virus (V).")
+        d.popup(win, texto, tr("Estado nativo"), attr=d.c("bien"))
     else:
-        d.popup(win, f"{aciertos}/{total}. Quedaron regiones hidrofóbicas expuestas: la "
-                     "Hsp70 se une a ellas, gasta ATP y te deja intentar de nuevo. "
-                     "Repasa el manual y vuelve cuando quieras.", "Chaperona")
+        d.popup(win, tr("{n}/{total}. Quedaron regiones hidrofóbicas expuestas: la Hsp70 se "
+                        "une a ellas, gasta ATP y te deja intentar de nuevo. Repasa el manual "
+                        "y vuelve cuando quieras.", n=aciertos, total=total), tr("Chaperona"))
 
 
 # ============================================ examen final: René-virus
@@ -560,6 +573,9 @@ MUTACIONES = [
 ]
 
 
+traducir(MUTACIONES, "texto", "correcta", "otras", "expl")
+
+
 def _arn_aleatorio():
     """ARNm con 5'UTR (sin AUG), un marco abierto y 3'UTR."""
     prot = "M" + "".join(random.choice(datos.ORDEN) for _ in range(random.randint(4, 6)))
@@ -576,10 +592,11 @@ def traducir(win, juego, n, total):
     arn, prot, ini = _arn_aleatorio()
     alto, ancho = win.getmaxyx()
     win.erase()
-    d.put(win, 0, 1, f"EXAMEN DEL RENÉ-VIRUS · {n}/{total} · Traducción", d.c("titulo", curses.A_BOLD))
-    texto = ("Lee este ARNm como un ribosoma: busca el primer AUG, lee de 3 en 3 "
-             "y detente en el codón de paro (UAA, UAG o UGA). Escribe la proteína "
-             "en código de 1 letra (incluye la Met inicial, no el paro).")
+    d.put(win, 0, 1, tr("EXAMEN DEL RENÉ-VIRUS · {n}/{total} · Traducción", n=n, total=total),
+          d.c("titulo", curses.A_BOLD))
+    texto = tr("Lee este ARNm como un ribosoma: busca el primer AUG, lee de 3 en 3 "
+               "y detente en el codón de paro (UAA, UAG o UGA). Escribe la proteína "
+               "en código de 1 letra (incluye la Met inicial, no el paro).")
     y = 2
     for l in d.envolver(texto, min(ancho - 4, 90)):
         d.put(win, y, 2, l, d.c("texto"))
@@ -587,22 +604,22 @@ def traducir(win, juego, n, total):
     y += 1
     d.put(win, y, 2, f"5'-{arn}-3'", d.c("titulo", curses.A_BOLD))
     y += 2
-    r = d.pedir_texto(win, y, 2, "Proteína: ", 12)
+    r = d.pedir_texto(win, y, 2, tr("Proteína: "), 12)
     respuesta = (r or "").strip().upper()
     bien = respuesta == prot
     codones = [arn[i:i + 3] for i in range(ini, ini + 3 * (len(prot) + 1), 3)]
-    lectura = "  ".join(f"{cod}={CODIGO[cod] if CODIGO[cod] != '*' else 'paro'}" for cod in codones)
+    lectura = "  ".join(f"{cod}={CODIGO[cod] if CODIGO[cod] != '*' else tr('paro')}" for cod in codones)
     progreso.registrar(juego, "maestro:traduccion", bien)
-    d.popup(win, ("Correcto. " if bien else f"Incorrecto. Era {prot}. ")
-            + f"UTR 5' de {ini} nt, luego: {lectura}",
-            "Traducción", ancho=min(ancho - 2, 90), attr=d.c("bien" if bien else "mal"))
+    d.popup(win, (tr("Correcto. ") if bien else tr("Incorrecto. Era {prot}. ", prot=prot))
+            + tr("UTR 5' de {n} nt, luego: {lectura}", n=ini, lectura=lectura),
+            tr("Traducción"), ancho=min(ancho - 2, 90), attr=d.c("bien" if bien else "mal"))
     return bien
 
 
 def mutacion(win, juego, caso, n, total):
     alto, ancho = win.getmaxyx()
     win.erase()
-    d.put(win, 0, 1, f"EXAMEN DEL RENÉ-VIRUS · {n}/{total} · Mutaciones reales",
+    d.put(win, 0, 1, tr("EXAMEN DEL RENÉ-VIRUS · {n}/{total} · Mutaciones reales", n=n, total=total),
           d.c("titulo", curses.A_BOLD))
     w = min(ancho - 2, 90)
     x = (ancho - w) // 2
@@ -610,7 +627,8 @@ def mutacion(win, juego, caso, n, total):
     random.shuffle(ops)
     lineas = d.envolver(caso["texto"], w - 4)
     y = 2
-    d.caja(win, y, x, len(lineas) + 3 + sum(len(d.envolver(o, w - 10)) for o in ops) + 2, w, "Pregunta")
+    d.caja(win, y, x, len(lineas) + 3 + sum(len(d.envolver(o, w - 10)) for o in ops) + 2, w,
+           tr("Pregunta"))
     for l in lineas:
         y += 1
         d.put(win, y, x + 2, l, d.c("texto", curses.A_BOLD))
@@ -619,7 +637,7 @@ def mutacion(win, juego, caso, n, total):
         for k, l in enumerate(d.envolver(o, w - 10)):
             y += 1
             d.put(win, y, x + 4, (f"{i + 1}) " if k == 0 else "   ") + l, d.c("texto"))
-    d.put(win, y + 2, x + 2, "Pulsa el número de tu respuesta", d.c("tenue"))
+    d.put(win, y + 2, x + 2, tr("Pulsa el número de tu respuesta"), d.c("tenue"))
     win.refresh()
     while True:
         k = d.tecla(win)
@@ -627,15 +645,15 @@ def mutacion(win, juego, caso, n, total):
             break
     bien = ops[int(k) - 1] == caso["correcta"]
     progreso.registrar(juego, "maestro:mutacion", bien)
-    d.popup(win, ("Correcto. " if bien else f"Incorrecto. Era: {caso['correcta']}.\n\n")
-            + caso["expl"], "Resultado", ancho=w, attr=d.c("bien" if bien else "mal"))
+    d.popup(win, (tr("Correcto. ") if bien else tr("Incorrecto. Era: {r}.", r=caso["correcta"]) + "\n\n")
+            + caso["expl"], tr("Resultado"), ancho=w, attr=d.c("bien" if bien else "mal"))
     return bien
 
 
 def examen_rene(win, juego):
     d.dialogo(win, [
-        "Traduce 3 ARNm y analiza 5 mutaciones asociadas a enfermedades "
-        "humanas. Se aprueba con 7 de 8."], "René-virus")
+        tr("Traduce 3 ARNm y analiza 5 mutaciones asociadas a enfermedades "
+           "humanas. Se aprueba con 7 de 8.")], tr("René-virus"))
     total = 8
     aciertos = 0
     for n in range(1, 4):
@@ -645,18 +663,18 @@ def examen_rene(win, juego):
     if aciertos >= 7:
         primera = not juego.get("doctorado")
         juego["doctorado"] = True
-        texto = f"{aciertos}/8. Aprobado: Doctorado en Proteínas."
+        texto = tr("{n}/8. Aprobado: Doctorado en Proteínas.", n=aciertos)
         if primera:
-            texto += ("\n\nAhora puedo hacerte encargos de síntesis: péptidos reales "
-                      f"({len(datos.PEPTIDOS)} en el catálogo) que tendrás que traducir "
-                      "de su ARNm y construir con los residuos de tu equipo. Habla "
-                      "conmigo (V) cuando quieras. El catálogo está al final de la "
-                      "Aminodex [X].")
-        d.popup(win, texto, "René-virus", attr=d.c("bien"))
+            texto += "\n\n" + tr("Ahora puedo hacerte encargos de síntesis: péptidos reales "
+                                 "({n} en el catálogo) que tendrás que traducir de su ARNm y "
+                                 "construir con los residuos de tu equipo. Habla conmigo (V) "
+                                 "cuando quieras. El catálogo está al final de la Aminodex [X].",
+                                 n=len(datos.PEPTIDOS))
+        d.popup(win, texto, tr("René-virus"), attr=d.c("bien"))
     else:
-        d.popup(win, f"{aciertos}/8. No aprobado. Repasa los codones (pestaña "
-                     "Chuleta) y las propiedades de cada grupo; las preguntas "
-                     "cambian en cada intento.", "René-virus")
+        d.popup(win, tr("{n}/8. No aprobado. Repasa los codones (pestaña Chuleta) y las "
+                        "propiedades de cada grupo; las preguntas cambian en cada intento.",
+                        n=aciertos), tr("René-virus"))
 
 
 # ============================================ post-juego: encargos de síntesis
@@ -671,8 +689,8 @@ def dibujar_resumen(win, y, x, ancho, pep):
     """Secuencia dibujada, propiedades y biología de un péptido."""
     seq = pep["seq"]
     y = dibujar_peptido(win, y, x, ancho, seq, None)
-    d.put(win, y, x + 1, f"Largo {len(seq)}   GRAVY {gravy(seq):+.2f}   "
-                         f"Carga neta pH 7 {carga_neta(seq):+d}", d.c("titulo"))
+    d.put(win, y, x + 1, tr("Largo {n}   GRAVY {gravy:+.2f}   Carga neta pH 7 {carga:+d}",
+                            n=len(seq), gravy=gravy(seq), carga=carga_neta(seq)), d.c("titulo"))
     y += 2
     for l in d.envolver(pep["bio"], min(ancho - 2, 96)):
         d.put(win, y, x + 1, l, d.c("texto"))
@@ -686,7 +704,7 @@ def encargo(win, juego):
     ids = list(datos.PEPTIDOS)
     opciones = [f"{'✓' if p in hechos else ' '} {datos.PEPTIDOS[p]['nombre']} "
                 f"({len(datos.PEPTIDOS[p]['seq'])} aa)" for p in ids]
-    sel = d.menu(win, f"Encargos de síntesis ({len(hechos)}/{len(ids)})", opciones)
+    sel = d.menu(win, tr("Encargos de síntesis ({n}/{total})", n=len(hechos), total=len(ids)), opciones)
     if sel is None:
         return
     pid = ids[sel]
@@ -696,11 +714,12 @@ def encargo(win, juego):
 
     alto, ancho = win.getmaxyx()
     win.erase()
-    d.put(win, 0, 1, f"ENCARGO DEL RENÉ-VIRUS · {pep['nombre']}", d.c("titulo", curses.A_BOLD))
-    texto = ("Necesito este péptido. Aquí está su ARNm, ya recortado: el marco empieza "
-             "en la primera base. Tradúcelo de 3 en 3 hasta el codón de paro y escribe "
-             "el péptido en código de 1 letra. Después lo sintetizo con los residuos "
-             "de tu equipo.")
+    d.put(win, 0, 1, tr("ENCARGO DEL RENÉ-VIRUS · {nombre}", nombre=pep["nombre"]),
+          d.c("titulo", curses.A_BOLD))
+    texto = tr("Necesito este péptido. Aquí está su ARNm, ya recortado: el marco empieza "
+               "en la primera base. Tradúcelo de 3 en 3 hasta el codón de paro y escribe "
+               "el péptido en código de 1 letra. Después lo sintetizo con los residuos "
+               "de tu equipo.")
     y = 2
     for l in d.envolver(texto, min(ancho - 4, 90)):
         d.put(win, y, 2, l, d.c("texto"))
@@ -708,17 +727,17 @@ def encargo(win, juego):
     y += 1
     d.put(win, y, 2, f"5'-{arn}-3'", d.c("titulo", curses.A_BOLD))
     y += 2
-    r = d.pedir_texto(win, y, 2, "Péptido: ", len(seq) + 3)
+    r = d.pedir_texto(win, y, 2, tr("Péptido: "), len(seq) + 3)
     if r is None:
         return
     bien = r.strip().upper() == seq
     progreso.registrar(juego, "encargo:traduccion", bien)
     if not bien:
         codones = [arn[i:i + 3] for i in range(0, len(arn), 3)]
-        lectura = "  ".join(f"{cod}={CODIGO[cod] if CODIGO[cod] != '*' else 'paro'}"
+        lectura = "  ".join(f"{cod}={CODIGO[cod] if CODIGO[cod] != '*' else tr('paro')}"
                             for cod in codones)
-        d.popup(win, f"Incorrecto. Era {seq}: {lectura}\n\nCada vez que lo pidas el "
-                     "ARNm usa codones distintos.", "Traducción",
+        d.popup(win, tr("Incorrecto. Era {seq}: {lectura}\n\nCada vez que lo pidas el ARNm "
+                        "usa codones distintos.", seq=seq, lectura=lectura), tr("Traducción"),
                 ancho=min(ancho - 2, 90), attr=d.c("mal"))
         return
     faltan = faltantes(juego, seq)
@@ -726,9 +745,9 @@ def encargo(win, juego):
         lineas = [f"{n} {AA[c]['nombre']} ({c}) → "
                   + ", ".join(datos.ZONAS[z]["nombre"] for z in datos.zonas_de(c))
                   for c, n in faltan.items()]
-        d.popup(win, "Traducción correcta, pero a tu equipo le faltan residuos para "
-                     "sintetizarlo:\n\n" + "\n".join(lineas)
-                + "\n\nCaptúralos y vuelve.", "René-virus", ancho=min(ancho - 2, 70))
+        d.popup(win, tr("Traducción correcta, pero a tu equipo le faltan residuos para "
+                        "sintetizarlo:") + "\n\n" + "\n".join(lineas)
+                + "\n\n" + tr("Captúralos y vuelve."), tr("René-virus"), ancho=min(ancho - 2, 70))
         return
 
     primera = pid not in hechos
@@ -738,16 +757,17 @@ def encargo(win, juego):
     for m in juego["equipo"]:
         progreso.dar_xp(m, 5)
     win.erase()
-    d.put(win, 0, 1, f"Péptido sintetizado: {pep['nombre']}  ·  {seq}", d.c("bien", curses.A_BOLD))
+    d.put(win, 0, 1, tr("Péptido sintetizado: {nombre}  ·  {seq}", nombre=pep["nombre"], seq=seq),
+          d.c("bien", curses.A_BOLD))
     y = dibujar_resumen(win, 2, 1, ancho - 2, pep) + 1
-    premio = "+5 XP para todo tu equipo" + (" y 1 ATP." if primera else ".")
+    premio = tr("+5 XP para todo tu equipo y 1 ATP.") if primera else tr("+5 XP para todo tu equipo.")
     if primera and len(hechos) == len(ids):
-        premio += (" ¡Completaste el catálogo de péptidos! Puedes repetir los encargos "
-                   "para seguir practicando la traducción.")
+        premio += tr(" ¡Completaste el catálogo de péptidos! Puedes repetir los encargos "
+                     "para seguir practicando la traducción.")
     for l in d.envolver(premio, min(ancho - 4, 96)):
         d.put(win, y, 2, l, d.c("bien"))
         y += 1
-    d.put(win, alto - 1, 1, "[Enter] seguir", d.c("tenue"))
+    d.put(win, alto - 1, 1, tr("[Enter] seguir"), d.c("tenue"))
     win.refresh()
     while d.tecla(win) not in d.ENTER:
         pass

@@ -1,5 +1,8 @@
 # AMINOMON
 
+*English version available: run `aminomon --en` or pick «English» on the title
+screen.*
+
 RPG por turnos en la terminal para aprender los 20 aminoácidos estándar:
 estructura de la cadena lateral, tipos químicos, carga, pK1/pK2/pKR, pI,
 hidropatía, clasificación nutricional (esencial / condicional / no esencial),
@@ -14,7 +17,12 @@ cd aminomon
 aminomon             # desde cualquier carpeta
 ```
 
-También se puede abrir sin instalar: `python3 aminomon.py`. Para quitar el
+También se puede abrir sin instalar: `python3 aminomon.py`.
+
+**Idioma / Language:** el juego está en español y en inglés. Se cambia desde la
+pantalla de título (opción «English» / «Español») o al abrirlo con
+`aminomon --en` o `aminomon --es`. La elección se guarda en
+`~/.aminomon_idioma`; la partida sirve en los dos idiomas. Para quitar el
 comando: `./instalar.sh --quitar`. Si mueves la carpeta del juego, vuelve a
 correr `./instalar.sh`.
 
@@ -91,6 +99,12 @@ del esqueleto y van der Waals, que todos tienen.
 | `manual.py`, `aminodex.py`, `equipo.py` | pantallas |
 | `dibujo.py` | colores y utilidades de curses |
 | `progreso.py` | guardado, experiencia, modificaciones |
+| `idioma.py`, `en.py` | elección de idioma y traducciones al inglés |
 
 Para corregir o ampliar un dato (un pKa, una pista, una estructura ASCII)
 basta con editar `datos.py`.
+
+Todos los textos se escriben en español y pasan por `tr()` (de `idioma.py`).
+`en.py` guarda la traducción de cada texto usando el español como clave: si
+cambias o agregas un texto, agrega también su traducción ahí; si falta, el
+juego en inglés muestra ese texto en español.

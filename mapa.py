@@ -6,6 +6,7 @@ import math
 import random
 
 import dibujo as d
+from idioma import tr
 
 ANCHO, ALTO = 150, 48
 CX, CY, RX, RY = 75, 24, 70, 21.5            # célula
@@ -77,6 +78,9 @@ CARTELES = {
                "enlaces peptídicos. Sus proteínas ribosomales son ricas en "
                "Lys (K)."),
 }
+
+
+CARTELES = {k: (pos, tr(titulo), tr(texto)) for k, (pos, titulo, texto) in CARTELES.items()}
 
 
 POROS = [(round(NX + (NRX - 1.3) * math.cos(a)), round(NY + (NRY - 0.65) * math.sin(a)))
