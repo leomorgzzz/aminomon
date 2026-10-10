@@ -8,6 +8,7 @@ la arena se usa como subtítulo que explica qué está pasando.
 import curses
 import math
 import random
+import time
 
 import dibujo as d
 from idioma import tr
@@ -372,12 +373,13 @@ def reproducir(win, y, x, h, w, nombre, ctx, velocidad="lenta"):
     try:
         saltar = False
         for cuadro in cuadros:
+            t = time.monotonic()
             dibujar_cuadro(win, y, x, h, w, cuadro)
             win.refresh()
             if win.getch() != -1:
                 saltar = True
                 break
-            curses.napms(pausa)
+            d.pausa(pausa, t)
         if cuadros:
             dibujar_cuadro(win, y, x, h, w, cuadros[-1])
             win.refresh()
@@ -406,6 +408,7 @@ def sacudir(win, y, x, arte, color, veces=4):
     win.nodelay(True)
     try:
         for i in range(veces * 2):
+            t = time.monotonic()
             dx = 1 if i % 2 == 0 else -1
             for k, l in enumerate(arte):
                 d.put(win, y + k, max(0, x - 1), " " * ancho)
@@ -413,7 +416,7 @@ def sacudir(win, y, x, arte, color, veces=4):
             win.refresh()
             if win.getch() != -1:
                 break
-            curses.napms(60)
+            d.pausa(60, t)
         for k, l in enumerate(arte):
             d.put(win, y + k, max(0, x - 1), " " * ancho)
             d.put(win, y + k, x, l, d.c(color))
@@ -427,6 +430,7 @@ def destello(win, y, x, arte_a, arte_b, color_a, color_b, veces=5):
     alto = max(len(arte_a), len(arte_b))
     ancho = max(len(l) for l in arte_a + arte_b) + 1
     for i in range(veces * 2 + 1):
+        t = time.monotonic()
         arte, color = (arte_a, color_a) if i % 2 == 0 else (arte_b, color_b)
         if i == veces * 2:
             arte, color = arte_b, color_b
@@ -435,7 +439,7 @@ def destello(win, y, x, arte_a, arte_b, color_a, color_b, veces=5):
         for k, l in enumerate(arte):
             d.put(win, y + k, x, l, d.c(color, curses.A_BOLD if i % 2 else 0))
         win.refresh()
-        curses.napms(160 + i * 30)
+        d.pausa(160 + i * 30, t)
 
 
 def transicion(win):
@@ -444,12 +448,18 @@ def transicion(win):
     alto, ancho = win.getmaxyx()
     colores = ["NP", "ARO", "POL", "POS", "NEG"]
     pasos = (alto + 1) // 2
-    for i in range(pasos):
-        color = colores[i % len(colores)]
-        for fila in (i, alto - 1 - i):
-            d.put(win, fila, 0, "▀▄" * (ancho // 2), d.c(color))
+    # una banda cada 18 ms; si un cuadro tarda más (consola de Windows), el
+    # siguiente pone varias para que el barrido dure lo mismo
+    inicio, hechos = time.monotonic(), 0
+    while hechos < pasos:
+        meta = min(pasos, max(hechos + 1, int((time.monotonic() - inicio) * 1000 / 18)))
+        for i in range(hechos, meta):
+            color = colores[i % len(colores)]
+            for fila in (i, alto - 1 - i):
+                d.put(win, fila, 0, "▀▄" * (ancho // 2), d.c(color))
+        hechos = meta
         win.refresh()
-        curses.napms(18)
+        d.pausa(18 * hechos, inicio)
     curses.napms(120)
     win.erase()
     win.refresh()

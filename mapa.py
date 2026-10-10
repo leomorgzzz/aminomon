@@ -313,11 +313,27 @@ def _attr_especial(nombre, juego):
     return None, d.c("titulo", curses.A_BOLD | curses.A_REVERSE)
 
 
+_CAMARA = {}          # (vh, vw) -> última esquina de la vista
+
+
 def camara(juego, vh, vw):
+    """Esquina de la vista. La cámara se queda quieta mientras el jugador no
+    se acerque a un borde y entonces lo recentra: si se moviera en cada paso,
+    toda la pantalla cambiaría y en Windows redibujarla entera es lento."""
     px, py = juego["pos"]
-    cx = 0 if vw >= ANCHO else max(0, min(px - vw // 2, ANCHO - vw))
-    cy = 0 if vh >= ALTO else max(0, min(py - vh // 2, ALTO - vh))
+    cx, cy = _CAMARA.get((vh, vw), (None, None))
+    cx, cy = _eje(px, cx, vw, ANCHO), _eje(py, cy, vh, ALTO)
+    _CAMARA[(vh, vw)] = (cx, cy)
     return cx, cy
+
+
+def _eje(p, c, vista, total):
+    if vista >= total:
+        return 0
+    margen = vista // 5
+    if c is None or not c + margen <= p < c + vista - margen:
+        c = p - vista // 2
+    return max(0, min(c, total - vista))
 
 
 def dibujar(win, oy, ox, vh, vw, juego, extra=()):
