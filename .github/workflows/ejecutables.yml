@@ -1,5 +1,6 @@
-# Compila el juego para Windows y macOS (con Python incluido) y lo publica
-# en Releases. Se activa al subir una etiqueta: git tag v1.0 && git push --tags
+# Compila el juego (con Python incluido) y lo publica en Releases: en Windows
+# un instalador, en macOS un .zip. Se activa al subir una etiqueta:
+# git tag v1.0 && git push --tags
 name: Ejecutables
 
 on:
@@ -15,7 +16,7 @@ jobs:
       matrix:
         include:
           - os: windows-latest
-            archivo: Aminomon-Windows.exe
+            archivo: Aminomon-Instalador-Windows.exe
           - os: macos-latest
             archivo: Aminomon-macOS.zip
     runs-on: ${{ matrix.os }}
@@ -26,13 +27,35 @@ jobs:
           python-version: "3.12"
       - run: pip install pyinstaller
       - if: runner.os == 'Windows'
-        run: pip install windows-curses
-      - run: pyinstaller --onefile --name Aminomon  aminomon.py
-      - if: runner.os == 'Windows'
         shell: bash
-        run: mv dist/Aminomon.exe "${{ matrix.archivo }}"
+        run: |
+          pip install windows-curses
+          version="${GITHUB_REF_NAME#v}"
+          numeros=$(echo "$version.0.0.0" | cut -d. -f1-4 | tr . ,)
+          cat > version.txt <<FIN
+          VSVersionInfo(
+            ffi=FixedFileInfo(filevers=($numeros), prodvers=($numeros)),
+            kids=[StringFileInfo([StringTable('040A04B0', [
+              StringStruct('CompanyName', 'leomorgzzz'),
+              StringStruct('FileDescription', 'Aminomon'),
+              StringStruct('ProductName', 'Aminomon'),
+              StringStruct('FileVersion', '$version'),
+              StringStruct('ProductVersion', '$version'),
+              StringStruct('LegalCopyright', 'MIT · leomorgzzz'),
+              StringStruct('OriginalFilename', 'Aminomon.exe')])]),
+              VarFileInfo([VarStruct('Translation', [0x040A, 1200])])])
+          FIN
+          pyinstaller --onedir --noconfirm --name Aminomon --icon icono.ico \
+            --version-file version.txt aminomon.py
+          if ! command -v iscc >/dev/null; then
+            [ -f "/c/Program Files (x86)/Inno Setup 6/ISCC.exe" ] || choco install innosetup -y --no-progress
+            export PATH="$PATH:/c/Program Files (x86)/Inno Setup 6"
+          fi
+          iscc "//DVersion=$version" instalador.iss
       - if: runner.os == 'macOS'
-        run: cd dist && zip "../${{ matrix.archivo }}" Aminomon
+        run: |
+          pyinstaller --onefile --name Aminomon aminomon.py
+          cd dist && zip "../${{ matrix.archivo }}" Aminomon
       - uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.archivo }}
@@ -48,6 +71,6 @@ jobs:
       - env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh release create "$GITHUB_REF_NAME" Aminomon-Windows.exe Aminomon-macOS.zip \
+          gh release create "$GITHUB_REF_NAME" Aminomon-Instalador-Windows.exe Aminomon-macOS.zip \
             --repo "$GITHUB_REPOSITORY" --title "Aminomon $GITHUB_REF_NAME" \
-            --notes "Descarga el archivo de tu sistema y ábrelo con doble clic."
+            --notes "Windows: descarga el instalador y ábrelo. macOS: descarga el .zip y abre Aminomon."
