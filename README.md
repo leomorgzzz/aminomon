@@ -9,7 +9,7 @@ clasificación nutricional, codones y modificaciones postraduccionales.
 Capturas aminoácidos en una célula, combates con interacciones químicas reales
 y construyes péptidos para vencer a 7 jefes y al René-virus.
 
-**Descargar:** [Windows](https://github.com/leomorgzzz/aminomon/releases/latest/download/Aminomon-Windows.exe) · [macOS](https://github.com/leomorgzzz/aminomon/releases/latest/download/Aminomon-macOS.zip) · doble clic y a jugar.
+**Descargar:** [Windows](https://github.com/leomorgzzz/aminomon/releases/latest/download/Aminomon-Instalador-Windows.exe) · [macOS](https://github.com/leomorgzzz/aminomon/releases/latest/download/Aminomon-macOS.zip) · instala y a jugar.
 
 ## Capturas
 
@@ -23,12 +23,15 @@ y construyes péptidos para vencer a 7 jefes y al René-virus.
 
 ### Windows
 
-1. Descarga **[Aminomon-Windows.exe](https://github.com/leomorgzzz/aminomon/releases/latest/download/Aminomon-Windows.exe)**.
-2. Ábrelo con doble clic. Se abre en pantalla completa.
+1. Descarga **[Aminomon-Instalador-Windows.exe](https://github.com/leomorgzzz/aminomon/releases/latest/download/Aminomon-Instalador-Windows.exe)** y ábrelo.
+2. Sigue el instalador (no pide permisos de administrador). Al terminar, el
+   juego queda en el menú Inicio y, si quieres, en el escritorio. Se abre en
+   pantalla completa.
 
-No hay que instalar nada más. Windows puede avisar «Windows protegió su PC»
-porque el programa no está firmado: **Más información → Ejecutar de todas
-formas**.
+El instalador no está firmado (firmarlo cuesta una licencia anual), así que la
+primera vez Windows puede avisar «Windows protegió su PC»: **Más información →
+Ejecutar de todas formas**. Solo pasa al instalar. Para desinstalar:
+**Configuración → Aplicaciones**.
 
 ### macOS
 
@@ -56,6 +59,14 @@ Archivos que crea:
 
 - `~/.aminomon.json`: la partida (en Windows, `~` es `C:\Users\<tu usuario>`);
 - `~/.aminomon_idioma`: el idioma.
+
+## Salir de pantalla completa
+
+| Sistema | Tecla |
+|---|---|
+| Windows | Alt+Enter (o F11 en Windows Terminal) |
+| macOS | Ctrl+Cmd+F |
+| Linux | F11 en la mayoría de las terminales |
 
 ## Controles
 

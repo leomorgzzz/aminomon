@@ -19,10 +19,10 @@ EN = {
         'You entered: {zona}',
     'Agranda la terminal a 80×24 o más (ahora {ancho}×{alto}).':
         'Enlarge the terminal to 80×24 or more (now {ancho}×{alto}).',
-    'Lo ideal: pantalla completa (F11).':
-        'Best: full screen (F11).',
-    'Consejo: pon la terminal en pantalla completa (F11). Ahora: {ancho}×{alto}':
-        'Tip: put the terminal in full screen (F11). Now: {ancho}×{alto}',
+    'Lo ideal: pantalla completa (F11 o Alt+Enter).':
+        'Best: full screen (F11 or Alt+Enter).',
+    'Consejo: pon la terminal en pantalla completa (F11 o Alt+Enter). Ahora: {ancho}×{alto}':
+        'Tip: put the terminal in full screen (F11 or Alt+Enter). Now: {ancho}×{alto}',
     'Continuar':
         'Continue',
     'Nueva partida':
@@ -475,8 +475,8 @@ EN = {
         'R group: ',
     'Modificación postraduccional de {nombre}…':
         'Post-translational modification of {nombre}…',
-    'EQUIPO ({n})  ·  el primero (★) es el líder del combate':
-        'TEAM ({n})  ·  the first one (★) leads in battle',
+    'EQUIPO ({n})  ·  el primero (★ ) es el líder del combate':
+        'TEAM ({n})  ·  the first one (★ ) leads in battle',
     'Objetos   {objetos}':
         'Items   {objetos}',
     '↑/↓ elegir  Enter hacer líder  O ordenar (A-Z/nivel/grupo)  V modificar  Esc salir':
@@ -721,8 +721,8 @@ EN = {
         'Tricks',
     'Recorre la célula, encuentra a los 20 aminoácidos, captúralos y completa la Aminodex. Vence a los 7 jefes (J) y al final a la Chaperona (H).':
         'Travel through the cell, find the 20 amino acids, catch them and complete the Aminodex. Beat the 7 bosses (J) and, at the end, the Chaperone (H).',
-    'El juego se adapta al tamaño de la terminal: en pantalla completa (F11) ves toda la célula, el panel lateral con el minimapa y a tu aminoácido en combate.':
-        'The game adapts to the size of the terminal: in full screen (F11) you see the whole cell, the side panel with the minimap and your amino acid in battle.',
+    'El juego se adapta al tamaño de la terminal: en pantalla completa (F11 o Alt+Enter) ves toda la célula, el panel lateral con el minimapa y a tu aminoácido en combate.':
+        'The game adapts to the size of the terminal: in full screen (F11 or Alt+Enter) you see the whole cell, the side panel with the minimap and your amino acid in battle.',
     'En las zonas marcadas con símbolos aparecen aminoácidos salvajes. Solo ves su estructura: deduce su grupo [D] para ganar +10 de afinidad y ver qué interacción formará cada movimiento. Si no, el grupo se revela tras 3 turnos.':
         'Wild amino acids appear in the areas marked with symbols. You only see their structure: deduce their group [D] to gain +10 affinity and see what interaction each move will form. Otherwise, the group is revealed after 3 turns.',
     'Cada movimiento es una interacción formada por tu grupo R (o por tu esqueleto) con el rival. Su nombre indica la clase de interacción y el grupo que la forma; la interacción concreta (puente salino, catión–π, repulsión…) depende del grupo del rival y se muestra a la derecha de cada movimiento. Si el rival tiene dos tipos, los factores se multiplican (×2 · ×2 = ×4).':

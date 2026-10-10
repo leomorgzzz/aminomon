@@ -40,7 +40,7 @@ def mostrar(win, juego, zona_actual):
         alto, ancho = win.getmaxyx()
         sel = max(0, min(sel, len(equipo) - 1))
         win.erase()
-        d.put(win, 0, 1, tr("EQUIPO ({n})  ·  el primero (★) es el líder del combate", n=len(equipo)),
+        d.put(win, 0, 1, tr("EQUIPO ({n})  ·  el primero (★ ) es el líder del combate", n=len(equipo)),
               d.c("titulo", curses.A_BOLD))
         orden = juego.get("ajustes", {}).get("orden_equipo")
         if orden:
@@ -54,7 +54,7 @@ def mostrar(win, juego, zona_actual):
             attr = d.c(f["tipos"][0])
             if i == sel:
                 attr |= curses.A_REVERSE
-            lider = "★" if i == 0 else " "
+            lider = "★ " if i == 0 else "  "
             emax = progreso.energia_max(m)
             d.put(win, 2 + fila, 1, f"{lider} {f['nombre'][:20]:<20} {tr('Nv')}{m['nivel']:>2}", attr)
             d.barra(win, 2 + fila, 30, 10, m["energia"], emax, d.c("titulo"))

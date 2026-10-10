@@ -72,7 +72,7 @@ def p_jugar(juego, rival, an):
                     "Chaperona (H)."), an), L(""),
         T(tr("Pantalla completa")),
         *parrafo(tr("El juego se adapta al tamaño de la terminal: en pantalla completa "
-                    "(F11) ves toda la célula, el panel lateral con el minimapa y a tu "
+                    "(F11 o Alt+Enter) ves toda la célula, el panel lateral con el minimapa y a tu "
                     "aminoácido en combate."), an), L(""),
         T(tr("Controles en el mapa")),
         *tabla([[("←↑→↓ / WASD", "titulo"), tr("moverse")],
