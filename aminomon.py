@@ -1,11 +1,37 @@
 #!/usr/bin/env python3
 """AMINOMON — atrapa y aprende los 20 aminoácidos en la terminal."""
 
-import curses
 import locale
 import os
 import random
 import sys
+
+
+def _asegurar_curses():
+    """Python en Windows no trae curses: la primera vez se instala
+    windows-curses con pip."""
+    try:
+        import curses  # noqa: F401
+        return
+    except ImportError:
+        if os.name != "nt":
+            raise
+    import importlib
+    import site
+    import subprocess
+    print("Instalando windows-curses (solo la primera vez)...")
+    try:
+        subprocess.check_call([sys.executable, "-m", "pip", "install", "windows-curses"])
+    except (OSError, subprocess.CalledProcessError):
+        sys.exit("No se pudo instalar windows-curses. Prueba en una terminal:\n"
+                 "    py -m pip install windows-curses")
+    site.addsitedir(site.getusersitepackages())
+    importlib.invalidate_caches()
+
+
+_asegurar_curses()
+
+import curses  # noqa: E402
 
 import aminodex
 import animaciones as anim
@@ -523,7 +549,8 @@ def main(win):
     # algunas terminales se desfasan y dejan restos de líneas anteriores
     win.idcok(False)
     win.idlok(False)
-    curses.set_escdelay(25)
+    if hasattr(curses, "set_escdelay"):
+        curses.set_escdelay(25)
     esperar_tamano(win)
     eleccion = titulo(win)
     if eleccion in ("salir", "idioma"):
@@ -537,4 +564,7 @@ if __name__ == "__main__":
     if curses.wrapper(main) == "idioma":
         # los textos se traducen al importar: se reinicia en el idioma nuevo
         args = [a for a in sys.argv[1:] if a not in ("--es", "--en")]
+        if os.name == "nt":             # en Windows execv no reemplaza el proceso
+            import subprocess
+            sys.exit(subprocess.call([sys.executable, os.path.abspath(__file__)] + args))
         os.execv(sys.executable, [sys.executable, os.path.abspath(__file__)] + args)
