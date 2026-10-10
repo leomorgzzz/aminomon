@@ -29,6 +29,61 @@ def _asegurar_curses():
     importlib.invalidate_caches()
 
 
+def _pantalla_completa():
+    """Al abrir el ejecutable con doble clic, pone la terminal en pantalla
+    completa: Alt+Enter en Windows (consola o Windows Terminal) y la
+    secuencia de maximizar en macOS."""
+    if not getattr(sys, "frozen", False) or os.environ.get("AMINOMON_REINICIO"):
+        return
+    import time
+    if sys.platform == "darwin":
+        sys.stdout.write("\033[9;1t")
+        sys.stdout.flush()
+        time.sleep(0.4)
+        return
+    if os.name != "nt":
+        return
+    import ctypes
+    import msvcrt
+    user32 = ctypes.windll.user32
+    clase = ctypes.create_unicode_buffer(64)
+    for _ in range(20):                     # la ventana tarda un poco en aparecer
+        user32.GetClassNameW(user32.GetForegroundWindow(), clase, 64)
+        if clase.value in ("ConsoleWindowClass", "CASCADIA_HOSTING_WINDOW_CLASS"):
+            break
+        time.sleep(0.05)
+    else:
+        return
+    alt, enter, soltar = 0x12, 0x0D, 0x0002
+    user32.keybd_event(alt, 0, 0, 0)
+    user32.keybd_event(enter, 0, 0, 0)
+    user32.keybd_event(enter, 0, soltar, 0)
+    user32.keybd_event(alt, 0, soltar, 0)
+    time.sleep(0.6)
+    while msvcrt.kbhit():                   # por si la terminal dejó pasar el Enter
+        msvcrt.getwch()
+
+
+def _con_aviso_de_error(funcion):
+    """En el ejecutable, un error no cierra la ventana sin decir nada: se
+    muestra y se guarda en ~/aminomon-error.txt."""
+    if not getattr(sys, "frozen", False):
+        return funcion()
+    try:
+        return funcion()
+    except Exception:
+        import traceback
+        texto = traceback.format_exc()
+        try:
+            with open(os.path.expanduser("~/aminomon-error.txt"), "w", encoding="utf-8") as f:
+                f.write(texto)
+        except OSError:
+            pass
+        print(texto)
+        print("El juego se cerró por un error. Se guardó en ~/aminomon-error.txt")
+        input("Pulsa Enter para salir...")
+
+
 _asegurar_curses()
 
 import curses  # noqa: E402
@@ -561,10 +616,14 @@ def main(win):
 
 if __name__ == "__main__":
     locale.setlocale(locale.LC_ALL, "")
-    if curses.wrapper(main) == "idioma":
+    _pantalla_completa()
+    if _con_aviso_de_error(lambda: curses.wrapper(main)) == "idioma":
         # los textos se traducen al importar: se reinicia en el idioma nuevo
         args = [a for a in sys.argv[1:] if a not in ("--es", "--en")]
+        programa = [sys.executable] if getattr(sys, "frozen", False) else \
+            [sys.executable, os.path.abspath(__file__)]
+        os.environ["AMINOMON_REINICIO"] = "1"     # ya está en pantalla completa
         if os.name == "nt":             # en Windows execv no reemplaza el proceso
             import subprocess
-            sys.exit(subprocess.call([sys.executable, os.path.abspath(__file__)] + args))
-        os.execv(sys.executable, [sys.executable, os.path.abspath(__file__)] + args)
+            sys.exit(subprocess.call(programa + args))
+        os.execv(sys.executable, programa + args)

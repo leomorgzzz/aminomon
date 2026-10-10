@@ -9,6 +9,8 @@ clasificación nutricional, codones y modificaciones postraduccionales.
 Capturas aminoácidos en una célula, combates con interacciones químicas reales
 y construyes péptidos para vencer a 7 jefes y al René-virus.
 
+**Descargar:** [Windows](https://github.com/leomorgzzz/aminomon/releases/latest/download/Aminomon-Windows.exe) · [macOS](https://github.com/leomorgzzz/aminomon/releases/latest/download/Aminomon-macOS.zip) · doble clic y a jugar.
+
 ## Capturas
 
 ![Pantalla de inicio](capturas/pantalla-de-inicio.png)
@@ -21,15 +23,22 @@ y construyes péptidos para vencer a 7 jefes y al René-virus.
 
 ### Windows
 
-1. Instala Python 3 desde [python.org](https://www.python.org/downloads/). En el
-   instalador marca «Add python.exe to PATH».
-2. Descarga el juego: botón verde **Code → Download ZIP** y descomprímelo.
-3. Abre `jugar.bat` con doble clic. La primera vez instala `windows-curses`
-   (necesita internet).
+1. Descarga **[Aminomon-Windows.exe](https://github.com/leomorgzzz/aminomon/releases/latest/download/Aminomon-Windows.exe)**.
+2. Ábrelo con doble clic. Se abre en pantalla completa.
 
-Se ve mejor en Windows Terminal (viene en Windows 11) con la ventana maximizada.
+No hay que instalar nada más. Windows puede avisar «Windows protegió su PC»
+porque el programa no está firmado: **Más información → Ejecutar de todas
+formas**.
 
-### Linux y macOS
+### macOS
+
+1. Descarga **[Aminomon-macOS.zip](https://github.com/leomorgzzz/aminomon/releases/latest/download/Aminomon-macOS.zip)** y ábrelo.
+2. Doble clic en `Aminomon`. Si macOS no lo deja abrir: **Ajustes del Sistema →
+   Privacidad y seguridad → Abrir de todos modos**.
+
+Es para Mac con chip Apple (M1 o posterior).
+
+### Linux o desde el código
 
 ```bash
 git clone https://github.com/leomorgzzz/aminomon.git
@@ -40,8 +49,8 @@ aminomon
 
 Sin instalar: `python3 aminomon.py`. Quitar el comando: `./instalar.sh --quitar`.
 
-Requiere Python 3 (en Linux y macOS, solo la biblioteca estándar). Funciona
-desde 80×24; se ve mejor en pantalla completa.
+Desde el código requiere Python 3 (solo biblioteca estándar; en Windows instala
+`windows-curses` la primera vez). Funciona desde 80×24.
 
 Archivos que crea:
 
