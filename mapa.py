@@ -32,9 +32,9 @@ TILES = {
     "g": ("═", "POL", "golgi"),
     "m": ("·", "titulo", "mitocondria"),
     "l": ("●", "NEG", "lisosoma"),
-    "b": ("∴", "POS", "ribosomas"),
+    "b": ("÷", "POS", "ribosomas"),
     "e": (" ", "texto", "mec"),
-    "x": ("╳", "tenue", "mec"),
+    "x": ("×", "tenue", "mec"),
 }
 PAREDES = {"="}
 HIERBA = {",": "citosol", "h": "interfase", "~": "membrana", "c": "nucleo",
@@ -43,14 +43,14 @@ HIERBA = {",": "citosol", "h": "interfase", "~": "membrana", "c": "nucleo",
 
 CARTELES = {
     "c_inicio": ((62, 22), "Bienvenida",
-                 "Estás en el citosol. Las zonas con símbolos (· ≈ ◦ ∴ ░ ═ ● § ▓ ╳) "
+                 "Estás en el citosol. Las zonas con símbolos (· ≈ ◦ ÷ ░ ═ ● § ▓ ×) "
                  "tienen aminoácidos salvajes. El panel de la derecha muestra "
                  "quién vive en cada zona. [M] abre el manual."),
     "c_poro": ((76, 21), "Envoltura nuclear",
                "Doble membrana con poros (O). Las moléculas pequeñas (< ~40 kDa) "
                "difunden; las proteínas grandes necesitan una señal de "
                "localización nuclear (NLS): un parche rico en Lys y Arg. Afuera "
-               "solo hay Lys (en los ribosomas ∴): con 4 basta para entrar, "
+               "solo hay Lys (en los ribosomas ÷): con 4 basta para entrar, "
                "y adentro te espera la Arg."),
     "c_golgi": ((50, 24), "Aparato de Golgi",
                 "Cara cis (hacia el RE) → cara trans (hacia la membrana). Las "
@@ -60,7 +60,7 @@ CARTELES = {
                "Pisa sus crestas para recuperar la energía de tu equipo y "
                "recargar ATP."),
     "c_liso": ((25, 30), "Lisosoma",
-               "La V-ATPasa bombea H⁺ al interior y baja el pH a ~5. A ese pH la His "
+               "La V-ATPasa bombea H+ al interior y baja el pH a ~5. A ese pH la His "
                "(pKR 6) está protonada: aquí cuenta como +."),
     "c_membrana": ((75, 6), "Bicapa lipídica",
                    "Cabezas polares (◦) hacia el agua, colas hidrofóbicas (≈) "
@@ -71,7 +71,7 @@ CARTELES = {
               "fibroblastos. El colágeno es la proteína más abundante del "
               "cuerpo."),
     "c_centro": ((CENTROSOMA[0] + 2, CENTROSOMA[1] + 1), "Centrosoma",
-                 "De aquí salen los microtúbulos (─ │ ╱ ╲): rieles por los que "
+                 "De aquí salen los microtúbulos (─ │ / \\): rieles por los que "
                  "las vesículas viajan del Golgi a la membrana."),
     "c_ribo": ((52, 15), "Ribosomas",
                "Ribosomas libres: cada uno lee un ARNm y une aminoácidos con "
@@ -192,7 +192,7 @@ def generar():
         elif abs(dy) > 0.9 * abs(dx) * 0.5 and abs(dx) < 0.3:
             g = "│"
         else:
-            g = "╲" if dx * dy > 0 else "╱"
+            g = "\\" if dx * dy > 0 else "/"
         for paso in range(2, 30):
             x, y = round(cx + dx * paso), round(cy + dy * paso)
             if not es(x, y, " "):
@@ -209,7 +209,7 @@ def generar():
         for x in range(ANCHO):
             if t[y][x] == "m":
                 borde = any(not es(x + a, y + b, "m") for a, b in ((1, 0), (-1, 0), (0, 1), (0, -1)))
-                deco[(x, y)] = ("◉", "titulo") if borde else (("│" if x % 3 == 0 else "·"), "titulo")
+                deco[(x, y)] = ("☼", "titulo") if borde else (("│" if x % 3 == 0 else "·"), "titulo")
             elif t[y][x] == "e" and rnd.random() < 0.05:
                 deco[(x, y)] = ("·", "oscuro")
             elif t[y][x] == "N" and rnd.random() < 0.04:
@@ -304,7 +304,7 @@ def fondo(x, y):
 def _attr_especial(nombre, juego):
     if nombre.startswith("jefe"):
         if nombre[5:] in juego["insignias"]:
-            return "✓", d.c("bien", curses.A_BOLD)
+            return "√", d.c("bien", curses.A_BOLD)
         return None, d.c("mal", curses.A_BOLD | curses.A_REVERSE)
     if nombre.startswith("c_"):
         return None, d.c("agua", curses.A_BOLD)

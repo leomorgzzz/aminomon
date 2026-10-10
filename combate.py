@@ -18,23 +18,23 @@ SPRITE_W = 24
 # Grupo químico de la cadena lateral, escrito para el lado izquierdo (─X) y
 # para el derecho (X─) de la arena.
 GRUPO = {
-    "G": ("─H", "H─"), "A": ("─CH₃", "H₃C─"), "V": ("─CH(CH₃)₂", "(H₃C)₂CH─"),
-    "L": ("─CH₂CH(CH₃)₂", "(H₃C)₂CHCH₂─"), "I": ("─CH(CH₃)C₂H₅", "H₅C₂(H₃C)CH─"),
-    "M": ("─CH₂CH₂SCH₃", "H₃CSCH₂CH₂─"), "P": (tr("─pirrolidina"), tr("pirrolidina─")),
-    "F": (tr("─CH₂─fenilo"), tr("fenilo─CH₂─")), "Y": (tr("─fenol─OH"), tr("HO─fenol─")),
-    "W": (tr("─indol(N─H)"), tr("(H─N)indol─")), "S": ("─CH₂─OH", "HO─CH₂─"),
-    "T": ("─CH(CH₃)OH", "HO(H₃C)CH─"), "C": ("─CH₂─SH", "HS─CH₂─"),
-    "N": ("─CONH₂", "H₂NOC─"), "Q": ("─CH₂CONH₂", "H₂NOCCH₂─"),
-    "D": ("─COO⁻", "⁻OOC─"), "E": ("─CH₂COO⁻", "⁻OOCCH₂─"),
-    "K": ("─NH₃⁺", "⁺H₃N─"), "R": (tr("─guanidinio⁺"), tr("⁺guanidinio─")),
-    "H": (tr("─imidazol(H⁺)"), tr("(H⁺)imidazol─")),
-    "Hyp": (tr("─pirrolidina─OH"), tr("HO─pirrolidina─")), "Hyl": ("─NH₃⁺", "⁺H₃N─"),
-    "Kac": ("─NH─COCH₃", "H₃COC─NH─"), "Kme3": ("─N⁺(CH₃)₃", "(H₃C)₃N⁺─"),
-    "pS": ("─O─PO₃²⁻", "²⁻O₃P─O─"), "pT": ("─O─PO₃²⁻", "²⁻O₃P─O─"),
-    "pY": (tr("─fenil─O─PO₃²⁻"), tr("²⁻O₃P─O─fenil─")), "Cis": ("─S─S─", "─S─S─"),
-    "Gla": ("─CH(COO⁻)₂", "(⁻OOC)₂CH─"), "Nglc": (tr("─CONH─glicano"), tr("glicano─HNOC─")),
-    "Cit": ("─NH─CO─NH₂", "H₂N─OC─NH─"),
-    "gS": ("─CH₂─O─GalNAc", "GalNAc─O─CH₂─"), "gT": ("─CH(CH₃)─O─GalNAc", "GalNAc─O─CH─"),
+    "G": ("─H", "H─"), "A": ("─CH3", "H3C─"), "V": ("─CH(CH3)2", "(H3C)2CH─"),
+    "L": ("─CH2CH(CH3)2", "(H3C)2CHCH2─"), "I": ("─CH(CH3)C2H5", "H5C2(H3C)CH─"),
+    "M": ("─CH2CH2SCH3", "H3CSCH2CH2─"), "P": (tr("─pirrolidina"), tr("pirrolidina─")),
+    "F": (tr("─CH2─fenilo"), tr("fenilo─CH2─")), "Y": (tr("─fenol─OH"), tr("HO─fenol─")),
+    "W": (tr("─indol(N─H)"), tr("(H─N)indol─")), "S": ("─CH2─OH", "HO─CH2─"),
+    "T": ("─CH(CH3)OH", "HO(H3C)CH─"), "C": ("─CH2─SH", "HS─CH2─"),
+    "N": ("─CONH2", "H2NOC─"), "Q": ("─CH2CONH2", "H2NOCCH2─"),
+    "D": ("─COO−", "−OOC─"), "E": ("─CH2COO−", "−OOCCH2─"),
+    "K": ("─NH3+", "+H3N─"), "R": (tr("─guanidinio+"), tr("+guanidinio─")),
+    "H": (tr("─imidazol(H+)"), tr("(H+)imidazol─")),
+    "Hyp": (tr("─pirrolidina─OH"), tr("HO─pirrolidina─")), "Hyl": ("─NH3+", "+H3N─"),
+    "Kac": ("─NH─COCH3", "H3COC─NH─"), "Kme3": ("─N+(CH3)3", "(H3C)3N+─"),
+    "pS": ("─O─PO3²−", "²−O3P─O─"), "pT": ("─O─PO3²−", "²−O3P─O─"),
+    "pY": (tr("─fenil─O─PO3²−"), tr("²−O3P─O─fenil─")), "Cis": ("─S─S─", "─S─S─"),
+    "Gla": ("─CH(COO−)2", "(−OOC)2CH─"), "Nglc": (tr("─CONH─glicano"), tr("glicano─HNOC─")),
+    "Cit": ("─NH─CO─NH2", "H2N─OC─NH─"),
+    "gS": ("─CH2─O─GalNAc", "GalNAc─O─CH2─"), "gT": ("─CH(CH3)─O─GalNAc", "GalNAc─O─CH─"),
 }
 
 # Puentes de H: papel del grupo polar (D = donador, A = aceptor) y cómo se
@@ -45,20 +45,20 @@ HB = {
     "T": ("DA", "─O─H", "─(H)O:", "H─O─", ":O(H)─"),
     "Y": ("DA", tr("─fenol─O─H"), tr("─fenol(H)O:"), tr("H─O─fenol─"), tr(":O(H)─fenol─")),
     "W": ("D", tr("─indol─N─H"), None, tr("H─N─indol─"), None),
-    "N": ("DA", "─CON(H)─H", "─(H₂N)C═O:", "H─N(H)OC─", ":O═C(NH₂)─"),
-    "Q": ("DA", "─CON(H)─H", "─(H₂N)C═O:", "H─N(H)OC─", ":O═C(NH₂)─"),
+    "N": ("DA", "─CON(H)─H", "─(H2N)C═O:", "H─N(H)OC─", ":O═C(NH2)─"),
+    "Q": ("DA", "─CON(H)─H", "─(H2N)C═O:", "H─N(H)OC─", ":O═C(NH2)─"),
     "C": ("DA", "─S─H", "─(H)S:", "H─S─", ":S(H)─"),
     "Hyp": ("DA", "─O─H", "─(H)O:", "H─O─", ":O(H)─"),
     "Kac": ("DA", "─N(Ac)─H", "─(HN)C═O:", "H─N(Ac)─", ":O═C(NH)─"),
     "Nglc": ("DA", "─CON(H)─H", "─(HN)C═O:", "H─N(H)OC─", ":O═C(NH)─"),
-    "Cit": ("DA", "─CON(H)─H", "─(H₂N)C═O:", "H─N(H)OC─", ":O═C(NH₂)─"),
+    "Cit": ("DA", "─CON(H)─H", "─(H2N)C═O:", "H─N(H)OC─", ":O═C(NH2)─"),
     "gS": ("DA", "─GalNAc─O─H", "─GalNAc(H)O:", "H─O─GalNAc─", ":O(H)GalNAc─"),
     "gT": ("DA", "─GalNAc─O─H", "─GalNAc(H)O:", "H─O─GalNAc─", ":O(H)GalNAc─"),
     "H": ("DA", tr("─imidazol─N─H"), tr("─imidazol─N:"), tr("H─N─imidazol─"), tr(":N─imidazol─")),
 }
 CARGADO = {
-    "POS": ("D", "─NH₃⁺", "⁺H₃N─"),
-    "NEG": ("A", "─COO⁻", "⁻OOC─"),
+    "POS": ("D", "─NH3+", "+H3N─"),
+    "NEG": ("A", "─COO−", "−OOC─"),
 }
 INTERACCION_H = {("POL", "POL"), ("POL", "POS"), ("POL", "NEG"),
                  ("POS", "POL"), ("NEG", "POL")}
@@ -66,7 +66,7 @@ INTERACCION_H = {("POL", "POL"), ("POL", "POS"), ("POL", "NEG"),
 
 def flechas(m):
     if m == 0:
-        return "✕"
+        return "x"
     if m >= 4:
         return "▲▲"
     if m >= 2:
@@ -132,7 +132,7 @@ class Combate:
     # ------------------------------------------------------ química real
     def _papel_mio(self, tipo_mov):
         if self.mon["id"] == "Kme3":
-            return ""            # N⁺(CH₃)₃: sin H que donar ni par libre
+            return ""            # N+(CH3)3: sin H que donar ni par libre
         if tipo_mov in CARGADO:
             return CARGADO[tipo_mov][0]
         return HB.get(self.mon["id"], ("DA",))[0]
@@ -421,7 +421,7 @@ class Combate:
         texto_m = f"×{datos.fmt_mult(mult)} {flechas(mult)}".strip()
 
         if m["efecto"] == "disulfuro" and self.aa != "C":
-            self.animar("sin_puente_h", dict(self.ctx_base(), hb_izq="─CH₂─S─H",
+            self.animar("sin_puente_h", dict(self.ctx_base(), hb_izq="─CH2─S─H",
                                              hb_der=GRUPO[self.aa][1] if self.nombre_visible else "R?─",
                                              motivo=tr("el disulfuro solo se forma entre dos Cys"),
                                              nombre=tr("sin otra Cys no hay disulfuro")))
@@ -494,7 +494,7 @@ class Combate:
             return False
         nombres = [datos.TIPOS[t]["nombre"] for t in datos.ORDEN_TIPOS]
         p = d.menu(self.win, tr("¿Grupo de Lehninger?"), nombres,
-                   ayuda=tr("¿Solo C/H? ¿anillo? ¿OH/SH/amida? ¿NH₃⁺? ¿COO⁻?"))
+                   ayuda=tr("¿Solo C/H? ¿anillo? ¿OH/SH/amida? ¿NH3+? ¿COO−?"))
         if p is None:
             return False
         elegidos = (datos.ORDEN_TIPOS[p],)
@@ -596,7 +596,7 @@ class Combate:
                              tipo=tipo, poder=m["poder"], contra=contra))
             lineas.append(f"   {m['desc']}")
             if m.get("ciencia"):
-                lineas.append(f"   ↳ {m['ciencia']}")
+                lineas.append(f"   └ {m['ciencia']}")
         d.popup(self.win, "\n".join(lineas), tr("Interacciones de {nombre}", nombre=f["nombre"]), ancho=86)
 
     # -------------------------------------------------------------- bucle

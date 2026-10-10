@@ -296,9 +296,9 @@ def intro(win):
            "En las zonas marcadas con símbolos aparecen aminoácidos salvajes. "
            "Deduce su grupo [D], usa movimientos afines y, con afinidad ≥ 50, "
            "lanza un ARNt [T].", nombre=a["nombre"]),
-        tr("La mitocondria (◉) restablece a tu equipo y recarga ATP. Los jefes "
+        tr("La mitocondria (☼) restablece a tu equipo y recarga ATP. Los jefes "
            "(J) piden construir péptidos. Para entrar al núcleo necesitas una NLS "
-           "rica en Lys (K), que encontrarás en los ribosomas (∴); la Arg (R) "
+           "rica en Lys (K), que encontrarás en los ribosomas (÷); la Arg (R) "
            "solo vive dentro del núcleo. Los carteles (i) describen cada "
            "compartimento. Yo soy la V del mapa: búscame cuando quieras un consejo."),
     ], tr("René-virus"))
@@ -406,7 +406,7 @@ class Partida:
         for i, m in enumerate(j["equipo"][:max_eq]):
             f = datos.forma(m["id"])
             emax = progreso.energia_max(m)
-            marca = "★ " if i == 0 else "  "      # ★ sale a doble ancho en algunas terminales
+            marca = "* " if i == 0 else "  "
             d.put(w, y, x + 1, f"{marca}{f['tres'][:6]:<7}{tr('Nv')}{m['nivel']:<3}", d.c(f["tipos"][0]))
             d.barra(w, y, x + 16, 10, m["energia"], emax, d.c("titulo"))
             d.put(w, y, x + 27, f"{m['energia']:>3}", d.c("tenue"))
@@ -431,7 +431,7 @@ class Partida:
         cx = x + 1 + len(etiqueta)
         for z in jefes.JEFES:
             ok = z in j["insignias"]
-            d.put(w, y, cx, "◆" if ok else "◇", d.c("bien" if ok else "oscuro"))
+            d.put(w, y, cx, "♦" if ok else "◊", d.c("bien" if ok else "oscuro"))
             cx += 2
         y += 2
 
@@ -452,7 +452,7 @@ class Partida:
         if mapa.tile(nx, ny) == "O" and "nucleo" not in j["insignias"]:
             if not jefes.retar(self.win, j, "nucleo"):
                 self.mensaje = tr("El poro nuclear no te deja pasar sin una NLS (≥ 4 Lys). "
-                                  "Búscalas en los ribosomas (∴).")
+                                  "Búscalas en los ribosomas (÷).")
                 return
             progreso.guardar(j)
         self.rastro.insert(0, (x, y))
@@ -594,7 +594,7 @@ class Partida:
                 partes.append(tr("Catálogo de péptidos completo. Puedes repetir encargos "
                                  "y mi examen para seguir practicando."))
         if not all(m["energia"] > 0 for m in j["equipo"]):
-            partes.append(tr("Tu equipo está cansado: ve a la mitocondria (◉)."))
+            partes.append(tr("Tu equipo está cansado: ve a la mitocondria (☼)."))
         d.popup(self.win, "\n\n".join(partes), tr("René-virus"))
 
     def encuentro(self, zona):

@@ -528,7 +528,7 @@ MODIFICACIONES = {
         bio="Las Ser/Thr quinasas (PKA, PKC, MAPK…) le transfieren el "
             "fosfato γ del ATP. Es el interruptor más común de la célula; las "
             "fosfatasas lo quitan.",
-        pista="La mitocondria (◉) recarga ATP.",
+        pista="La mitocondria (☼) recarga ATP.",
         cadena=["        CH2", "        |", "        O", "        |",
                 "        PO3(2-)"],
     ),
@@ -538,7 +538,7 @@ MODIFICACIONES = {
         cambio="Gana un fosfato: de Polar sin carga a Cargado − (≈ −2).",
         bio="Mismas Ser/Thr quinasas que la serina. El motivo pThr-Pro lo "
             "reconoce la isomerasa Pin1 y controla el ciclo celular (CDKs).",
-        pista="La mitocondria (◉) recarga ATP.",
+        pista="La mitocondria (☼) recarga ATP.",
         cadena=["        CH-O-PO3(2-)", "        |", "        CH3"],
     ),
     "pY": dict(
@@ -549,7 +549,7 @@ MODIFICACIONES = {
         bio="Las tirosina quinasas (como el receptor de insulina, un RTK) la "
             "generan. Los dominios SH2 la reconocen con una Arg que forma un "
             "puente salino con el fosfato, y así propagan la señal.",
-        pista="La mitocondria (◉) recarga ATP.",
+        pista="La mitocondria (☼) recarga ATP.",
         cadena=["        CH2", "        |"] + BENCENO + [
             "        C", "        |", "        O-PO3(2-)",
         ],
@@ -575,7 +575,7 @@ MODIFICACIONES = {
         carga="Negativa (≈ −2)", req=dict(nivel=5, objeto="Vitamina K"),
         cambio="Gana un segundo carboxilo en el carbono γ: carga ≈ −2.",
         bio="La γ-glutamil carboxilasa (en el RE) usa vitamina K. Los Gla de "
-            "la protrombina y los factores VII, IX y X atrapan Ca²⁺ y anclan "
+            "la protrombina y los factores VII, IX y X atrapan Ca²+ y anclan "
             "los factores a la membrana: sin vit. K no hay coagulación (la "
             "warfarina bloquea este ciclo).",
         pista="Hay vitamina K en el retículo (K en el mapa).",
@@ -626,7 +626,7 @@ MODIFICACIONES = {
         carga="Neutra", req=dict(nivel=6),
         cambio="Pierde la carga +: el guanidinio se vuelve una urea neutra "
                "(de Cargado + a Polar sin carga).",
-        bio="Las PAD (peptidil-arginina deiminasas, dependientes de Ca²⁺) la "
+        bio="Las PAD (peptidil-arginina deiminasas, dependientes de Ca²+) la "
             "generan. PAD4 citrulina histonas en las trampas de neutrófilos "
             "(NETs). En la artritis reumatoide aparecen anticuerpos anti-CCP. "
             "La citrulina libre también es parte del ciclo de la urea.",
@@ -700,11 +700,11 @@ PEPTIDOS = {
     "kiss": dict(
         nombre="Kisspeptina-10", seq="YNWNSFGLRF",
         bio="Activa a las neuronas de GnRH y dispara la pubertad. Termina en "
-            "Arg-Phe-NH₂, como toda la familia de péptidos RF-amida."),
+            "Arg-Phe-NH2, como toda la familia de péptidos RF-amida."),
     "sustp": dict(
         nombre="Sustancia P", seq="RPKPQQFFGLM",
         bio="Neuropéptido del dolor y la inflamación. Termina en "
-            "Phe-X-Gly-Leu-Met-NH₂, la firma de las taquicininas."),
+            "Phe-X-Gly-Leu-Met-NH2, la firma de las taquicininas."),
     "tat": dict(
         nombre="Péptido Tat del VIH-1", seq="YGRKKRRQRRR",
         bio="Residuos 47–57 de la proteína Tat del VIH-1: tan rico en Arg que "
@@ -728,25 +728,25 @@ OBJETOS = {
 # Nombre, fórmula y clase química del grupo R
 GRUPO_R = {
     "G": ("hidrógeno", "–H", "sin cadena lateral"),
-    "A": ("metilo", "–CH₃", "alquilo"),
-    "V": ("isopropilo", "–CH(CH₃)₂", "alquilo ramificado"),
-    "L": ("isobutilo", "–CH₂CH(CH₃)₂", "alquilo ramificado"),
-    "I": ("sec-butilo", "–CH(CH₃)CH₂CH₃", "alquilo ramificado"),
-    "M": ("metiltioetilo", "–CH₂CH₂–S–CH₃", "tioéter"),
-    "P": ("pirrolidina", "–CH₂CH₂CH₂– (cerrado sobre el N)", "amina secundaria cíclica"),
-    "F": ("bencilo", "–CH₂–C₆H₅", "fenilo"),
-    "Y": ("p-hidroxibencilo", "–CH₂–C₆H₄–OH", "fenol"),
-    "W": ("indolilmetilo", "–CH₂–indol", "indol"),
-    "S": ("hidroximetilo", "–CH₂–OH", "alcohol primario"),
-    "T": ("1-hidroxietilo", "–CH(OH)–CH₃", "alcohol secundario"),
-    "C": ("sulfanilmetilo", "–CH₂–SH", "tiol"),
-    "N": ("carbamoilmetilo", "–CH₂–CONH₂", "amida"),
-    "Q": ("2-carbamoiletilo", "–CH₂CH₂–CONH₂", "amida"),
-    "D": ("carboximetilo", "–CH₂–COO⁻", "carboxilato"),
-    "E": ("2-carboxietilo", "–CH₂CH₂–COO⁻", "carboxilato"),
-    "K": ("4-aminobutilo", "–(CH₂)₄–NH₃⁺", "amonio primario"),
-    "R": ("3-guanidinopropilo", "–(CH₂)₃–NH–C(NH₂)₂⁺", "guanidinio"),
-    "H": ("imidazolilmetilo", "–CH₂–imidazol", "imidazol"),
+    "A": ("metilo", "–CH3", "alquilo"),
+    "V": ("isopropilo", "–CH(CH3)2", "alquilo ramificado"),
+    "L": ("isobutilo", "–CH2CH(CH3)2", "alquilo ramificado"),
+    "I": ("sec-butilo", "–CH(CH3)CH2CH3", "alquilo ramificado"),
+    "M": ("metiltioetilo", "–CH2CH2–S–CH3", "tioéter"),
+    "P": ("pirrolidina", "–CH2CH2CH2– (cerrado sobre el N)", "amina secundaria cíclica"),
+    "F": ("bencilo", "–CH2–C6H5", "fenilo"),
+    "Y": ("p-hidroxibencilo", "–CH2–C6H4–OH", "fenol"),
+    "W": ("indolilmetilo", "–CH2–indol", "indol"),
+    "S": ("hidroximetilo", "–CH2–OH", "alcohol primario"),
+    "T": ("1-hidroxietilo", "–CH(OH)–CH3", "alcohol secundario"),
+    "C": ("sulfanilmetilo", "–CH2–SH", "tiol"),
+    "N": ("carbamoilmetilo", "–CH2–CONH2", "amida"),
+    "Q": ("2-carbamoiletilo", "–CH2CH2–CONH2", "amida"),
+    "D": ("carboximetilo", "–CH2–COO−", "carboxilato"),
+    "E": ("2-carboxietilo", "–CH2CH2–COO−", "carboxilato"),
+    "K": ("4-aminobutilo", "–(CH2)4–NH3+", "amonio primario"),
+    "R": ("3-guanidinopropilo", "–(CH2)3–NH–C(NH2)2+", "guanidinio"),
+    "H": ("imidazolilmetilo", "–CH2–imidazol", "imidazol"),
 }
 
 INTERACCION = {"NP": "Efecto hidrofóbico", "ARO": "Interacción π",
@@ -837,7 +837,7 @@ MOVIMIENTOS = {
         "Puente disulfuro", "POL", 50,
         "Enlace covalente S–S. Solo se forma con otra Cys: afinidad máxima. "
         "Con cualquier otro residuo no ocurre.",
-        "2 R–SH → R–S–S–R + 2H⁺ + 2e⁻ (oxidación)."),
+        "2 R–SH → R–S–S–R + 2H+ + 2e− (oxidación)."),
 }
 MOVIMIENTOS["puente_disulfuro"]["efecto"] = "disulfuro"
 traducir(MOVIMIENTOS, "nombre", "desc", "ciencia")      # los fijos (los de R ya vienen traducidos)
@@ -885,7 +885,7 @@ ZONAS = {
     ),
     "ribosomas": dict(
         nombre="Ribosomas", aminos=list("K"), niveles=(3, 5),
-        glifo="∴", color="POS",
+        glifo="÷", color="POS",
         por_que="Ribosomas libres traduciendo ARNm en el citosol. Sus proteínas "
                 "ribosomales son muy ricas en Lys: sus cargas + neutralizan los "
                 "fosfatos (−) del ARN ribosomal. Aquí "
@@ -911,7 +911,7 @@ ZONAS = {
     "re": dict(
         nombre="Retículo endoplásmico", aminos=list("DE"), niveles=(4, 7),
         glifo="░", color="NEG",
-        por_que="Aquí viven los ácidos (−): el RE es el almacén de Ca²⁺ de "
+        por_que="Aquí viven los ácidos (−): el RE es el almacén de Ca²+ de "
                 "la célula y proteínas como la calreticulina están llenas de "
                 "Asp y Glu para retenerlo. Su membrana es continua con la "
                 "envoltura nuclear.",
@@ -931,14 +931,14 @@ ZONAS = {
     ),
     "mec": dict(
         nombre="Matriz extracelular", aminos=list("GP"), niveles=(5, 8),
-        glifo="╳", color="tenue",
+        glifo="×", color="tenue",
         por_que="Aquí viven Gly y Pro: el colágeno repite Gly-Pro-Hyp. La Gly "
                 "es la única que cabe en el centro de la triple hélice y la "
                 "Pro la rigidiza.",
     ),
     "mitocondria": dict(
         nombre="Mitocondria", aminos=[], niveles=(0, 0),
-        glifo="◉", color="titulo",
+        glifo="☼", color="titulo",
         por_que="La fosforilación oxidativa produce ATP: aquí tu equipo "
                 "restablece su energía y recargas ATP. También es donde se "
                 "degradan los aminoácidos ramificados (Val, Leu, Ile).",

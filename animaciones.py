@@ -84,7 +84,7 @@ def repulsion(h, w, ctx):
                         (y, fd + i * 2, der, ctx["color_rival"]),
                         (y - 1, max(0, fi - i * 2 + len(izq) - 1), ctx["carga_mio"], "mal"),
                         (y - 1, fd + i * 2, ctx["carga_rival"], "mal"),
-                        (y, w // 2 - 3, "⟵ ✕ ⟶", "mal"),
+                        (y, w // 2 - 3, "← x →", "mal"),
                         _sub(h, w, tr("cargas iguales se repelen"))])
     return _final(cuadros, h, w, ctx.get("nombre", tr("repulsión electrostática")), "mal")
 
@@ -107,7 +107,7 @@ def hidrofobico(h, w, ctx):
             ax = cx + int(math.cos(ang) * rr * w * 0.36)
             ay = cy + int(math.sin(ang) * rr * h * 0.45)
             if 0 <= ay < h - 1 and 0 <= ax < w - 3 and ay != cy:
-                c.append((ay, ax, "H₂O", "agua"))
+                c.append((ay, ax, "H2O", "agua"))
         texto = (tr("cada cadena no polar está rodeada de agua ordenada") if t < 0.5
                  else tr("al juntarse, esa agua ordenada queda libre"))
         c.append(_sub(h, w, texto))
@@ -127,9 +127,9 @@ def solvatacion(h, w, ctx):
         capa = []
         for dy, dx in posiciones[: 1 + i // 2]:
             if polar_der:
-                capa.append((y + dy, fd - 1 + dx, "H₂O", "agua"))
+                capa.append((y + dy, fd - 1 + dx, "H2O", "agua"))
             else:
-                capa.append((y + dy, fi + len(izq) - 3 - dx, "H₂O", "agua"))
+                capa.append((y + dy, fi + len(izq) - 3 - dx, "H2O", "agua"))
         cuadros.append(base + capa + [_sub(h, w, tr("el agua forma una capa alrededor del grupo polar"))])
     return _final(cuadros, h, w, ctx.get("nombre", tr("el agua los mantiene separados")), "tenue")
 
@@ -179,7 +179,7 @@ def sin_puente_h(h, w, ctx):
                                     hueco=7, sub=tr("se acercan…"))
     base = _sin_sub(cuadros[-1], h)
     for i in range(6):
-        cuadros.append(base + [(y, w // 2 - 1, "✕" if i % 2 == 0 else " ", "mal"),
+        cuadros.append(base + [(y, w // 2 - 1, "x" if i % 2 == 0 else " ", "mal"),
                                _sub(h, w, ctx.get("motivo", tr("falta un donador o un aceptor")), "mal")])
     return _final(cuadros, h, w, ctx.get("nombre", tr("no se forma puente de H")), "mal")
 
@@ -270,7 +270,7 @@ def esqueleto(h, w, ctx):
         enlaces = []
         for k in range(1, largo - 2, 8):
             if (k // 8 + i) % 2 == 0 or i > 3:
-                enlaces += [(y + 1, 4 + k, "H", "tenue"), (y + 2, 4 + k, "⁞", "titulo")]
+                enlaces += [(y + 1, 4 + k, "H", "tenue"), (y + 2, 4 + k, ":", "titulo")]
         cuadros.append(base + enlaces + [_sub(h, w, tr("N–H de un esqueleto ··· O═C del otro"))])
     return _final(cuadros, h, w, ctx.get("nombre", tr("puentes de H del esqueleto")))
 
@@ -284,8 +284,8 @@ def disulfuro(h, w, ctx):
     for i in range(1, 7):
         cuadros.append([(y, fi, "Cys─S ", ctx["color_mio"]), (y, fd, " S─Cys", ctx["color_rival"]),
                         (max(0, y - i), fi + 5, "H", "agua"), (max(0, y - i), fd, "H", "agua"),
-                        _sub(h, w, tr("se oxidan: salen 2H⁺ + 2e⁻"))])
-    final = [(y, w // 2 - 6, "Cys─S─S─Cys", "titulo"), (0, 1, "2H⁺ + 2e⁻", "tenue")]
+                        _sub(h, w, tr("se oxidan: salen 2H+ + 2e−"))])
+    final = [(y, w // 2 - 6, "Cys─S─S─Cys", "titulo"), (0, 1, "2H+ + 2e−", "tenue")]
     cuadros.append(final + [_sub(h, w, tr("enlace covalente S–S (cistina)"), "titulo")])
     return cuadros
 

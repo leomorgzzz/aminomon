@@ -56,7 +56,7 @@ def _nombre(c):
 
 
 def _marca(juego, c):
-    return "✓" if juego["capturados"].get(c, 0) else " "
+    return "√" if juego["capturados"].get(c, 0) else " "
 
 
 def _tipos_seg(tipos, corto=True):
@@ -84,10 +84,10 @@ def p_jugar(juego, rival, an):
         T(tr("Símbolos del mapa")),
         *tabla([[("≈", "NP"), tr("membrana (colas)"), ("◦", "ARO"), tr("interfase"),
                  ("·", "POL"), tr("citosol")],
-                [("∴", "POS"), tr("ribosomas"), ("░", "NEG"), tr("retículo"), ("═", "POL"), "Golgi"],
+                [("÷", "POS"), tr("ribosomas"), ("░", "NEG"), tr("retículo"), ("═", "POL"), "Golgi"],
                 [("●", "NEG"), tr("lisosoma"), ("§", "POS"), tr("cromatina"), ("▓", "POS"),
                  tr("nucléolo")],
-                [("╳", "tenue"), tr("colágeno"), ("◉", "titulo"), tr("mitocondria"), ("O", "mal"),
+                [("×", "tenue"), tr("colágeno"), ("☼", "titulo"), tr("mitocondria"), ("O", "mal"),
                  tr("poro nuclear")],
                 [("█", "oscuro"), tr("envoltura"), ("V", "titulo"), tr("René-virus"),
                  ("H", "titulo"), tr("Chaperona")],
@@ -125,7 +125,7 @@ def p_jugar(juego, rival, an):
         *parrafo(tr("Cada jefe pide construir un péptido con lo que ya capturaste; "
                     "al lograrlo ves tu péptido dibujado. El poro nuclear es un jefe: "
                     "necesitas una NLS con al menos 4 Lys (viven en los "
-                    "ribosomas ∴) para entrar al núcleo. La Arg solo vive "
+                    "ribosomas ÷) para entrar al núcleo. La Arg solo vive "
                     "adentro (núcleo y nucléolo). En cada reto puedes usar cada "
                     "aminoácido tantas veces como lo tengas en tu equipo."), an),
         L(""),
@@ -146,7 +146,7 @@ def p_jugar(juego, rival, an):
 
 def p_tipos(juego, rival, an):
     out = [T(tr("Los 5 grupos de Lehninger")),
-           *parrafo(tr("Cada aminoácido tiene un tipo (puro) o dos (doble). ✓ = ya lo "
+           *parrafo(tr("Cada aminoácido tiene un tipo (puro) o dos (doble). √ = ya lo "
                        "capturaste."), an, "tenue"), L("")]
     for t, info in T_.items():
         puros = [c for c in datos.ORDEN if AA[c]["tipos"] == (t,)]
@@ -199,7 +199,7 @@ def p_afinidad(juego, rival, an):
     out += tabla(filas, sep=3)
     out.append(L(""))
     if rival:
-        out.append(L((tr("▸ Tu rival es "), "titulo"), *_tipos_seg(rival, False)))
+        out.append(L((tr("► Tu rival es "), "titulo"), *_tipos_seg(rival, False)))
         filas = sorted(((datos.multiplicador(a, rival)[0], a) for a in tipos), reverse=True)
         buenos = [(f"{T_[a]['nombre']} ×{datos.fmt_mult(m)}  ", a) for m, a in filas if m >= 2]
         out.append(L((tr("  Mejores: "), "bien"),
@@ -231,7 +231,7 @@ def p_afinidad(juego, rival, an):
         *parrafo(tr("• Cada aminoácido solo forma interacciones de su propio grupo R, "
                     "más las del esqueleto peptídico y van der Waals, que todos tienen."),
                  an, sangria="  "),
-        *parrafo(tr("• El N⁺(CH₃)₃ de la trimetil-lisina no tiene H: con grupos polares "
+        *parrafo(tr("• El N+(CH3)3 de la trimetil-lisina no tiene H: con grupos polares "
                     "solo hay atracción ion–dipolo, sin puente de H."), an, sangria="  "),
         *parrafo(tr("• La Pro (y la Hyp) no tiene H en el N del esqueleto: no forma el "
                     "puente de H del esqueleto como donador."), an, sangria="  "),
@@ -280,10 +280,10 @@ def p_interacciones(juego, rival, an):
 def p_modificaciones(juego, rival, an):
     out = [T(tr("Modificaciones postraduccionales")),
            *parrafo(tr("Se activan desde el menú Equipo [E] → V cuando se cumplen los "
-                       "requisitos. ✓ = ya la conseguiste."), an), L("")]
+                       "requisitos. √ = ya la conseguiste."), an), L("")]
     for eid, ev in datos.MODIFICACIONES.items():
         base = AA[ev["base"]]
-        visto = "✓ " if eid in juego["evos_vistas"] else "  "
+        visto = "√ " if eid in juego["evos_vistas"] else "  "
         req = ev["req"]
         como = [tr("nivel {n}", n=req["nivel"])]
         if "objeto" in req:

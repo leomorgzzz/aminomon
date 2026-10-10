@@ -201,7 +201,7 @@ def mostrar(win, juego):
                 a = AA[cid]
                 num = datos.ORDEN.index(cid) + 1
                 if juego["capturados"].get(cid):
-                    texto, attr = f"{num:2} ✓ {a['nombre']}", d.c(a["tipos"][0])
+                    texto, attr = f"{num:2} √ {a['nombre']}", d.c(a["tipos"][0])
                 elif cid in juego["vistos"]:
                     texto, attr = f"{num:2} · ¿¿??", d.c("tenue")
                 else:
@@ -209,7 +209,7 @@ def mostrar(win, juego):
             elif clase == "pep":
                 num = list(datos.PEPTIDOS).index(cid) + 1
                 if cid in juego["peptidos"]:
-                    texto, attr = f"P{num:<2}✓ {datos.PEPTIDOS[cid]['nombre'][:15]}", d.c("titulo")
+                    texto, attr = f"P{num:<2}√ {datos.PEPTIDOS[cid]['nombre'][:15]}", d.c("titulo")
                 else:
                     texto, attr = f"P{num:<2}  ------", d.c("tenue")
             else:

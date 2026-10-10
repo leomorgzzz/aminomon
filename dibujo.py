@@ -171,7 +171,7 @@ def barra(win, y, x, ancho, valor, maximo, attr):
 
 
 ATOMOS = {"C": "atC", "H": "atH", "N": "atN", "O": "atO", "S": "atS", "P": "atP"}
-ENLACES = set("|/\\=─│╱╲")
+ENLACES = set("|/\\=─│")
 
 
 def _filas_esqueleto(lineas):
@@ -237,7 +237,7 @@ def estructura(win, y, x, lineas, attr=None, cpk=True, etiqueta_r=None, color_r=
         filas_r = [l for l in lineas[n_esq:] if l.strip()]
         sangria = min(len(l) - len(l.lstrip()) for l in filas_r)
         for i in range(n_esq, len(lineas)):
-            put(win, y + i, x + max(0, sangria - 2), "┃", c(color_r))
+            put(win, y + i, x + max(0, sangria - 2), "║", c(color_r))
         put(win, y + len(lineas) + 1, x + max(0, sangria - 2), tr("grupo R: "), c("tenue"))
         put(win, y + len(lineas) + 1, x + max(0, sangria - 2) + 9, etiqueta_r, c(color_r, curses.A_BOLD))
 
@@ -333,7 +333,7 @@ def menu(win, titulo, opciones, y=None, x=None, ancho=None, ayuda=None,
         inicio = max(0, min(inicio, sel))
         for i, o in enumerate(opciones[inicio:inicio + visibles]):
             idx = inicio + i
-            marca = "▸ " if idx == sel else "  "
+            marca = "► " if idx == sel else "  "
             attr = c("titulo", curses.A_BOLD) if idx == sel else c("texto")
             put(win, y + 1 + i, x + 2, (marca + o)[: ancho - 4], attr)
         if ayuda:

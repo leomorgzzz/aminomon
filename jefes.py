@@ -158,11 +158,11 @@ def pista_faltantes(juego, zona):
 
 # ================================================== dibujo de tu péptido
 CADENA = {
-    "G": "H", "A": "CH₃", "V": "CH(CH₃)₂", "L": "CH₂CHMe₂", "I": "CHMeEt",
-    "M": "(CH₂)₂SCH₃", "P": "(CH₂)₃→N", "F": "CH₂-Ph", "Y": "CH₂-PhOH",
-    "W": "CH₂-indol", "S": "CH₂OH", "T": "CHOHCH₃", "C": "CH₂SH",
-    "N": "CH₂CONH₂", "Q": "(CH₂)₂CONH₂", "D": "CH₂COO⁻", "E": "(CH₂)₂COO⁻",
-    "K": "(CH₂)₄NH₃⁺", "R": "…guan⁺", "H": "CH₂-imid",
+    "G": "H", "A": "CH3", "V": "CH(CH3)2", "L": "CH2CHMe2", "I": "CHMeEt",
+    "M": "(CH2)2SCH3", "P": "(CH2)3→N", "F": "CH2-Ph", "Y": "CH2-PhOH",
+    "W": "CH2-indol", "S": "CH2OH", "T": "CHOHCH3", "C": "CH2SH",
+    "N": "CH2CONH2", "Q": "(CH2)2CONH2", "D": "CH2COO−", "E": "(CH2)2COO−",
+    "K": "(CH2)4NH3+", "R": "…guan+", "H": "CH2-imid",
 }
 CELDA = 11
 
@@ -172,17 +172,17 @@ def _nota(zona, seq, i):
     c = seq[i]
     if zona == "citosol":
         if c in "STY":
-            return tr("◆ quinasa"), "NEG"
-        return ("H₂O ✓", "agua") if AA[c]["hidropatia"] < 0 else ("", "tenue")
+            return tr("♦ quinasa"), "NEG"
+        return ("H2O √", "agua") if AA[c]["hidropatia"] < 0 else ("", "tenue")
     if zona == "nucleo":
         return {"K": (tr("+ importina"), "POS"), "R": (tr("+ importina"), "POS"),
                 "D": ("−", "NEG"), "E": ("−", "NEG")}.get(c, ("", "tenue"))
     if zona == "re":
-        return (tr("▸ receptor"), "titulo") if i >= len(seq) - 4 else ("", "tenue")
+        return (tr("► receptor"), "titulo") if i >= len(seq) - 4 else ("", "tenue")
     if zona == "golgi":
         if c == "N" and i + 2 < len(seq) and seq[i + 1] != "P" and seq[i + 2] in "ST":
-            return tr("◆ N-glic."), "POL"          # secuón N-X-S/T: glicano del RE
-        return ("◇ O-GalNAc", "POL") if c in "ST" else ("", "tenue")
+            return tr("♦ N-glic."), "POL"          # secuón N-X-S/T: glicano del RE
+        return ("◊ O-GalNAc", "POL") if c in "ST" else ("", "tenue")
     if zona == "mec":
         o = marco_colageno(seq) or 0
         pos = (i - o) % 3
@@ -199,7 +199,7 @@ def dibujar_peptido(win, y, x, ancho, seq, zona):
     for ini in range(0, len(seq), por_fila):
         trozo = seq[ini:ini + por_fila]
         cx = x
-        inicio = "H₃N⁺─" if ini == 0 else "  …─"
+        inicio = "H3N+─" if ini == 0 else "  …─"
         d.put(win, y + 2, cx, inicio, d.c("tenue"))
         cx += len(inicio)
         for k, c in enumerate(trozo):
@@ -213,7 +213,7 @@ def dibujar_peptido(win, y, x, ancho, seq, zona):
             d.put(win, y + (1 if arriba else 3), centro + 1, "│", d.c(col))
             d.put(win, y + 2, cx, f"[{a['tres']}]", d.c(col, curses.A_BOLD))
             fin = i == len(seq) - 1
-            d.put(win, y + 2, cx + 5, "─COO⁻" if fin else ("─" * (CELDA - 5) if k < len(trozo) - 1 else "─…"),
+            d.put(win, y + 2, cx + 5, "─COO−" if fin else ("─" * (CELDA - 5) if k < len(trozo) - 1 else "─…"),
                   d.c("tenue"))
             nota, ncol = _nota(zona, seq, i)
             d.put(win, y + 5, cx, nota[: CELDA - 1], d.c(ncol))
@@ -226,7 +226,7 @@ def dibujar_membrana(win, y, x, seq):
     """La hélice cruza la bicapa: un residuo por fila entre las capas."""
     filas = ["agua", "cabezas"] + ["colas"] * len(seq) + ["cabezas", "agua"]
     for k, capa in enumerate(filas):
-        glifo, col = {"agua": ("  H₂O  H₂O  ", "agua"), "cabezas": ("◦◦◦◦◦◦◦◦◦◦◦◦", "ARO"),
+        glifo, col = {"agua": ("  H2O  H2O  ", "agua"), "cabezas": ("◦◦◦◦◦◦◦◦◦◦◦◦", "ARO"),
                       "colas": ("≈≈≈≈≈≈≈≈≈≈≈≈", "NP")}[capa]
         d.put(win, y + k, x, glifo, d.c(col))
         d.put(win, y + k, x + 26, glifo, d.c(col))
@@ -328,7 +328,7 @@ def retar(win, juego, zona):
         d.put(win, y, 1, resumen, d.c("titulo"))
         conds = j["condiciones"](seq)
         for i, (texto, ok) in enumerate(conds):
-            d.put(win, y + 2 + i, 3, f"{'✓' if ok else '✗'} {texto}",
+            d.put(win, y + 2 + i, 3, f"{'√' if ok else 'x'} {texto}",
                   d.c("bien" if ok else "mal"))
         if aviso:
             d.put(win, y + 3 + len(conds), 1, aviso, d.c("mal"))
@@ -382,18 +382,18 @@ PLIEGUE = [
     ("hélice α 2",
      [(0, 20, " _   _   _", "titulo"), (1, 20, "/ \\_/ \\_/ \\_", "titulo")]),
     ("lazo que une las dos hélices",
-     [(1, 13, "╭─────╮", "tenue"), (2, 13, "│     │", "tenue")]),
+     [(1, 13, "┌─────┐", "tenue"), (2, 13, "│     │", "tenue")]),
     ("hebra β 1", [(4, 0, "══════════►", "POL")]),
-    ("giro β (Gly–Pro) que dobla la cadena", [(4, 11, "╮", "NP"), (5, 11, "│", "NP"), (6, 11, "╯", "NP")]),
+    ("giro β (Gly–Pro) que dobla la cadena", [(4, 11, "┐", "NP"), (5, 11, "│", "NP"), (6, 11, "┘", "NP")]),
     ("hebra β 2: lámina antiparalela", [(6, 0, "◄══════════", "POL")]),
-    ("puentes de H entre las hebras", [(5, 1, "⁞  ⁞  ⁞  ⁞", "titulo")]),
+    ("puentes de H entre las hebras", [(5, 1, ":  :  :  :", "titulo")]),
     ("núcleo hidrofóbico: estado nativo",
      [(3, 15, "●Leu ●Ile", "NP"), (4, 15, "●Val ●Phe", "NP")]),
 ]
 PLIEGUE = [(tr(texto), piezas) for texto, piezas in PLIEGUE]
 NATIVO = len(PLIEGUE)
 EXTRAS = [
-    ("extra: puente salino Lys⁺···⁻Asp", [(6, 15, "Lys⁺···⁻Asp", "POS")]),
+    ("extra: puente salino Lys+···−Asp", [(6, 15, "Lys+···−Asp", "POS")]),
     ("extra: disulfuro Cys–S–S–Cys", [(7, 2, "Cys─S─S─Cys", "titulo")]),
 ]
 EXTRAS = [(tr(texto), piezas) for texto, piezas in EXTRAS]
@@ -420,7 +420,7 @@ def dibujar_pliegue(win, y, x, aciertos, fallos):
         d.put(win, y + 9, x + 2, ("~" * fallos)[:30] + tr(" mal plegado"), d.c("mal"))
     if aciertos:
         ultimo = (PLIEGUE + EXTRAS)[aciertos - 1][0]
-        d.put(win, y + 10, x + 2, ("✓ " + ultimo)[:36], d.c("bien"))
+        d.put(win, y + 10, x + 2, ("√ " + ultimo)[:36], d.c("bien"))
 
 
 def chaperona(win, juego):
@@ -702,7 +702,7 @@ def encargo(win, juego):
     """El René-virus pide un péptido: traducir su ARNm y construirlo."""
     hechos = juego["peptidos"]
     ids = list(datos.PEPTIDOS)
-    opciones = [f"{'✓' if p in hechos else ' '} {datos.PEPTIDOS[p]['nombre']} "
+    opciones = [f"{'√' if p in hechos else ' '} {datos.PEPTIDOS[p]['nombre']} "
                 f"({len(datos.PEPTIDOS[p]['seq'])} aa)" for p in ids]
     sel = d.menu(win, tr("Encargos de síntesis ({n}/{total})", n=len(hechos), total=len(ids)), opciones)
     if sel is None:

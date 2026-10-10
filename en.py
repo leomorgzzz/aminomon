@@ -49,8 +49,8 @@ EN = {
         'Polar uncharged. H-bonds ×2 against polar ones. With ATP a kinase phosphorylates it and it becomes Charged −.',
     'Tu equipo inicial: Metionina y {nombre}.\n\nEn las zonas marcadas con símbolos aparecen aminoácidos salvajes. Deduce su grupo [D], usa movimientos afines y, con afinidad ≥ 50, lanza un ARNt [T].':
         'Your starting team: Methionine and {nombre}.\n\nWild amino acids appear in the areas marked with symbols. Deduce their group [D], use moves with affinity and, with affinity ≥ 50, throw a tRNA [T].',
-    'La mitocondria (◉) restablece a tu equipo y recarga ATP. Los jefes (J) piden construir péptidos. Para entrar al núcleo necesitas una NLS rica en Lys (K), que encontrarás en los ribosomas (∴); la Arg (R) solo vive dentro del núcleo. Los carteles (i) describen cada compartimento. Yo soy la V del mapa: búscame cuando quieras un consejo.':
-        "The mitochondrion (◉) restores your team and recharges ATP. Bosses (J) ask you to build peptides. To enter the nucleus you need an NLS rich in Lys (K), which you'll find in the ribosomes (∴); Arg (R) only lives inside the nucleus. Signs (i) describe each compartment. I'm the V on the map: come find me whenever you want advice.",
+    'La mitocondria (☼) restablece a tu equipo y recarga ATP. Los jefes (J) piden construir péptidos. Para entrar al núcleo necesitas una NLS rica en Lys (K), que encontrarás en los ribosomas (÷); la Arg (R) solo vive dentro del núcleo. Los carteles (i) describen cada compartimento. Yo soy la V del mapa: búscame cuando quieras un consejo.':
+        "The mitochondrion (☼) restores your team and recharges ATP. Bosses (J) ask you to build peptides. To enter the nucleus you need an NLS rich in Lys (K), which you'll find in the ribosomes (÷); Arg (R) only lives inside the nucleus. Signs (i) describe each compartment. I'm the V on the map: come find me whenever you want advice.",
     ' · P cadena':
         ' · P chain',
     'EQUIPO':
@@ -79,8 +79,8 @@ EN = {
         'MAP',
     'La envoltura nuclear no deja pasar: entra por un poro (O).':
         "The nuclear envelope won't let you through: enter through a pore (O).",
-    'El poro nuclear no te deja pasar sin una NLS (≥ 4 Lys). Búscalas en los ribosomas (∴).':
-        "The nuclear pore won't let you through without an NLS (≥ 4 Lys). Look for them in the ribosomes (∴).",
+    'El poro nuclear no te deja pasar sin una NLS (≥ 4 Lys). Búscalas en los ribosomas (÷).':
+        "The nuclear pore won't let you through without an NLS (≥ 4 Lys). Look for them in the ribosomes (÷).",
     '¡Completaste la Aminodex! Te regalo una cadena naciente: desde ahora tu equipo te sigue por el mapa como un péptido, cada residuo con su código de 1 letra y el color de su grupo. [P] la muestra u oculta.':
         "You completed the Aminodex! Here's a gift: a nascent chain. From now on your team follows you around the map like a peptide, each residue with its 1-letter code and its group's color. [P] shows or hides it.",
     '¡Conseguiste todas las modificaciones postraduccionales! En tu cadena, los residuos modificados ahora se ven marcados con el color de su nuevo grupo, y el título del mapa se pinta con los 5 grupos de Lehninger.':
@@ -89,8 +89,8 @@ EN = {
         '{n} amino acids missing. Areas with species still to find: {zonas}.',
     'Retos pendientes: {retos}.':
         'Pending challenges: {retos}.',
-    'Tu equipo está cansado: ve a la mitocondria (◉).':
-        'Your team is tired: go to the mitochondrion (◉).',
+    'Tu equipo está cansado: ve a la mitocondria (☼).':
+        'Your team is tired: go to the mitochondrion (☼).',
     '¿Borrar la partida guardada?':
         'Delete the saved game?',
     '¿Elegir a {nombre}?':
@@ -269,8 +269,8 @@ EN = {
         'like charges repel',
     'dos esqueletos peptídicos se alinean':
         'two peptide backbones line up',
-    'se oxidan: salen 2H⁺ + 2e⁻':
-        'they oxidize: 2H⁺ + 2e⁻ leave',
+    'se oxidan: salen 2H+ + 2e−':
+        'they oxidize: 2H+ + 2e− leave',
     'enlace covalente S–S (cistina)':
         'covalent S–S bond (cystine)',
     'el movimiento térmico desordena tus interacciones':
@@ -299,10 +299,10 @@ EN = {
         '─pyrrolidine',
     'pirrolidina─':
         'pyrrolidine─',
-    '─CH₂─fenilo':
-        '─CH₂─phenyl',
-    'fenilo─CH₂─':
-        'phenyl─CH₂─',
+    '─CH2─fenilo':
+        '─CH2─phenyl',
+    'fenilo─CH2─':
+        'phenyl─CH2─',
     '─fenol─OH':
         '─phenol─OH',
     'HO─fenol─':
@@ -311,22 +311,22 @@ EN = {
         '─indole(N─H)',
     '(H─N)indol─':
         '(H─N)indole─',
-    '─guanidinio⁺':
-        '─guanidinium⁺',
-    '⁺guanidinio─':
-        '⁺guanidinium─',
-    '─imidazol(H⁺)':
-        '─imidazole(H⁺)',
-    '(H⁺)imidazol─':
-        '(H⁺)imidazole─',
+    '─guanidinio+':
+        '─guanidinium+',
+    '+guanidinio─':
+        '+guanidinium─',
+    '─imidazol(H+)':
+        '─imidazole(H+)',
+    '(H+)imidazol─':
+        '(H+)imidazole─',
     '─pirrolidina─OH':
         '─pyrrolidine─OH',
     'HO─pirrolidina─':
         'HO─pyrrolidine─',
-    '─fenil─O─PO₃²⁻':
-        '─phenyl─O─PO₃²⁻',
-    '²⁻O₃P─O─fenil─':
-        '²⁻O₃P─O─phenyl─',
+    '─fenil─O─PO3²−':
+        '─phenyl─O─PO3²−',
+    '²−O3P─O─fenil─':
+        '²−O3P─O─phenyl─',
     '─CONH─glicano':
         '─CONH─glycan',
     'glicano─HNOC─':
@@ -415,8 +415,8 @@ EN = {
         'Its group is now obvious: {grupo}.',
     'Ya conoces su grupo.':
         'You already know its group.',
-    '¿Solo C/H? ¿anillo? ¿OH/SH/amida? ¿NH₃⁺? ¿COO⁻?':
-        'Only C/H? ring? OH/SH/amide? NH₃⁺? COO⁻?',
+    '¿Solo C/H? ¿anillo? ¿OH/SH/amida? ¿NH3+? ¿COO−?':
+        'Only C/H? ring? OH/SH/amide? NH3+? COO−?',
     '¿Y su carácter?':
         'And its character?',
     'Correcto: {grupo}. +10 afinidad, +5 XP':
@@ -475,8 +475,8 @@ EN = {
         'R group: ',
     'Modificación postraduccional de {nombre}…':
         'Post-translational modification of {nombre}…',
-    'EQUIPO ({n})  ·  el primero (★ ) es el líder del combate':
-        'TEAM ({n})  ·  the first one (★ ) leads in battle',
+    'EQUIPO ({n})  ·  el primero (*) es el líder del combate':
+        'TEAM ({n})  ·  the first one (*) leads in battle',
     'Objetos   {objetos}':
         'Items   {objetos}',
     '↑/↓ elegir  Enter hacer líder  O ordenar (A-Z/nivel/grupo)  V modificar  Esc salir':
@@ -499,8 +499,8 @@ EN = {
         'Name',
     'Nivel · XP':
         'Level · XP',
-    '✓ lista':
-        '✓ ready',
+    '√ lista':
+        '√ ready',
     'Modificable a':
         'Can become',
     'Requisitos:':
@@ -589,12 +589,12 @@ EN = {
         '{n}/8. Not passed. Review the codons (Cheat sheet tab) and the properties of each group; the questions change every attempt.',
     'Incorrecto. Era {seq}: {lectura}\n\nCada vez que lo pidas el ARNm usa codones distintos.':
         'Wrong. It was {seq}: {lectura}\n\nEach time you ask for it, the mRNA uses different codons.',
-    '◆ quinasa':
-        '◆ kinase',
-    '▸ receptor':
-        '▸ receptor',
-    '◆ N-glic.':
-        '◆ N-glyc.',
+    '♦ quinasa':
+        '♦ kinase',
+    '► receptor':
+        '► receptor',
+    '♦ N-glic.':
+        '♦ N-glyc.',
     '(ninguno)':
         '(none)',
     ' mal plegado':
@@ -733,14 +733,14 @@ EN = {
         'The animations show the real chemical groups and a subtitle for each step; any key skips them.',
     '1.ª vez: ¿cuál es? 2.ª: código de 3 letras. 3.ª: de 1 letra. Después: carga, grupo, pKR, pI (y calcularlo), nutrición, codones e hidropatía. Lo que fallas vuelve más seguido.':
         '1st time: which one is it? 2nd: 3-letter code. 3rd: 1-letter code. After that: charge, group, pKR, pI (and calculating it), nutrition, codons and hydropathy. What you get wrong comes back more often.',
-    'Cada jefe pide construir un péptido con lo que ya capturaste; al lograrlo ves tu péptido dibujado. El poro nuclear es un jefe: necesitas una NLS con al menos 4 Lys (viven en los ribosomas ∴) para entrar al núcleo. La Arg solo vive adentro (núcleo y nucléolo). En cada reto puedes usar cada aminoácido tantas veces como lo tengas en tu equipo.':
-        "Each boss asks you to build a peptide with what you've caught; when you succeed you see your peptide drawn. The nuclear pore is a boss: you need an NLS with at least 4 Lys (they live in the ribosomes ∴) to enter the nucleus. Arg only lives inside (nucleus and nucleolus). In each challenge you can use each amino acid as many times as you have it in your team.",
+    'Cada jefe pide construir un péptido con lo que ya capturaste; al lograrlo ves tu péptido dibujado. El poro nuclear es un jefe: necesitas una NLS con al menos 4 Lys (viven en los ribosomas ÷) para entrar al núcleo. La Arg solo vive adentro (núcleo y nucléolo). En cada reto puedes usar cada aminoácido tantas veces como lo tengas en tu equipo.':
+        "Each boss asks you to build a peptide with what you've caught; when you succeed you see your peptide drawn. The nuclear pore is a boss: you need an NLS with at least 4 Lys (they live in the ribosomes ÷) to enter the nucleus. Arg only lives inside (nucleus and nucleolus). In each challenge you can use each amino acid as many times as you have it in your team.",
     'Habla con el René-virus (V): su examen final te pide traducir ARNm y analizar mutaciones reales (anemia falciforme, fibrosis quística, KRAS, Huntington…).':
         "Talk to the René-virus (V): its final exam asks you to translate mRNA and analyze real mutations (sickle cell anemia, cystic fibrosis, KRAS, Huntington's…).",
     'El René-virus te hace encargos de síntesis: péptidos reales (encefalinas, oxitocina, angiotensina II, sustancia P, Tat del VIH…). Traduces su ARNm y, si tu equipo tiene suficientes copias de cada residuo, se sintetiza y entra al catálogo de péptidos, al final de la Aminodex. Los largos piden varias Arg, Gly o Phe: sigue capturando.':
         'The René-virus gives you synthesis orders: real peptides (enkephalins, oxytocin, angiotensin II, substance P, HIV Tat…). You translate their mRNA and, if your team has enough copies of each residue, it gets synthesized and goes into the peptide catalog at the end of the Aminodex. The long ones need several Arg, Gly or Phe: keep catching.',
-    'Cada aminoácido tiene un tipo (puro) o dos (doble). ✓ = ya lo capturaste.':
-        "Each amino acid has one type (pure) or two (dual). ✓ = you've caught it.",
+    'Cada aminoácido tiene un tipo (puro) o dos (doble). √ = ya lo capturaste.':
+        "Each amino acid has one type (pure) or two (dual). √ = you've caught it.",
     'Los tipos del juego son exactamente los 5 grupos de Lehninger. Solo los aromáticos llevan un segundo tipo, y sale del mismo libro: «Phe, Tyr y Trp son relativamente no polares; Tyr y Trp son bastante más polares que Phe por el OH de Tyr y el N del indol de Trp».':
         "The game's types are exactly Lehninger's 5 groups. Only the aromatic ones carry a second type, and it comes from the same book: «Phe, Tyr and Trp are relatively nonpolar; Tyr and Trp are significantly more polar than Phe because of the OH of Tyr and the N of Trp's indole».",
     'Phe = Aromático / No polar.  Tyr = Aromático / Polar (O–H).  Trp = Aromático / Polar (N–H).':
@@ -753,8 +753,8 @@ EN = {
         "• An H-bond needs a DONOR (X–H) and an ACCEPTOR (lone pair). Trp's N–H only donates: with Lys, Arg or His (which also only donate) there's no H-bond (×½).",
     '• Cada aminoácido solo forma interacciones de su propio grupo R, más las del esqueleto peptídico y van der Waals, que todos tienen.':
         '• Each amino acid only forms interactions from its own R group, plus the peptide backbone and van der Waals ones, which everybody has.',
-    '• El N⁺(CH₃)₃ de la trimetil-lisina no tiene H: con grupos polares solo hay atracción ion–dipolo, sin puente de H.':
-        "• The N⁺(CH₃)₃ of trimethyl-lysine has no H: with polar groups there's only ion–dipole attraction, no H-bond.",
+    '• El N+(CH3)3 de la trimetil-lisina no tiene H: con grupos polares solo hay atracción ion–dipolo, sin puente de H.':
+        "• The N+(CH3)3 of trimethyl-lysine has no H: with polar groups there's only ion–dipole attraction, no H-bond.",
     '• La Pro (y la Hyp) no tiene H en el N del esqueleto: no forma el puente de H del esqueleto como donador.':
         "• Pro (and Hyp) has no H on its backbone N: it can't form the backbone H-bond as a donor.",
     '• El puente disulfuro solo existe entre dos Cys.':
@@ -769,8 +769,8 @@ EN = {
         'Class',
     'Interacciones de cadena lateral':
         'Side-chain interactions',
-    'Se activan desde el menú Equipo [E] → V cuando se cumplen los requisitos. ✓ = ya la conseguiste.':
-        "They're activated from the Team menu [E] → V when the requirements are met. ✓ = you've got it.",
+    'Se activan desde el menú Equipo [E] → V cuando se cumplen los requisitos. √ = ya la conseguiste.':
+        "They're activated from the Team menu [E] → V when the requirements are met. √ = you've got it.",
     'otra Cys en el equipo (se fusionan)':
         'another Cys in the team (they fuse)',
     'Cambio: ':
@@ -791,8 +791,8 @@ EN = {
         'Dual: ',
     'Movimiento ↓ / Rival →':
         'Move ↓ / Rival →',
-    '▸ Tu rival es ':
-        '▸ Your rival is ',
+    '► Tu rival es ':
+        '► Your rival is ',
     '  Mejores: ':
         '  Best: ',
     '  poder {n}':
@@ -1087,16 +1087,16 @@ EN = {
         'branched alkyl',
     'metiltioetilo':
         'methylthioethyl',
-    '–CH₂CH₂CH₂– (cerrado sobre el N)':
-        '–CH₂CH₂CH₂– (closed onto the N)',
+    '–CH2CH2CH2– (cerrado sobre el N)':
+        '–CH2CH2CH2– (closed onto the N)',
     'amina secundaria cíclica':
         'cyclic secondary amine',
     'p-hidroxibencilo':
         'p-hydroxybenzyl',
     'indolilmetilo':
         'indolylmethyl',
-    '–CH₂–indol':
-        '–CH₂–indole',
+    '–CH2–indol':
+        '–CH2–indole',
     'hidroximetilo':
         'hydroxymethyl',
     'alcohol primario':
@@ -1125,8 +1125,8 @@ EN = {
         '3-guanidinopropyl',
     'imidazolilmetilo':
         'imidazolylmethyl',
-    '–CH₂–imidazol':
-        '–CH₂–imidazole',
+    '–CH2–imidazol':
+        '–CH2–imidazole',
     'imidazol':
         'imidazole',
     'Van der Waals':
@@ -1145,8 +1145,8 @@ EN = {
         'Disulfide bridge',
     'Enlace covalente S–S. Solo se forma con otra Cys: afinidad máxima. Con cualquier otro residuo no ocurre.':
         "Covalent S–S bond. It only forms with another Cys: maximum affinity. With any other residue it doesn't happen.",
-    '2 R–SH → R–S–S–R + 2H⁺ + 2e⁻ (oxidación).':
-        '2 R–SH → R–S–S–R + 2H⁺ + 2e⁻ (oxidation).',
+    '2 R–SH → R–S–S–R + 2H+ + 2e− (oxidación).':
+        '2 R–SH → R–S–S–R + 2H+ + 2e− (oxidation).',
     'No polar alifático':
         'Nonpolar aliphatic',
     'No polar':
@@ -1323,8 +1323,8 @@ EN = {
         'Gains a phosphate: from Polar uncharged to Charged − (≈ −2).',
     'Las Ser/Thr quinasas (PKA, PKC, MAPK…) le transfieren el fosfato γ del ATP. Es el interruptor más común de la célula; las fosfatasas lo quitan.':
         "Ser/Thr kinases (PKA, PKC, MAPK…) transfer ATP's γ phosphate to it. It's the most common switch in the cell; phosphatases remove it.",
-    'La mitocondria (◉) recarga ATP.':
-        'The mitochondrion (◉) recharges ATP.',
+    'La mitocondria (☼) recarga ATP.':
+        'The mitochondrion (☼) recharges ATP.',
     'Fosfotreonina':
         'Phosphothreonine',
     'Mismas Ser/Thr quinasas que la serina. El motivo pThr-Pro lo reconoce la isomerasa Pin1 y controla el ciclo celular (CDKs).':
@@ -1347,8 +1347,8 @@ EN = {
         'γ-carboxyglutamate',
     'Gana un segundo carboxilo en el carbono γ: carga ≈ −2.':
         'Gains a second carboxyl on the γ carbon: charge ≈ −2.',
-    'La γ-glutamil carboxilasa (en el RE) usa vitamina K. Los Gla de la protrombina y los factores VII, IX y X atrapan Ca²⁺ y anclan los factores a la membrana: sin vit. K no hay coagulación (la warfarina bloquea este ciclo).':
-        "γ-glutamyl carboxylase (in the ER) uses vitamin K. The Gla residues of prothrombin and factors VII, IX and X trap Ca²⁺ and anchor the factors to the membrane: without vit. K there's no clotting (warfarin blocks this cycle).",
+    'La γ-glutamil carboxilasa (en el RE) usa vitamina K. Los Gla de la protrombina y los factores VII, IX y X atrapan Ca²+ y anclan los factores a la membrana: sin vit. K no hay coagulación (la warfarina bloquea este ciclo).':
+        "γ-glutamyl carboxylase (in the ER) uses vitamin K. The Gla residues of prothrombin and factors VII, IX and X trap Ca²+ and anchor the factors to the membrane: without vit. K there's no clotting (warfarin blocks this cycle).",
     'Hay vitamina K en el retículo (K en el mapa).':
         "There's vitamin K in the reticulum (K on the map).",
     'Asn N-glicosilada':
@@ -1377,8 +1377,8 @@ EN = {
         'Citrulline',
     'Pierde la carga +: el guanidinio se vuelve una urea neutra (de Cargado + a Polar sin carga).':
         'Loses its + charge: the guanidinium becomes a neutral urea (from Charged + to Polar uncharged).',
-    'Las PAD (peptidil-arginina deiminasas, dependientes de Ca²⁺) la generan. PAD4 citrulina histonas en las trampas de neutrófilos (NETs). En la artritis reumatoide aparecen anticuerpos anti-CCP. La citrulina libre también es parte del ciclo de la urea.':
-        'PADs (peptidyl-arginine deiminases, Ca²⁺-dependent) produce it. PAD4 citrullinates histones in neutrophil extracellular traps (NETs). In rheumatoid arthritis, anti-CCP antibodies appear. Free citrulline is also part of the urea cycle.',
+    'Las PAD (peptidil-arginina deiminasas, dependientes de Ca²+) la generan. PAD4 citrulina histonas en las trampas de neutrófilos (NETs). En la artritis reumatoide aparecen anticuerpos anti-CCP. La citrulina libre también es parte del ciclo de la urea.':
+        'PADs (peptidyl-arginine deiminases, Ca²+-dependent) produce it. PAD4 citrullinates histones in neutrophil extracellular traps (NETs). In rheumatoid arthritis, anti-CCP antibodies appear. Free citrulline is also part of the urea cycle.',
     'Solo requiere nivel.':
         'Only requires level.',
     'Donador de fosfato para las quinasas. Lo da la mitocondria.':
@@ -1413,8 +1413,8 @@ EN = {
         'Ribosomes are assembled here. Nucleolin and fibrillarin have RGG/GAR domains (Arg-Gly-Gly repeats) that bind RNA.',
     'Retículo endoplásmico':
         'Endoplasmic reticulum',
-    'Aquí viven los ácidos (−): el RE es el almacén de Ca²⁺ de la célula y proteínas como la calreticulina están llenas de Asp y Glu para retenerlo. Su membrana es continua con la envoltura nuclear.':
-        "The acidic ones (−) live here: the ER is the cell's Ca²⁺ store, and proteins like calreticulin are full of Asp and Glu to hold onto it. Its membrane is continuous with the nuclear envelope.",
+    'Aquí viven los ácidos (−): el RE es el almacén de Ca²+ de la célula y proteínas como la calreticulina están llenas de Asp y Glu para retenerlo. Su membrana es continua con la envoltura nuclear.':
+        "The acidic ones (−) live here: the ER is the cell's Ca²+ store, and proteins like calreticulin are full of Asp and Glu to hold onto it. Its membrane is continuous with the nuclear envelope.",
     'Aparato de Golgi':
         'Golgi apparatus',
     'Aquí se recortan y amplían los N-glicanos que la Asn trae del RE, y se añaden O-glicanos (O-GalNAc) al OH de Ser y Thr.':
@@ -1547,12 +1547,12 @@ EN = {
         'From the hypothalamus: it makes the pituitary release LH and FSH. Like TRH, it starts with pyroglutamate and ends amidated.',
     'Kisspeptina-10':
         'Kisspeptin-10',
-    'Activa a las neuronas de GnRH y dispara la pubertad. Termina en Arg-Phe-NH₂, como toda la familia de péptidos RF-amida.':
-        'Activates GnRH neurons and triggers puberty. It ends in Arg-Phe-NH₂, like the whole RF-amide peptide family.',
+    'Activa a las neuronas de GnRH y dispara la pubertad. Termina en Arg-Phe-NH2, como toda la familia de péptidos RF-amida.':
+        'Activates GnRH neurons and triggers puberty. It ends in Arg-Phe-NH2, like the whole RF-amide peptide family.',
     'Sustancia P':
         'Substance P',
-    'Neuropéptido del dolor y la inflamación. Termina en Phe-X-Gly-Leu-Met-NH₂, la firma de las taquicininas.':
-        'A neuropeptide of pain and inflammation. It ends in Phe-X-Gly-Leu-Met-NH₂, the signature of tachykinins.',
+    'Neuropéptido del dolor y la inflamación. Termina en Phe-X-Gly-Leu-Met-NH2, la firma de las taquicininas.':
+        'A neuropeptide of pain and inflammation. It ends in Phe-X-Gly-Leu-Met-NH2, the signature of tachykinins.',
     'Péptido Tat del VIH-1':
         'HIV-1 Tat peptide',
     'Residuos 47–57 de la proteína Tat del VIH-1: tan rico en Arg que atraviesa membranas. Se usa como péptido penetrante para meter fármacos a las células. Al René-virus le cae bien.':
@@ -1629,8 +1629,8 @@ EN = {
         'H-bonds between the strands',
     'núcleo hidrofóbico: estado nativo':
         'hydrophobic core: native state',
-    'extra: puente salino Lys⁺···⁻Asp':
-        'extra: salt bridge Lys⁺···⁻Asp',
+    'extra: puente salino Lys+···−Asp':
+        'extra: salt bridge Lys+···−Asp',
     'extra: disulfuro Cys–S–S–Cys':
         'extra: disulfide Cys–S–S–Cys',
     'Anemia falciforme (HbS): en la β-globina, Glu6 → Val (E6V). ¿Qué cambia en ese residuo de la superficie?':
@@ -1757,18 +1757,18 @@ EN = {
         'The code is degenerate: Leu has 6 codons (UUA, UUG, CUU, CUC, CUA, CUG).',
     'Bienvenida':
         'Welcome',
-    'Estás en el citosol. Las zonas con símbolos (· ≈ ◦ ∴ ░ ═ ● § ▓ ╳) tienen aminoácidos salvajes. El panel de la derecha muestra quién vive en cada zona. [M] abre el manual.':
-        "You're in the cytosol. Areas with symbols (· ≈ ◦ ∴ ░ ═ ● § ▓ ╳) have wild amino acids. The panel on the right shows who lives in each area. [M] opens the manual.",
+    'Estás en el citosol. Las zonas con símbolos (· ≈ ◦ ÷ ░ ═ ● § ▓ ×) tienen aminoácidos salvajes. El panel de la derecha muestra quién vive en cada zona. [M] abre el manual.':
+        "You're in the cytosol. Areas with symbols (· ≈ ◦ ÷ ░ ═ ● § ▓ ×) have wild amino acids. The panel on the right shows who lives in each area. [M] opens the manual.",
     'Envoltura nuclear':
         'Nuclear envelope',
-    'Doble membrana con poros (O). Las moléculas pequeñas (< ~40 kDa) difunden; las proteínas grandes necesitan una señal de localización nuclear (NLS): un parche rico en Lys y Arg. Afuera solo hay Lys (en los ribosomas ∴): con 4 basta para entrar, y adentro te espera la Arg.':
-        "Double membrane with pores (O). Small molecules (< ~40 kDa) diffuse through; large proteins need a nuclear localization signal (NLS): a patch rich in Lys and Arg. Outside there's only Lys (in the ribosomes ∴): 4 are enough to get in, and Arg is waiting inside.",
+    'Doble membrana con poros (O). Las moléculas pequeñas (< ~40 kDa) difunden; las proteínas grandes necesitan una señal de localización nuclear (NLS): un parche rico en Lys y Arg. Afuera solo hay Lys (en los ribosomas ÷): con 4 basta para entrar, y adentro te espera la Arg.':
+        "Double membrane with pores (O). Small molecules (< ~40 kDa) diffuse through; large proteins need a nuclear localization signal (NLS): a patch rich in Lys and Arg. Outside there's only Lys (in the ribosomes ÷): 4 are enough to get in, and Arg is waiting inside.",
     'Cara cis (hacia el RE) → cara trans (hacia la membrana). Las proteínas avanzan cisterna por cisterna mientras maduran sus glicanos.':
         'Cis face (toward the ER) → trans face (toward the membrane). Proteins move cisterna by cisterna while their glycans mature.',
     'Pisa sus crestas para recuperar la energía de tu equipo y recargar ATP.':
         "Step on its cristae to restore your team's energy and recharge ATP.",
-    'La V-ATPasa bombea H⁺ al interior y baja el pH a ~5. A ese pH la His (pKR 6) está protonada: aquí cuenta como +.':
-        'The V-ATPase pumps H⁺ inside and lowers the pH to ~5. At that pH His (pKR 6) is protonated: here it counts as +.',
+    'La V-ATPasa bombea H+ al interior y baja el pH a ~5. A ese pH la His (pKR 6) está protonada: aquí cuenta como +.':
+        'The V-ATPase pumps H+ inside and lowers the pH to ~5. At that pH His (pKR 6) is protonated: here it counts as +.',
     'Bicapa lipídica':
         'Lipid bilayer',
     'Cabezas polares (◦) hacia el agua, colas hidrofóbicas (≈) hacia adentro. Mide ~30 Å: justo lo que cubre una hélice α de ~20 residuos hidrofóbicos.':
@@ -1777,8 +1777,8 @@ EN = {
         'Collagen, elastin and proteoglycans secreted by fibroblasts. Collagen is the most abundant protein in the body.',
     'Centrosoma':
         'Centrosome',
-    'De aquí salen los microtúbulos (─ │ ╱ ╲): rieles por los que las vesículas viajan del Golgi a la membrana.':
-        'Microtubules (─ │ ╱ ╲) grow from here: tracks that vesicles travel along from the Golgi to the membrane.',
+    'De aquí salen los microtúbulos (─ │ / \\): rieles por los que las vesículas viajan del Golgi a la membrana.':
+        'Microtubules (─ │ / \\) grow from here: tracks that vesicles travel along from the Golgi to the membrane.',
     'Ribosomas libres: cada uno lee un ARNm y une aminoácidos con enlaces peptídicos. Sus proteínas ribosomales son ricas en Lys (K).':
         'Free ribosomes: each one reads an mRNA and joins amino acids with peptide bonds. Their ribosomal proteins are rich in Lys (K).',
     'Jugar':

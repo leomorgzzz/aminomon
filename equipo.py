@@ -40,7 +40,7 @@ def mostrar(win, juego, zona_actual):
         alto, ancho = win.getmaxyx()
         sel = max(0, min(sel, len(equipo) - 1))
         win.erase()
-        d.put(win, 0, 1, tr("EQUIPO ({n})  ·  el primero (★ ) es el líder del combate", n=len(equipo)),
+        d.put(win, 0, 1, tr("EQUIPO ({n})  ·  el primero (*) es el líder del combate", n=len(equipo)),
               d.c("titulo", curses.A_BOLD))
         orden = juego.get("ajustes", {}).get("orden_equipo")
         if orden:
@@ -54,7 +54,7 @@ def mostrar(win, juego, zona_actual):
             attr = d.c(f["tipos"][0])
             if i == sel:
                 attr |= curses.A_REVERSE
-            lider = "★ " if i == 0 else "  "
+            lider = "* " if i == 0 else "  "
             emax = progreso.energia_max(m)
             d.put(win, 2 + fila, 1, f"{lider} {f['nombre'][:20]:<20} {tr('Nv')}{m['nivel']:>2}", attr)
             d.barra(win, 2 + fila, 30, 10, m["energia"], emax, d.c("titulo"))
@@ -120,7 +120,7 @@ def modificar(win, juego, mon, zona_actual):
     opciones = []
     for e in evos:
         ok = all(c for _, c in progreso.requisitos(juego, mon, e, zona_actual))
-        opciones.append(f"{datos.MODIFICACIONES[e]['nombre']}  {tr('✓ lista') if ok else ''}")
+        opciones.append(f"{datos.MODIFICACIONES[e]['nombre']}  {tr('√ lista') if ok else ''}")
     sel = (d.menu(win, tr("¿Qué modificación de {nombre}?", nombre=f["nombre"]), opciones)
            if len(evos) > 1 else 0)
     if sel is None:
@@ -129,7 +129,7 @@ def modificar(win, juego, mon, zona_actual):
     ev = datos.MODIFICACIONES[eid]
     reqs = progreso.requisitos(juego, mon, eid, zona_actual)
     if not all(c for _, c in reqs):
-        lineas = [f"{'✓' if c else '✗'} {t}" for t, c in reqs]
+        lineas = [f"{'√' if c else 'x'} {t}" for t, c in reqs]
         d.popup(win, tr("Requisitos:") + "\n" + "\n".join(lineas)
                 + "\n\n" + tr("Pista: {pista}", pista=ev["pista"]),
                 f"{f['nombre']} → {ev['nombre']}")
