@@ -97,3 +97,14 @@ Cualquier tecla salta una animación.
 
 - Valores fisicoquímicos y grupos de cadena lateral: Lehninger, a 25 °C.
 - Hidropatía: escala de Kyte-Doolittle (1982).
+
+## Pruebas
+
+```bash
+python3 pruebas/correr.py
+```
+
+Revisan que todo importe en los dos idiomas, que cada `tr("…")` tenga su
+traducción en `traduccion/`, que los datos no queden en español en la versión
+en inglés y que solo haya símbolos que la consola de Windows sabe dibujar.
+Corren solas en GitHub en cada push y antes de compilar una versión.
