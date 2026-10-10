@@ -5,6 +5,12 @@ español."""
 
 
 EN = {
+    'Ojo: que cada aminoácido «viva» en una zona es una regla del juego. En una célula real los aminoácidos libres están en todos los compartimentos; la zona solo recuerda dónde su química es protagonista (los básicos junto al ARN, los no polares en la membrana…).':
+        'Note: each amino acid "living" in one zone is a game rule. In a real cell free amino acids are found in every compartment; the zone only reminds you where its chemistry plays the lead role (basic ones next to RNA, nonpolar ones in the membrane…).',
+    '¿¿??':
+        '???',
+    ' y ':
+        ' and ',
     'Atrapa y aprende los 20 aminoácidos':
         'Catch and learn the 20 amino acids',
     'René-virus':
@@ -33,8 +39,8 @@ EN = {
         'Quit',
     'Soy el René-virus, un virus inofensivo: no enfermo a nadie, solo estudio proteómica. Como todo virus, no tengo ribosomas propios: mis proteínas las fabrican los ribosomas de la célula con los 20 aminoácidos estándar. Tu trabajo es encontrarlos y caracterizarlos.':
         "I'm the René-virus, a harmless virus: I don't make anyone sick, I just study proteomics. Like every virus, I have no ribosomes of my own: my proteins are made by the cell's ribosomes from the 20 standard amino acids. Your job is to find them and characterize them.",
-    'Cada aminoácido abunda donde su química es favorable: los no polares en la membrana, los básicos junto al ARN ribosomal y al ADN.':
-        'Each amino acid is abundant where its chemistry is favorable: the nonpolar ones in the membrane, the basic ones next to ribosomal RNA and DNA.',
+    'En este juego cada aminoácido aparece donde su química es protagonista: los no polares en la membrana, los básicos junto al ARN ribosomal y al ADN. En una célula real hay aminoácidos libres en todas partes.':
+        'In this game each amino acid shows up where its chemistry plays the lead role: the nonpolar ones in the membrane, the basic ones next to ribosomal RNA and DNA. In a real cell there are free amino acids everywhere.',
     'Cada aminoácido pertenece a uno de los 5 grupos de Lehninger y cada movimiento usa la química de uno de ellos. La afinidad depende de la interacción real entre los dos grupos; la tabla completa está en el manual [M].':
         "Each amino acid belongs to one of Lehninger's 5 groups, and each move uses the chemistry of one of them. Affinity depends on the real interaction between the two groups; the full table is in the manual [M].",
     'Empiezas con Metionina: AUG es el codón de inicio, así que toda proteína comienza con ella.':

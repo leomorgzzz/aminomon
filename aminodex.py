@@ -203,7 +203,7 @@ def mostrar(win, juego):
                 if juego["capturados"].get(cid):
                     texto, attr = f"{num:2} √ {a['nombre']}", d.c(a["tipos"][0])
                 elif cid in juego["vistos"]:
-                    texto, attr = f"{num:2} · ¿¿??", d.c("tenue")
+                    texto, attr = f"{num:2} · {tr('¿¿??')}", d.c("tenue")
                 else:
                     texto, attr = f"{num:2}   ------", d.c("tenue")
             elif clase == "pep":
@@ -235,7 +235,7 @@ def mostrar(win, juego):
                 ficha(win, juego, cid, 2, x_ficha, min(ancho - x_ficha - 1, 70))
             elif cid in juego["vistos"]:
                 d.estructura(win, 2, X_ESTRUCTURA, datos.forma(cid)["arte"], d.c("tenue"))
-                d.put(win, 2, x_ficha, "¿¿??", d.c("texto", curses.A_BOLD))
+                d.put(win, 2, x_ficha, tr("¿¿??"), d.c("texto", curses.A_BOLD))
                 for i, l in enumerate(d.envolver(
                         tr("Estructura observada, aún sin capturar. Aparece en: ") +
                         ", ".join(datos.ZONAS[z]["nombre"] for z in datos.zonas_de(cid)),

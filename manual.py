@@ -315,6 +315,12 @@ def p_modificaciones(juego, rival, an):
 
 def p_zonas(juego, rival, an):
     out = [T(tr("Zonas de la célula"))]
+    out += parrafo(tr("Ojo: que cada aminoácido «viva» en una zona es una regla del juego. En "
+                      "una célula real los aminoácidos libres están en todos los "
+                      "compartimentos; la zona solo recuerda dónde su química es "
+                      "protagonista (los básicos junto al ARN, los no polares en la "
+                      "membrana…)."), an, "tenue")
+    out.append(L(""))
     for z, info in datos.ZONAS.items():
         visitada = "" if z in juego["zonas_visitadas"] else tr("   (sin visitar)")
         out.append(L((f" {info['glifo']} ", info["color"]),

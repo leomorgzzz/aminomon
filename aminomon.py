@@ -250,8 +250,9 @@ def intro(win):
            "estudio proteómica. Como todo virus, no tengo ribosomas propios: mis "
            "proteínas las fabrican los ribosomas de la célula con los 20 "
            "aminoácidos estándar. Tu trabajo es encontrarlos y caracterizarlos."),
-        tr("Cada aminoácido abunda donde su química es favorable: los no polares "
-           "en la membrana, los básicos junto al ARN ribosomal y al ADN."),
+        tr("En este juego cada aminoácido aparece donde su química es protagonista: "
+           "los no polares en la membrana, los básicos junto al ARN ribosomal y al "
+           "ADN. En una célula real hay aminoácidos libres en todas partes."),
         tr("Cada aminoácido pertenece a uno de los 5 grupos de Lehninger y cada "
            "movimiento usa la química de uno de ellos. La afinidad depende de la "
            "interacción real entre los dos grupos; la tabla completa está en el "
