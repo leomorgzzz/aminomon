@@ -6,9 +6,6 @@ RPG por turnos en la terminal para aprender los 20 aminoácidos estándar:
 cadena lateral, tipo químico, carga, pK1/pK2/pKR, pI, hidropatía,
 clasificación nutricional, codones y modificaciones postraduccionales.
 
-Capturas aminoácidos en una célula, combates con interacciones químicas reales
-y construyes péptidos para vencer a 7 jefes y al René-virus.
-
 **Descargar:** [Windows](https://github.com/leomorgzzz/aminomon/releases/latest/download/Aminomon-Instalador-Windows.exe) · [macOS](https://github.com/leomorgzzz/aminomon/releases/latest/download/Aminomon-macOS.zip) · instala y a jugar.
 
 ## Capturas
