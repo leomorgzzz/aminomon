@@ -591,8 +591,8 @@ EN = {
         'Wrong. It was {seq}: {lectura}\n\nEach time you ask for it, the mRNA uses different codons.',
     '◆ quinasa':
         '◆ kinase',
-    '▶ receptor':
-        '▶ receptor',
+    '▸ receptor':
+        '▸ receptor',
     '◆ N-glic.':
         '◆ N-glyc.',
     '(ninguno)':
@@ -791,8 +791,8 @@ EN = {
         'Dual: ',
     'Movimiento ↓ / Rival →':
         'Move ↓ / Rival →',
-    '▶ Tu rival es ':
-        '▶ Your rival is ',
+    '▸ Tu rival es ':
+        '▸ Your rival is ',
     '  Mejores: ':
         '  Best: ',
     '  poder {n}':

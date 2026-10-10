@@ -199,7 +199,7 @@ def p_afinidad(juego, rival, an):
     out += tabla(filas, sep=3)
     out.append(L(""))
     if rival:
-        out.append(L((tr("▶ Tu rival es "), "titulo"), *_tipos_seg(rival, False)))
+        out.append(L((tr("▸ Tu rival es "), "titulo"), *_tipos_seg(rival, False)))
         filas = sorted(((datos.multiplicador(a, rival)[0], a) for a in tipos), reverse=True)
         buenos = [(f"{T_[a]['nombre']} ×{datos.fmt_mult(m)}  ", a) for m, a in filas if m >= 2]
         out.append(L((tr("  Mejores: "), "bien"),

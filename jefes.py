@@ -178,7 +178,7 @@ def _nota(zona, seq, i):
         return {"K": (tr("+ importina"), "POS"), "R": (tr("+ importina"), "POS"),
                 "D": ("−", "NEG"), "E": ("−", "NEG")}.get(c, ("", "tenue"))
     if zona == "re":
-        return (tr("▶ receptor"), "titulo") if i >= len(seq) - 4 else ("", "tenue")
+        return (tr("▸ receptor"), "titulo") if i >= len(seq) - 4 else ("", "tenue")
     if zona == "golgi":
         if c == "N" and i + 2 < len(seq) and seq[i + 1] != "P" and seq[i + 2] in "ST":
             return tr("◆ N-glic."), "POL"          # secuón N-X-S/T: glicano del RE
