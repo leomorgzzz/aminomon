@@ -8,6 +8,14 @@ estructura de la cadena lateral, tipos químicos, carga, pK1/pK2/pKR, pI,
 hidropatía, clasificación nutricional (esencial / condicional / no esencial),
 codones y modificaciones postraduccionales.
 
+<!-- Capturas: guarda las imágenes en capturas/ y quita los comentarios. -->
+
+<!-- ![Mapa de la célula](capturas/mapa.png) -->
+
+<!-- ![Combate](capturas/combate.png) -->
+
+<!-- ![Aminodex](capturas/aminodex.png) -->
+
 ## Jugar
 
 ```bash
