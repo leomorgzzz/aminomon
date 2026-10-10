@@ -11,13 +11,11 @@ y construyes péptidos para vencer a 7 jefes y al René-virus.
 
 ## Capturas
 
-<!-- Guarda las imágenes en capturas/ y quita los comentarios. -->
+![Pantalla de inicio](capturas/pantalla-de-inicio.png)
 
-<!-- ![Mapa de la célula](capturas/mapa.png) -->
+![Mapa de la célula](capturas/juego-mapa.png)
 
-<!-- ![Combate](capturas/combate.png) -->
-
-<!-- ![Aminodex](capturas/aminodex.png) -->
+![Combate](capturas/juego-combate.png)
 
 ## Instalación
 
