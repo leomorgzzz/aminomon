@@ -1,110 +1,124 @@
 # AMINOMON
 
-*English: `aminomon --en` or «English» on the title screen.*
+*English · [Español](README.es.md)*
 
-RPG por turnos en la terminal para aprender los 20 aminoácidos estándar:
-cadena lateral, tipo químico, carga, pK1/pK2/pKR, pI, hidropatía,
-clasificación nutricional, codones y modificaciones postraduccionales.
+A turn-based terminal RPG for learning the 20 standard amino acids. To catch
+one you have to recognize its structure, and the ones you miss keep showing up
+until you know them: name, 3- and 1-letter codes, side chain, chemical type,
+charge, pK1/pK2/pKR, pI, hydropathy, nutritional class, codons and
+post-translational modifications.
 
-**Descargar:** [Windows](https://github.com/leomorgzzz/aminomon/releases/latest/download/Aminomon-Instalador-Windows.exe) · [macOS](https://github.com/leomorgzzz/aminomon/releases/latest/download/Aminomon-macOS.zip) · instala y a jugar.
+> **Work in progress.** The game keeps getting updated: when you open it, it
+> tells you if there's a new version and updates from the title screen, no
+> reinstall needed. Your save is kept. Bugs, ideas or data to fix:
+> [Issues](https://github.com/leomorgzzz/aminomon/issues).
 
-## Capturas
+**Download:** [Windows](https://github.com/leomorgzzz/aminomon/releases/latest/download/Aminomon-Instalador-Windows.exe) · [macOS](https://github.com/leomorgzzz/aminomon/releases/latest/download/Aminomon-macOS.zip) · install and play.
 
-![Pantalla de inicio](capturas/pantalla-de-inicio.png)
+## Screenshots
 
-![Mapa de la célula](capturas/juego-mapa.png)
+![Title screen](capturas/pantalla-de-inicio.png)
 
-![Combate](capturas/juego-combate.png)
+![Cell map](capturas/juego-mapa.png)
 
-## Instalación
+![Battle](capturas/juego-combate.png)
 
-### Windows
+## Installation
 
-1. Descarga **[Aminomon-Instalador-Windows.exe](https://github.com/leomorgzzz/aminomon/releases/latest/download/Aminomon-Instalador-Windows.exe)** y ábrelo.
-2. Sigue el instalador (no pide permisos de administrador). Al terminar, el
-   juego queda en el menú Inicio y, si quieres, en el escritorio. Se abre en
-   pantalla completa.
-
-El instalador no está firmado (firmarlo cuesta una licencia anual), así que la
-primera vez Windows puede avisar «Windows protegió su PC»: **Más información →
-Ejecutar de todas formas**. Solo pasa al instalar. Para desinstalar:
-**Configuración → Aplicaciones**.
-
-### macOS
-
-1. Descarga **[Aminomon-macOS.zip](https://github.com/leomorgzzz/aminomon/releases/latest/download/Aminomon-macOS.zip)** y ábrelo.
-2. Doble clic en `Aminomon`. Si macOS no lo deja abrir: **Ajustes del Sistema →
-   Privacidad y seguridad → Abrir de todos modos**.
-
-Es para Mac con chip Apple (M1 o posterior).
-
-### Linux o desde el código
+### Linux, or from source
 
 ```bash
 git clone https://github.com/leomorgzzz/aminomon.git
 cd aminomon
-./instalar.sh        # crea el comando `aminomon` en ~/.local/bin
+./instalar.sh        # creates the `aminomon` command in ~/.local/bin
 aminomon
 ```
 
-Sin instalar: `python3 aminomon.py`. Quitar el comando: `./instalar.sh --quitar`.
+Without installing: `python3 aminomon.py`. Update: `aminomon --update` (runs
+`git pull`). Remove the command: `./instalar.sh --quitar`.
 
-Desde el código requiere Python 3 (solo biblioteca estándar; en Windows instala
-`windows-curses` la primera vez). Funciona desde 80×24.
+From source it needs Python 3 (standard library only; on Windows it installs
+`windows-curses` the first time). Works from 80×24.
 
-Archivos que crea:
+### Windows
 
-- `~/.aminomon.json`: la partida (en Windows, `~` es `C:\Users\<tu usuario>`);
-- `~/.aminomon_idioma`: el idioma.
+1. Download **[Aminomon-Instalador-Windows.exe](https://github.com/leomorgzzz/aminomon/releases/latest/download/Aminomon-Instalador-Windows.exe)** and open it.
+2. Follow the installer (no admin rights needed). When it's done, the game is
+   in the Start menu and, if you want, on the desktop. It opens full screen.
 
-## Salir de pantalla completa
+The installer isn't signed (signing costs a yearly license), so the first time
+Windows may warn "Windows protected your PC": **More info → Run anyway**. It
+only happens when installing. To uninstall: **Settings → Apps**.
 
-| Sistema | Tecla |
+### macOS
+
+1. Download **[Aminomon-macOS.zip](https://github.com/leomorgzzz/aminomon/releases/latest/download/Aminomon-macOS.zip)** and open it.
+2. Double-click `Aminomon`. If macOS won't open it: **System Settings →
+   Privacy & Security → Open Anyway**.
+
+For Macs with Apple silicon (M1 or later).
+
+### Files it creates
+
+- `~/.aminomon.json`: your save (on Windows, `~` is `C:\Users\<your user>`);
+- `~/.aminomon_idioma`: the language (the first time it follows your system).
+
+On startup the game asks GitHub whether there's a new version; it sends
+nothing else. To turn it off: `aminomon --no-update`.
+
+## Leaving full screen
+
+| System | Key |
 |---|---|
-| Windows | Alt+Enter (o F11 en Windows Terminal) |
+| Windows | Alt+Enter (or F11 in Windows Terminal) |
 | macOS | Ctrl+Cmd+F |
-| Linux | F11 en la mayoría de las terminales |
+| Linux | F11 in most terminals |
 
-## Controles
+## Controls
 
-| Mapa | Acción |
+| Map | Action |
 |---|---|
-| Flechas / WASD | moverse |
-| M / ? | manual (también en combate) |
+| Arrows / WASD | move |
+| M / ? | manual (also in battle) |
 | X | Aminodex |
-| E | equipo: líder (Enter), ordenar (O), modificar (V) |
-| G / Q | guardar / guardar y salir |
-| P | mostrar u ocultar la cadena que te sigue |
+| E | team: leader (Enter), sort (O), modify (V) |
+| G / Q | save / save and quit |
+| P | show or hide the chain that follows you |
 
-| Combate | Acción |
+| Battle | Action |
 |---|---|
-| 1-5 | interacciones |
-| D | deducir el grupo del rival |
-| T | lanzar ARNt para capturar |
-| C / H / I | cambiar / huir / detalle de interacciones |
-| V | velocidad de las animaciones |
+| 1-5 | interactions |
+| D | deduce the rival's group |
+| T | throw a tRNA to catch |
+| C / H / I | switch / run / interaction details |
+| V | animation speed |
 
-Cualquier tecla salta una animación.
+Any key skips an animation.
 
-## Menú
+## Menu
 
-- **Continuar** / **Nueva partida**.
+- **Continue** / **New game**.
 - **Manual**.
-- **English / Español**: cambia el idioma.
-- **Salir**.
+- **Español / English**: switches the language.
+- **Update to vX**: shows up when there's a new version.
+- **Quit**.
 
-## Fuentes
+## Sources
 
-- Valores fisicoquímicos y grupos de cadena lateral: Lehninger, a 25 °C.
-- Hidropatía: escala de Kyte-Doolittle (1982).
+- Physicochemical values and side-chain groups: Lehninger, at 25 °C.
+- Hydropathy: Kyte-Doolittle scale (1982).
 
-## Pruebas
+## Tests
 
 ```bash
 python3 pruebas/correr.py
 ```
 
-Revisan que todo importe en los dos idiomas, que cada `tr("…")` tenga su
-traducción en `traduccion/`, que los datos no queden en español en la versión
-en inglés y que solo haya símbolos que la consola de Windows sabe dibujar.
-Corren solas en GitHub en cada push y antes de compilar una versión.
+They check that everything imports in both languages, that every `tr("…")`
+has its translation in `traduccion/`, that the data doesn't stay in Spanish in
+the English version, and that only symbols the Windows console can draw are
+used. They run on GitHub on every push and before building a release.
+
+## License
+
+MIT · [LICENSE](LICENSE)
