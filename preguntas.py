@@ -298,23 +298,20 @@ def preguntar(win, juego, aa, tipo, y, x, ancho, alto_min=0, estructura=False,
 PREGUNTAS_PRACTICA = 10
 
 
-def practica_pares(win, juego):
-    """Práctica de los que más se confunden (Gln/Asn, Glu/Asp, Ile/Leu,
-    Ser/Thr, W y K), con los que ya capturaste. Salen más los que fallas."""
-    tengo = juego["capturados"].get
-    # un par solo se practica completo: los dos capturados
-    claves = [(aa, t) for aa, (pareja, _) in pares().items()
-              if tengo(aa) and (pareja is None or tengo(pareja)) for t in RECONOCER]
+def practica(win, juego):
+    """Práctica de reconocimiento con los que ya capturaste: estructura →
+    nombre y códigos. Salen más los que fallas, y los que se confunden
+    (Gln/Asn, Glu/Asp, Ile/Leu, Ser/Thr) aparecen juntos en las opciones."""
+    claves = [(aa, t) for aa in datos.ORDEN if juego["capturados"].get(aa) for t in RECONOCER]
     if not claves:
-        d.popup(win, tr("Captura los dos de algún par (Gln y Asn, Glu y Asp, Ile y Leu, Ser y "
-                        "Thr), o a Trp o Lys."), tr("Práctica de pares"))
+        d.popup(win, tr("Captura primero algún aminoácido."), tr("Práctica de reconocimiento"))
         return
     aciertos = hechas = 0
     for i in range(PREGUNTAS_PRACTICA):
         aa, tipo = random.choices(claves, [progreso.peso(juego, f"{a}:{t}") for a, t in claves])[0]
         alto, ancho = win.getmaxyx()
         win.erase()
-        d.put(win, 0, 1, tr("PRÁCTICA DE PARES · {i}/{total} · aciertos {n}",
+        d.put(win, 0, 1, tr("PRÁCTICA DE RECONOCIMIENTO · {i}/{total} · aciertos {n}",
                             i=i + 1, total=PREGUNTAS_PRACTICA, n=aciertos),
               d.c("titulo", curses.A_BOLD))
         arte = datos.forma(aa)["arte"]
@@ -336,4 +333,4 @@ def practica_pares(win, juego):
     win.erase()
     d.popup(win, tr("{n}/{total} correctas. Los que fallaste saldrán más seguido, en la "
                     "práctica y en el campo.", n=aciertos, total=hechas),
-            tr("Práctica de pares"), attr=d.c("bien" if aciertos >= 0.8 * hechas else "texto"))
+            tr("Práctica de reconocimiento"), attr=d.c("bien" if aciertos >= 0.8 * hechas else "texto"))

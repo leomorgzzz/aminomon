@@ -95,14 +95,14 @@ EN = {
         'What is the 3-letter code of this amino acid?',
     '¿Cuál es el código de 1 letra de este aminoácido?':
         'What is the 1-letter code of this amino acid?',
-    'Práctica de pares':
-        'Pair practice',
-    'PRÁCTICA DE PARES · {i}/{total} · aciertos {n}':
-        'PAIR PRACTICE · {i}/{total} · correct {n}',
+    'Práctica de reconocimiento':
+        'Recognition practice',
+    'PRÁCTICA DE RECONOCIMIENTO · {i}/{total} · aciertos {n}':
+        'RECOGNITION PRACTICE · {i}/{total} · correct {n}',
     '{n}/{total} correctas. Los que fallaste saldrán más seguido, en la práctica y en el campo.':
         '{n}/{total} correct. The ones you missed will show up more often, in practice and in the field.',
-    'Captura los dos de algún par (Gln y Asn, Glu y Asp, Ile y Leu, Ser y Thr), o a Trp o Lys.':
-        'Catch both members of a pair (Gln and Asn, Glu and Asp, Ile and Leu, Ser and Thr), or Trp or Lys.',
+    'Captura primero algún aminoácido.':
+        'Catch an amino acid first.',
     ' · Esc salir':
         ' · Esc exit',
 }

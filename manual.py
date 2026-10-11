@@ -123,7 +123,7 @@ def p_jugar(juego, rival, an):
                     "pKR, pI (y calcularlo), nutrición, codones e hidropatía. Los "
                     "aminoácidos que fallas salen más en el campo. Si aparece uno que ya "
                     "capturaste, reconocerlo te da afinidad extra. En la Aminodex [P] "
-                    "practicas los pares que más se confunden."), an),
+                    "practicas el reconocimiento de los que ya capturaste."), an),
         L(""),
         T(tr("Jefes")),
         *parrafo(tr("Cada jefe pide construir un péptido con lo que ya capturaste; "

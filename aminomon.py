@@ -302,6 +302,9 @@ def intro(win):
            "rica en Lys (K), que encontrarás en los ribosomas (÷); la Arg (R) "
            "solo vive dentro del núcleo. Los carteles (i) describen cada "
            "compartimento. Yo soy la V del mapa: búscame cuando quieras un consejo."),
+        tr("Para atrapar un aminoácido hay que reconocer su estructura. Practica "
+           "cuando quieras en la Aminodex: [X] y luego [P]. Los que fallas te "
+           "saldrán más seguido hasta que los domines."),
     ], tr("René-virus"))
     progreso.guardar(juego)
     return juego
@@ -346,7 +349,7 @@ class Partida:
                   d.c("tenue"))
         mapa.dibujar(w, 1, 0, vh, vw, j, self.cadena())
         d.put(w, alto - 2, 1, self.mensaje[: ancho - 2], d.c("texto"))
-        pie = tr("WASD/flechas mover · M manual · X aminodex · E equipo · G guardar · Q salir")
+        pie = tr("WASD/flechas mover · M manual · X aminodex (P practicar) · E equipo · G guardar · Q salir")
         if "cadena" in j["recompensas"]:
             pie += tr(" · P cadena")
         d.put(w, alto - 1, 1, pie, d.c("tenue"))

@@ -7,8 +7,8 @@ EN = {
         'René-virus',
     'Explora la célula. [M] abre el manual.':
         'Explore the cell. [M] opens the manual.',
-    'WASD/flechas mover · M manual · X aminodex · E equipo · G guardar · Q salir':
-        'WASD/arrows move · M manual · X aminodex · E team · G save · Q quit',
+    'WASD/flechas mover · M manual · X aminodex (P practicar) · E equipo · G guardar · Q salir':
+        'WASD/arrows move · M manual · X aminodex (P practice) · E team · G save · Q quit',
     'Insignias ':
         'Badges ',
     'Entraste a: {zona}':
@@ -155,4 +155,6 @@ EN = {
         'Vitamin C',
     'Vitamina K':
         'Vitamin K',
+    'Para atrapar un aminoácido hay que reconocer su estructura. Practica cuando quieras en la Aminodex: [X] y luego [P]. Los que fallas te saldrán más seguido hasta que los domines.':
+        'To catch an amino acid you must recognize its structure. Practice whenever you want in the Aminodex: [X] and then [P]. The ones you miss will show up more often until you master them.',
 }

@@ -45,8 +45,8 @@ EN = {
         'Change',
     '  ·  péptidos {n}/{total}':
         '  ·  peptides {n}/{total}',
-    '↑/↓ elegir   ←/→ saltar de aminoácido   P practicar pares   M manual   Esc salir':
-        '↑/↓ select   ←/→ jump between amino acids   P practice pairs   M manual   Esc exit',
+    '↑/↓ elegir   ←/→ saltar de aminoácido   P practicar   M manual   Esc salir':
+        '↑/↓ select   ←/→ jump between amino acids   P practice   M manual   Esc exit',
     '— (cadena no ionizable)':
         '— (non-ionizable side chain)',
     'Péptido {n}: aún no lo sintetizas. Pídeselo al René-virus (V).':
