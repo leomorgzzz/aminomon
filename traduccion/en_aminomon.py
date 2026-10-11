@@ -157,4 +157,16 @@ EN = {
         'Vitamin K',
     'Para atrapar un aminoácido hay que reconocer su estructura. Practica cuando quieras en la Aminodex: [X] y luego [P]. Los que fallas te saldrán más seguido hasta que los domines.':
         'To catch an amino acid you must recognize its structure. Practice whenever you want in the Aminodex: [X] and then [P]. The ones you miss will show up more often until you master them.',
+    'Descargando {version}...':
+        'Downloading {version}...',
+    'Se abrió la página de descarga en el navegador.':
+        'The download page was opened in your browser.',
+    'No se pudo actualizar. Descarga la versión nueva de: {pagina}':
+        'Could not update. Download the new version from: {pagina}',
+    'Listo. El juego se va a cerrar; vuelve a abrirlo para usar la versión nueva. Tu partida se conserva.':
+        'Done. The game will close; open it again to use the new version. Your progress is kept.',
+    'El juego se va a cerrar para instalar la versión nueva y se abrirá solo al terminar. Tu partida se conserva.':
+        'The game will close to install the new version and will reopen on its own when it finishes. Your progress is kept.',
+    'Actualizar a {version}':
+        'Update to {version}',
 }

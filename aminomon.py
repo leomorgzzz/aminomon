@@ -154,6 +154,7 @@ _asegurar_curses()
 
 import curses  # noqa: E402
 
+import actualizar
 import aminodex
 import animaciones as anim
 import combate
@@ -177,6 +178,7 @@ LOGO = [
     "/_/ \\_\\_|  |_|___|_|\\_|\\___/|_|  |_|\\___/|_|\\_|",
 ]
 STARTERS = ["K", "E", "S"]
+INSTALAR = None           # instalador descargado: se corre al cerrar el juego
 
 
 # ----------------------------------------------------------------- pantallas
@@ -193,8 +195,32 @@ def esperar_tamano(win):
         d.tecla(win)
 
 
+def actualizar_juego(win):
+    """Opción «Actualizar» de la pantalla de título. Devuelve True si hay que
+    cerrar el juego (para correr el instalador o abrir la versión nueva)."""
+    global INSTALAR
+    d.popup(win, tr("Descargando {version}...", version=actualizar.NUEVA), esperar=False)
+    res = actualizar.preparar()
+    if res == "pagina":
+        d.popup(win, tr("Se abrió la página de descarga en el navegador."))
+        return False
+    if res is None:
+        d.popup(win, tr("No se pudo actualizar. Descarga la versión nueva de: {pagina}",
+                        pagina=actualizar.PAGINA))
+        return False
+    if res == "git":
+        d.popup(win, tr("Listo. El juego se va a cerrar; vuelve a abrirlo para usar la "
+                        "versión nueva. Tu partida se conserva."))
+    else:
+        INSTALAR = res
+        d.popup(win, tr("El juego se va a cerrar para instalar la versión nueva y se abrirá "
+                        "solo al terminar. Tu partida se conserva."))
+    return True
+
+
 def titulo(win):
     hay_partida = progreso.cargar() is not None
+    actualizar.esperar()
     destacado = random.choice([c for c in datos.ORDEN if c != "G"])
     while True:
         alto, ancho = win.getmaxyx()
@@ -222,14 +248,23 @@ def titulo(win):
             aviso = tr("Consejo: pon la terminal en pantalla completa (F11 o Alt+Enter). Ahora: {ancho}×{alto}",
                        ancho=ancho, alto=alto)
             d.put(win, alto - 2, (ancho - len(aviso)) // 2, aviso, d.c("agua"))
-        opciones = (["continuar"] if hay_partida else []) + ["nueva", "manual", "idioma", "salir"]
+        d.put(win, alto - 1, 1, f"v{actualizar.version()}", d.c("tenue"))
+        opciones = (["continuar"] if hay_partida else []) + ["nueva", "manual", "idioma"]
+        if actualizar.NUEVA:
+            opciones.append("actualizar")
+        opciones.append("salir")
         # la opción de idioma se escribe en el otro idioma para que se entienda
         textos = {"continuar": tr("Continuar"), "nueva": tr("Nueva partida"),
                   "manual": tr("Manual"), "salir": tr("Salir"),
+                  "actualizar": tr("Actualizar a {version}", version=actualizar.NUEVA),
                   "idioma": "English" if idioma.ACTUAL == "es" else "Español"}
         sel = d.menu(win, None, [textos[o] for o in opciones], y=y0 + 10)
         if sel is None:
             return "salir"
+        if opciones[sel] == "actualizar":
+            if actualizar_juego(win):
+                return "salir"
+            continue
         if opciones[sel] == "manual":
             manual.mostrar(win, progreso.nuevo_juego(mapa.INICIO))
             continue
@@ -689,9 +724,18 @@ def main(win):
 
 
 if __name__ == "__main__":
+    if "--update" in sys.argv or "--actualizar" in sys.argv:
+        bien, salida = actualizar.git_pull()
+        print(salida)
+        sys.exit(0 if bien else 1)
+    if not os.environ.get("AMINOMON_REINICIO"):
+        actualizar.revisar_en_fondo()
     locale.setlocale(locale.LC_ALL, "")
     _pantalla_completa()
-    if _con_aviso_de_error(lambda: curses.wrapper(main)) == "idioma":
+    resultado = _con_aviso_de_error(lambda: curses.wrapper(main))
+    if INSTALAR:
+        actualizar.correr_instalador(INSTALAR)
+    elif resultado == "idioma":
         # los textos se traducen al importar: se reinicia en el idioma nuevo
         args = [a for a in sys.argv[1:] if a not in ("--es", "--en")]
         programa = [sys.executable] if getattr(sys, "frozen", False) else \

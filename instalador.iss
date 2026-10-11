@@ -44,3 +44,5 @@ Name: "{autodesktop}\Aminomon"; Filename: "{sys}\conhost.exe"; Parameters: """{a
 
 [Run]
 Filename: "{sys}\conhost.exe"; Parameters: """{app}\Aminomon.exe"""; WorkingDir: "{app}"; Description: "{cm:LaunchProgram,Aminomon}"; Flags: nowait postinstall skipifsilent
+; al actualizar desde el juego (instalador en modo silencioso) se vuelve a abrir solo
+Filename: "{sys}\conhost.exe"; Parameters: """{app}\Aminomon.exe"""; WorkingDir: "{app}"; Flags: nowait; Check: WizardSilent

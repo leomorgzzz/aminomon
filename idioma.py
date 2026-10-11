@@ -6,14 +6,43 @@ encuentra, deja el español. Los datos (aminoácidos, zonas, jefes…) se
 traducen campo por campo con traducir() al importar cada módulo.
 
 El idioma se elige al iniciar: `aminomon --en` / `aminomon --es`, o desde la
-pantalla de título (se recuerda en ~/.aminomon_idioma).
+pantalla de título (se recuerda en ~/.aminomon_idioma). La primera vez se usa
+el del sistema: español si está en español, inglés en cualquier otro caso.
 """
 
+import locale
 import os
+import subprocess
 import sys
 
 ARCHIVO = os.path.expanduser("~/.aminomon_idioma")
 IDIOMAS = ("es", "en")
+
+
+def _del_sistema():
+    nombres = [os.environ.get(v, "") for v in ("LC_ALL", "LC_MESSAGES", "LANG", "LANGUAGE")]
+    try:
+        nombres.append(locale.getlocale()[0] or "")
+    except ValueError:
+        pass
+    if sys.platform == "win32":
+        try:
+            import ctypes
+            if ctypes.windll.kernel32.GetUserDefaultUILanguage() & 0x3FF == 0x0A:
+                return "es"
+        except Exception:  # noqa: BLE001
+            pass
+    elif sys.platform == "darwin":
+        try:
+            nombres.append(subprocess.run(["defaults", "read", "-g", "AppleLocale"],
+                                          capture_output=True, text=True, timeout=2).stdout)
+        except Exception:  # noqa: BLE001
+            pass
+    for n in nombres:
+        n = n.strip().lower()
+        if n and n not in ("c", "posix", "c.utf-8"):
+            return "es" if n.startswith(("es", "spanish")) else "en"
+    return "en"
 
 
 def _detectar():
@@ -24,8 +53,8 @@ def _detectar():
         with open(ARCHIVO, encoding="utf-8") as f:
             idioma = f.read().strip()
     except OSError:
-        return "es"
-    return idioma if idioma in IDIOMAS else "es"
+        return _del_sistema()
+    return idioma if idioma in IDIOMAS else _del_sistema()
 
 
 ACTUAL = _detectar()
