@@ -12,6 +12,7 @@ import progreso
 from idioma import tr
 
 AFINIDAD_TRNA = 50
+AFINIDAD_RECONOCER = 15    # bono por reconocer al aparecer uno ya capturado
 TURNOS_PARA_REVELAR = 3
 SPRITE_W = 24
 
@@ -82,7 +83,8 @@ class Combate:
         self.aa = aa
         conocido = progreso.capturado(juego, aa)
         self.salvaje = dict(nivel=nivel, afinidad=0)
-        self.nombre_visible = conocido
+        # aunque ya lo hayas capturado, su nombre se ve solo si lo reconoces
+        self.nombre_visible = False
         self.tipos_visible = conocido
         self.turno = 1
         self.turnos_jugador = 0
@@ -541,16 +543,12 @@ class Combate:
         self.decir(tr("Entra {nombre}.", nombre=datos.forma(self.mon["id"])["nombre"]))
         return True
 
-    def lanzar_trna(self):
-        """Devuelve 'capturado', 'huyo' o None."""
-        if self.salvaje["afinidad"] < AFINIDAD_TRNA:
-            self.decir(tr("El ARNt no se une: la afinidad debe ser ≥ {n}.", n=AFINIDAD_TRNA))
-            return None
-        tipo = preguntas.elegir_tipo(self.juego, self.aa)
-        visible = self.nombre_visible
+    def preguntar(self, tipo):
+        """Pregunta sobre el rival. En las de reconocimiento solo cuenta la
+        estructura: se ocultan su nombre y el registro, que lo menciona."""
+        visible, log = self.nombre_visible, self.log
         if tipo in preguntas.RECONOCER:
-            # para reconocerlo solo cuenta la estructura: el nombre se oculta
-            self.nombre_visible = False
+            self.nombre_visible, self.log = False, []
         self.dibujar()
         L = self.layout()
         # la pregunta tapa la arena y tu recuadro completos, sin salirse; la
@@ -558,7 +556,24 @@ class Combate:
         bien = preguntas.preguntar(self.win, self.juego, self.aa, tipo,
                                    L["arena"], L["x"], L["w"],
                                    alto_min=L["yo"] + 4 - L["arena"], estructura=True)
-        self.nombre_visible = visible
+        self.nombre_visible, self.log = visible, log
+        return bien
+
+    def reconocer(self):
+        """Al aparecer uno que ya capturaste: si lo reconoces, se une más fácil."""
+        if self.preguntar(preguntas.elegir_reconocer(self.juego, self.aa)):
+            self.nombre_visible = True
+            self.salvaje["afinidad"] = min(100, self.salvaje["afinidad"] + AFINIDAD_RECONOCER)
+            self.decir(tr("Lo reconociste: +{n} de afinidad.", n=AFINIDAD_RECONOCER))
+        else:
+            self.decir(tr("No lo reconociste: su nombre queda oculto."))
+
+    def lanzar_trna(self):
+        """Devuelve 'capturado', 'huyo' o None."""
+        if self.salvaje["afinidad"] < AFINIDAD_TRNA:
+            self.decir(tr("El ARNt no se une: la afinidad debe ser ≥ {n}.", n=AFINIDAD_TRNA))
+            return None
+        bien = self.preguntar(preguntas.elegir_tipo(self.juego, self.aa))
         a = datos.AMINOACIDOS[self.aa]
         if bien:
             self.nombre_visible = self.tipos_visible = True
@@ -609,6 +624,8 @@ class Combate:
     def jugar(self):
         if self.activo is None:
             return "derrota"
+        if progreso.capturado(self.juego, self.aa):
+            self.reconocer()
         self.decir(tr("Deduce su grupo [D] o interactúa [1-5]."))
         while True:
             self.dibujar()

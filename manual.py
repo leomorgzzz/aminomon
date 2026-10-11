@@ -121,8 +121,9 @@ def p_jugar(juego, rival, an):
                     "luego el código de 3 letras y luego el de 1. Subes de paso al "
                     "acertar más de lo que fallas. Después se mezclan carga, grupo, "
                     "pKR, pI (y calcularlo), nutrición, codones e hidropatía. Los "
-                    "aminoácidos que fallas salen más en el campo; en la Aminodex "
-                    "[P] practicas los pares que más se confunden."), an),
+                    "aminoácidos que fallas salen más en el campo. Si aparece uno que ya "
+                    "capturaste, reconocerlo te da afinidad extra. En la Aminodex [P] "
+                    "practicas los pares que más se confunden."), an),
         L(""),
         T(tr("Jefes")),
         *parrafo(tr("Cada jefe pide construir un péptido con lo que ya capturaste; "

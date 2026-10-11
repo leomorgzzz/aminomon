@@ -16,6 +16,12 @@ TIPOS_PROPIEDAD = ["carga", "grupo", "nutricion", "codon", "hidro", "pka", "pi",
 RECONOCER = ["nombre", "tres", "una"]
 # letras que no salen del nombre: opciones que confunden
 TRAMPAS_UNA = {"W": "TPY", "K": "LYI"}
+# estructuras que se parecen: salen como distractores para que reconocer cueste
+PARECIDOS = {
+    "G": "ASP", "A": "GSV", "V": "ILT", "L": "IVM", "I": "LVT", "M": "CLI", "P": "VAL",
+    "F": "YWH", "Y": "FWH", "W": "FYH", "S": "TCA", "T": "SVC", "C": "SMA", "N": "QDE",
+    "Q": "NEK", "D": "ENS", "E": "DQN", "K": "RQM", "R": "KHQ", "H": "RKW",
+}
 
 
 def pares():
@@ -51,7 +57,7 @@ def aplica(aa, tipo):
 
 def _opciones(correcta, distractores, n=4, fijos=()):
     """fijos: distractores que siempre aparecen (la pareja que se confunde)."""
-    fijos = [x for x in fijos if x != correcta]
+    fijos = [x for x in dict.fromkeys(fijos) if x != correcta][: n - 1]
     distractores = [x for x in dict.fromkeys(distractores) if x != correcta and x not in fijos]
     random.shuffle(distractores)
     ops = [correcta] + fijos + distractores[: n - 1 - len(fijos)]
@@ -65,6 +71,9 @@ def generar(aa, tipo, estructura=False, opciones=False):
     decir el nombre. opciones: los códigos se eligen en vez de escribirse."""
     a = AA[aa]
     pareja = pares().get(aa, (None, ""))[0]
+    # la pareja que se confunde siempre; después, otras estructuras parecidas
+    parecidos = random.sample(PARECIDOS[aa], len(PARECIDOS[aa]))
+    cercanos = ([pareja] if pareja else []) + [x for x in parecidos if x != pareja]
     if tipo == "nombre":
         mismos = [x["nombre"] for x in AA.values() if x["grupo"] == a["grupo"]]
         otros = [x["nombre"] for x in AA.values()]
@@ -72,7 +81,7 @@ def generar(aa, tipo, estructura=False, opciones=False):
         return dict(
             texto=tr("¿Qué aminoácido es este? Fíjate en su cadena lateral."),
             opciones=_opciones(a["nombre"], mismos + otros,
-                               fijos=[AA[pareja]["nombre"]] if pareja else ()),
+                               fijos=[AA[x]["nombre"] for x in cercanos]),
             respuesta=a["nombre"],
             explicacion=tr("Es {nombre} ({tres}, {una}). {pista}", nombre=a["nombre"],
                            tres=a["tres"], una=aa, pista=a["pista"]) + _nota_par(aa),
@@ -85,7 +94,7 @@ def generar(aa, tipo, estructura=False, opciones=False):
         ops = None
         if opciones:
             ops = _opciones(a["tres"], [x["tres"] for x in AA.values()],
-                            fijos=[AA[pareja]["tres"]] if pareja else ())
+                            fijos=[AA[x]["tres"] for x in cercanos])
         return dict(
             texto=texto, opciones=ops, respuesta=a["tres"],
             explicacion=f"{a['nombre']} = {a['tres']}." + _nota_par(aa),
@@ -98,8 +107,7 @@ def generar(aa, tipo, estructura=False, opciones=False):
                        nombre=a["nombre"], tres=a["tres"])
         ops = None
         if opciones:
-            fijos = list(TRAMPAS_UNA.get(aa, "")) or ([pareja] if pareja else [])
-            ops = _opciones(aa, list(datos.ORDEN), fijos=fijos)
+            ops = _opciones(aa, list(datos.ORDEN), fijos=list(TRAMPAS_UNA.get(aa, "")) or cercanos)
         return dict(
             texto=texto, opciones=ops, respuesta=aa,
             explicacion=f"{a['tres']} = {aa}. " + (_nota_par(aa).strip() or _mnemo_una(aa)),
@@ -218,6 +226,14 @@ def nivel(juego, aa):
     return next((i for i, t in enumerate(RECONOCER) if not dominado(juego, aa, t)), 3)
 
 
+def elegir_reconocer(juego, aa):
+    """Solo reconocimiento: el paso en que va, o cualquiera si ya lo domina."""
+    n = nivel(juego, aa)
+    if n < 3:
+        return RECONOCER[n]
+    return random.choices(RECONOCER, [progreso.peso(juego, f"{aa}:{t}") for t in RECONOCER])[0]
+
+
 def elegir_tipo(juego, aa):
     """Para atrapar hay que reconocerlo: primero el nombre, luego el código de 3
     letras y luego el de 1; solo se sube al acertar más de lo que se falla.
@@ -239,9 +255,10 @@ def elegir_aleatoria(juego):
 
 
 def preguntar(win, juego, aa, tipo, y, x, ancho, alto_min=0, estructura=False,
-              opciones=False):
+              opciones=False, salir=False):
     """Muestra la pregunta en un área y devuelve True si acierta. alto_min
-    estira el recuadro para tapar por completo lo que haya debajo."""
+    estira el recuadro para tapar por completo lo que haya debajo. Con salir,
+    Esc la abandona sin contarla y devuelve None."""
     p = generar(aa, tipo, estructura, opciones)
     texto = d.envolver(p["texto"], ancho - 4)
     alto = max(alto_min, len(texto) + (len(p["opciones"]) if p["opciones"] else 2) + 4)
@@ -253,10 +270,13 @@ def preguntar(win, juego, aa, tipo, y, x, ancho, alto_min=0, estructura=False,
     if p["opciones"]:
         for i, o in enumerate(p["opciones"]):
             d.put(win, y1 + i, x + 4, f"{i + 1}) {o}", d.c("texto"))
-        d.put(win, y + alto - 2, x + 2, tr("Pulsa el número de tu respuesta"), d.c("tenue"))
+        d.put(win, y + alto - 2, x + 2, tr("Pulsa el número de tu respuesta") +
+              (tr(" · Esc salir") if salir else ""), d.c("tenue"))
         win.refresh()
         while True:
             k = d.tecla(win)
+            if salir and k == d.ESC:
+                return None
             if isinstance(k, str) and k.isdigit() and 1 <= int(k) <= len(p["opciones"]):
                 eleccion = p["opciones"][int(k) - 1]
                 break
@@ -281,12 +301,15 @@ PREGUNTAS_PRACTICA = 10
 def practica_pares(win, juego):
     """Práctica de los que más se confunden (Gln/Asn, Glu/Asp, Ile/Leu,
     Ser/Thr, W y K), con los que ya capturaste. Salen más los que fallas."""
-    claves = [(aa, t) for aa in pares() if juego["capturados"].get(aa) for t in RECONOCER]
+    tengo = juego["capturados"].get
+    # un par solo se practica completo: los dos capturados
+    claves = [(aa, t) for aa, (pareja, _) in pares().items()
+              if tengo(aa) and (pareja is None or tengo(pareja)) for t in RECONOCER]
     if not claves:
-        d.popup(win, tr("Captura primero a alguno de estos: Gln, Asn, Glu, Asp, Ile, Leu, "
-                        "Ser, Thr, Trp o Lys."), tr("Práctica de pares"))
+        d.popup(win, tr("Captura los dos de algún par (Gln y Asn, Glu y Asp, Ile y Leu, Ser y "
+                        "Thr), o a Trp o Lys."), tr("Práctica de pares"))
         return
-    aciertos = 0
+    aciertos = hechas = 0
     for i in range(PREGUNTAS_PRACTICA):
         aa, tipo = random.choices(claves, [progreso.peso(juego, f"{a}:{t}") for a, t in claves])[0]
         alto, ancho = win.getmaxyx()
@@ -301,10 +324,16 @@ def practica_pares(win, juego):
             y, x = len(arte) + 3, 1
         else:
             y = 2
-        if preguntar(win, juego, aa, tipo, y, x, min(64, ancho - x - 1), estructura=True,
-                     opciones=True):
-            aciertos += 1
+        bien = preguntar(win, juego, aa, tipo, y, x, min(64, ancho - x - 1), estructura=True,
+                         opciones=True, salir=True)
+        if bien is None:
+            break
+        aciertos += bien
+        hechas += 1
     progreso.guardar(juego)
+    if not hechas:
+        return
+    win.erase()
     d.popup(win, tr("{n}/{total} correctas. Los que fallaste saldrán más seguido, en la "
-                    "práctica y en el campo.", n=aciertos, total=PREGUNTAS_PRACTICA),
-            tr("Práctica de pares"), attr=d.c("bien" if aciertos >= 8 else "texto"))
+                    "práctica y en el campo.", n=aciertos, total=hechas),
+            tr("Práctica de pares"), attr=d.c("bien" if aciertos >= 0.8 * hechas else "texto"))

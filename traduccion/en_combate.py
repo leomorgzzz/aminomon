@@ -173,4 +173,8 @@ EN = {
         "You couldn't escape.",
     'Velocidad de animación: {vel}.':
         'Animation speed: {vel}.',
+    'Lo reconociste: +{n} de afinidad.':
+        'You recognized it: +{n} affinity.',
+    'No lo reconociste: su nombre queda oculto.':
+        'You did not recognize it: its name stays hidden.',
 }

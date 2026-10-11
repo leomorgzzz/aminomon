@@ -316,6 +316,7 @@ class Partida:
             juego["pos"] = list(mapa.INICIO)
         self.zona = mapa.zona(*juego["pos"])
         self.rastro = []          # casillas por las que pasaste, la más reciente primero
+        self.ultimo_salvaje = None   # para no repetir el mismo encuentro seguido
 
     # ------------------------------------------------------------ dibujo
     def dimensiones(self):
@@ -600,8 +601,11 @@ class Partida:
     def encuentro(self, zona):
         j = self.juego
         info = datos.ZONAS[zona]
-        # salen más los que fallas al reconocerlos y menos los que ya dominas
-        aa = random.choices(info["aminos"], [progreso.peso_aa(j, a) for a in info["aminos"]])[0]
+        # salen más los que fallas al reconocerlos y menos los que ya dominas,
+        # pero no el mismo dos veces seguidas
+        candidatos = [a for a in info["aminos"] if a != self.ultimo_salvaje] or info["aminos"]
+        aa = random.choices(candidatos, [progreso.peso_aa(j, a) for a in candidatos])[0]
+        self.ultimo_salvaje = aa
         nivel = random.randint(*info["niveles"])
         self.dibujar()
         curses.flushinp()
