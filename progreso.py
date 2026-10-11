@@ -167,3 +167,11 @@ def registrar(juego, clave, acierto):
 def peso(juego, clave):
     return max(0.5, 1 + 2 * juego["fallos"].get(clave, 0)
                - 0.5 * juego["aciertos"].get(clave, 0))
+
+
+def peso_aa(juego, aa):
+    """Qué tan seguido sale un aminoácido salvaje: sube con los fallos al
+    reconocerlo (nombre y códigos) y baja con los aciertos, sin llegar a cero."""
+    fallos = sum(juego["fallos"].get(f"{aa}:{t}", 0) for t in ("nombre", "tres", "una"))
+    aciertos = sum(juego["aciertos"].get(f"{aa}:{t}", 0) for t in ("nombre", "tres", "una"))
+    return min(4.0, max(0.4, 1 + fallos - 0.3 * aciertos))

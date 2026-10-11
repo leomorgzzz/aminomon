@@ -302,15 +302,16 @@ def fondo(x, y):
 
 
 def _attr_especial(nombre, juego):
+    """(glifo alterno, color, extra): el fondo lo pone la casilla."""
     if nombre.startswith("jefe"):
         if nombre[5:] in juego["insignias"]:
-            return "√", d.c("bien", curses.A_BOLD)
-        return None, d.c("mal", curses.A_BOLD | curses.A_REVERSE)
+            return "√", "bien", curses.A_BOLD
+        return None, "mal", curses.A_BOLD | curses.A_REVERSE
     if nombre.startswith("c_"):
-        return None, d.c("agua", curses.A_BOLD)
+        return None, "agua", curses.A_BOLD
     if nombre == "chaperona" and juego.get("terminado"):
-        return None, d.c("bien", curses.A_BOLD)
-    return None, d.c("titulo", curses.A_BOLD | curses.A_REVERSE)
+        return None, "bien", curses.A_BOLD
+    return None, "titulo", curses.A_BOLD | curses.A_REVERSE
 
 
 _CAMARA = {}          # (vh, vw) -> última esquina de la vista
@@ -338,8 +339,9 @@ def _eje(p, c, vista, total):
 
 def dibujar(win, oy, ox, vh, vw, juego, extra=()):
     """Dibuja la vista de la cámara en el rectángulo (oy, ox, vh, vw).
-    extra: casillas (x, y, glifo, attr) que van encima del mapa y debajo del
-    jugador, como la cadena que te sigue."""
+    extra: casillas (x, y, glifo, color, atributo) que van encima del mapa y
+    debajo del jugador, como la cadena que te sigue. Se dibujan con el fondo
+    de la casilla que pisan para no dejar un hueco negro."""
     cx, cy = camara(juego, vh, vw)
     # si el mundo cabe entero, se centra
     mx = max(0, (vw - ANCHO) // 2)
@@ -361,11 +363,12 @@ def dibujar(win, oy, ox, vh, vw, juego, extra=()):
             d.put(win, oy + my + fy, ox + mx + x0, "".join(corrida), d.c(clave_c[0], fondo=clave_c[1]))
     for nombre, (x, y, g) in ESPECIALES.items():
         if cx <= x < cx + cols and cy <= y < cy + filas:
-            otro, attr = _attr_especial(nombre, juego)
-            d.put(win, oy + my + y - cy, ox + mx + x - cx, otro or g, attr)
-    for x, y, g, attr in extra:
+            otro, color, atr = _attr_especial(nombre, juego)
+            d.put(win, oy + my + y - cy, ox + mx + x - cx, otro or g,
+                  d.c(color, atr, fondo=fondo(x, y)))
+    for x, y, g, color, atr in extra:
         if cx <= x < cx + cols and cy <= y < cy + filas and especial_en(x, y) is None:
-            d.put(win, oy + my + y - cy, ox + mx + x - cx, g, attr)
+            d.put(win, oy + my + y - cy, ox + mx + x - cx, g, d.c(color, atr, fondo=fondo(x, y)))
     px, py = juego["pos"]
     d.put(win, oy + my + py - cy, ox + mx + px - cx, "@",
           d.c("texto", curses.A_BOLD | curses.A_REVERSE))

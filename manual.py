@@ -117,9 +117,12 @@ def p_jugar(juego, rival, an):
                     "subtítulo con cada paso; cualquier tecla las salta."), an, "tenue"),
         L(""),
         T(tr("Captura")),
-        *parrafo(tr("1.ª vez: ¿cuál es? 2.ª: código de 3 letras. 3.ª: de 1 letra. "
-                    "Después: carga, grupo, pKR, pI (y calcularlo), nutrición, "
-                    "codones e hidropatía. Lo que fallas vuelve más seguido."), an),
+        *parrafo(tr("Para atraparlo hay que reconocer su estructura: primero el nombre, "
+                    "luego el código de 3 letras y luego el de 1. Subes de paso al "
+                    "acertar más de lo que fallas. Después se mezclan carga, grupo, "
+                    "pKR, pI (y calcularlo), nutrición, codones e hidropatía. Los "
+                    "aminoácidos que fallas salen más en el campo; en la Aminodex "
+                    "[P] practicas los pares que más se confunden."), an),
         L(""),
         T(tr("Jefes")),
         *parrafo(tr("Cada jefe pide construir un péptido con lo que ya capturaste; "
@@ -359,7 +362,7 @@ def p_glosario(juego, rival, an):
 
 def p_chuleta(juego, rival, an):
     out = [T(tr("Preguntas que pueden salir al lanzar el ARNt")),
-           L(tr("  1.ª: ¿qué aminoácido es?  2.ª: código de 3 letras  3.ª: código de 1 letra")),
+           L(tr("  Por su estructura: nombre → código de 3 letras → código de 1 letra")),
            L(tr("  Después: carga · grupo · pKR · pI · calcular el pI · nutrición ·")),
            L(tr("           codón · hidropatía")),
            L(""), T(tr("Tabla rápida (Lehninger, 25 °C)")),

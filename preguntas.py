@@ -12,6 +12,34 @@ AA = datos.AMINOACIDOS
 
 TIPOS_PROPIEDAD = ["carga", "grupo", "nutricion", "codon", "hidro", "pka", "pi",
                    "calc_pi"]
+# reconocer la estructura, en orden de dificultad
+RECONOCER = ["nombre", "tres", "una"]
+# letras que no salen del nombre: opciones que confunden
+TRAMPAS_UNA = {"W": "TPY", "K": "LYI"}
+
+
+def pares():
+    """Aminoácidos que se confunden: {aa: (pareja o None, cómo distinguirlos)}."""
+    qn = tr("Gln (Q) y Asn (N) son las amidas: Gln tiene un CH2 más, igual que Glu "
+            "frente a Asp. N de asparagiNe; Q de 'Q-tamina'.")
+    ed = tr("Glu (E) y Asp (D) son los ácidos: Glu tiene un CH2 más. Asp es el corto y "
+            "va primero, como la D antes de la E.")
+    il = tr("Ile y Leu tienen la misma fórmula: Ile se ramifica en el carbono β (pegado "
+            "al Cα) y Leu en el γ, un carbono más lejos.")
+    st = tr("Ser (S) termina en CH2-OH; Thr (T) tiene además un metilo en el carbono β: "
+            "CH(OH)-CH3.")
+    return {
+        "Q": ("N", qn), "N": ("Q", qn), "E": ("D", ed), "D": ("E", ed),
+        "I": ("L", il), "L": ("I", il), "S": ("T", st), "T": ("S", st),
+        "W": (None, tr("Trp = W: anillo doble (double ring). La T ya era de Thr y la P "
+                       "de Pro.")),
+        "K": (None, tr("Lys = K: la letra antes de L, porque la L ya era de Leu.")),
+    }
+
+
+def _nota_par(aa):
+    par = pares().get(aa)
+    return " " + par[1] if par else ""
 
 
 def aplica(aa, tipo):
@@ -21,40 +49,60 @@ def aplica(aa, tipo):
     return True
 
 
-def _opciones(correcta, distractores, n=4):
-    distractores = [x for x in dict.fromkeys(distractores) if x != correcta]
+def _opciones(correcta, distractores, n=4, fijos=()):
+    """fijos: distractores que siempre aparecen (la pareja que se confunde)."""
+    fijos = [x for x in fijos if x != correcta]
+    distractores = [x for x in dict.fromkeys(distractores) if x != correcta and x not in fijos]
     random.shuffle(distractores)
-    ops = [correcta] + distractores[: n - 1]
+    ops = [correcta] + fijos + distractores[: n - 1 - len(fijos)]
     random.shuffle(ops)
     return ops
 
 
-def generar(aa, tipo):
-    """Devuelve dict(texto, opciones|None, respuesta, explicacion)."""
+def generar(aa, tipo, estructura=False, opciones=False):
+    """Devuelve dict(texto, opciones|None, respuesta, explicacion).
+    estructura: el jugador ve la estructura, así que los códigos se piden sin
+    decir el nombre. opciones: los códigos se eligen en vez de escribirse."""
     a = AA[aa]
+    pareja = pares().get(aa, (None, ""))[0]
     if tipo == "nombre":
         mismos = [x["nombre"] for x in AA.values() if x["grupo"] == a["grupo"]]
         otros = [x["nombre"] for x in AA.values()]
         random.shuffle(otros)
         return dict(
-            texto=tr("¿Qué aminoácido es este?"),
-            opciones=_opciones(a["nombre"], mismos + otros),
+            texto=tr("¿Qué aminoácido es este? Fíjate en su cadena lateral."),
+            opciones=_opciones(a["nombre"], mismos + otros,
+                               fijos=[AA[pareja]["nombre"]] if pareja else ()),
             respuesta=a["nombre"],
             explicacion=tr("Es {nombre} ({tres}, {una}). {pista}", nombre=a["nombre"],
-                           tres=a["tres"], una=aa, pista=a["pista"]),
+                           tres=a["tres"], una=aa, pista=a["pista"]) + _nota_par(aa),
         )
     if tipo == "tres":
+        if estructura:
+            texto = tr("¿Cuál es el código de 3 letras de este aminoácido?")
+        else:
+            texto = tr("Escribe el código de 3 letras de {nombre}:", nombre=a["nombre"])
+        ops = None
+        if opciones:
+            ops = _opciones(a["tres"], [x["tres"] for x in AA.values()],
+                            fijos=[AA[pareja]["tres"]] if pareja else ())
         return dict(
-            texto=tr("Escribe el código de 3 letras de {nombre}:", nombre=a["nombre"]),
-            opciones=None, respuesta=a["tres"],
-            explicacion=f"{a['nombre']} = {a['tres']}.",
+            texto=texto, opciones=ops, respuesta=a["tres"],
+            explicacion=f"{a['nombre']} = {a['tres']}." + _nota_par(aa),
         )
     if tipo == "una":
+        if estructura:
+            texto = tr("¿Cuál es el código de 1 letra de este aminoácido?")
+        else:
+            texto = tr("Escribe el código de 1 letra de {nombre} ({tres}):",
+                       nombre=a["nombre"], tres=a["tres"])
+        ops = None
+        if opciones:
+            fijos = list(TRAMPAS_UNA.get(aa, "")) or ([pareja] if pareja else [])
+            ops = _opciones(aa, list(datos.ORDEN), fijos=fijos)
         return dict(
-            texto=tr("Escribe el código de 1 letra de {nombre} ({tres}):",
-                     nombre=a["nombre"], tres=a["tres"]),
-            opciones=None, respuesta=aa,
-            explicacion=f"{a['tres']} = {aa}. " + _mnemo_una(aa),
+            texto=texto, opciones=ops, respuesta=aa,
+            explicacion=f"{a['tres']} = {aa}. " + (_nota_par(aa).strip() or _mnemo_una(aa)),
         )
     if tipo == "carga":
         ops = [tr("Positiva (+1)"), tr("Negativa (−1)"), tr("Neutra"),
@@ -153,21 +201,32 @@ def _mnemo_una(aa):
         "D": "D de 'asparDate' (Asp, el más pequeño de los ácidos).",
         "E": "E de 'glutEmate'.", "K": "K: la letra antes de L (lisina).",
         "R": "R de 'aRginina'.",
+        "I": "I de 'Isoleucina'; la L se la quedó Leu.",
+        "T": "T de 'Treonina'; la S es de Ser.",
     }
     return tr(trucos.get(aa, "Coincide con la inicial."))
 
 
+def dominado(juego, aa, tipo):
+    """Lo dominas cuando lo has acertado más veces de las que lo has fallado."""
+    clave = f"{aa}:{tipo}"
+    return juego["aciertos"].get(clave, 0) > juego["fallos"].get(clave, 0)
+
+
+def nivel(juego, aa):
+    """0 nombre, 1 código de 3 letras, 2 código de 1 letra, 3 todo dominado."""
+    return next((i for i, t in enumerate(RECONOCER) if not dominado(juego, aa, t)), 3)
+
+
 def elegir_tipo(juego, aa):
-    """Dificultad progresiva según cuántas veces lo has capturado."""
-    n = juego["capturados"].get(aa, 0)
-    if n == 0:
-        return "nombre"
-    if n == 1:
-        return "tres"
-    if n == 2:
-        return "una"
-    tipos = [t for t in TIPOS_PROPIEDAD if aplica(aa, t)]
-    pesos = [progreso.peso(juego, f"{aa}:{t}") for t in tipos]
+    """Para atrapar hay que reconocerlo: primero el nombre, luego el código de 3
+    letras y luego el de 1; solo se sube al acertar más de lo que se falla.
+    Ya dominado, el reconocimiento se sigue repasando junto a las propiedades."""
+    n = nivel(juego, aa)
+    if n < 3:
+        return RECONOCER[n]
+    tipos = RECONOCER + [t for t in TIPOS_PROPIEDAD if aplica(aa, t)]
+    pesos = [progreso.peso(juego, f"{aa}:{t}") * (2 if t in RECONOCER else 1) for t in tipos]
     return random.choices(tipos, pesos)[0]
 
 
@@ -179,10 +238,11 @@ def elegir_aleatoria(juego):
     return random.choices(claves, pesos)[0]
 
 
-def preguntar(win, juego, aa, tipo, y, x, ancho, alto_min=0):
+def preguntar(win, juego, aa, tipo, y, x, ancho, alto_min=0, estructura=False,
+              opciones=False):
     """Muestra la pregunta en un área y devuelve True si acierta. alto_min
     estira el recuadro para tapar por completo lo que haya debajo."""
-    p = generar(aa, tipo)
+    p = generar(aa, tipo, estructura, opciones)
     texto = d.envolver(p["texto"], ancho - 4)
     alto = max(alto_min, len(texto) + (len(p["opciones"]) if p["opciones"] else 2) + 4)
     d.limpiar_area(win, y, x, alto, ancho)
@@ -213,3 +273,38 @@ def preguntar(win, juego, aa, tipo, y, x, ancho, alto_min=0):
         attr = d.c("mal")
     d.popup(win, texto, tr("Resultado"), ancho=min(70, ancho + 6), attr=attr)
     return bien
+
+
+PREGUNTAS_PRACTICA = 10
+
+
+def practica_pares(win, juego):
+    """Práctica de los que más se confunden (Gln/Asn, Glu/Asp, Ile/Leu,
+    Ser/Thr, W y K), con los que ya capturaste. Salen más los que fallas."""
+    claves = [(aa, t) for aa in pares() if juego["capturados"].get(aa) for t in RECONOCER]
+    if not claves:
+        d.popup(win, tr("Captura primero a alguno de estos: Gln, Asn, Glu, Asp, Ile, Leu, "
+                        "Ser, Thr, Trp o Lys."), tr("Práctica de pares"))
+        return
+    aciertos = 0
+    for i in range(PREGUNTAS_PRACTICA):
+        aa, tipo = random.choices(claves, [progreso.peso(juego, f"{a}:{t}") for a, t in claves])[0]
+        alto, ancho = win.getmaxyx()
+        win.erase()
+        d.put(win, 0, 1, tr("PRÁCTICA DE PARES · {i}/{total} · aciertos {n}",
+                            i=i + 1, total=PREGUNTAS_PRACTICA, n=aciertos),
+              d.c("titulo", curses.A_BOLD))
+        arte = datos.forma(aa)["arte"]
+        d.estructura(win, 2, 1, arte)
+        x = d.ancho_estructura(arte) + 4
+        if ancho - x < 40:          # no cabe al lado: la pregunta va debajo
+            y, x = len(arte) + 3, 1
+        else:
+            y = 2
+        if preguntar(win, juego, aa, tipo, y, x, min(64, ancho - x - 1), estructura=True,
+                     opciones=True):
+            aciertos += 1
+    progreso.guardar(juego)
+    d.popup(win, tr("{n}/{total} correctas. Los que fallaste saldrán más seguido, en la "
+                    "práctica y en el campo.", n=aciertos, total=PREGUNTAS_PRACTICA),
+            tr("Práctica de pares"), attr=d.c("bien" if aciertos >= 8 else "texto"))

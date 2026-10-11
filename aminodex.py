@@ -5,6 +5,7 @@ import curses
 import datos
 import dibujo as d
 import jefes
+import preguntas
 from idioma import tr
 
 AA = datos.AMINOACIDOS
@@ -21,6 +22,21 @@ def como_modificar(req):
     if req.get("otra_cys"):
         como.append(tr("otra Cys en el equipo"))
     return como
+
+
+def registro(juego, c):
+    """Aciertos/fallos al reconocerlo: por nombre, código de 3 y de 1 letra."""
+    a = AA[c]
+    partes = []
+    for tipo, rotulo in zip(preguntas.RECONOCER, (tr("nombre"), a["tres"], c)):
+        clave = f"{c}:{tipo}"
+        marca = "√" if preguntas.dominado(juego, c, tipo) else "○"
+        partes.append(f"{marca} {rotulo} {juego['aciertos'].get(clave, 0)}/"
+                      f"{juego['fallos'].get(clave, 0)}")
+    texto = "   ".join(partes)
+    if preguntas.nivel(juego, c) == 3:
+        texto += tr("  (dominado)")
+    return texto + tr("  aciertos/fallos")
 
 
 def ficha(win, juego, c, y, x, ancho):
@@ -62,6 +78,8 @@ def ficha(win, juego, c, y, x, ancho):
     if faltan:
         texto_mod += (" · " if obtenidas else "") + tr("{n} por descubrir", n=faltan)
     filas.append((tr("Modificaciones"), texto_mod or "—"))
+    # tu avance va primero para que no se recorte en pantallas bajas
+    filas.insert(0, (tr("Reconocer"), registro(juego, c)))
 
     col = max(len(etq) for etq, _ in filas) + 2      # columna de valores alineada
     for etq, valor in filas:
@@ -253,7 +271,8 @@ def mostrar(win, juego):
                 base = AA[ev["base"]]["nombre"] if ev["base"] in juego["vistos"] else tr("su forma base")
                 d.put(win, 8, 24, tr("Captura primero a {base}.", base=base),
                       d.c("tenue"))
-        d.put(win, alto - 1, 1, tr("↑/↓ elegir   ←/→ saltar de aminoácido   M manual   Esc salir"),
+        d.put(win, alto - 1, 1, tr("↑/↓ elegir   ←/→ saltar de aminoácido   P practicar pares   "
+                                   "M manual   Esc salir"),
               d.c("tenue"))
         win.refresh()
         k = d.tecla(win)
@@ -268,6 +287,8 @@ def mostrar(win, juego):
         elif d.es(k, curses.KEY_LEFT, "a"):
             previos = [i for i in range(sel) if lista[i][0] == "aa"]
             sel = previos[-1] if previos else max(i for i, e in enumerate(lista) if e[0] == "aa")
+        elif d.es(k, "p"):
+            preguntas.practica_pares(win, juego)
         elif d.es(k, "m", "?"):
             import manual
             manual.mostrar(win, juego)

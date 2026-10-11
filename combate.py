@@ -546,13 +546,19 @@ class Combate:
         if self.salvaje["afinidad"] < AFINIDAD_TRNA:
             self.decir(tr("El ARNt no se une: la afinidad debe ser ≥ {n}.", n=AFINIDAD_TRNA))
             return None
+        tipo = preguntas.elegir_tipo(self.juego, self.aa)
+        visible = self.nombre_visible
+        if tipo in preguntas.RECONOCER:
+            # para reconocerlo solo cuenta la estructura: el nombre se oculta
+            self.nombre_visible = False
         self.dibujar()
         L = self.layout()
-        tipo = preguntas.elegir_tipo(self.juego, self.aa)
-        # la pregunta tapa la arena y tu recuadro completos, sin salirse
+        # la pregunta tapa la arena y tu recuadro completos, sin salirse; la
+        # estructura queda a la izquierda, a la vista
         bien = preguntas.preguntar(self.win, self.juego, self.aa, tipo,
                                    L["arena"], L["x"], L["w"],
-                                   alto_min=L["yo"] + 4 - L["arena"])
+                                   alto_min=L["yo"] + 4 - L["arena"], estructura=True)
+        self.nombre_visible = visible
         a = datos.AMINOACIDOS[self.aa]
         if bien:
             self.nombre_visible = self.tipos_visible = True

@@ -55,8 +55,8 @@ EN = {
         'Glossary',
     'Preguntas que pueden salir al lanzar el ARNt':
         'Questions that can come up when you throw the tRNA',
-    '  1.ª: ¿qué aminoácido es?  2.ª: código de 3 letras  3.ª: código de 1 letra':
-        '  1st: which amino acid is it?  2nd: 3-letter code  3rd: 1-letter code',
+    '  Por su estructura: nombre → código de 3 letras → código de 1 letra':
+        '  From its structure: name → 3-letter code → 1-letter code',
     '  Después: carga · grupo · pKR · pI · calcular el pI · nutrición ·':
         '  After that: charge · group · pKR · pI · calculate the pI · nutrition ·',
     '           codón · hidropatía':
@@ -77,8 +77,8 @@ EN = {
         'With affinity ≥ 50 throw a tRNA (T) and answer the question correctly. The rival responds with thermal agitation that lowers your ENERGY.',
     'Las animaciones muestran los grupos químicos reales y un subtítulo con cada paso; cualquier tecla las salta.':
         'The animations show the real chemical groups and a subtitle for each step; any key skips them.',
-    '1.ª vez: ¿cuál es? 2.ª: código de 3 letras. 3.ª: de 1 letra. Después: carga, grupo, pKR, pI (y calcularlo), nutrición, codones e hidropatía. Lo que fallas vuelve más seguido.':
-        '1st time: which one is it? 2nd: 3-letter code. 3rd: 1-letter code. After that: charge, group, pKR, pI (and calculating it), nutrition, codons and hydropathy. What you get wrong comes back more often.',
+    'Para atraparlo hay que reconocer su estructura: primero el nombre, luego el código de 3 letras y luego el de 1. Subes de paso al acertar más de lo que fallas. Después se mezclan carga, grupo, pKR, pI (y calcularlo), nutrición, codones e hidropatía. Los aminoácidos que fallas salen más en el campo; en la Aminodex [P] practicas los pares que más se confunden.':
+        'To catch it you must recognize its structure: first the name, then the 3-letter code, then the 1-letter code. You move up a step once you get it right more often than wrong. After that, charge, group, pKR, pI (and calculating it), nutrition, codons and hydropathy are mixed in. Amino acids you miss show up more in the field; in the Aminodex, [P] practices the pairs that are most often confused.',
     'Cada jefe pide construir un péptido con lo que ya capturaste; al lograrlo ves tu péptido dibujado. El poro nuclear es un jefe: necesitas una NLS con al menos 4 Lys (viven en los ribosomas ÷) para entrar al núcleo. La Arg solo vive adentro (núcleo y nucléolo). En cada reto puedes usar cada aminoácido tantas veces como lo tengas en tu equipo.':
         "Each boss asks you to build a peptide with what you've caught; when you succeed you see your peptide drawn. The nuclear pore is a boss: you need an NLS with at least 4 Lys (they live in the ribosomes ÷) to enter the nucleus. Arg only lives inside (nucleus and nucleolus). In each challenge you can use each amino acid as many times as you have it in your team.",
     'Habla con el René-virus (V): su examen final te pide traducir ARNm y analizar mutaciones reales (anemia falciforme, fibrosis quística, KRAS, Huntington…).':

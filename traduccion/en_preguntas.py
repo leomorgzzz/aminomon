@@ -15,8 +15,8 @@ EN = {
         'acidic',
     'Incorrecto. Era: {respuesta}. ':
         'Wrong. It was: {respuesta}. ',
-    '¿Qué aminoácido es este?':
-        'Which amino acid is this?',
+    '¿Qué aminoácido es este? Fíjate en su cadena lateral.':
+        'Which amino acid is this? Look at its side chain.',
     'Es {nombre} ({tres}, {una}). {pista}':
         "It's {nombre} ({tres}, {una}). {pista}",
     'Escribe el código de 3 letras de {nombre}:':
@@ -75,4 +75,32 @@ EN = {
         'K: the letter before L (lysine).',
     "R de 'aRginina'.":
         "R from 'aRginine'.",
+    "I de 'Isoleucina'; la L se la quedó Leu.":
+        "I from 'Isoleucine'; Leu already had L.",
+    "T de 'Treonina'; la S es de Ser.":
+        "T from 'Threonine'; S belongs to Ser.",
+    "Gln (Q) y Asn (N) son las amidas: Gln tiene un CH2 más, igual que Glu frente a Asp. N de asparagiNe; Q de 'Q-tamina'.":
+        "Gln (Q) and Asn (N) are the amides: Gln has one more CH2, just like Glu versus Asp. N from asparagiNe; Q from 'Q-tamine'.",
+    'Glu (E) y Asp (D) son los ácidos: Glu tiene un CH2 más. Asp es el corto y va primero, como la D antes de la E.':
+        'Glu (E) and Asp (D) are the acids: Glu has one more CH2. Asp is the short one and comes first, like D before E.',
+    'Ile y Leu tienen la misma fórmula: Ile se ramifica en el carbono β (pegado al Cα) y Leu en el γ, un carbono más lejos.':
+        'Ile and Leu share the same formula: Ile branches at the β carbon (next to Cα) and Leu at the γ carbon, one carbon further.',
+    'Ser (S) termina en CH2-OH; Thr (T) tiene además un metilo en el carbono β: CH(OH)-CH3.':
+        'Ser (S) ends in CH2-OH; Thr (T) also has a methyl on the β carbon: CH(OH)-CH3.',
+    'Trp = W: anillo doble (double ring). La T ya era de Thr y la P de Pro.':
+        'Trp = W: double ring. T was already Thr and P was Pro.',
+    'Lys = K: la letra antes de L, porque la L ya era de Leu.':
+        'Lys = K: the letter before L, because L was already Leu.',
+    '¿Cuál es el código de 3 letras de este aminoácido?':
+        'What is the 3-letter code of this amino acid?',
+    '¿Cuál es el código de 1 letra de este aminoácido?':
+        'What is the 1-letter code of this amino acid?',
+    'Captura primero a alguno de estos: Gln, Asn, Glu, Asp, Ile, Leu, Ser, Thr, Trp o Lys.':
+        'First catch one of these: Gln, Asn, Glu, Asp, Ile, Leu, Ser, Thr, Trp or Lys.',
+    'Práctica de pares':
+        'Pair practice',
+    'PRÁCTICA DE PARES · {i}/{total} · aciertos {n}':
+        'PAIR PRACTICE · {i}/{total} · correct {n}',
+    '{n}/{total} correctas. Los que fallaste saldrán más seguido, en la práctica y en el campo.':
+        '{n}/{total} correct. The ones you missed will show up more often, in practice and in the field.',
 }

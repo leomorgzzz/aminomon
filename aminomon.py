@@ -366,10 +366,9 @@ class Partida:
             f = datos.forma(m["id"])
             base = datos.AMINOACIDOS[f["base"]]
             if f["evo"] and marcar:
-                attr = d.c(f["tipos"][0], curses.A_BOLD | curses.A_REVERSE)
+                casillas.append((x, y, f["base"], f["tipos"][0], curses.A_BOLD | curses.A_REVERSE))
             else:
-                attr = d.c(base["tipos"][0], curses.A_BOLD)
-            casillas.append((x, y, f["base"], attr))
+                casillas.append((x, y, f["base"], base["tipos"][0], curses.A_BOLD))
         return casillas
 
     def panel(self, x, alto):
@@ -601,7 +600,8 @@ class Partida:
     def encuentro(self, zona):
         j = self.juego
         info = datos.ZONAS[zona]
-        aa = random.choice(info["aminos"])
+        # salen más los que fallas al reconocerlos y menos los que ya dominas
+        aa = random.choices(info["aminos"], [progreso.peso_aa(j, a) for a in info["aminos"]])[0]
         nivel = random.randint(*info["niveles"])
         self.dibujar()
         curses.flushinp()
