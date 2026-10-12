@@ -2,24 +2,31 @@
 
 *[English](README.md) · Español*
 
+![Combate](capturas/juego-combate.png)
+
 RPG por turnos en la terminal para aprender los 20 aminoácidos estándar:
 cadena lateral, tipo químico, carga, pK1/pK2/pKR, pI, hidropatía,
 clasificación nutricional, codones y modificaciones postraduccionales.
+
+Valores de Lehninger a 25 °C; hidropatía de Kyte-Doolittle (1982)
+([Fuentes](#fuentes)).
+
+**Jugar:**
+
+- **Windows:** [Aminomon-Instalador-Windows.exe](https://github.com/leomorgzzz/aminomon/releases/latest/download/Aminomon-Instalador-Windows.exe), instala y a jugar.
+- **macOS:** [Aminomon-macOS.zip](https://github.com/leomorgzzz/aminomon/releases/latest/download/Aminomon-macOS.zip), descomprime y doble clic.
+- **Linux:** `git clone https://github.com/leomorgzzz/aminomon.git && cd aminomon && ./instalar.sh && aminomon`
 
 > **En desarrollo.** El juego se sigue actualizando: al abrirlo te avisa si hay
 > una versión nueva y se actualiza desde la pantalla de título, sin reinstalar.
 > Tu partida se conserva. Errores, ideas o datos que corregir:
 > [Issues](https://github.com/leomorgzzz/aminomon/issues).
 
-**Descargar:** [Windows](https://github.com/leomorgzzz/aminomon/releases/latest/download/Aminomon-Instalador-Windows.exe) · [macOS](https://github.com/leomorgzzz/aminomon/releases/latest/download/Aminomon-macOS.zip) · instala y a jugar.
-
 ## Capturas
 
 ![Pantalla de inicio](capturas/pantalla-de-inicio.png)
 
 ![Mapa de la célula](capturas/juego-mapa.png)
-
-![Combate](capturas/juego-combate.png)
 
 ## Instalación
 

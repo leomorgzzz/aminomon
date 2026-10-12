@@ -2,26 +2,33 @@
 
 *English · [Español](README.es.md)*
 
+![Battle](capturas/juego-combate.png)
+
 A turn-based terminal RPG for learning the 20 standard amino acids. To catch
 one you have to recognize its structure, and the ones you miss keep showing up
 until you know them: name, 3- and 1-letter codes, side chain, chemical type,
 charge, pK1/pK2/pKR, pI, hydropathy, nutritional class, codons and
 post-translational modifications.
 
+Values from Lehninger at 25 °C; hydropathy from Kyte-Doolittle (1982)
+([Sources](#sources)).
+
+**Play:**
+
+- **Windows:** [Aminomon-Instalador-Windows.exe](https://github.com/leomorgzzz/aminomon/releases/latest/download/Aminomon-Instalador-Windows.exe), install and play.
+- **macOS:** [Aminomon-macOS.zip](https://github.com/leomorgzzz/aminomon/releases/latest/download/Aminomon-macOS.zip), unzip and double-click.
+- **Linux:** `git clone https://github.com/leomorgzzz/aminomon.git && cd aminomon && ./instalar.sh && aminomon`
+
 > **Work in progress.** The game keeps getting updated: when you open it, it
 > tells you if there's a new version and updates from the title screen, no
 > reinstall needed. Your save is kept. Bugs, ideas or data to fix:
 > [Issues](https://github.com/leomorgzzz/aminomon/issues).
-
-**Download:** [Windows](https://github.com/leomorgzzz/aminomon/releases/latest/download/Aminomon-Instalador-Windows.exe) · [macOS](https://github.com/leomorgzzz/aminomon/releases/latest/download/Aminomon-macOS.zip) · install and play.
 
 ## Screenshots
 
 ![Title screen](capturas/pantalla-de-inicio.png)
 
 ![Cell map](capturas/juego-mapa.png)
-
-![Battle](capturas/juego-combate.png)
 
 ## Installation
 
