@@ -167,4 +167,60 @@ EN = {
         '(only the side chain is shown; the backbone is the same in all)',
     'Volver':
         'Back',
+    'Captura primero algún aminoácido con un grupo al final de la cadena (Ser, Cys, Lys, Asp…).':
+        'First catch an amino acid with a group at the end of its chain (Ser, Cys, Lys, Asp…).',
+    'Completa la cadena lateral':
+        'Complete the side chain',
+    'COMPLETA LA CADENA LATERAL · {i}/{total} · aciertos {n}':
+        'COMPLETE THE SIDE CHAIN · {i}/{total} · correct {n}',
+    'Correcto.':
+        'Correct.',
+    '¿Cuál es diferente?':
+        'Which one is different?',
+    '¿CUÁL ES DIFERENTE? · {i}/{total} · aciertos {n}':
+        'WHICH ONE IS DIFFERENT? · {i}/{total} · correct {n}',
+    '¿Cuál es diferente? (4 estructuras, una no es del grupo)':
+        "Which one is different? (4 structures, one isn't in the group)",
+    'Hoy no te toca repasar ninguno. Los que aciertas vuelven en 1, 3, 7 y 14 días; los que fallas, al día siguiente.':
+        'Nothing to review today. The ones you get right come back after 1, 3, 7 and 14 days; the ones you miss, the next day.',
+    'Incorrecto. Era: {g}.':
+        'Wrong. It was: {g}.',
+    'Incorrecto: era la {n}).':
+        'Wrong: it was number {n}).',
+    'Nombre → completa la cadena lateral':
+        'Name → complete the side chain',
+    '{nombre}: grupo R {r}.':
+        '{nombre}: R group {r}.',
+    '{nombres}: {grupo}. {intruso}: {otro}.':
+        '{nombres}: {grupo}. {intruso}: {otro}.',
+    '¿Qué grupo falta en {nombre}?':
+        'Which group is missing in {nombre}?',
+    'Repaso de hoy':
+        "Today's review",
+    'Repaso de hoy: {n} por repasar':
+        "Today's review: {n} to review",
+    'Tres son del mismo grupo y una no. ¿Cuál? Pulsa 1-4 · Esc salir':
+        "Three are in the same group and one isn't. Which? Press 1-4 · Esc quit",
+    '–H (nada más)':
+        '–H (nothing else)',
+    '–CH3':
+        '–CH3',
+    '–OH':
+        '–OH',
+    '–SH':
+        '–SH',
+    '–OH (fenol)':
+        '–OH (phenol)',
+    '–S–CH3 (tioéter)':
+        '–S–CH3 (thioether)',
+    '–CONH2 (amida)':
+        '–CONH2 (amide)',
+    '–COO− (carboxilato)':
+        '–COO− (carboxylate)',
+    '–NH3+ (amino)':
+        '–NH3+ (amino)',
+    'fenilo (anillo)':
+        'phenyl (ring)',
+    'indol (doble anillo)':
+        'indole (double ring)',
 }

@@ -6,6 +6,7 @@ import datos
 import dibujo as d
 import jefes
 import preguntas
+import progreso
 from idioma import tr
 
 AA = datos.AMINOACIDOS
@@ -215,9 +216,12 @@ def mostrar(win, juego):
         if juego.get("doctorado"):
             partes.append(tr("péptidos {n}/{total}", n=len(juego["peptidos"]),
                              total=len(datos.PEPTIDOS)))
+        partes.insert(3, tr("repasar hoy {n}", n=len(progreso.para_hoy(juego))))
         cabecera = "  ·  ".join(partes)
-        if len(cabecera) > ancho - 2:       # en 80 columnas no cabe todo
-            del partes[3]
+        for quitar in (4, 4):               # en 80 columnas no cabe todo: vistos, modificaciones
+            if len(cabecera) <= ancho - 2:
+                break
+            del partes[quitar]
             cabecera = " · ".join(partes)
         d.put(win, 0, 1, cabecera, d.c("titulo", curses.A_BOLD))
         d.put(win, 1, 0, "─" * ancho, d.c("tenue"))

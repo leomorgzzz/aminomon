@@ -166,6 +166,33 @@ def registrar(juego, clave, acierto):
         sonar(acierto)
 
 
+# repetición espaciada (cajas de Leitner): al acertar sube de caja y vuelve
+# más tarde; al fallar regresa a la caja 1 y sale al día siguiente
+INTERVALOS = [0, 1, 3, 7, 14, 30]
+
+
+def _hoy():
+    import datetime
+    return datetime.date.today()
+
+
+def repasar(juego, aa, acierto):
+    import datetime
+    cajas = juego.setdefault("leitner", {})
+    caja = cajas.get(aa, {}).get("caja", 0)
+    caja = min(caja + 1, len(INTERVALOS) - 1) if acierto else 1
+    proxima = _hoy() + datetime.timedelta(days=INTERVALOS[caja])
+    cajas[aa] = dict(caja=caja, proxima=proxima.isoformat())
+
+
+def para_hoy(juego):
+    """Capturados que toca repasar hoy: los vencidos y los que nunca se repasaron."""
+    hoy = _hoy().isoformat()
+    cajas = juego.get("leitner", {})
+    return [aa for aa in datos.ORDEN if juego["capturados"].get(aa)
+            and cajas.get(aa, {}).get("proxima", "") <= hoy]
+
+
 def sonar(acierto):
     """Campana de la terminal: una al acertar, dos al fallar (opcional, tecla B)."""
     import curses

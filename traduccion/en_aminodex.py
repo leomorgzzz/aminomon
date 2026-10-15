@@ -81,4 +81,6 @@ EN = {
         '  right/wrong',
     'Lo confundes con':
         'You mix it up with',
+    'repasar hoy {n}':
+        'review today {n}',
 }
