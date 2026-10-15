@@ -10,6 +10,10 @@ until you know them: name, 3- and 1-letter codes, side chain, chemical type,
 charge, pK1/pK2/pKR, pI, hydropathy, nutritional class, codons and
 post-translational modifications.
 
+**Who is it for?** Anyone who has to learn the amino acids for a biochemistry
+or biology course, from high school to grad school. You don't need to know
+anything: the game starts with Met and the manual (M) explains each property.
+
 Values from Lehninger at 25 °C; hydropathy from Kyte-Doolittle (1982)
 ([Sources](#sources)).
 
@@ -65,13 +69,15 @@ only happens when installing. To uninstall: **Settings → Apps**.
 
 For Macs with Apple silicon (M1 or later).
 
-### Files it creates
+### What it saves and what it connects to
+
+It only writes these files:
 
 - `~/.aminomon.json`: your save (on Windows, `~` is `C:\Users\<your user>`);
 - `~/.aminomon_idioma`: the language (the first time it follows your system).
 
-On startup the game asks GitHub whether there's a new version; it sends
-nothing else. To turn it off: `aminomon --no-update`.
+Its only connection: on startup it asks GitHub whether there's a new version,
+and it sends nothing else. To turn it off: `aminomon --no-update`.
 
 ## Leaving full screen
 

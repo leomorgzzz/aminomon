@@ -8,6 +8,10 @@ RPG por turnos en la terminal para aprender los 20 aminoácidos estándar:
 cadena lateral, tipo químico, carga, pK1/pK2/pKR, pI, hidropatía,
 clasificación nutricional, codones y modificaciones postraduccionales.
 
+**¿Para quién es?** Para quien tiene que aprenderse los aminoácidos en un curso
+de bioquímica o biología, de prepa a posgrado. No necesitas saber nada: empiezas
+con la Met y el manual (M) explica cada propiedad.
+
 Valores de Lehninger a 25 °C; hidropatía de Kyte-Doolittle (1982)
 ([Fuentes](#fuentes)).
 
@@ -65,13 +69,15 @@ Sin instalar: `python3 aminomon.py`. Actualizar: `aminomon --update` (hace
 Desde el código requiere Python 3 (solo biblioteca estándar; en Windows instala
 `windows-curses` la primera vez). Funciona desde 80×24.
 
-Archivos que crea:
+### Qué guarda y qué conecta
+
+Solo escribe estos archivos:
 
 - `~/.aminomon.json`: la partida (en Windows, `~` es `C:\Users\<tu usuario>`);
 - `~/.aminomon_idioma`: el idioma (la primera vez se usa el del sistema).
 
-Al abrir, el juego consulta en GitHub si hay una versión nueva; no envía nada
-más. Para desactivarlo: `aminomon --sin-actualizar`.
+Su única conexión: al abrir, consulta en GitHub si hay una versión nueva, y no
+envía nada más. Para desactivarla: `aminomon --sin-actualizar`.
 
 ## Salir de pantalla completa
 
