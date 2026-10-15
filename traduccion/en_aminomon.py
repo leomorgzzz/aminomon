@@ -169,4 +169,6 @@ EN = {
         'The game will close to install the new version and will reopen on its own when it finishes. Your progress is kept.',
     'Actualizar a {version}':
         'Update to {version}',
+    '¡{nombre} se unió a tu equipo!':
+        '{nombre} joined your team!',
 }

@@ -278,6 +278,46 @@ def titulo(win):
         return opciones[sel]
 
 
+CARITA = [
+    "  .-\"\"\"-.  ",
+    " /  ^ ^  \\ ",
+    "|  \\___/  |",
+    " \\       / ",
+    "  '-...-'  ",
+]
+
+
+def bienvenida(win, c):
+    """Tarjeta «¡X se unió a tu equipo!» con su estructura y una carita feliz."""
+    a = datos.AMINOACIDOS[c]
+    arte = datos.forma(c)["arte"]
+    etiqueta = datos.GRUPO_R[c][0]
+    color = a["tipos"][0]
+    alto, ancho = win.getmaxyx()
+    ancho_est = d.ancho_estructura(arte, etiqueta)
+    w = min(ancho - 2, max(60, ancho_est + len(CARITA[0]) + 12))
+    h = min(alto - 1, max(len(arte) + 2, len(CARITA)) + 8)
+    y0, x0 = (alto - h) // 2, (ancho - w) // 2
+    win.erase()
+    d.caja(win, y0, x0, h, w, attr=d.c(color, curses.A_BOLD))
+    titulo = tr("¡{nombre} se unió a tu equipo!", nombre=a["nombre"])
+    d.put(win, y0 + 1, x0 + (w - len(titulo)) // 2, titulo, d.c("bien", curses.A_BOLD))
+    codigos = f"{a['tres']} · {a['una']}"
+    d.put(win, y0 + 2, x0 + (w - len(codigos)) // 2, codigos, d.c("titulo"))
+    yc = y0 + 4
+    xc = x0 + 3
+    for i, l in enumerate(CARITA):
+        d.put(win, yc + max(0, len(arte) - len(CARITA)) // 2 + i, xc, l,
+              d.c("titulo", curses.A_BOLD))
+    d.estructura(win, yc, xc + len(CARITA[0]) + 5, arte, etiqueta_r=etiqueta, color_r=color)
+    d.etiqueta_tipos(win, y0 + h - 3, x0 + 3, a["tipos"])
+    d.put(win, y0 + h - 2, x0 + w - 18, tr("[Enter] seguir"), d.c("tenue"))
+    win.refresh()
+    curses.flushinp()
+    while d.tecla(win) not in ("\n", "\r", " ", curses.KEY_ENTER, "\x1b"):
+        pass
+
+
 def intro(win):
     juego = progreso.nuevo_juego(mapa.INICIO)
     d.dialogo(win, [
@@ -295,6 +335,7 @@ def intro(win):
         tr("Empiezas con Metionina: AUG es el codón de inicio, así que toda proteína se empieza a sintetizar con ella."),
     ], tr("René-virus"))
     progreso.capturar(juego, "M", 3)
+    bienvenida(win, "M")
 
     while True:
         alto, ancho = win.getmaxyx()
@@ -326,6 +367,7 @@ def intro(win):
             if d.menu(win, tr("¿Elegir a {nombre}?", nombre=a["nombre"]), [tr("Sí"), tr("No")]) == 0:
                 break
     progreso.capturar(juego, c, 3)
+    bienvenida(win, c)
     d.dialogo(win, [
         tr("Tu equipo inicial: Metionina y {nombre}.\n\n"
            "En las zonas marcadas con símbolos aparecen aminoácidos salvajes. "
