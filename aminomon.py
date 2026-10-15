@@ -425,7 +425,7 @@ class Partida:
                   d.c("tenue"))
         mapa.dibujar(w, 1, 0, vh, vw, j, self.cadena())
         d.put(w, alto - 2, 1, self.mensaje[: ancho - 2], d.c("texto"))
-        pie = tr("WASD/flechas mover · M manual · X aminodex (P practicar) · E equipo · G guardar · Q salir")
+        pie = tr("WASD/flechas mover · M manual · X Aminodex (P practicar) · E equipo · G guardar · Q salir")
         if "cadena" in j["recompensas"]:
             pie += tr(" · P cadena")
         d.put(w, alto - 1, 1, pie, d.c("tenue"))

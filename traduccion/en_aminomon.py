@@ -7,8 +7,8 @@ EN = {
         'René-virus',
     'Explora la célula. [M] abre el manual.':
         'Explore the cell. [M] opens the manual.',
-    'WASD/flechas mover · M manual · X aminodex (P practicar) · E equipo · G guardar · Q salir':
-        'WASD/arrows move · M manual · X aminodex (P practice) · E team · G save · Q quit',
+    'WASD/flechas mover · M manual · X Aminodex (P practicar) · E equipo · G guardar · Q salir':
+        'WASD/arrows move · M manual · X Aminodex (P practice) · E team · G save · Q quit',
     'Insignias ':
         'Badges ',
     'Entraste a: {zona}':

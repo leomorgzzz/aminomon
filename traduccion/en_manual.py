@@ -220,7 +220,7 @@ EN = {
     'No polar + No polar / Aromático':
         'Nonpolar + Nonpolar / Aromatic',
     'No polar + Polar / Cargado':
-        'Nonpolar + Polar / charged',
+        'Nonpolar + Polar / Charged',
     'Aromático + Aromático':
         'Aromatic + Aromatic',
     'Aromático + Cargado +':
@@ -230,7 +230,7 @@ EN = {
     'Polar + Polar':
         'Polar + Polar',
     'Polar + Cargado':
-        'Polar + charged',
+        'Polar + Charged',
     'Cargado + + Cargado −':
         'Charged + + Charged −',
     'Misma carga':
