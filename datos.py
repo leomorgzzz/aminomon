@@ -294,7 +294,7 @@ AMINOACIDOS = {
             "      O    NH2",
         ],
         pista="Amida de Asp. Primer aminoácido aislado (de los espárragos). "
-              "Sitio de N-glicosilación (secuón N-X-S/T).",
+              "Sitio de N-glicosilación (secuencia consenso N-X-S/T).",
     ),
     "Q": dict(
         nombre="Glutamina", tres="Gln", grupo="polar", tipos=("POL",),
@@ -588,7 +588,7 @@ MODIFICACIONES = {
         base="N", nombre="Asn N-glicosilada", tres="Asn-Glc", tipos=("POL",),
         carga="Neutra", req=dict(nivel=5, zona="re"),
         cambio="Se le une un árbol de azúcares al N de la amida: aún más polar.",
-        bio="La oligosacariltransferasa (OST) del RE la añade en el secuón "
+        bio="La oligosacariltransferasa (OST) del RE la añade en la secuencia consenso "
             "N-X-S/T (X ≠ Pro). Los glicanos ayudan al plegamiento (ciclo "
             "calnexina/calreticulina) y al control de calidad.",
         pista="La OST trabaja en el retículo endoplásmico.",
@@ -604,7 +604,7 @@ MODIFICACIONES = {
                "siendo polar, pero ahora carga un azúcar.",
         bio="Las GalNAc-transferasas (GALNT) del Golgi le ponen la GalNAc y luego "
             "se alarga a un O-glicano tipo mucina. A diferencia de la "
-            "N-glicosilación de la Asn (en el RE, sobre el secuón N-X-S/T), no "
+            "N-glicosilación de la Asn (en el RE, sobre la secuencia consenso N-X-S/T), no "
             "tiene secuencia consenso y empieza en el Golgi. La GalNAc sola es el "
             "antígeno Tn, que aparece en muchos tumores.",
         pista="Las GALNT trabajan en el aparato de Golgi.",

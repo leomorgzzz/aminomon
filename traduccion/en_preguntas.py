@@ -37,8 +37,12 @@ EN = {
         'According to Kyte-Doolittle, {nombre} is…',
     '¿pKR (cadena lateral) de {nombre}?':
         'pKR (side chain) of {nombre}?',
-    '¿Punto isoeléctrico (pI) de {nombre}?':
-        'Isoelectric point (pI) of {nombre}?',
+    '{nombre}: pK1 {pk1:.2f}, pK2 {pk2:.2f}, pKR {pkr:.2f}. ¿Su punto isoeléctrico (pI)?':
+        '{nombre}: pK1 {pk1:.2f}, pK2 {pk2:.2f}, pKR {pkr:.2f}. Its isoelectric point (pI)?',
+    '{nombre}: pK1 {pk1:.2f}, pK2 {pk2:.2f}. ¿Su punto isoeléctrico (pI)?':
+        '{nombre}: pK1 {pk1:.2f}, pK2 {pk2:.2f}. Its isoelectric point (pI)?',
+    'pKR (Lehninger, 25 °C): Asp 3.65, Glu 4.25, His 6.00, Cys 8.18, Tyr 10.07, Lys 10.53, Arg 12.48.':
+        'pKR (Lehninger, 25 °C): Asp 3.65, Glu 4.25, His 6.00, Cys 8.18, Tyr 10.07, Lys 10.53, Arg 12.48.',
     'pI = ({p1:.2f} + {p2:.2f}) / 2 = {pi:.2f}. Extremos: Asp 2.77 (el más ácido) y Arg 10.76 (el más básico).':
         'pI = ({p1:.2f} + {p2:.2f}) / 2 = {pi:.2f}. Extremes: Asp 2.77 (the most acidic) and Arg 10.76 (the most basic).',
     'básico':

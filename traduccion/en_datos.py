@@ -285,7 +285,7 @@ EN = {
         "Thiol (SH). Two Cys oxidize and form a disulfide bridge (cystine). Lehninger classifies it as polar uncharged, although its KD (+2.5) shows it's quite hydrophobic.",
     'Asparagina':
         'Asparagine',
-    'Amida de Asp. Primer aminoácido aislado (de los espárragos). Sitio de N-glicosilación (secuón N-X-S/T).':
+    'Amida de Asp. Primer aminoácido aislado (de los espárragos). Sitio de N-glicosilación (secuencia consenso N-X-S/T).':
         'Amide of Asp. The first amino acid ever isolated (from asparagus). N-glycosylation site (sequon N-X-S/T).',
     'Glutamina':
         'Glutamine',
@@ -393,7 +393,7 @@ EN = {
         'N-glycosyl Asn',
     'Se le une un árbol de azúcares al N de la amida: aún más polar.':
         'A tree of sugars attaches to the amide N: even more polar.',
-    'La oligosacariltransferasa (OST) del RE la añade en el secuón N-X-S/T (X ≠ Pro). Los glicanos ayudan al plegamiento (ciclo calnexina/calreticulina) y al control de calidad.':
+    'La oligosacariltransferasa (OST) del RE la añade en la secuencia consenso N-X-S/T (X ≠ Pro). Los glicanos ayudan al plegamiento (ciclo calnexina/calreticulina) y al control de calidad.':
         "The ER's oligosaccharyltransferase (OST) adds it at the sequon N-X-S/T (X ≠ Pro). Glycans help folding (calnexin/calreticulin cycle) and quality control.",
     'La OST trabaja en el retículo endoplásmico.':
         'OST works in the endoplasmic reticulum.',
@@ -401,7 +401,7 @@ EN = {
         'O-glycosyl Ser',
     'Se le une una N-acetilgalactosamina (GalNAc) al O del OH: sigue siendo polar, pero ahora carga un azúcar.':
         "An N-acetylgalactosamine (GalNAc) attaches to the O of the OH: it's still polar, but now carries a sugar.",
-    'Las GalNAc-transferasas (GALNT) del Golgi le ponen la GalNAc y luego se alarga a un O-glicano tipo mucina. A diferencia de la N-glicosilación de la Asn (en el RE, sobre el secuón N-X-S/T), no tiene secuencia consenso y empieza en el Golgi. La GalNAc sola es el antígeno Tn, que aparece en muchos tumores.':
+    'Las GalNAc-transferasas (GALNT) del Golgi le ponen la GalNAc y luego se alarga a un O-glicano tipo mucina. A diferencia de la N-glicosilación de la Asn (en el RE, sobre la secuencia consenso N-X-S/T), no tiene secuencia consenso y empieza en el Golgi. La GalNAc sola es el antígeno Tn, que aparece en muchos tumores.':
         "The Golgi's GalNAc-transferases (GALNTs) add the GalNAc, which is then extended into a mucin-type O-glycan. Unlike Asn N-glycosylation (in the ER, on the N-X-S/T sequon), it has no consensus sequence and starts in the Golgi. GalNAc alone is the Tn antigen, which shows up in many tumors.",
     'Las GALNT trabajan en el aparato de Golgi.':
         'GALNTs work in the Golgi apparatus.',

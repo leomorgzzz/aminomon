@@ -104,8 +104,8 @@ JEFES = {
             "Golgi, las GalNAc-transferasas ponen O-glicanos en casi todas sus "
             "Ser/Thr: la proteína queda cubierta de azúcares y atrapa agua "
             "(el moco). La N-glicosilación de la Asn es igual de común, pero "
-            "empieza antes: la OST del RE la pone durante la traducción sobre el "
-            "secuón N-X-S/T. Con nivel 5, tus Ser y Thr se pueden O-glicosilar "
+            "empieza antes: la OST del RE la pone durante la traducción sobre la "
+            "secuencia consenso N-X-S/T. Con nivel 5, tus Ser y Thr se pueden O-glicosilar "
             "dentro del Golgi (Equipo → V).",
         premio=("ATP", 3),
     ),
@@ -114,7 +114,8 @@ JEFES = {
         desc="Construye un péptido de 3 a 8 residuos casi neutro en el "
              "citosol (carga entre −1 y +1 a pH 7.4) que se vuelva claramente "
              "positivo en el lisosoma (carga ≥ +2 a pH 5). Se cuentan solo las "
-             "cadenas laterales.",
+             "cadenas laterales. Pista: usa varias His (pKR 6.0), casi neutras a "
+             "pH 7.4 y casi todas protonadas a pH 5.",
         utiles="H",
         condiciones=lambda s: [(tr("Entre 3 y 8 residuos"), 3 <= len(s) <= 8),
                                (tr("Carga a pH 7.4 entre −1 y +1"), -1 <= carga_ph(s, 7.4) <= 1),
@@ -126,7 +127,8 @@ JEFES = {
     ),
     "mec": dict(
         nombre="Guardián del Colágeno", reto="Hebra de colágeno",
-        desc="Construye una hebra con el patrón Gly-X-Y: al menos 9 residuos, "
+        desc="Construye una hebra con el patrón Gly-X-Y, donde X y Y son "
+             "cualquier aminoácido (la Y no es Tyr): al menos 9 residuos, "
              "una Gly cada 3 (puede empezar en la posición 1, 2 o 3) y al menos "
              "una P.",
         utiles="GP",
@@ -181,7 +183,7 @@ def _nota(zona, seq, i):
         return (tr("► receptor"), "titulo") if i >= len(seq) - 4 else ("", "tenue")
     if zona == "golgi":
         if c == "N" and i + 2 < len(seq) and seq[i + 1] != "P" and seq[i + 2] in "ST":
-            return tr("♦ N-glic."), "POL"          # secuón N-X-S/T: glicano del RE
+            return tr("♦ N-glic."), "POL"          # secuencia consenso N-X-S/T: glicano del RE
         return ("◊ O-GalNAc", "POL") if c in "ST" else ("", "tenue")
     if zona == "mec":
         o = marco_colageno(seq) or 0

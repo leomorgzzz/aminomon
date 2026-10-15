@@ -193,22 +193,22 @@ EN = {
         'Mucin-type domain',
     'En el Golgi se añaden O-glicanos al OH de Ser y Thr. Construye un dominio tipo mucina: al menos 6 residuos y al menos 60% de S o T. (La Asn llega del RE ya N-glicosilada; aquí solo se recorta su glicano.)':
         'In the Golgi, O-glycans are added to the OH of Ser and Thr. Build a mucin-type domain: at least 6 residues and at least 60% S or T. (Asn arrives from the ER already N-glycosylated; here its glycan is only trimmed.)',
-    'Las mucinas tienen dominios ricos en Pro, Thr y Ser (PTS). En el Golgi, las GalNAc-transferasas ponen O-glicanos en casi todas sus Ser/Thr: la proteína queda cubierta de azúcares y atrapa agua (el moco). La N-glicosilación de la Asn es igual de común, pero empieza antes: la OST del RE la pone durante la traducción sobre el secuón N-X-S/T. Con nivel 5, tus Ser y Thr se pueden O-glicosilar dentro del Golgi (Equipo → V).':
+    'Las mucinas tienen dominios ricos en Pro, Thr y Ser (PTS). En el Golgi, las GalNAc-transferasas ponen O-glicanos en casi todas sus Ser/Thr: la proteína queda cubierta de azúcares y atrapa agua (el moco). La N-glicosilación de la Asn es igual de común, pero empieza antes: la OST del RE la pone durante la traducción sobre la secuencia consenso N-X-S/T. Con nivel 5, tus Ser y Thr se pueden O-glicosilar dentro del Golgi (Equipo → V).':
         "Mucins have domains rich in Pro, Thr and Ser (PTS). In the Golgi, GalNAc-transferases put O-glycans on almost all of their Ser/Thr: the protein ends up coated in sugars and traps water (mucus). Asn N-glycosylation is just as common, but it starts earlier: the ER's OST adds it during translation at the N-X-S/T sequon. At level 5, your Ser and Thr can be O-glycosylated inside the Golgi (Team → V).",
     'Guardiana del Lisosoma':
         'Lysosome Guardian',
     'Sensor de pH':
         'pH sensor',
-    'Construye un péptido de 3 a 8 residuos casi neutro en el citosol (carga entre −1 y +1 a pH 7.4) que se vuelva claramente positivo en el lisosoma (carga ≥ +2 a pH 5). Se cuentan solo las cadenas laterales.':
-        'Build a peptide of 3 to 8 residues that is nearly neutral in the cytosol (charge between −1 and +1 at pH 7.4) and becomes clearly positive in the lysosome (charge ≥ +2 at pH 5). Only side chains count.',
+    'Construye un péptido de 3 a 8 residuos casi neutro en el citosol (carga entre −1 y +1 a pH 7.4) que se vuelva claramente positivo en el lisosoma (carga ≥ +2 a pH 5). Se cuentan solo las cadenas laterales. Pista: usa varias His (pKR 6.0), casi neutras a pH 7.4 y casi todas protonadas a pH 5.':
+        'Build a peptide of 3 to 8 residues that is nearly neutral in the cytosol (charge between −1 and +1 at pH 7.4) and becomes clearly positive in the lysosome (charge ≥ +2 at pH 5). Only side chains count. Hint: use several His (pKR 6.0), almost neutral at pH 7.4 and almost fully protonated at pH 5.',
     'La His (pKR 6) es la única cadena lateral que cambia mucho de carga entre pH 7.4 y 5. Así funcionan los péptidos que escapan de endosomas y muchos sensores de pH en proteínas.':
         "His (pKR 6) is the only side chain whose charge changes a lot between pH 7.4 and 5. That's how endosome-escaping peptides and many protein pH sensors work.",
     'Guardián del Colágeno':
         'Collagen Guardian',
     'Hebra de colágeno':
         'Collagen strand',
-    'Construye una hebra con el patrón Gly-X-Y: al menos 9 residuos, una Gly cada 3 (puede empezar en la posición 1, 2 o 3) y al menos una P.':
-        'Build a strand with the Gly-X-Y pattern: at least 9 residues, a Gly every 3 (it can start at position 1, 2 or 3) and at least one P.',
+    'Construye una hebra con el patrón Gly-X-Y, donde X y Y son cualquier aminoácido (la Y no es Tyr): al menos 9 residuos, una Gly cada 3 (puede empezar en la posición 1, 2 o 3) y al menos una P.':
+        'Build a strand with the Gly-X-Y pattern, where X and Y are any amino acid (Y is not Tyr): at least 9 residues, a Gly every 3 (it can start at position 1, 2 or 3) and at least one P.',
     'Cada tercer residuo debe ser Gly: es la única cadena lateral (un H) que cabe en el centro de la triple hélice. Las mutaciones de esas Gly causan osteogénesis imperfecta.':
         "Every third residue must be Gly: it's the only side chain (an H) that fits in the center of the triple helix. Mutations in those Gly cause osteogenesis imperfecta.",
     'hélice α 1: C=O(i) ··· H–N(i+4)':

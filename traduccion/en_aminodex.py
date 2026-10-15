@@ -23,6 +23,8 @@ EN = {
         'Group',
     'Carga pH 7':
         'Charge pH 7',
+    'Fuente pK':
+        'pK source',
     'Masa':
         'Mass',
     'Nutrición':

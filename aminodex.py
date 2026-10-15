@@ -63,6 +63,7 @@ def ficha(win, juego, c, y, x, ancho):
         ("pKR", f"{a['pkr']:.2f}" if a["pkr"] else tr("— (cadena no ionizable)")),
         ("pI", f"{a['pi']:.2f}  = ({datos.calcular_pi(c)[1][0]:.2f} + "
                f"{datos.calcular_pi(c)[1][1]:.2f}) / 2"),
+        (tr("Fuente pK"), "Lehninger, 25 °C"),
         (HIDRO, None),
         (tr("Masa"), f"{a['masa']:.2f} g/mol"),
         (tr("Nutrición"), a["nutricion"]),

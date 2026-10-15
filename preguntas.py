@@ -166,15 +166,19 @@ def generar(aa, tipo, estructura=False, opciones=False):
         return dict(
             texto=tr("¿pKR (cadena lateral) de {nombre}?", nombre=a["nombre"]),
             opciones=_opciones(correcta, otros), respuesta=correcta,
-            explicacion="pKR: Asp 3.65, Glu 4.25, His 6.00, Cys 8.18, "
-                        "Tyr 10.07, Lys 10.53, Arg 12.48.",
+            explicacion=tr("pKR (Lehninger, 25 °C): Asp 3.65, Glu 4.25, His 6.00, Cys 8.18, "
+                           "Tyr 10.07, Lys 10.53, Arg 12.48."),
         )
     if tipo == "pi":
         correcta = f"{a['pi']:.2f}"
         otros = [f"{x['pi']:.2f}" for x in AA.values() if abs(x["pi"] - a["pi"]) > 0.05]
         pi, (p1, p2) = datos.calcular_pi(aa)
         return dict(
-            texto=tr("¿Punto isoeléctrico (pI) de {nombre}?", nombre=a["nombre"]),
+            texto=(tr("{nombre}: pK1 {pk1:.2f}, pK2 {pk2:.2f}, pKR {pkr:.2f}. ¿Su punto "
+                      "isoeléctrico (pI)?", nombre=a["nombre"], pk1=a["pk1"], pk2=a["pk2"],
+                      pkr=a["pkr"]) if a["pkr"] else
+                   tr("{nombre}: pK1 {pk1:.2f}, pK2 {pk2:.2f}. ¿Su punto isoeléctrico (pI)?",
+                      nombre=a["nombre"], pk1=a["pk1"], pk2=a["pk2"])),
             opciones=_opciones(correcta, otros), respuesta=correcta,
             explicacion=tr("pI = ({p1:.2f} + {p2:.2f}) / 2 = {pi:.2f}. Extremos: Asp "
                            "2.77 (el más ácido) y Arg 10.76 (el más básico).",
