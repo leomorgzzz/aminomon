@@ -486,33 +486,31 @@ for _s in STOP:
 MUTACIONES = [
     dict(texto="Anemia falciforme (HbS): en la β-globina, Glu6 → Val (E6V). "
                "¿Qué cambia en ese residuo de la superficie?",
-         correcta="Pierde una carga − y gana una cadena no polar: la Hb "
-                  "desoxigenada polimeriza por ese parche hidrofóbico",
-         otras=["Gana una carga + y forma un puente salino nuevo",
-                "Se forma un puente disulfuro entre dos globinas",
-                "Pierde un sitio de fosforilación"],
+         correcta="Pierde una carga − y deja un parche hidrofóbico pegajoso",
+         otras=["Gana una carga + y forma un puente salino que endurece la Hb",
+                "Se forma un puente disulfuro que une dos globinas en fibras",
+                "Pierde un sitio de fosforilación y la Hb ya no suelta el O2"],
          expl="Glu es Cargado − (pKR 4.25); Val es No polar (KD +4.2). La Val6 "
               "encaja en un bolsillo hidrofóbico de otra Hb: se forman fibras y "
               "el eritrocito toma forma de hoz."),
     dict(texto="Hemoglobina C: Glu6 → Lys (E6K). ¿Cuánto cambia la carga de esa "
                "cadena lateral a pH 7?",
-         correcta="+2 (de −1 a +1)", otras=["+1", "0", "−2"],
+         correcta="+2 (de −1 a +1)",
+         otras=["+1 (de 0 a +1)", "0 (las dos son polares)", "−2 (de +1 a −1)"],
          expl="Glu a pH 7 es −1; Lys es +1. Por eso HbC migra distinto en la "
               "electroforesis."),
     dict(texto="Osteogénesis imperfecta: una Gly del colágeno tipo I (Gly-X-Y) "
                "cambia a Ser. ¿Por qué es tan grave?",
-         correcta="La Gly es la única que cabe en el centro de la triple hélice; "
-                  "cualquier cadena lateral la desestabiliza",
-         otras=["La Ser se fosforila y repele a las otras cadenas",
-                "La Ser forma un disulfuro con otra cadena",
-                "La Ser vuelve al colágeno demasiado hidrofóbico"],
+         correcta="Solo la Gly cabe en el centro de la triple hélice",
+         otras=["La Ser se fosforila y repele a las otras dos cadenas",
+                "La Ser forma un disulfuro con la cadena de al lado",
+                "La Ser vuelve demasiado hidrofóbico al colágeno"],
          expl="En la triple hélice, cada tercer residuo queda en el eje central, "
               "donde solo cabe un H. Sustituir esa Gly rompe el plegamiento: "
               "huesos frágiles."),
     dict(texto="Fibrosis quística: la mutación más común de CFTR (ΔF508) elimina "
                "una Phe. ¿Qué le pasa a la proteína?",
-         correcta="Se pliega mal; el control de calidad del RE la retiene y la "
-                  "manda a degradar (ERAD)",
+         correcta="Se pliega mal y el RE la retiene y la degrada (ERAD)",
          otras=["Se vuelve más ácida y precipita en el citosol",
                 "Pierde su péptido señal y se queda en el citosol",
                 "Gana un sitio de N-glicosilación y se acumula en el Golgi"],
@@ -521,53 +519,55 @@ MUTACIONES = [
               "casi no llega a la membrana."),
     dict(texto="KRAS G12D (frecuente en cáncer de páncreas): Gly12 → Asp. "
                "¿Qué cambia?",
-         correcta="Entra una cadena con carga − donde solo había un H: estorba "
-                  "la hidrólisis de GTP y KRAS queda encendida",
-         otras=["KRAS pierde su sitio de unión a ATP",
-                "Se forma un puente disulfuro que la inactiva",
-                "Nada: Gly y Asp son del mismo grupo"],
+         correcta="La carga − estorba la hidrólisis del GTP: KRAS queda encendida",
+         otras=["KRAS pierde su sitio de unión a ATP y deja de mandar señales "
+                "de proliferación",
+                "Se forma un puente disulfuro que la deja inactiva para siempre",
+                "Nada: Gly y Asp son pequeños y caben en el mismo sitio"],
          expl="La Gly12 está pegada al sitio del GTP; cualquier cadena lateral "
               "impide que la GAP acelere la hidrólisis. KRAS-GTP sigue mandando "
               "señales de proliferación."),
     dict(texto="Fenilcetonuria: en la fenilalanina hidroxilasa, Arg408 → Trp "
                "(R408W). ¿Qué se pierde en ese sitio?",
-         correcta="Una carga + que hacía puentes salinos; entra un anillo grande "
-                  "sin carga y la enzima se pliega mal",
-         otras=["Un sitio de fosforilación",
-                "Un puente disulfuro",
-                "Un grupo Ácido que unía al cofactor"],
+         correcta="Una carga + que hacía puentes salinos; la enzima se pliega mal",
+         otras=["Un sitio de fosforilación que activaba a la enzima en el ayuno",
+                "Un puente disulfuro que mantenía unidas las subunidades",
+                "Un grupo ácido que unía al cofactor (tetrahidrobiopterina)"],
          expl="Arg es Cargado + (pKR 12.5); Trp es Aromático. Sin la enzima, la "
               "Phe se acumula y la Tyr se vuelve esencial para el paciente."),
     dict(texto="Enfermedad de Huntington: la huntingtina tiene demasiadas "
                "repeticiones del codón CAG. ¿Qué tramo se alarga en la proteína?",
          correcta="Poliglutamina (CAG = Gln)",
-         otras=["Polialanina (CAG = Ala)", "Poliserina (CAG = Ser)",
+         otras=["Polialanina (CAG = Ala)", "Polihistidina (CAG = His)",
                 "Policisteína (CAG = Cys)"],
          expl="CAG codifica Gln. Con más de ~36 repeticiones, el tramo poli-Q "
               "se agrega y daña las neuronas."),
     dict(texto="p53 R175H (mutación frecuente en cáncer). Arg e His son del "
                "grupo básico, ¿por qué la His no sustituye bien a la Arg?",
-         correcta="Con pKR 6 la His casi no tiene carga a pH 7, mientras la Arg "
-                  "(pKR 12.5) siempre es +",
-         otras=["La His es más grande que la Arg",
-                "La His es ácida a pH 7",
-                "La His forma disulfuros"],
+         correcta="A pH 7 la His casi no tiene carga; la Arg (pKR 12.5) sí",
+         otras=["La His es más grande y no cabe en el sitio de unión al ADN",
+                "La His es ácida a pH 7 y repele al ADN en lugar de unirse",
+                "La His forma disulfuros con las Cys cercanas del dominio"],
          expl="Estar en el mismo grupo de Lehninger no hace a dos residuos "
               "intercambiables: el pKR decide si la carga existe a pH 7."),
     dict(texto="El alelo de la HbS se debe a GAG → GUG en el codón 6. ¿Qué tipo "
                "de mutación es?",
-         correcta="De sentido erróneo (missense): Glu → Val",
-         otras=["Silenciosa", "Sin sentido (nonsense)", "Corrimiento del marco de lectura"],
+         correcta="De sentido erróneo (missense)",
+         otras=["Silenciosa (sinónima)", "Sin sentido (nonsense)",
+                "Corrimiento del marco (frameshift)"],
          expl="GAG = Glu y GUG = Val: cambia un aminoácido por otro."),
     dict(texto="Un codón UGG (Trp) muta a UGA. ¿Qué le pasa a la proteína?",
-         correcta="UGA es codón de paro: la proteína sale truncada (mutación sin sentido)",
-         otras=["Nada: UGA también codifica Trp", "Se cambia Trp por Cys",
-                "Se corre el marco de lectura"],
+         correcta="Sale truncada: UGA es codón de paro (sin sentido)",
+         otras=["Nada: UGA también codifica Trp en el citosol humano",
+                "Se cambia la Trp por una Cys, que también lleva azufre",
+                "Se corre el marco de lectura y cambia todo lo que sigue"],
          expl="UAA, UAG y UGA son los codones de paro (en mitocondrias humanas "
               "UGA sí es Trp, pero no en el citosol)."),
     dict(texto="Un codón CUU (Leu) muta a CUC. ¿Efecto en la proteína?",
-         correcta="Ninguno: CUC también es Leu (mutación silenciosa)",
-         otras=["Leu → Pro", "Leu → Phe", "Codón de paro"],
+         correcta="Ninguno: CUC también es Leu (silenciosa)",
+         otras=["Leu → Pro: se rompe la hélice α donde estaba",
+                "Leu → Phe: entra un anillo aromático más grande",
+                "Codón de paro: la proteína sale truncada"],
          expl="El código es degenerado: Leu tiene 6 codones (UUA, UUG, CUU, "
               "CUC, CUA, CUG)."),
 ]

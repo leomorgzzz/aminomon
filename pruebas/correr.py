@@ -9,7 +9,8 @@ Revisa lo que no se ve sin jugar:
      f-string la clave nunca coincide);
   3. una misma clave no tiene dos traducciones distintas en traduccion/;
   4. los datos ya traducidos (aminoácidos, zonas, jefes…) no quedan en español;
-  5. solo hay símbolos que la consola de Windows sabe dibujar (WGL4).
+  5. en el examen del René-virus la correcta no es casi siempre la más larga;
+  6. solo hay símbolos que la consola de Windows sabe dibujar (WGL4).
 Sale con código 1 si algo falla.
 """
 
@@ -118,7 +119,20 @@ for registros, campos in REGISTROS:
 revisar("los datos en inglés no quedan en español", not en_espanol,
         "\n".join(repr(t) for t in sorted(en_espanol)[:20]))
 
-# ------------------------------------------------------------ 5. símbolos
+# ------------------------------------- 5. la respuesta larga no se delata
+# Si la correcta suele ser la opción más larga, se adivina sin saber.
+for idioma_ in ("es", "en"):
+    codigo = ("import sys; sys.argv = ['x', '--%s']\n"
+              "import jefes\n"
+              "print(sum(len(m['correcta']) > max(map(len, m['otras'])) for m in jefes.MUTACIONES),"
+              " len(jefes.MUTACIONES))") % idioma_
+    r = subprocess.run([sys.executable, "-c", codigo], cwd=RAIZ, capture_output=True, text=True,
+                       env=dict(os.environ, HOME=tempfile.mkdtemp()))
+    largas, total = map(int, r.stdout.split())
+    revisar(f"la correcta del René-virus casi nunca es la más larga ({idioma_})",
+            largas <= total * 0.3, f"{largas} de {total} preguntas")
+
+# ------------------------------------------------------------ 6. símbolos
 malos = wgl4.revisar([RAIZ])
 revisar("solo símbolos WGL4 (los que dibuja la consola de Windows)", not malos,
         "\n".join(f"{ch} U+{ord(ch):04X}  {' '.join(l[:3])}" for ch, l in sorted(malos.items())))

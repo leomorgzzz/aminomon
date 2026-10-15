@@ -233,14 +233,6 @@ EN = {
         'extra: disulfide Cys–S–S–Cys',
     'Anemia falciforme (HbS): en la β-globina, Glu6 → Val (E6V). ¿Qué cambia en ese residuo de la superficie?':
         'Sickle cell anemia (HbS): in β-globin, Glu6 → Val (E6V). What changes in that surface residue?',
-    'Pierde una carga − y gana una cadena no polar: la Hb desoxigenada polimeriza por ese parche hidrofóbico':
-        'It loses a − charge and gains a nonpolar side chain: deoxygenated Hb polymerizes through that hydrophobic patch',
-    'Gana una carga + y forma un puente salino nuevo':
-        'It gains a + charge and forms a new salt bridge',
-    'Se forma un puente disulfuro entre dos globinas':
-        'A disulfide bridge forms between two globins',
-    'Pierde un sitio de fosforilación':
-        'It loses a phosphorylation site',
     'Glu es Cargado − (pKR 4.25); Val es No polar (KD +4.2). La Val6 encaja en un bolsillo hidrofóbico de otra Hb: se forman fibras y el eritrocito toma forma de hoz.':
         'Glu is Charged − (pKR 4.25); Val is Nonpolar (KD +4.2). Val6 fits into a hydrophobic pocket of another Hb: fibers form and the red blood cell takes on a sickle shape.',
     'Hemoglobina C: Glu6 → Lys (E6K). ¿Cuánto cambia la carga de esa cadena lateral a pH 7?':
@@ -251,20 +243,10 @@ EN = {
         "Glu at pH 7 is −1; Lys is +1. That's why HbC migrates differently in electrophoresis.",
     'Osteogénesis imperfecta: una Gly del colágeno tipo I (Gly-X-Y) cambia a Ser. ¿Por qué es tan grave?':
         'Osteogenesis imperfecta: a Gly in type I collagen (Gly-X-Y) changes to Ser. Why is it so serious?',
-    'La Gly es la única que cabe en el centro de la triple hélice; cualquier cadena lateral la desestabiliza':
-        'Gly is the only one that fits in the center of the triple helix; any side chain destabilizes it',
-    'La Ser se fosforila y repele a las otras cadenas':
-        'Ser gets phosphorylated and repels the other chains',
-    'La Ser forma un disulfuro con otra cadena':
-        'Ser forms a disulfide with another chain',
-    'La Ser vuelve al colágeno demasiado hidrofóbico':
-        'Ser makes collagen too hydrophobic',
     'En la triple hélice, cada tercer residuo queda en el eje central, donde solo cabe un H. Sustituir esa Gly rompe el plegamiento: huesos frágiles.':
         'In the triple helix, every third residue sits on the central axis, where only an H fits. Replacing that Gly breaks the folding: brittle bones.',
     'Fibrosis quística: la mutación más común de CFTR (ΔF508) elimina una Phe. ¿Qué le pasa a la proteína?':
         'Cystic fibrosis: the most common CFTR mutation (ΔF508) deletes a Phe. What happens to the protein?',
-    'Se pliega mal; el control de calidad del RE la retiene y la manda a degradar (ERAD)':
-        'It misfolds; ER quality control holds it back and sends it for degradation (ERAD)',
     'Se vuelve más ácida y precipita en el citosol':
         'It becomes more acidic and precipitates in the cytosol',
     'Pierde su péptido señal y se queda en el citosol':
@@ -275,26 +257,10 @@ EN = {
         "Without Phe508 the NBD1 domain doesn't fold properly. ER chaperones detect it, it gets ubiquitinated and the proteasome degrades it: almost none reaches the membrane.",
     'KRAS G12D (frecuente en cáncer de páncreas): Gly12 → Asp. ¿Qué cambia?':
         'KRAS G12D (common in pancreatic cancer): Gly12 → Asp. What changes?',
-    'Entra una cadena con carga − donde solo había un H: estorba la hidrólisis de GTP y KRAS queda encendida':
-        'A side chain with a − charge appears where there was only an H: it gets in the way of GTP hydrolysis and KRAS stays switched on',
-    'KRAS pierde su sitio de unión a ATP':
-        'KRAS loses its ATP-binding site',
-    'Se forma un puente disulfuro que la inactiva':
-        'A disulfide bridge forms that inactivates it',
-    'Nada: Gly y Asp son del mismo grupo':
-        'Nothing: Gly and Asp are in the same group',
     'La Gly12 está pegada al sitio del GTP; cualquier cadena lateral impide que la GAP acelere la hidrólisis. KRAS-GTP sigue mandando señales de proliferación.':
         'Gly12 sits right next to the GTP site; any side chain prevents GAP from speeding up hydrolysis. KRAS-GTP keeps sending proliferation signals.',
     'Fenilcetonuria: en la fenilalanina hidroxilasa, Arg408 → Trp (R408W). ¿Qué se pierde en ese sitio?':
         'Phenylketonuria: in phenylalanine hydroxylase, Arg408 → Trp (R408W). What is lost at that site?',
-    'Una carga + que hacía puentes salinos; entra un anillo grande sin carga y la enzima se pliega mal':
-        'A + charge that formed salt bridges; a large uncharged ring comes in and the enzyme misfolds',
-    'Un sitio de fosforilación':
-        'A phosphorylation site',
-    'Un puente disulfuro':
-        'A disulfide bridge',
-    'Un grupo Ácido que unía al cofactor':
-        'An Acidic group that bound the cofactor',
     'Arg es Cargado + (pKR 12.5); Trp es Aromático. Sin la enzima, la Phe se acumula y la Tyr se vuelve esencial para el paciente.':
         'Arg is Charged + (pKR 12.5); Trp is Aromatic. Without the enzyme, Phe builds up and Tyr becomes essential for the patient.',
     'Enfermedad de Huntington: la huntingtina tiene demasiadas repeticiones del codón CAG. ¿Qué tramo se alarga en la proteína?':
@@ -303,54 +269,98 @@ EN = {
         'Polyglutamine (CAG = Gln)',
     'Polialanina (CAG = Ala)':
         'Polyalanine (CAG = Ala)',
-    'Poliserina (CAG = Ser)':
-        'Polyserine (CAG = Ser)',
     'Policisteína (CAG = Cys)':
         'Polycysteine (CAG = Cys)',
     'CAG codifica Gln. Con más de ~36 repeticiones, el tramo poli-Q se agrega y daña las neuronas.':
         'CAG encodes Gln. With more than ~36 repeats, the poly-Q stretch aggregates and damages neurons.',
     'p53 R175H (mutación frecuente en cáncer). Arg e His son del grupo básico, ¿por qué la His no sustituye bien a la Arg?':
         "p53 R175H (a common cancer mutation). Arg and His are both in the basic group, so why doesn't His substitute well for Arg?",
-    'Con pKR 6 la His casi no tiene carga a pH 7, mientras la Arg (pKR 12.5) siempre es +':
-        'With pKR 6, His has almost no charge at pH 7, while Arg (pKR 12.5) is always +',
-    'La His es más grande que la Arg':
-        'His is larger than Arg',
-    'La His es ácida a pH 7':
-        'His is acidic at pH 7',
-    'La His forma disulfuros':
-        'His forms disulfides',
     'Estar en el mismo grupo de Lehninger no hace a dos residuos intercambiables: el pKR decide si la carga existe a pH 7.':
         "Being in the same Lehninger group doesn't make two residues interchangeable: the pKR decides whether the charge exists at pH 7.",
     'El alelo de la HbS se debe a GAG → GUG en el codón 6. ¿Qué tipo de mutación es?':
         'The HbS allele is due to GAG → GUG at codon 6. What type of mutation is it?',
-    'De sentido erróneo (missense): Glu → Val':
-        'Missense: Glu → Val',
-    'Silenciosa':
-        'Silent',
     'Sin sentido (nonsense)':
         'Nonsense',
-    'Corrimiento del marco de lectura':
-        'Frameshift',
     'GAG = Glu y GUG = Val: cambia un aminoácido por otro.':
         'GAG = Glu and GUG = Val: one amino acid is swapped for another.',
     'Un codón UGG (Trp) muta a UGA. ¿Qué le pasa a la proteína?':
         'A UGG codon (Trp) mutates to UGA. What happens to the protein?',
-    'UGA es codón de paro: la proteína sale truncada (mutación sin sentido)':
-        'UGA is a stop codon: the protein comes out truncated (nonsense mutation)',
-    'Nada: UGA también codifica Trp':
-        'Nothing: UGA also encodes Trp',
-    'Se cambia Trp por Cys':
-        'Trp is replaced by Cys',
-    'Se corre el marco de lectura':
-        'The reading frame shifts',
     'UAA, UAG y UGA son los codones de paro (en mitocondrias humanas UGA sí es Trp, pero no en el citosol).':
         'UAA, UAG and UGA are the stop codons (in human mitochondria UGA does code for Trp, but not in the cytosol).',
     'Un codón CUU (Leu) muta a CUC. ¿Efecto en la proteína?':
         'A CUU codon (Leu) mutates to CUC. Effect on the protein?',
-    'Ninguno: CUC también es Leu (mutación silenciosa)':
-        'None: CUC is also Leu (silent mutation)',
-    'Codón de paro':
-        'Stop codon',
     'El código es degenerado: Leu tiene 6 codones (UUA, UUG, CUU, CUC, CUA, CUG).':
         'The code is degenerate: Leu has 6 codons (UUA, UUG, CUU, CUC, CUA, CUG).',
+    'Pierde una carga − y deja un parche hidrofóbico pegajoso':
+        'It loses a − charge and leaves a sticky hydrophobic patch',
+    'Gana una carga + y forma un puente salino que endurece la Hb':
+        'It gains a + charge and forms a salt bridge that stiffens the Hb',
+    'Se forma un puente disulfuro que une dos globinas en fibras':
+        'A disulfide bridge forms that joins two globins into fibers',
+    'Pierde un sitio de fosforilación y la Hb ya no suelta el O2':
+        'It loses a phosphorylation site and the Hb no longer releases O2',
+    '+1 (de 0 a +1)':
+        '+1 (from 0 to +1)',
+    '0 (las dos son polares)':
+        '0 (both are polar)',
+    '−2 (de +1 a −1)':
+        '−2 (from +1 to −1)',
+    'Solo la Gly cabe en el centro de la triple hélice':
+        'Only Gly fits in the center of the triple helix',
+    'La Ser se fosforila y repele a las otras dos cadenas':
+        'Ser gets phosphorylated and repels the other two chains',
+    'La Ser forma un disulfuro con la cadena de al lado':
+        'Ser forms a disulfide with the neighboring chain',
+    'La Ser vuelve demasiado hidrofóbico al colágeno':
+        'Ser makes the collagen far too hydrophobic',
+    'Se pliega mal y el RE la retiene y la degrada (ERAD)':
+        'It misfolds; the ER holds it back and degrades it (ERAD)',
+    'La carga − estorba la hidrólisis del GTP: KRAS queda encendida':
+        'The − charge blocks GTP hydrolysis: KRAS stays switched on',
+    'KRAS pierde su sitio de unión a ATP y deja de mandar señales de proliferación':
+        'KRAS loses its ATP-binding site and stops sending proliferation signals',
+    'Se forma un puente disulfuro que la deja inactiva para siempre':
+        'A disulfide bridge forms that leaves it permanently inactive',
+    'Nada: Gly y Asp son pequeños y caben en el mismo sitio':
+        'Nothing: Gly and Asp are both small and fit in the same spot',
+    'Una carga + que hacía puentes salinos; la enzima se pliega mal':
+        'A + charge that formed salt bridges; the enzyme misfolds',
+    'Un sitio de fosforilación que activaba a la enzima en el ayuno':
+        'A phosphorylation site that switched the enzyme on during fasting',
+    'Un puente disulfuro que mantenía unidas las subunidades':
+        'A disulfide bridge that held the subunits together',
+    'Un grupo ácido que unía al cofactor (tetrahidrobiopterina)':
+        'An acidic group that bound the cofactor (tetrahydrobiopterin)',
+    'Polihistidina (CAG = His)':
+        'Polyhistidine (CAG = His)',
+    'A pH 7 la His casi no tiene carga; la Arg (pKR 12.5) sí':
+        'At pH 7 His is barely charged; Arg (pKR 12.5) always is',
+    'La His es más grande y no cabe en el sitio de unión al ADN':
+        "His is bulkier and doesn't fit in the DNA-binding site",
+    'La His es ácida a pH 7 y repele al ADN en lugar de unirse':
+        'His is acidic at pH 7 and repels DNA instead of binding it',
+    'La His forma disulfuros con las Cys cercanas del dominio':
+        'His forms disulfides with nearby Cys in the domain',
+    'De sentido erróneo (missense)':
+        'Missense',
+    'Silenciosa (sinónima)':
+        'Silent (synonymous)',
+    'Corrimiento del marco (frameshift)':
+        'Frameshift',
+    'Sale truncada: UGA es codón de paro (sin sentido)':
+        'It comes out truncated: UGA is a stop codon (nonsense)',
+    'Nada: UGA también codifica Trp en el citosol humano':
+        'Nothing: UGA also encodes Trp in the human cytosol',
+    'Se cambia la Trp por una Cys, que también lleva azufre':
+        'Trp is swapped for Cys, which also contains a sulfur atom',
+    'Se corre el marco de lectura y cambia todo lo que sigue':
+        'The reading frame shifts and everything after it changes',
+    'Ninguno: CUC también es Leu (silenciosa)':
+        'None: CUC is also Leu (silent)',
+    'Leu → Pro: se rompe la hélice α donde estaba':
+        'Leu → Pro: the α-helix breaks at that spot',
+    'Leu → Phe: entra un anillo aromático más grande':
+        'Leu → Phe: a bigger aromatic ring comes in',
+    'Codón de paro: la proteína sale truncada':
+        'Stop codon: the protein comes out truncated',
 }
