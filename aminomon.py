@@ -736,6 +736,13 @@ class Partida:
                 ajustes = self.juego.setdefault("ajustes", {})
                 ajustes["cadena"] = not ajustes.get("cadena", True)
                 self.mensaje = tr("Cadena visible.") if ajustes["cadena"] else tr("Cadena oculta.")
+            elif d.es(k, "b"):
+                ajustes = self.juego.setdefault("ajustes", {})
+                ajustes["sonido"] = not ajustes.get("sonido", False)
+                self.mensaje = (tr("Sonido activado: una campana al acertar, dos al fallar.")
+                                if ajustes["sonido"] else tr("Sonido desactivado."))
+                if ajustes["sonido"]:
+                    progreso.sonar(True)
             elif d.es(k, "g"):
                 progreso.guardar(self.juego)
                 self.mensaje = tr("Partida guardada en ~/.aminomon.json")

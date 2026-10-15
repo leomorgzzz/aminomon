@@ -162,6 +162,20 @@ def modificar(juego, mon, evo_id):
 def registrar(juego, clave, acierto):
     d = juego["aciertos"] if acierto else juego["fallos"]
     d[clave] = d.get(clave, 0) + 1
+    if juego.get("ajustes", {}).get("sonido"):
+        sonar(acierto)
+
+
+def sonar(acierto):
+    """Campana de la terminal: una al acertar, dos al fallar (opcional, tecla B)."""
+    import curses
+    try:
+        curses.beep()
+        if not acierto:
+            curses.napms(140)
+            curses.beep()
+    except curses.error:
+        pass
 
 
 def peso(juego, clave):

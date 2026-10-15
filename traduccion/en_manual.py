@@ -257,4 +257,6 @@ EN = {
         'Cheat sheet',
     'M o ?':
         'M or ?',
+    'sonido al acertar o fallar (sí/no)':
+        'sound when right or wrong (on/off)',
 }

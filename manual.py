@@ -78,6 +78,7 @@ def p_jugar(juego, rival, an):
                 [(tr("M o ?"), "titulo"), tr("este manual")],
                 [("X", "titulo"), tr("Aminodex")],
                 [("E", "titulo"), tr("equipo: líder, orden y modificaciones")],
+                [("B", "titulo"), tr("sonido al acertar o fallar (sí/no)")],
                 [("G / Q", "titulo"), tr("guardar / guardar y salir")]]),
         L(""),
         T(tr("Símbolos del mapa")),

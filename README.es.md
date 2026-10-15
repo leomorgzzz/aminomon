@@ -95,6 +95,7 @@ envía nada más. Para desactivarla: `aminomon --sin-actualizar`.
 | M / ? | manual (también en combate) |
 | X | Aminodex |
 | E | equipo: líder (Enter), ordenar (O), modificar (V) |
+| B | sonido al acertar o fallar (sí/no) |
 | G / Q | guardar / guardar y salir |
 | P | mostrar u ocultar la cadena que te sigue |
 

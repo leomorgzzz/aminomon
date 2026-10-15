@@ -95,6 +95,7 @@ and it sends nothing else. To turn it off: `aminomon --no-update`.
 | M / ? | manual (also in battle) |
 | X | Aminodex |
 | E | team: leader (Enter), sort (O), modify (V) |
+| B | sound when right or wrong (on/off) |
 | G / Q | save / save and quit |
 | P | show or hide the chain that follows you |
 

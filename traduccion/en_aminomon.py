@@ -171,4 +171,8 @@ EN = {
         'Update to {version}',
     '¡{nombre} se unió a tu equipo!':
         '{nombre} joined your team!',
+    'Sonido activado: una campana al acertar, dos al fallar.':
+        "Sound on: one bell when you're right, two when you're wrong.",
+    'Sonido desactivado.':
+        'Sound off.',
 }
