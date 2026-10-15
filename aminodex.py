@@ -81,6 +81,10 @@ def ficha(win, juego, c, y, x, ancho):
     filas.append((tr("Modificaciones"), texto_mod or "—"))
     # tu avance va primero para que no se recorte en pantallas bajas
     filas.insert(0, (tr("Reconocer"), registro(juego, c)))
+    conf = preguntas.confusiones(juego, c)
+    if conf:        # matriz de confusión de este aminoácido
+        filas.insert(1, (tr("Lo confundes con"), ", ".join(
+            f"{AA[o]['tres']} ×{n}" for _, o, n in conf[:3])))
 
     col = max(len(etq) for etq, _ in filas) + 2      # columna de valores alineada
     for etq, valor in filas:

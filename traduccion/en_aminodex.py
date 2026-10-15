@@ -79,4 +79,6 @@ EN = {
         '  (mastered)',
     '  aciertos/fallos':
         '  right/wrong',
+    'Lo confundes con':
+        'You mix it up with',
 }

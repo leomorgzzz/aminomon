@@ -109,4 +109,62 @@ EN = {
         'Catch an amino acid first.',
     ' · Esc salir':
         ' · Esc exit',
+    'Ahora salen justo esos, con su pareja en las opciones.':
+        'Now exactly those come up, with their look-alike among the options.',
+    'Contrarreloj':
+        'Time trial',
+    'Contrarreloj: 60 s, cuantas puedas (récord {r})':
+        'Time trial: 60 s, as many as you can (record {r})',
+    'Correcto: es la {n}).':
+        "Correct: it's number {n}).",
+    '¿Cuál es {nombre}? Pulsa 1-4 · Esc salir':
+        'Which one is {nombre}? Press 1-4 · Esc quit',
+    'Cuando era {era}, contestaste {dijo}: {n} {veces}':
+        'When it was {era}, you answered {dijo}: {n} {veces}',
+    'Elige la estructura':
+        'Pick the structure',
+    'ELIGE LA ESTRUCTURA · {i}/{total} · aciertos {n}':
+        'PICK THE STRUCTURE · {i}/{total} · correct {n}',
+    'Estructura → nombre y códigos ({n} preguntas)':
+        'Structure → name and codes ({n} questions)',
+    'Incorrecto: elegiste {otro}. {nombre} era la {n}).':
+        'Wrong: you picked {otro}. {nombre} was number {n}).',
+    '{n} aciertos y {f} fallos en {s} s.':
+        '{n} right and {f} wrong in {s} s.',
+    'Necesitas al menos 4 aminoácidos capturados para este modo.':
+        'You need at least 4 caught amino acids for this mode.',
+    'Nombre → elige su estructura entre 4':
+        'Name → pick its structure out of 4',
+    '{n}/{total} correctas.':
+        '{n}/{total} correct.',
+    'Solo la cadena lateral → nombre':
+        'Side chain only → name',
+    'Todavía no has confundido ningún aminoácido. Cuando falles uno, aquí verás con cuál lo confundiste para practicar justo eso.':
+        "You haven't mixed up any amino acid yet. When you miss one, you'll see here which one you took it for, so you can practice exactly that.",
+    'Tus confusiones':
+        'Your mix-ups',
+    'Tus confusiones ({n})':
+        'Your mix-ups ({n})',
+    '(Cα)':
+        '(Cα)',
+    'vez':
+        'time',
+    'veces':
+        'times',
+    '√ {nombre}':
+        '√ {nombre}',
+    '× era {nombre}, no {otro}':
+        '× it was {nombre}, not {otro}',
+    '¡Nuevo récord!':
+        'New record!',
+    'Récord: {r}.':
+        'Record: {r}.',
+    'CONTRARRELOJ · {s} s · aciertos {n} · fallos {f}':
+        'TIME TRIAL · {s} s · right {n} · wrong {f}',
+    'Pulsa el número · Esc salir':
+        'Press the number · Esc quit',
+    '(se ve solo la cadena lateral; el esqueleto es igual en todos)':
+        '(only the side chain is shown; the backbone is the same in all)',
+    'Volver':
+        'Back',
 }

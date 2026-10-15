@@ -294,6 +294,8 @@ def preguntar(win, juego, aa, tipo, y, x, ancho, alto_min=0, estructura=False,
         eleccion = (r or "").strip()
     bien = eleccion.lower() == p["respuesta"].lower()
     progreso.registrar(juego, f"{aa}:{tipo}", bien)
+    if not bien and tipo in RECONOCER:
+        confundir(juego, aa, a_codigo(eleccion, tipo))
     if bien:
         texto = tr("Correcto. ") + p["explicacion"]
         attr = d.c("bien")
@@ -304,14 +306,81 @@ def preguntar(win, juego, aa, tipo, y, x, ancho, alto_min=0, estructura=False,
     return bien
 
 
+def a_codigo(eleccion, tipo):
+    """La opción elegida (nombre, código de 3 o de 1 letra) → código de 1 letra."""
+    e = (eleccion or "").strip().lower()
+    for c, a in AA.items():
+        if e in (a["nombre"].lower(), a["tres"].lower(), c.lower()):
+            return c
+    return None
+
+
+def confundir(juego, era, dijo):
+    """Matriz de confusión: «cuando era Gln, contestaste Asn»."""
+    if dijo and dijo != era:
+        m = juego.setdefault("confusiones", {})
+        m[f"{era}>{dijo}"] = m.get(f"{era}>{dijo}", 0) + 1
+
+
+def confusiones(juego, aa=None):
+    """[(era, dijo, veces)] de más a menos; con aa, solo las de ese aminoácido."""
+    salida = []
+    for clave, n in juego.get("confusiones", {}).items():
+        era, dijo = clave.split(">")
+        if aa is None or era == aa:
+            salida.append((era, dijo, n))
+    return sorted(salida, key=lambda x: -x[2])
+
+
 PREGUNTAS_PRACTICA = 10
 
 
 def practica(win, juego):
+    """Menú de práctica: cinco formas de reconocer las estructuras."""
+    capturados = [aa for aa in datos.ORDEN if juego["capturados"].get(aa)]
+    if not capturados:
+        d.popup(win, tr("Captura primero algún aminoácido."), tr("Práctica de reconocimiento"))
+        return
+    while True:
+        record = juego.get("records", {}).get("reloj", 0)
+        n_conf = len(confusiones(juego))
+        modos = ["normal", "cadena", "elegir", "reloj", "confusiones"]
+        textos = [tr("Estructura → nombre y códigos ({n} preguntas)", n=PREGUNTAS_PRACTICA),
+                  tr("Solo la cadena lateral → nombre"),
+                  tr("Nombre → elige su estructura entre 4"),
+                  tr("Contrarreloj: 60 s, cuantas puedas (récord {r})", r=record),
+                  tr("Tus confusiones ({n})", n=n_conf), tr("Volver")]
+        win.erase()
+        op = d.menu(win, tr("Práctica de reconocimiento"), textos)
+        if op is None or op == len(modos):
+            return
+        modo = modos[op]
+        if modo == "confusiones" and not n_conf:
+            d.popup(win, tr("Todavía no has confundido ningún aminoácido. Cuando falles uno, "
+                            "aquí verás con cuál lo confundiste para practicar justo eso."),
+                    tr("Tus confusiones"))
+            continue
+        if len(capturados) < 4 and modo == "elegir":
+            d.popup(win, tr("Necesitas al menos 4 aminoácidos capturados para este modo."),
+                    tr("Práctica de reconocimiento"))
+            continue
+        {"normal": _practica_normal, "cadena": lambda w, j: _practica_normal(w, j, cadena=True),
+         "elegir": _practica_elegir, "reloj": _contrarreloj,
+         "confusiones": _practica_confusiones}[modo](win, juego)
+
+
+def _solo_cadena(arte):
+    """Las filas de la cadena lateral (sin H, Cα, NH3+ ni COO−)."""
+    return arte[d._filas_esqueleto(arte):] or arte
+
+
+def _practica_normal(win, juego, cadena=False, solo=None):
     """Práctica de reconocimiento con los que ya capturaste: estructura →
     nombre y códigos. Salen más los que fallas, y los que se confunden
-    (Gln/Asn, Glu/Asp, Ile/Leu, Ser/Thr) aparecen juntos en las opciones."""
-    claves = [(aa, t) for aa in datos.ORDEN if juego["capturados"].get(aa) for t in RECONOCER]
+    (Gln/Asn, Glu/Asp, Ile/Leu, Ser/Thr) aparecen juntos en las opciones.
+    cadena: solo se ve la cadena lateral. solo: limita a esos aminoácidos."""
+    claves = [(aa, t) for aa in datos.ORDEN if juego["capturados"].get(aa)
+              and (solo is None or aa in solo) for t in (["nombre"] if cadena else RECONOCER)]
     if not claves:
         d.popup(win, tr("Captura primero algún aminoácido."), tr("Práctica de reconocimiento"))
         return
@@ -325,7 +394,12 @@ def practica(win, juego):
                             n=aciertos, dom=dominados(juego)),
               d.c("titulo", curses.A_BOLD))
         arte = datos.forma(aa)["arte"]
-        d.estructura(win, 2, 1, arte)
+        if cadena:
+            arte = _solo_cadena(arte)
+            d.put(win, 2, 1, tr("(Cα)"), d.c("tenue"))
+            d.estructura(win, 3, 1, arte)
+        else:
+            d.estructura(win, 2, 1, arte)
         x = d.ancho_estructura(arte) + 4
         if ancho - x < 40:          # no cabe al lado: la pregunta va debajo
             y, x = len(arte) + 3, 1
@@ -344,3 +418,135 @@ def practica(win, juego):
     d.popup(win, tr("{n}/{total} correctas. Los que fallaste saldrán más seguido, en la "
                     "práctica y en el campo.", n=aciertos, total=hechas),
             tr("Práctica de reconocimiento"), attr=d.c("bien" if aciertos >= 0.8 * hechas else "texto"))
+
+
+def _practica_elegir(win, juego):
+    """Se da el nombre y hay que elegir su estructura entre 4 parecidas."""
+    capturados = [aa for aa in datos.ORDEN if juego["capturados"].get(aa)]
+    aciertos = hechas = 0
+    for i in range(PREGUNTAS_PRACTICA):
+        aa = random.choices(capturados, [progreso.peso(juego, f"{c}:estructura") for c in capturados])[0]
+        pareja = pares().get(aa, (None, ""))[0]
+        cercanos = [x for x in ([pareja] if pareja else []) + list(PARECIDOS[aa]) if x != aa]
+        ops = list(dict.fromkeys(cercanos))[:3]
+        resto = [x for x in datos.ORDEN if x != aa and x not in ops]
+        random.shuffle(resto)
+        ops = [aa] + (ops + resto)[:3]
+        random.shuffle(ops)
+        alto, ancho = win.getmaxyx()
+        completas = alto >= max(len(datos.forma(c)["arte"]) for c in ops) + 8
+        win.erase()
+        d.put(win, 0, 1, tr("ELIGE LA ESTRUCTURA · {i}/{total} · aciertos {n}", i=i + 1,
+                            total=PREGUNTAS_PRACTICA, n=aciertos), d.c("titulo", curses.A_BOLD))
+        d.put(win, 2, 1, tr("¿Cuál es {nombre}? Pulsa 1-4 · Esc salir", nombre=AA[aa]["nombre"]),
+              d.c("texto", curses.A_BOLD))
+        if not completas:
+            d.put(win, 3, 1, tr("(se ve solo la cadena lateral; el esqueleto es igual en todos)"),
+                  d.c("tenue"))
+        col = max(18, (ancho - 2) // 4)
+        for j, c in enumerate(ops):
+            x = 1 + j * col
+            arte = datos.forma(c)["arte"] if completas else _solo_cadena(datos.forma(c)["arte"])
+            d.put(win, 5, x, f"{j + 1})", d.c("titulo", curses.A_BOLD))
+            d.estructura(win, 6, x, arte)
+        win.refresh()
+        while True:
+            k = d.tecla(win)
+            if k == d.ESC:
+                break
+            if isinstance(k, str) and k in "1234":
+                break
+        if k == d.ESC:
+            break
+        dijo = ops[int(k) - 1]
+        bien = dijo == aa
+        progreso.registrar(juego, f"{aa}:estructura", bien)
+        if not bien:
+            confundir(juego, aa, dijo)
+        aciertos += bien
+        hechas += 1
+        texto = (tr("Correcto: es la {n}).", n=int(k)) if bien else
+                 tr("Incorrecto: elegiste {otro}. {nombre} era la {n}).", otro=AA[dijo]["nombre"],
+                    nombre=AA[aa]["nombre"], n=ops.index(aa) + 1))
+        d.popup(win, texto + " " + AA[aa]["pista"] + _nota_par(aa), tr("Resultado"),
+                attr=d.c("bien" if bien else "mal"))
+    progreso.guardar(juego)
+    if hechas:
+        d.popup(win, tr("{n}/{total} correctas.", n=aciertos, total=hechas),
+                tr("Elige la estructura"), attr=d.c("bien" if aciertos >= 0.8 * hechas else "texto"))
+
+
+CONTRARRELOJ = 60
+
+
+def _contrarreloj(win, juego):
+    """60 s de estructura → nombre, sin pausas: cuenta los aciertos."""
+    import time
+    capturados = [aa for aa in datos.ORDEN if juego["capturados"].get(aa)]
+    aciertos = fallos = 0
+    fin = time.monotonic() + CONTRARRELOJ
+    ultimo = ""
+    win.timeout(250)
+    try:
+        while time.monotonic() < fin:
+            aa = random.choices(capturados, [progreso.peso(juego, f"{c}:nombre") for c in capturados])[0]
+            p = generar(aa, "nombre", estructura=True, opciones=True)
+            eleccion = None
+            while eleccion is None and time.monotonic() < fin:
+                alto, ancho = win.getmaxyx()
+                win.erase()
+                quedan = max(0, int(fin - time.monotonic()) + 1)
+                d.put(win, 0, 1, tr("CONTRARRELOJ · {s} s · aciertos {n} · fallos {f}", s=quedan,
+                                    n=aciertos, f=fallos),
+                      d.c("mal" if quedan <= 10 else "titulo", curses.A_BOLD))
+                d.put(win, 1, 1, ultimo, d.c("tenue"))
+                arte = datos.forma(aa)["arte"]
+                d.estructura(win, 3, 1, arte)
+                x = d.ancho_estructura(arte) + 5
+                y = 3 if ancho - x >= 30 else len(arte) + 4
+                x = x if ancho - x >= 30 else 1
+                for i, o in enumerate(p["opciones"]):
+                    d.put(win, y + i, x, f"{i + 1}) {o}", d.c("texto", curses.A_BOLD))
+                d.put(win, y + 5, x, tr("Pulsa el número · Esc salir"), d.c("tenue"))
+                win.refresh()
+                k = win.getch()
+                if k == 27:
+                    return
+                if 49 <= k <= 48 + len(p["opciones"]):
+                    eleccion = p["opciones"][k - 49]
+            if eleccion is None:
+                break
+            bien = eleccion == p["respuesta"]
+            progreso.registrar(juego, f"{aa}:nombre", bien)
+            if bien:
+                aciertos += 1
+                ultimo = tr("√ {nombre}", nombre=p["respuesta"])
+            else:
+                fallos += 1
+                confundir(juego, aa, a_codigo(eleccion, "nombre"))
+                ultimo = tr("× era {nombre}, no {otro}", nombre=p["respuesta"], otro=eleccion)
+    finally:
+        win.timeout(-1)
+    records = juego.setdefault("records", {})
+    nuevo = aciertos > records.get("reloj", 0)
+    if nuevo:
+        records["reloj"] = aciertos
+    progreso.guardar(juego)
+    curses.flushinp()
+    d.popup(win, tr("{n} aciertos y {f} fallos en {s} s.", n=aciertos, f=fallos, s=CONTRARRELOJ)
+            + (" " + tr("¡Nuevo récord!") if nuevo else
+               " " + tr("Récord: {r}.", r=records.get("reloj", 0))),
+            tr("Contrarreloj"), attr=d.c("bien" if nuevo else "texto"))
+
+
+def _practica_confusiones(win, juego):
+    """Muestra con qué confundes a cada uno y practica justo esos."""
+    top = confusiones(juego)[:6]
+    lineas = [tr("Cuando era {era}, contestaste {dijo}: {n} {veces}", era=AA[e]["nombre"],
+                 dijo=AA[o]["nombre"], n=n, veces=tr("vez") if n == 1 else tr("veces"))
+              for e, o, n in top]
+    win.erase()
+    d.popup(win, "\n".join(lineas) + "\n\n" + tr("Ahora salen justo esos, con su pareja en "
+                                                  "las opciones."), tr("Tus confusiones"))
+    solo = {c for e, o, _ in top for c in (e, o) if juego["capturados"].get(c)}
+    _practica_normal(win, juego, solo=solo)
