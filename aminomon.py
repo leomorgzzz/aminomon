@@ -292,8 +292,7 @@ def intro(win):
            "movimiento usa la química de uno de ellos. La afinidad depende de la "
            "interacción real entre los dos grupos; la tabla completa está en el "
            "manual [M]."),
-        tr("Empiezas con Metionina: AUG es el codón de inicio, así que toda "
-           "proteína comienza con ella."),
+        tr("Empiezas con Metionina: AUG es el codón de inicio, así que toda proteína se empieza a sintetizar con ella."),
     ], tr("René-virus"))
     progreso.capturar(juego, "M", 3)
 
@@ -603,7 +602,7 @@ class Partida:
             zonas = [z for z, info in datos.ZONAS.items()
                      if any(c in info["aminos"] for c in faltan)]
             nombres = ", ".join(datos.ZONAS[z]["nombre"] for z in zonas)
-            partes.append(tr("Faltan {n} aminoácidos. Zonas con especies pendientes: {zonas}.",
+            partes.append(tr("Aminoácidos por capturar: {n}. Zonas con especies pendientes: {zonas}.",
                              n=len(faltan), zonas=nombres))
         else:
             mods = [ev["nombre"] for e, ev in datos.MODIFICACIONES.items()

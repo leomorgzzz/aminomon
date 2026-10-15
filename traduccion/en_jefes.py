@@ -69,8 +69,8 @@ EN = {
         'Letters: add  Backspace: delete  Enter: submit  ? manual  Esc exit',
     'Todavía no cumple todas las condiciones.':
         "It doesn't meet all the conditions yet.",
-    'Examen de {total} preguntas. Cada respuesta correcta pliega una región de la proteína: con {nativo} queda completa en su estado nativo. Cada acierto de más le añade un extra que la estabiliza (un puente salino y un disulfuro) y te da 1 ATP.':
-        "{total}-question exam. Each correct answer folds a region of the protein: with {nativo} it's complete in its native state. Each extra correct answer adds a bonus that stabilizes it (a salt bridge and a disulfide) and gives you 1 ATP.",
+    'Examen de {total} preguntas. Cada respuesta correcta pliega una región de la proteína: con {nativo} queda completa en su estado nativo. Cada acierto de más le añade un extra que la estabiliza (un puente salino o un disulfuro) y te da 1 ATP.':
+        "{total}-question exam. Each correct answer folds a region of the protein: with {nativo} it's complete in its native state. Each extra correct answer adds a bonus that stabilizes it (a salt bridge or a disulfide) and gives you 1 ATP.",
     'EXAMEN DE LA CHAPERONA · pregunta {i}/{total} · aciertos {n}':
         'CHAPERONE EXAM · question {i}/{total} · correct {n}',
     'Puedes seguir explorando. El siguiente nivel es el examen final; habla con el René-virus (V).':
@@ -97,8 +97,8 @@ EN = {
         '(none)',
     ' mal plegado':
         ' misfolded',
-    'La Hsp70 asiste el plegamiento de las proteínas recién sintetizadas. Para presentar su examen necesitas las {n} insignias.\n\nPendientes: ':
-        'Hsp70 assists the folding of newly synthesized proteins. To take its exam you need the {n} badges.\n\nPending: ',
+    'La Hsp70 ayuda al plegamiento de las proteínas recién sintetizadas. Para presentar su examen necesitas las {n} insignias.\n\nPendientes: ':
+        'Hsp70 helps the folding of newly synthesized proteins. To take its exam you need the {n} badges.\n\nPending: ',
     'Extra: {nombres}. Recibes {n} ATP.':
         'Extra: {nombres}. You get {n} ATP.',
     'Correcto. ':
@@ -253,7 +253,7 @@ EN = {
         'It loses its signal peptide and stays in the cytosol',
     'Gana un sitio de N-glicosilación y se acumula en el Golgi':
         'It gains an N-glycosylation site and builds up in the Golgi',
-    'Sin la Phe508 el dominio NBD1 no se pliega bien. Las chaperonas del RE la detectan, la ubiquitinan y el proteasoma la degrada: casi no llega a la membrana.':
+    'Sin la Phe508 el dominio NBD1 no se pliega bien. Las chaperonas del RE la detectan, se ubiquitina y el proteasoma la degrada: casi no llega a la membrana.':
         "Without Phe508 the NBD1 domain doesn't fold properly. ER chaperones detect it, it gets ubiquitinated and the proteasome degrades it: almost none reaches the membrane.",
     'KRAS G12D (frecuente en cáncer de páncreas): Gly12 → Asp. ¿Qué cambia?':
         'KRAS G12D (common in pancreatic cancer): Gly12 → Asp. What changes?',
@@ -315,8 +315,8 @@ EN = {
         'Ser makes the collagen far too hydrophobic',
     'Se pliega mal y el RE la retiene y la degrada (ERAD)':
         'It misfolds; the ER holds it back and degrades it (ERAD)',
-    'La carga − estorba la hidrólisis del GTP: KRAS queda encendida':
-        'The − charge blocks GTP hydrolysis: KRAS stays switched on',
+    'La cadena lateral estorba la hidrólisis del GTP: KRAS queda encendida':
+        'The side chain blocks GTP hydrolysis: KRAS stays switched on',
     'KRAS pierde su sitio de unión a ATP y deja de mandar señales de proliferación':
         'KRAS loses its ATP-binding site and stops sending proliferation signals',
     'Se forma un puente disulfuro que la deja inactiva para siempre':
@@ -351,8 +351,8 @@ EN = {
         'It comes out truncated: UGA is a stop codon (nonsense)',
     'Nada: UGA también codifica Trp en el citosol humano':
         'Nothing: UGA also encodes Trp in the human cytosol',
-    'Se cambia la Trp por una Cys, que también lleva azufre':
-        'Trp is swapped for Cys, which also contains a sulfur atom',
+    'Se cambia el Trp por una Cys, de codón parecido (UGU)':
+        'Trp is swapped for Cys, which has a similar codon (UGU)',
     'Se corre el marco de lectura y cambia todo lo que sigue':
         'The reading frame shifts and everything after it changes',
     'Ninguno: CUC también es Leu (silenciosa)':

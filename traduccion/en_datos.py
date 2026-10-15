@@ -189,8 +189,8 @@ EN = {
         'Nonpolar aliphatic',
     'No polar':
         'Nonpolar',
-    'Cadena de C e H (Gly, Ala, Pro, Val, Leu, Ile, Met). No forma puentes de H con el agua: se agrupa con otras cadenas no polares por el efecto hidrofóbico.':
-        "Chain of C and H (Gly, Ala, Pro, Val, Leu, Ile, Met). It doesn't form H-bonds with water: it clusters with other nonpolar chains through the hydrophobic effect.",
+    'Cadena de C e H (Gly, Ala, Pro, Val, Leu, Ile; la Met lleva además un S). No forma puentes de H con el agua: se agrupa con otras cadenas no polares por el efecto hidrofóbico.':
+        "Chain of C and H (Gly, Ala, Pro, Val, Leu, Ile; Met also has an S). It doesn't form H-bonds with water: it clusters with other nonpolar chains through the hydrophobic effect.",
     'Aromático':
         'Aromatic',
     'Aromát.':
@@ -215,13 +215,13 @@ EN = {
         'Acidic−',
     'Asp y Glu: carboxilato (COO−) con pKR ~4, así que a pH 7 ya perdieron su H+ y tienen carga −1.':
         "Asp and Glu: carboxylate (COO−) with pKR ~4, so at pH 7 they've already lost their H+ and have a −1 charge.",
-    'Ácido (carga −)':
-        'Acidic (− charge)',
-    'Básico (carga +)':
-        'Basic (+ charge)',
+    'Cargado − (ácido)':
+        'Charged − (acidic)',
+    'Cargado + (básico)':
+        'Charged + (basic)',
     'Esencial':
         'Essential',
-    'No la sintetizamos (o no lo bastante rápido): debe venir de la dieta.':
+    'No lo sintetizamos (o no lo bastante rápido): debe venir de la dieta.':
         "We don't synthesize it (or not fast enough): it must come from the diet.",
     'Condicional':
         'Conditional',
@@ -229,7 +229,7 @@ EN = {
         "It's normally synthesized, but in prematurity, metabolic stress, illness or rapid growth, synthesis falls short.",
     'No esencial':
         'Nonessential',
-    'La sintetizamos en cantidad suficiente.':
+    'Lo sintetizamos en cantidad suficiente.':
         'We synthesize enough of it.',
     'Glicina':
         'Glycine',
@@ -253,8 +253,8 @@ EN = {
         'The most hydrophobic (KD 4.5). It has two chiral carbons (Cα and Cβ). Isomer of Leu.',
     'Metionina':
         'Methionine',
-    'Tioéter (S sin H). AUG es el codón de inicio: toda proteína empieza con Met. Da origen a la SAM, el donador de metilos.':
-        'Thioether (S without H). AUG is the start codon: every protein starts with Met. It gives rise to SAM, the methyl donor.',
+    'Tioéter (S sin H). AUG es el codón de inicio: toda proteína se empieza a sintetizar con Met. Da origen a la SAM, el donador de metilos.':
+        'Thioether (S without H). AUG is the start codon: every protein starts being made with Met. It gives rise to SAM, the methyl donor.',
     'Prolina':
         'Proline',
     'Su α-amino es secundario: la cadena lateral se cierra sobre el N. Ese anillo rígido rompe hélices α y forma giros. Su pK2 (10.96) es el más alto de todos.':
@@ -377,8 +377,8 @@ EN = {
         'Cystine',
     'Dos Cys se unen por un enlace S–S covalente y pierden los SH. Lehninger: los residuos unidos por disulfuro son fuertemente hidrofóbicos (no polares).':
         'Two Cys join through a covalent S–S bond and lose their SH. Lehninger: residues linked by a disulfide are strongly hydrophobic (nonpolar).',
-    'En el RE (ambiente oxidante) la PDI, proteína disulfuro isomerasa, forma y reacomoda puentes S–S. Estabilizan proteínas que salen de la célula: insulina, anticuerpos, queratina.':
-        'In the ER (an oxidizing environment) PDI, protein disulfide isomerase, forms and rearranges S–S bridges. They stabilize proteins that leave the cell: insulin, antibodies, keratin.',
+    'En el RE (ambiente oxidante) la PDI, proteína disulfuro isomerasa, forma y reacomoda puentes S–S. Estabilizan proteínas que salen de la célula: insulina y anticuerpos.':
+        'In the ER (an oxidizing environment) PDI, protein disulfide isomerase, forms and rearranges S–S bridges. They stabilize proteins that leave the cell: insulin and antibodies.',
     'El RE es oxidante; lleva otra Cys en el equipo.':
         'The ER is oxidizing; bring another Cys in your team.',
     'γ-carboxiglutamato':
@@ -467,7 +467,7 @@ EN = {
         'Gly and Pro live here: collagen repeats Gly-Pro-Hyp. Gly is the only one that fits in the center of the triple helix, and Pro stiffens it.',
     'Mitocondria':
         'Mitochondrion',
-    'La fosforilación oxidativa produce ATP: aquí tu equipo restablece su energía y recargas ATP. También es donde se degradan los aminoácidos ramificados (Val, Leu, Ile).':
+    'La fosforilación oxidativa produce ATP: aquí tu equipo restablece su energía y tú recargas ATP. También es donde se degradan los aminoácidos ramificados (Val, Leu, Ile).':
         "Oxidative phosphorylation makes ATP: here your team restores its energy and you recharge ATP. It's also where the branched-chain amino acids (Val, Leu, Ile) are broken down.",
     'pH fisiológico':
         'Physiological pH',
@@ -557,7 +557,7 @@ EN = {
         "An endogenous opioid that binds δ and μ receptors and reduces pain. It's cut out of proenkephalin.",
     'Leu-encefalina':
         'Leu-enkephalin',
-    'Como la Met-encefalina, pero termina en Leu. Su Tyr N-terminal es clave: el fenol de la morfina imita a ese Tyr.':
+    'Como la Met-encefalina, pero termina en Leu. Su Tyr N-terminal es clave: el fenol de la morfina imita a esa Tyr.':
         "Like Met-enkephalin, but it ends in Leu. Its N-terminal Tyr is key: morphine's phenol mimics that Tyr.",
     'Fragmento central del péptido β-amiloide del Alzheimer. Su parche hidrofóbico (Leu, Val, Phe, Phe) hace que las hebras se apilen en fibras amiloides.':
         "Central fragment of the Alzheimer's β-amyloid peptide. Its hydrophobic patch (Leu, Val, Phe, Phe) makes the strands stack into amyloid fibers.",

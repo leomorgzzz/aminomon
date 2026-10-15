@@ -121,7 +121,7 @@ EN = {
         'Its group is now obvious: {grupo}.',
     'Ya conoces su grupo.':
         'You already know its group.',
-    '¿Solo C/H? ¿anillo? ¿OH/SH/amida? ¿NH3+? ¿COO−?':
+    '¿Solo C/H? ¿Anillo? ¿OH/SH/amida? ¿NH3+? ¿COO−?':
         'Only C/H? ring? OH/SH/amide? NH3+? COO−?',
     '¿Y su carácter?':
         'And its character?',

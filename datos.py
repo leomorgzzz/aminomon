@@ -19,7 +19,7 @@ from idioma import tr, traducir
 TIPOS = {
     "NP": dict(
         nombre="No polar alifático", corto="No polar",
-        desc="Cadena de C e H (Gly, Ala, Pro, Val, Leu, Ile, Met). No forma "
+        desc="Cadena de C e H (Gly, Ala, Pro, Val, Leu, Ile; la Met lleva además un S). No forma "
              "puentes de H con el agua: se agrupa con otras cadenas no polares "
              "por el efecto hidrofóbico.",
     ),
@@ -111,17 +111,17 @@ GRUPOS = {
     "alifatico": "No polar alifático",
     "aromatico": "Aromático",
     "polar": "Polar sin carga",
-    "acido": "Ácido (carga −)",
-    "basico": "Básico (carga +)",
+    "acido": "Cargado − (ácido)",
+    "basico": "Cargado + (básico)",
 }
 
 NUTRICION = {
-    "Esencial": "No la sintetizamos (o no lo bastante rápido): debe venir de "
+    "Esencial": "No lo sintetizamos (o no lo bastante rápido): debe venir de "
                 "la dieta.",
     "Condicional": "Normalmente se sintetiza, pero en prematuridad, estrés "
                    "metabólico, enfermedad o crecimiento rápido la síntesis no "
                    "alcanza.",
-    "No esencial": "La sintetizamos en cantidad suficiente.",
+    "No esencial": "Lo sintetizamos en cantidad suficiente.",
 }
 
 # ============================================================ aminoácidos
@@ -197,8 +197,7 @@ AMINOACIDOS = {
             "        |",
             "        CH3",
         ],
-        pista="Tioéter (S sin H). AUG es el codón de inicio: toda proteína "
-              "empieza con Met. Da origen a la SAM, el donador de metilos.",
+        pista="Tioéter (S sin H). AUG es el codón de inicio: toda proteína se empieza a sintetizar con Met. Da origen a la SAM, el donador de metilos.",
     ),
     "P": dict(
         nombre="Prolina", tres="Pro", grupo="alifatico", tipos=("NP",),
@@ -562,7 +561,7 @@ MODIFICACIONES = {
                "hidrofóbicos (no polares).",
         bio="En el RE (ambiente oxidante) la PDI, proteína disulfuro "
             "isomerasa, forma y reacomoda puentes S–S. Estabilizan proteínas "
-            "que salen de la célula: insulina, anticuerpos, queratina.",
+            "que salen de la célula: insulina y anticuerpos.",
         pista="El RE es oxidante; lleva otra Cys en el equipo.",
         cadena=[
             "        CH2", "        |", "        S", "        |",
@@ -665,7 +664,7 @@ PEPTIDOS = {
     "leuenc": dict(
         nombre="Leu-encefalina", seq="YGGFL",
         bio="Como la Met-encefalina, pero termina en Leu. Su Tyr N-terminal es "
-            "clave: el fenol de la morfina imita a ese Tyr."),
+            "clave: el fenol de la morfina imita a esa Tyr."),
     "abeta": dict(
         nombre="Aβ(16–22)", seq="KLVFFAE",
         bio="Fragmento central del péptido β-amiloide del Alzheimer. Su parche "
@@ -940,7 +939,7 @@ ZONAS = {
         nombre="Mitocondria", aminos=[], niveles=(0, 0),
         glifo="☼", color="titulo",
         por_que="La fosforilación oxidativa produce ATP: aquí tu equipo "
-                "restablece su energía y recargas ATP. También es donde se "
+                "restablece su energía y tú recargas ATP. También es donde se "
                 "degradan los aminoácidos ramificados (Val, Leu, Ile).",
     ),
 }

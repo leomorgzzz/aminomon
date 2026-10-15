@@ -68,8 +68,7 @@ def p_jugar(juego, rival, an):
     return [
         T(tr("Objetivo")),
         *parrafo(tr("Recorre la célula, encuentra a los 20 aminoácidos, captúralos y "
-                    "completa la Aminodex. Vence a los 7 jefes (J) y al final a la "
-                    "Chaperona (H)."), an), L(""),
+                    "completa la Aminodex. Vence a los 7 jefes (J) y luego a la Chaperona (H)."), an), L(""),
         T(tr("Pantalla completa")),
         *parrafo(tr("El juego se adapta al tamaño de la terminal: en pantalla completa "
                     "(F11 o Alt+Enter) ves toda la célula, el panel lateral con el minimapa y a tu "
@@ -217,13 +216,13 @@ def p_afinidad(juego, rival, an):
         T(tr("La química detrás (la tabla es simétrica)")),
         *tabla([[(tr("Pareja"), "tenue"), (tr("Interacción"), "tenue"), ("×", "tenue")],
                 [(tr("No polar + No polar / Aromático"), "NP"), tr("efecto hidrofóbico"), ("×2", "bien")],
-                [(tr("No polar + Polar / cargado"), "NP"), tr("el agua solvata al grupo polar"),
+                [(tr("No polar + Polar / Cargado"), "NP"), tr("el agua solvata al grupo polar"),
                  ("×½", "tenue")],
                 [(tr("Aromático + Aromático"), "ARO"), tr("apilamiento π–π"), ("×2", "bien")],
                 [(tr("Aromático + Cargado +"), "ARO"), tr("catión–π"), ("×2", "bien")],
                 [(tr("Aromático + Cargado −"), "ARO"), tr("la cara π repele al anión"), ("×½", "tenue")],
                 [(tr("Polar + Polar"), "POL"), tr("puentes de H"), ("×2", "bien")],
-                [(tr("Polar + cargado"), "POL"), tr("puente de H"), ("×1", "texto")],
+                [(tr("Polar + Cargado"), "POL"), tr("puente de H"), ("×1", "texto")],
                 [(tr("Cargado + + Cargado −"), "POS"), tr("puente salino"), ("×2", "bien")],
                 [(tr("Misma carga"), "NEG"), tr("repulsión (el rival puede huir)"), ("×0", "mal")],
                 [(tr("Neutro + cualquiera"), "NEU"), tr("esqueleto peptídico o van der Waals"),
@@ -231,8 +230,7 @@ def p_afinidad(juego, rival, an):
         L(""),
         T(tr("Reglas químicas que el juego respeta")),
         *parrafo(tr("• Un puente de H necesita un DONADOR (X–H) y un ACEPTOR (par "
-                    "libre). El N–H del Trp solo dona: con Lys, Arg o His (que también "
-                    "solo donan) no hay puente de H (×½)."), an, sangria="  "),
+                    "libre). El N–H del Trp solo dona: con Lys o Arg (que también solo donan) no hay puente de H (×½)."), an, sangria="  "),
         *parrafo(tr("• Cada aminoácido solo forma interacciones de su propio grupo R, "
                     "más las del esqueleto peptídico y van der Waals, que todos tienen."),
                  an, sangria="  "),

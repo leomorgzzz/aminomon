@@ -496,7 +496,7 @@ class Combate:
             return False
         nombres = [datos.TIPOS[t]["nombre"] for t in datos.ORDEN_TIPOS]
         p = d.menu(self.win, tr("¿Grupo de Lehninger?"), nombres,
-                   ayuda=tr("¿Solo C/H? ¿anillo? ¿OH/SH/amida? ¿NH3+? ¿COO−?"))
+                   ayuda=tr("¿Solo C/H? ¿Anillo? ¿OH/SH/amida? ¿NH3+? ¿COO−?"))
         if p is None:
             return False
         elegidos = (datos.ORDEN_TIPOS[p],)

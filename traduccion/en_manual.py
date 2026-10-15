@@ -65,8 +65,8 @@ EN = {
         'Quick table (Lehninger, 25 °C)',
     'Trucos':
         'Tricks',
-    'Recorre la célula, encuentra a los 20 aminoácidos, captúralos y completa la Aminodex. Vence a los 7 jefes (J) y al final a la Chaperona (H).':
-        'Travel through the cell, find the 20 amino acids, catch them and complete the Aminodex. Beat the 7 bosses (J) and, at the end, the Chaperone (H).',
+    'Recorre la célula, encuentra a los 20 aminoácidos, captúralos y completa la Aminodex. Vence a los 7 jefes (J) y luego a la Chaperona (H).':
+        'Travel through the cell, find the 20 amino acids, catch them and complete the Aminodex. Beat the 7 bosses (J) and then the Chaperone (H).',
     'El juego se adapta al tamaño de la terminal: en pantalla completa (F11 o Alt+Enter) ves toda la célula, el panel lateral con el minimapa y a tu aminoácido en combate.':
         'The game adapts to the size of the terminal: in full screen (F11 or Alt+Enter) you see the whole cell, the side panel with the minimap and your amino acid in battle.',
     'En las zonas marcadas con símbolos aparecen aminoácidos salvajes. Solo ves su estructura: deduce su grupo [D] para ganar +10 de afinidad y ver qué interacción formará cada movimiento. Si no, el grupo se revela tras 3 turnos.':
@@ -95,8 +95,8 @@ EN = {
         'Note on His: Lehninger classifies it as charged +, although at pH 7 only ~10% is protonated (pKR 6).',
     'Fila = tipo de TU movimiento. Columna = tipo del RIVAL.':
         'Row = type of YOUR move. Column = type of the RIVAL.',
-    '• Un puente de H necesita un DONADOR (X–H) y un ACEPTOR (par libre). El N–H del Trp solo dona: con Lys, Arg o His (que también solo donan) no hay puente de H (×½).':
-        "• An H-bond needs a DONOR (X–H) and an ACCEPTOR (lone pair). Trp's N–H only donates: with Lys, Arg or His (which also only donate) there's no H-bond (×½).",
+    '• Un puente de H necesita un DONADOR (X–H) y un ACEPTOR (par libre). El N–H del Trp solo dona: con Lys o Arg (que también solo donan) no hay puente de H (×½).':
+        "• An H-bond needs a DONOR (X–H) and an ACCEPTOR (lone pair). Trp's N–H only donates: with Lys or Arg (which also only donate) there's no H-bond (×½).",
     '• Cada aminoácido solo forma interacciones de su propio grupo R, más las del esqueleto peptídico y van der Waals, que todos tienen.':
         '• Each amino acid only forms interactions from its own R group, plus the peptide backbone and van der Waals ones, which everybody has.',
     '• El N+(CH3)3 de la trimetil-lisina no tiene H: con grupos polares solo hay atracción ion–dipolo, sin puente de H.':
@@ -219,7 +219,7 @@ EN = {
         'Interaction',
     'No polar + No polar / Aromático':
         'Nonpolar + Nonpolar / Aromatic',
-    'No polar + Polar / cargado':
+    'No polar + Polar / Cargado':
         'Nonpolar + Polar / charged',
     'Aromático + Aromático':
         'Aromatic + Aromatic',
@@ -229,7 +229,7 @@ EN = {
         'Aromatic + Charged −',
     'Polar + Polar':
         'Polar + Polar',
-    'Polar + cargado':
+    'Polar + Cargado':
         'Polar + charged',
     'Cargado + + Cargado −':
         'Charged + + Charged −',

@@ -33,8 +33,8 @@ EN = {
         'In this game each amino acid shows up where its chemistry plays the lead role: the nonpolar ones in the membrane, the basic ones next to ribosomal RNA and DNA. In a real cell there are free amino acids everywhere.',
     'Cada aminoácido pertenece a uno de los 5 grupos de Lehninger y cada movimiento usa la química de uno de ellos. La afinidad depende de la interacción real entre los dos grupos; la tabla completa está en el manual [M].':
         "Each amino acid belongs to one of Lehninger's 5 groups, and each move uses the chemistry of one of them. Affinity depends on the real interaction between the two groups; the full table is in the manual [M].",
-    'Empiezas con Metionina: AUG es el codón de inicio, así que toda proteína comienza con ella.':
-        'You start with Methionine: AUG is the start codon, so every protein begins with it.',
+    'Empiezas con Metionina: AUG es el codón de inicio, así que toda proteína se empieza a sintetizar con ella.':
+        'You start with Methionine: AUG is the start codon, so every protein starts being made with it.',
     'Elige un segundo aminoácido (1-3)':
         'Choose a second amino acid (1-3)',
     'Cargado +. Puente salino ×2 contra los ácidos del RE y catión–π contra los aromáticos.':
@@ -81,8 +81,8 @@ EN = {
         "You completed the Aminodex! Here's a gift: a nascent chain. From now on your team follows you around the map like a peptide, each residue with its 1-letter code and its group's color. [P] shows or hides it.",
     '¡Conseguiste todas las modificaciones postraduccionales! En tu cadena, los residuos modificados ahora se ven marcados con el color de su nuevo grupo, y el título del mapa se pinta con los 5 grupos de Lehninger.':
         "You got all the post-translational modifications! In your chain, modified residues are now marked with their new group's color, and the map title is painted with Lehninger's 5 groups.",
-    'Faltan {n} aminoácidos. Zonas con especies pendientes: {zonas}.':
-        '{n} amino acids missing. Areas with species still to find: {zonas}.',
+    'Aminoácidos por capturar: {n}. Zonas con especies pendientes: {zonas}.':
+        'Amino acids still to catch: {n}. Areas with species still to find: {zonas}.',
     'Retos pendientes: {retos}.':
         'Pending challenges: {retos}.',
     'Tu equipo está cansado: ve a la mitocondria (☼).':

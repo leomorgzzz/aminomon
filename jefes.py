@@ -428,7 +428,7 @@ def dibujar_pliegue(win, y, x, aciertos, fallos):
 def chaperona(win, juego):
     if len(juego["insignias"]) < len(JEFES):
         faltan = [JEFES[z]["reto"] for z in JEFES if z not in juego["insignias"]]
-        d.popup(win, tr("La Hsp70 asiste el plegamiento de las proteínas recién sintetizadas. "
+        d.popup(win, tr("La Hsp70 ayuda al plegamiento de las proteínas recién sintetizadas. "
                         "Para presentar su examen necesitas las {n} insignias.\n\nPendientes: ",
                         n=len(JEFES)) + ", ".join(faltan), tr("Chaperona"))
         return
@@ -436,7 +436,7 @@ def chaperona(win, juego):
     d.dialogo(win, [tr("Examen de {total} preguntas. Cada respuesta correcta pliega una "
                        "región de la proteína: con {nativo} queda completa en su estado "
                        "nativo. Cada acierto de más le añade un extra que la estabiliza "
-                       "(un puente salino y un disulfuro) y te da 1 ATP.",
+                       "(un puente salino o un disulfuro) y te da 1 ATP.",
                        total=total, nativo=NATIVO)], tr("Chaperona"))
     aciertos = fallos = 0
     for i in range(total):
@@ -516,12 +516,11 @@ MUTACIONES = [
          otras=["Se vuelve más ácida y precipita en el citosol",
                 "Pierde su péptido señal y se queda en el citosol",
                 "Gana un sitio de N-glicosilación y se acumula en el Golgi"],
-         expl="Sin la Phe508 el dominio NBD1 no se pliega bien. Las chaperonas "
-              "del RE la detectan, la ubiquitinan y el proteasoma la degrada: "
+         expl="Sin la Phe508 el dominio NBD1 no se pliega bien. Las chaperonas del RE la detectan, se ubiquitina y el proteasoma la degrada: "
               "casi no llega a la membrana."),
     dict(texto="KRAS G12D (frecuente en cáncer de páncreas): Gly12 → Asp. "
                "¿Qué cambia?",
-         correcta="La carga − estorba la hidrólisis del GTP: KRAS queda encendida",
+         correcta="La cadena lateral estorba la hidrólisis del GTP: KRAS queda encendida",
          otras=["KRAS pierde su sitio de unión a ATP y deja de mandar señales "
                 "de proliferación",
                 "Se forma un puente disulfuro que la deja inactiva para siempre",
@@ -561,7 +560,7 @@ MUTACIONES = [
     dict(texto="Un codón UGG (Trp) muta a UGA. ¿Qué le pasa a la proteína?",
          correcta="Sale truncada: UGA es codón de paro (sin sentido)",
          otras=["Nada: UGA también codifica Trp en el citosol humano",
-                "Se cambia la Trp por una Cys, que también lleva azufre",
+                "Se cambia el Trp por una Cys, de codón parecido (UGU)",
                 "Se corre el marco de lectura y cambia todo lo que sigue"],
          expl="UAA, UAG y UGA son los codones de paro (en mitocondrias humanas "
               "UGA sí es Trp, pero no en el citosol)."),
