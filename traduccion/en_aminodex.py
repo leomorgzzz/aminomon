@@ -13,8 +13,14 @@ EN = {
         'post-translational modification',
     'péptido sintetizado para el René-virus':
         'peptide synthesized for the René-virus',
-    'AMINODEX  ·  capturados {n}/20  ·  vistos {vistos}/20  ·  modificaciones {ne}/{total}':
-        'AMINODEX  ·  caught {n}/20  ·  seen {vistos}/20  ·  modifications {ne}/{total}',
+    'capturados {n}/20':
+        'caught {n}/20',
+    'dominados {n}/20':
+        'mastered {n}/20',
+    'vistos {n}/20':
+        'seen {n}/20',
+    'modificaciones {n}/{total}':
+        'modifications {n}/{total}',
     'estar en {zona}':
         'be in {zona}',
     'otra Cys en el equipo':
@@ -45,8 +51,8 @@ EN = {
         'How',
     'Cambio':
         'Change',
-    '  ·  péptidos {n}/{total}':
-        '  ·  peptides {n}/{total}',
+    'péptidos {n}/{total}':
+        'peptides {n}/{total}',
     '↑/↓ elegir   ←/→ saltar de aminoácido   P practicar   M manual   Esc salir':
         '↑/↓ select   ←/→ jump between amino acids   P practice   M manual   Esc exit',
     '— (cadena no ionizable)':

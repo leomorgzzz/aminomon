@@ -13,9 +13,10 @@ import time
 import dibujo as d
 from idioma import tr
 
-# ms por cuadro, ms de pausa final
-VELOCIDADES = {"lenta": (140, 1800), "normal": (75, 900), "rápida": (30, 250)}
-ORDEN_VEL = ["lenta", "normal", "rápida"]
+# ms por cuadro, ms de pausa final ("sin animación" solo deja el último cuadro)
+VELOCIDADES = {"lenta": (140, 1800), "normal": (75, 900), "rápida": (30, 250),
+               "sin animación": (0, 0)}
+ORDEN_VEL = ["lenta", "normal", "rápida", "sin animación"]
 
 
 # ------------------------------------------------------------- utilidades
@@ -369,6 +370,11 @@ def reproducir(win, y, x, h, w, nombre, ctx, velocidad="lenta"):
     """Reproduce una animación dentro del rectángulo. Una tecla la salta."""
     pausa, espera = VELOCIDADES.get(velocidad, VELOCIDADES["lenta"])
     cuadros = ANIMACIONES.get(nombre, vdw)(h, w, ctx)
+    if velocidad == "sin animación":
+        if cuadros:
+            dibujar_cuadro(win, y, x, h, w, cuadros[-1])
+            win.refresh()
+        return cuadros[-1] if cuadros else []
     win.nodelay(True)
     try:
         saltar = False

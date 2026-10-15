@@ -97,4 +97,6 @@ EN = {
         'normal',
     'rápida':
         'fast',
+    'sin animación':
+        'no animation',
 }

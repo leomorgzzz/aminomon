@@ -230,6 +230,11 @@ def nivel(juego, aa):
     return next((i for i, t in enumerate(RECONOCER) if not dominado(juego, aa, t)), 3)
 
 
+def dominados(juego):
+    """Cuántos de los 20 ya reconoces por nombre y por los dos códigos."""
+    return sum(nivel(juego, aa) == 3 for aa in datos.ORDEN)
+
+
 def elegir_reconocer(juego, aa):
     """Solo reconocimiento: el paso en que va, o cualquiera si ya lo domina."""
     n = nivel(juego, aa)
@@ -315,8 +320,9 @@ def practica(win, juego):
         aa, tipo = random.choices(claves, [progreso.peso(juego, f"{a}:{t}") for a, t in claves])[0]
         alto, ancho = win.getmaxyx()
         win.erase()
-        d.put(win, 0, 1, tr("PRÁCTICA DE RECONOCIMIENTO · {i}/{total} · aciertos {n}",
-                            i=i + 1, total=PREGUNTAS_PRACTICA, n=aciertos),
+        d.put(win, 0, 1, tr("PRÁCTICA DE RECONOCIMIENTO · {i}/{total} · aciertos {n} · "
+                            "dominados {dom}/20", i=i + 1, total=PREGUNTAS_PRACTICA,
+                            n=aciertos, dom=dominados(juego)),
               d.c("titulo", curses.A_BOLD))
         arte = datos.forma(aa)["arte"]
         d.estructura(win, 2, 1, arte)

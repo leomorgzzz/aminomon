@@ -204,12 +204,17 @@ def mostrar(win, juego):
         win.erase()
         n = sum(1 for c in datos.ORDEN if juego["capturados"].get(c))
         ne = len(juego["evos_vistas"])
-        cabecera = tr("AMINODEX  ·  capturados {n}/20  ·  vistos {vistos}/20  ·  "
-                      "modificaciones {ne}/{total}", n=n, vistos=len(juego["vistos"]),
-                      ne=ne, total=len(datos.MODIFICACIONES))
+        partes = ["AMINODEX", tr("capturados {n}/20", n=n),
+                  tr("dominados {n}/20", n=preguntas.dominados(juego)),
+                  tr("vistos {n}/20", n=len(juego["vistos"])),
+                  tr("modificaciones {n}/{total}", n=ne, total=len(datos.MODIFICACIONES))]
         if juego.get("doctorado"):
-            cabecera += tr("  ·  péptidos {n}/{total}", n=len(juego["peptidos"]),
-                           total=len(datos.PEPTIDOS))
+            partes.append(tr("péptidos {n}/{total}", n=len(juego["peptidos"]),
+                             total=len(datos.PEPTIDOS)))
+        cabecera = "  ·  ".join(partes)
+        if len(cabecera) > ancho - 2:       # en 80 columnas no cabe todo
+            del partes[3]
+            cabecera = " · ".join(partes)
         d.put(win, 0, 1, cabecera, d.c("titulo", curses.A_BOLD))
         d.put(win, 1, 0, "─" * ancho, d.c("tenue"))
         visibles = alto - 3

@@ -101,8 +101,8 @@ EN = {
         'What is the 1-letter code of this amino acid?',
     'Práctica de reconocimiento':
         'Recognition practice',
-    'PRÁCTICA DE RECONOCIMIENTO · {i}/{total} · aciertos {n}':
-        'RECOGNITION PRACTICE · {i}/{total} · correct {n}',
+    'PRÁCTICA DE RECONOCIMIENTO · {i}/{total} · aciertos {n} · dominados {dom}/20':
+        'RECOGNITION PRACTICE · {i}/{total} · correct {n} · mastered {dom}/20',
     '{n}/{total} correctas. Los que fallaste saldrán más seguido, en la práctica y en el campo.':
         '{n}/{total} correct. The ones you missed will show up more often, in practice and in the field.',
     'Captura primero algún aminoácido.':

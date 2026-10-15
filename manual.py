@@ -114,7 +114,8 @@ def p_jugar(juego, rival, an):
                 [("H", "titulo"), tr("huir"), ("I", "titulo"), tr("detalle de las interacciones")],
                 [("V", "titulo"), tr("velocidad de animación"), ("M", "titulo"), tr("manual")]]),
         *parrafo(tr("Las animaciones muestran los grupos químicos reales y un "
-                    "subtítulo con cada paso; cualquier tecla las salta."), an, "tenue"),
+                    "subtítulo con cada paso; cualquier tecla las salta. Con V "
+                    "puedes elegir «sin animación» si solo quieres practicar."), an, "tenue"),
         L(""),
         T(tr("Captura")),
         *parrafo(tr("Para atraparlo hay que reconocer su estructura: primero el nombre, "
