@@ -164,6 +164,7 @@ import equipo
 import idioma
 import jefes
 import logros
+import posgame
 import manual
 import mapa
 import progreso
@@ -578,14 +579,26 @@ class Partida:
             self.regalos()
             self.consejo()
             if j.get("doctorado"):
-                op = d.menu(self.win, tr("René-virus"), [tr("Encargo de síntesis"),
-                                                         tr("Repetir el examen final"),
-                                                         tr("Nada por ahora")])
-                if op == 0:
+                ops = [("encargo", tr("Encargo de síntesis")),
+                       ("lab", tr("Laboratorio del René-virus (titulación, electroforesis…)")),
+                       ("sec", tr("21 · Selenocisteína") if j.get("sec")
+                        else tr("El aminoácido 21 (evento)")),
+                       ("examen", tr("Repetir el examen final")), ("nada", tr("Nada por ahora"))]
+                op = d.menu(self.win, tr("René-virus"), [t for _, t in ops])
+                clave = ops[op][0] if op is not None else "nada"
+                if clave == "encargo":
                     jefes.encargo(self.win, j)
-                elif op == 1:
+                elif clave == "lab":
+                    posgame.laboratorio(self.win, j)
+                elif clave == "sec":
+                    posgame.evento_sec(self.win, j)
+                elif clave == "examen":
                     jefes.examen_rene(self.win, j)
                 progreso.guardar(j)
+            elif progreso.aminodex_completa(j) and not j.get("sec"):
+                if d.menu(self.win, tr("¿Ver el evento del aminoácido 21?"),
+                          [tr("Sí"), tr("Ahora no")]) == 0:
+                    posgame.evento_sec(self.win, j)
             elif j.get("terminado"):
                 if d.menu(self.win, tr("¿Tomar el examen final del René-virus?"),
                           [tr("Sí"), tr("Ahora no")]) == 0:

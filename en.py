@@ -15,9 +15,10 @@ from traduccion import en_jefes
 from traduccion import en_logros
 from traduccion import en_manual
 from traduccion import en_mapa
+from traduccion import en_posgame
 from traduccion import en_preguntas
 from traduccion import en_progreso
 
 EN = {}
-for _m in (en_aminodex, en_aminomon, en_animaciones, en_combate, en_datos, en_dibujo, en_equipo, en_jefes, en_logros, en_manual, en_mapa, en_preguntas, en_progreso):
+for _m in (en_aminodex, en_aminomon, en_animaciones, en_combate, en_datos, en_dibujo, en_equipo, en_jefes, en_logros, en_manual, en_mapa, en_posgame, en_preguntas, en_progreso):
     EN.update(_m.EN)

@@ -348,7 +348,7 @@ def practica(win, juego):
         n_conf = len(confusiones(juego))
         hoy = len(progreso.para_hoy(juego))
         modos = ["hoy", "normal", "cadena", "elegir", "completar", "diferente", "mods",
-                 "reloj", "confusiones"]
+                 "reloj", "confusiones"] + (["sec"] if juego.get("sec") else [])
         textos = [tr("Repaso de hoy: {n} por repasar", n=hoy),
                   tr("Estructura → nombre y códigos ({n} preguntas)", n=PREGUNTAS_PRACTICA),
                   tr("Solo la cadena lateral → nombre"),
@@ -358,7 +358,8 @@ def practica(win, juego):
                   tr("Modificaciones: ¿qué cambio es? ({n} descubiertas)",
                      n=len(juego["evos_vistas"])),
                   tr("Contrarreloj: 60 s, cuantas puedas (récord {r})", r=record),
-                  tr("Tus confusiones ({n})", n=n_conf), tr("Volver")]
+                  tr("Tus confusiones ({n})", n=n_conf)] + (
+                     [tr("¿Cys o Sec? (el aminoácido 21)")] if juego.get("sec") else []) + [tr("Volver")]
         win.erase()
         op = d.menu(win, tr("Práctica de reconocimiento"), textos)
         if op is None or op == len(modos):
@@ -387,7 +388,8 @@ def practica(win, juego):
          "normal": _practica_normal, "cadena": lambda w, j: _practica_normal(w, j, cadena=True),
          "elegir": _practica_elegir, "completar": _practica_completar,
          "diferente": _practica_diferente, "mods": _practica_mods, "reloj": _contrarreloj,
-         "confusiones": _practica_confusiones}[modo](win, juego)
+         "confusiones": _practica_confusiones,
+         "sec": lambda w, j: __import__("posgame").practica_sec(w, j)}[modo](win, juego)
 
 
 def _solo_cadena(arte):
