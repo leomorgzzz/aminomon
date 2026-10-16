@@ -347,14 +347,16 @@ def practica(win, juego):
         record = juego.get("records", {}).get("reloj", 0)
         n_conf = len(confusiones(juego))
         hoy = len(progreso.para_hoy(juego))
-        modos = ["hoy", "normal", "cadena", "elegir", "completar", "diferente", "reloj",
-                 "confusiones"]
+        modos = ["hoy", "normal", "cadena", "elegir", "completar", "diferente", "mods",
+                 "reloj", "confusiones"]
         textos = [tr("Repaso de hoy: {n} por repasar", n=hoy),
                   tr("Estructura → nombre y códigos ({n} preguntas)", n=PREGUNTAS_PRACTICA),
                   tr("Solo la cadena lateral → nombre"),
                   tr("Nombre → elige su estructura entre 4"),
                   tr("Nombre → completa la cadena lateral"),
                   tr("¿Cuál es diferente? (4 estructuras, una no es del grupo)"),
+                  tr("Modificaciones: ¿qué cambio es? ({n} descubiertas)",
+                     n=len(juego["evos_vistas"])),
                   tr("Contrarreloj: 60 s, cuantas puedas (récord {r})", r=record),
                   tr("Tus confusiones ({n})", n=n_conf), tr("Volver")]
         win.erase()
@@ -366,6 +368,11 @@ def practica(win, juego):
             d.popup(win, tr("Hoy no te toca repasar ninguno. Los que aciertas vuelven en 1, "
                             "3, 7 y 14 días; los que fallas, al día siguiente."),
                     tr("Repaso de hoy"))
+            continue
+        if modo == "mods" and not juego["evos_vistas"]:
+            d.popup(win, tr("Todavía no descubres ninguna modificación: se consiguen subiendo "
+                            "de nivel a tu equipo en la zona correcta (Equipo → V)."),
+                    tr("Modificaciones"))
             continue
         if modo == "confusiones" and not n_conf:
             d.popup(win, tr("Todavía no has confundido ningún aminoácido. Cuando falles uno, "
@@ -379,7 +386,7 @@ def practica(win, juego):
         {"hoy": lambda w, j: _practica_normal(w, j, solo=set(progreso.para_hoy(j))),
          "normal": _practica_normal, "cadena": lambda w, j: _practica_normal(w, j, cadena=True),
          "elegir": _practica_elegir, "completar": _practica_completar,
-         "diferente": _practica_diferente, "reloj": _contrarreloj,
+         "diferente": _practica_diferente, "mods": _practica_mods, "reloj": _contrarreloj,
          "confusiones": _practica_confusiones}[modo](win, juego)
 
 
@@ -687,4 +694,59 @@ def _practica_diferente(win, juego):
     progreso.guardar(juego)
     if hechas:
         d.popup(win, tr("{n}/{total} correctas.", n=aciertos, total=hechas), tr("¿Cuál es diferente?"),
+                attr=d.c("bien" if aciertos >= 0.8 * hechas else "texto"))
+
+
+# --------------------------------------------- modificaciones postraduccionales
+def _practica_mods(win, juego):
+    """Con la estructura de un residuo modificado: ¿qué modificación es? o ¿de
+    qué aminoácido viene? Solo las que ya descubriste."""
+    mods = datos.MODIFICACIONES
+    vistas = [e for e in juego["evos_vistas"] if e in mods]
+    nombres = [m["nombre"] for m in mods.values()]
+    aciertos = hechas = 0
+    for i in range(PREGUNTAS_PRACTICA):
+        e = random.choices(vistas, [progreso.peso(juego, f"{x}:mod") for x in vistas])[0]
+        ev = mods[e]
+        if random.random() < 0.6:
+            texto = tr("¿Qué modificación postraduccional es esta?")
+            correcta = ev["nombre"]
+            mismas = [m["nombre"] for m in mods.values() if m["base"] == ev["base"]]
+            ops = _opciones(correcta, nombres, fijos=mismas)
+        else:
+            texto = tr("¿De qué aminoácido viene este residuo modificado?")
+            correcta = AA[ev["base"]]["nombre"]
+            ops = _opciones(correcta, [AA[c]["nombre"] for c in datos.ORDEN],
+                            fijos=[AA[c]["nombre"] for c in PARECIDOS[ev["base"]]])
+        win.erase()
+        d.put(win, 0, 1, tr("MODIFICACIONES · {i}/{total} · aciertos {n}", i=i + 1,
+                            total=PREGUNTAS_PRACTICA, n=aciertos), d.c("titulo", curses.A_BOLD))
+        arte = datos.forma(e)["arte"]
+        d.estructura(win, 2, 1, arte)
+        alto, ancho = win.getmaxyx()
+        x, y = d.ancho_estructura(arte) + 5, 2
+        if ancho - x < 40:
+            x, y = 1, len(arte) + 3
+        d.put(win, y, x, texto, d.c("texto", curses.A_BOLD))
+        for j, o in enumerate(ops):
+            d.put(win, y + 2 + j, x + 2, f"{j + 1}) {o}", d.c("texto"))
+        d.put(win, y + 7, x, tr("Pulsa el número · Esc salir"), d.c("tenue"))
+        win.refresh()
+        while True:
+            k = d.tecla(win)
+            if k == d.ESC or (isinstance(k, str) and k in "1234"):
+                break
+        if k == d.ESC:
+            break
+        bien = ops[int(k) - 1] == correcta
+        progreso.registrar(juego, f"{e}:mod", bien)
+        aciertos += bien
+        hechas += 1
+        d.popup(win, (tr("Correcto.") if bien else tr("Incorrecto. Era: {g}.", g=correcta))
+                + " " + tr("{nombre} ({tres}), de {base}: {cambio}", nombre=ev["nombre"],
+                           tres=ev["tres"], base=AA[ev["base"]]["nombre"], cambio=ev["cambio"]),
+                tr("Resultado"), attr=d.c("bien" if bien else "mal"))
+    progreso.guardar(juego)
+    if hechas:
+        d.popup(win, tr("{n}/{total} correctas.", n=aciertos, total=hechas), tr("Modificaciones"),
                 attr=d.c("bien" if aciertos >= 0.8 * hechas else "texto"))

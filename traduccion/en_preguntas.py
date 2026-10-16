@@ -223,4 +223,16 @@ EN = {
         'phenyl (ring)',
     'indol (doble anillo)':
         'indole (double ring)',
+    'Modificaciones: ¿qué cambio es? ({n} descubiertas)':
+        'Modifications: which change is it? ({n} discovered)',
+    'Todavía no descubres ninguna modificación: se consiguen subiendo de nivel a tu equipo en la zona correcta (Equipo → V).':
+        "You haven't discovered any modification yet: you get them by leveling up your team in the right area (Team → V).",
+    '¿Qué modificación postraduccional es esta?':
+        'Which post-translational modification is this?',
+    '¿De qué aminoácido viene este residuo modificado?':
+        'Which amino acid does this modified residue come from?',
+    'MODIFICACIONES · {i}/{total} · aciertos {n}':
+        'MODIFICATIONS · {i}/{total} · correct {n}',
+    '{nombre} ({tres}), de {base}: {cambio}':
+        '{nombre} ({tres}), from {base}: {cambio}',
 }
