@@ -163,6 +163,7 @@ import dibujo as d
 import equipo
 import idioma
 import jefes
+import logros
 import manual
 import mapa
 import progreso
@@ -716,6 +717,7 @@ class Partida:
 
     def jugar(self):
         while True:
+            logros.anunciar(self.win, self.juego)
             self.dibujar()
             k = d.tecla(self.win)
             if d.es(k, curses.KEY_UP, "w"):

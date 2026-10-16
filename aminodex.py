@@ -285,7 +285,7 @@ def mostrar(win, juego):
                 base = AA[ev["base"]]["nombre"] if ev["base"] in juego["vistos"] else tr("su forma base")
                 d.put(win, 8, 24, tr("Captura primero a {base}.", base=base),
                       d.c("tenue"))
-        d.put(win, alto - 1, 1, tr("↑/↓ elegir   ←/→ saltar de aminoácido   P practicar   "
+        d.put(win, alto - 1, 1, tr("↑/↓ elegir   ←/→ saltar de aminoácido   P practicar   L logros   "
                                    "M manual   Esc salir"),
               d.c("tenue"))
         win.refresh()
@@ -303,6 +303,9 @@ def mostrar(win, juego):
             sel = previos[-1] if previos else max(i for i, e in enumerate(lista) if e[0] == "aa")
         elif d.es(k, "p"):
             preguntas.practica(win, juego)
+        elif d.es(k, "l"):
+            import logros
+            logros.mostrar(win, juego)
         elif d.es(k, "m", "?"):
             import manual
             manual.mostrar(win, juego)

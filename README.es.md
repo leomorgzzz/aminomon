@@ -93,7 +93,7 @@ envía nada más. Para desactivarla: `aminomon --sin-actualizar`.
 |---|---|
 | Flechas / WASD | moverse |
 | M / ? | manual (también en combate) |
-| X | Aminodex |
+| X | Aminodex (P práctica, L logros) |
 | E | equipo: líder (Enter), ordenar (O), modificar (V) |
 | B | sonido al acertar o fallar (sí/no) |
 | G / Q | guardar / guardar y salir |

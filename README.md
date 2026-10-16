@@ -93,7 +93,7 @@ and it sends nothing else. To turn it off: `aminomon --no-update`.
 |---|---|
 | Arrows / WASD | move |
 | M / ? | manual (also in battle) |
-| X | Aminodex |
+| X | Aminodex (P practice, L achievements) |
 | E | team: leader (Enter), sort (O), modify (V) |
 | B | sound when right or wrong (on/off) |
 | G / Q | save / save and quit |
