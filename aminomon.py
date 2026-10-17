@@ -95,6 +95,7 @@ import dibujo as d
 import equipo
 import idioma
 import jefes
+import caras
 import logros
 import posgame
 import manual
@@ -217,15 +218,6 @@ def titulo(win):
         return opciones[sel]
 
 
-CARITA = [
-    "  .-\"\"\"-.  ",
-    " /  ^ ^  \\ ",
-    "|  \\___/  |",
-    " \\       / ",
-    "  '-...-'  ",
-]
-
-
 def bienvenida(win, c):
     """Tarjeta «¡X se unió a tu equipo!» con su estructura y una carita feliz."""
     a = datos.AMINOACIDOS[c]
@@ -234,8 +226,9 @@ def bienvenida(win, c):
     color = a["tipos"][0]
     alto, ancho = win.getmaxyx()
     ancho_est = d.ancho_estructura(arte, etiqueta)
-    w = min(ancho - 2, max(60, ancho_est + len(CARITA[0]) + 12))
-    h = min(alto - 1, max(len(arte) + 2, len(CARITA)) + 8)
+    cara = caras.carita(c)
+    w = min(ancho - 2, max(60, ancho_est + len(cara[0]) + 12))
+    h = min(alto - 1, max(len(arte) + 2, len(cara)) + 8)
     y0, x0 = (alto - h) // 2, (ancho - w) // 2
     win.erase()
     d.caja(win, y0, x0, h, w, attr=d.c(color, curses.A_BOLD))
@@ -245,11 +238,12 @@ def bienvenida(win, c):
     d.put(win, y0 + 2, x0 + (w - len(codigos)) // 2, codigos, d.c("titulo"))
     yc = y0 + 4
     xc = x0 + 3
-    for i, l in enumerate(CARITA):
-        d.put(win, yc + max(0, len(arte) - len(CARITA)) // 2 + i, xc, l,
-              d.c("titulo", curses.A_BOLD))
-    d.estructura(win, yc, xc + len(CARITA[0]) + 5, arte, etiqueta_r=etiqueta, color_r=color)
-    d.etiqueta_tipos(win, y0 + h - 3, x0 + 3, a["tipos"])
+    color_grupo = d.COLOR_GRUPO[a["grupo"]]          # el color del grupo de Lehninger
+    for i, l in enumerate(cara):
+        d.put(win, yc + max(0, len(arte) - len(cara)) // 2 + i, xc, l,
+              d.c(color_grupo, curses.A_BOLD))
+    d.estructura(win, yc, xc + len(cara[0]) + 5, arte, etiqueta_r=etiqueta, color_r=color)
+    d.put(win, y0 + h - 4, x0 + 3, datos.GRUPOS[a["grupo"]], d.c(color_grupo, curses.A_BOLD))
     d.put(win, y0 + h - 2, x0 + w - 18, tr("[Enter] seguir"), d.c("tenue"))
     win.refresh()
     curses.flushinp()
