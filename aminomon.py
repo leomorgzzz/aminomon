@@ -30,9 +30,11 @@ def _asegurar_curses():
 
 
 def _pantalla_completa():
-    """Al abrir el ejecutable con doble clic, pone la terminal en pantalla
-    completa: Alt+Enter en Windows (consola o Windows Terminal) y la
-    secuencia de maximizar en macOS."""
+    """Al abrir el ejecutable con doble clic: en la consola clásica de Windows
+    (la del acceso directo) pone pantalla completa y elige la fuente con el
+    tamaño del monitor (ver pantalla.py); en Windows Terminal hace Alt+Enter, y
+    en macOS manda la secuencia de maximizar. Si la terminal no se deja, la
+    pantalla de calibración explica qué teclas usar."""
     if not getattr(sys, "frozen", False) or os.environ.get("AMINOMON_REINICIO"):
         return
     import time
@@ -45,90 +47,20 @@ def _pantalla_completa():
         return
     import ctypes
     import msvcrt
-    kernel32, user32 = ctypes.windll.kernel32, ctypes.windll.user32
-    try:
-        user32.SetProcessDPIAware()             # tamaños en píxeles reales
-    except AttributeError:
-        pass
-    clase = ctypes.create_unicode_buffer(64)
-    consola = kernel32.GetConsoleWindow()
-    user32.GetClassNameW(consola, clase, 64)
-    if consola and clase.value == "ConsoleWindowClass":
-        # consola clásica (el acceso directo del instalador): se maximiza
-        # (siempre funciona) y luego pantalla completa; la fuente se ajusta
-        # al tamaño que quedó
-        user32.ShowWindow(consola, 3)           # SW_MAXIMIZE
-        user32.SetForegroundWindow(consola)
-        time.sleep(0.2)
-        nada = ctypes.c_uint32()
-        if not kernel32.SetConsoleDisplayMode(kernel32.GetStdHandle(-11), 1, ctypes.byref(nada)):
-            _alt_enter(user32)
-        time.sleep(0.5)
-        _ajustar_fuente()
-    else:
+    import pantalla
+    if not pantalla.ajustar_consola_windows():
+        user32 = ctypes.windll.user32
+        clase = ctypes.create_unicode_buffer(64)
         for _ in range(20):                 # Windows Terminal tarda un poco en aparecer
             user32.GetClassNameW(user32.GetForegroundWindow(), clase, 64)
             if clase.value == "CASCADIA_HOSTING_WINDOW_CLASS":
+                pantalla._alt_enter(user32)
+                time.sleep(0.6)
                 break
             time.sleep(0.05)
-        else:
-            return
-        _alt_enter(user32)
-        time.sleep(0.6)
     while msvcrt.kbhit():                   # por si la terminal dejó pasar el Enter
         msvcrt.getwch()
 
-
-def _alt_enter(user32):
-    alt, enter, soltar = 0x12, 0x0D, 0x0002
-    user32.keybd_event(alt, 0, 0, 0)
-    user32.keybd_event(enter, 0, 0, 0)
-    user32.keybd_event(enter, 0, soltar, 0)
-    user32.keybd_event(alt, 0, soltar, 0)
-
-
-def _ajustar_fuente():
-    """En la consola clásica de Windows cambia el tamaño de la fuente hasta que
-    la ventana mida unas 190-215 columnas: cabe el mapa entero con el panel y
-    el texto no queda ni enorme ni diminuto, sea cual sea la pantalla."""
-    import ctypes
-    import time
-    from ctypes import wintypes
-
-    class COORD(ctypes.Structure):
-        _fields_ = [("X", ctypes.c_short), ("Y", ctypes.c_short)]
-
-    class FUENTE(ctypes.Structure):
-        _fields_ = [("cbSize", wintypes.ULONG), ("nFont", wintypes.DWORD),
-                    ("dwFontSize", COORD), ("FontFamily", ctypes.c_uint),
-                    ("FontWeight", ctypes.c_uint), ("FaceName", ctypes.c_wchar * 32)]
-
-    class BUFER(ctypes.Structure):
-        _fields_ = [("dwSize", COORD), ("dwCursorPosition", COORD),
-                    ("wAttributes", wintypes.WORD), ("srWindow", wintypes.SMALL_RECT),
-                    ("dwMaximumWindowSize", COORD)]
-
-    kernel32 = ctypes.windll.kernel32
-    salida = kernel32.GetStdHandle(-11)
-    f, b = FUENTE(), BUFER()
-    f.cbSize = ctypes.sizeof(FUENTE)
-    if not kernel32.GetCurrentConsoleFontEx(salida, False, ctypes.byref(f)):
-        return
-    tam = f.dwFontSize.Y or 16
-    for _ in range(16):
-        if not kernel32.GetConsoleScreenBufferInfo(salida, ctypes.byref(b)):
-            return
-        columnas = b.srWindow.Right - b.srWindow.Left + 1
-        if columnas > 215:
-            tam += 1
-        elif columnas < 190 and tam > 10:
-            tam -= 1
-        else:
-            return
-        f.nFont, f.dwFontSize, f.FontFamily, f.FontWeight = 0, COORD(0, tam), 54, 400
-        f.FaceName = "Consolas"
-        kernel32.SetCurrentConsoleFontEx(salida, False, ctypes.byref(f))
-        time.sleep(0.08)
 
 def _con_aviso_de_error(funcion):
     """En el ejecutable, un error no cierra la ventana sin decir nada: se
@@ -251,7 +183,7 @@ def titulo(win):
                        ancho=ancho, alto=alto)
             d.put(win, alto - 2, (ancho - len(aviso)) // 2, aviso, d.c("agua"))
         d.put(win, alto - 1, 1, f"v{actualizar.version()}", d.c("tenue"))
-        opciones = (["continuar"] if hay_partida else []) + ["nueva", "manual", "idioma"]
+        opciones = (["continuar"] if hay_partida else []) + ["nueva", "manual", "pantalla", "idioma"]
         if actualizar.NUEVA:
             opciones.append("actualizar")
         opciones.append("salir")
@@ -259,6 +191,7 @@ def titulo(win):
         textos = {"continuar": tr("Continuar"), "nueva": tr("Nueva partida"),
                   "manual": tr("Manual"), "salir": tr("Salir"),
                   "actualizar": tr("Actualizar a {version}", version=actualizar.NUEVA),
+                  "pantalla": tr("Tamaño de la pantalla"),
                   "idioma": "English" if idioma.ACTUAL == "es" else "Español"}
         sel = d.menu(win, None, [textos[o] for o in opciones], y=y0 + 10)
         if sel is None:
@@ -269,6 +202,10 @@ def titulo(win):
             continue
         if opciones[sel] == "manual":
             manual.mostrar(win, progreso.nuevo_juego(mapa.INICIO))
+            continue
+        if opciones[sel] == "pantalla":
+            import pantalla
+            pantalla.calibrar(win, d, tr, forzar=True)
             continue
         if opciones[sel] == "idioma":
             idioma.guardar("en" if idioma.ACTUAL == "es" else "es")
@@ -769,7 +706,7 @@ class Partida:
 
 
 def main(win):
-    curses.curs_set(0)
+    d.cursor(0)
     d.init_colores()
     win.keypad(True)
     # sin optimizaciones de insertar/borrar caracteres: con texto acentuado
@@ -779,6 +716,8 @@ def main(win):
     if hasattr(curses, "set_escdelay"):
         curses.set_escdelay(25)
     esperar_tamano(win)
+    import pantalla
+    pantalla.calibrar(win, d, tr)
     eleccion = titulo(win)
     if eleccion in ("salir", "idioma"):
         return eleccion
@@ -793,7 +732,8 @@ if __name__ == "__main__":
         sys.exit(0 if bien else 1)
     if not os.environ.get("AMINOMON_REINICIO"):
         actualizar.revisar_en_fondo()
-    locale.setlocale(locale.LC_ALL, "")
+    import pantalla
+    pantalla.locale_utf8()
     _pantalla_completa()
     resultado = _con_aviso_de_error(lambda: curses.wrapper(main))
     if INSTALAR:

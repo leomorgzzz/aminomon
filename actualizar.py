@@ -32,7 +32,7 @@ NUEVA = None              # "v1.8" cuando hay una versión más nueva
 _HILO = None
 
 
-@functools.cache
+@functools.lru_cache(maxsize=None)
 def version():
     try:
         from version import VERSION

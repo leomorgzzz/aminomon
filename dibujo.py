@@ -43,7 +43,18 @@ COLOR_GRUPO = {
 }
 
 
+def cursor(visible):
+    """Muestra u oculta el cursor; algunas terminales (vt100, ciertas de
+    Windows) no lo permiten y curses lanza un error."""
+    try:
+        curses.curs_set(visible)
+    except curses.error:
+        pass
+
+
 def init_colores():
+    if not curses.has_colors():
+        return                      # terminal sin colores: todo sale con el atributo normal
     curses.start_color()
     try:
         curses.use_default_colors()
@@ -277,6 +288,8 @@ def tecla(win, texto=False):
         except curses.error:
             continue
         if k == curses.KEY_RESIZE and os.name == "nt":
+            import pantalla
+            pantalla.igualar_bufer()        # sin búfer más grande que la ventana
             curses.resize_term(0, 0)        # PDCurses no actualiza el tamaño solo
         if not texto and k in MOVIMIENTO:
             _descartar_repetidas(win, k)
@@ -394,7 +407,7 @@ def menu(win, titulo, opciones, y=None, x=None, ancho=None, ayuda=None,
 def pedir_texto(win, y, x, prompt, largo=10, attr=None):
     """Campo de texto simple. Devuelve str o None si se pulsa Esc."""
     texto = ""
-    curses.curs_set(1)
+    cursor(1)
     try:
         while True:
             put(win, y, x, prompt, attr if attr is not None else c("texto"))
@@ -415,7 +428,7 @@ def pedir_texto(win, y, x, prompt, largo=10, attr=None):
             elif isinstance(k, str) and k.isprintable() and len(texto) < largo:
                 texto += k
     finally:
-        curses.curs_set(0)
+        cursor(0)
 
 
 # --------------------------------------------------------------- tablas

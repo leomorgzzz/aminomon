@@ -468,7 +468,7 @@ def chaperona(win, juego):
                    "Maestría en Aminoácidos.", n=aciertos, total=total)
         if extras:
             juego["objetos"]["ATP"] += extras
-            nombres = tr(" y ").join(t.removeprefix("extra: ") for t, _ in EXTRAS[:extras])
+            nombres = tr(" y ").join((t[len("extra: "):] if t.startswith("extra: ") else t) for t, _ in EXTRAS[:extras])
             texto += "\n\n" + tr("Extra: {nombres}. Recibes {n} ATP.", nombres=nombres, n=extras)
         texto += "\n\n" + tr("Puedes seguir explorando. El siguiente nivel es el examen "
                              "final; habla con el René-virus (V).")
