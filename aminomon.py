@@ -255,9 +255,7 @@ def intro(win):
     juego = progreso.nuevo_juego(mapa.INICIO)
     d.dialogo(win, [
         tr("Soy el René-virus, un virus inofensivo: no enfermo a nadie, solo "
-           "estudio proteómica. Como todo virus, no tengo ribosomas propios: mis "
-           "proteínas las fabrican los ribosomas de la célula con los 20 "
-           "aminoácidos estándar. Tu trabajo es encontrarlos y caracterizarlos."),
+           "estudio proteómica. Como la mayoría de los virus, no traigo ninguna pieza de ribosoma: mis proteínas las fabrican los ribosomas de la célula con los 20 aminoácidos estándar. (Algunos virus gigantes y fagos sí traen genes de unas pocas proteínas ribosomales, pero ningún virus conocido arma un ribosoma completo: todos traducen con los de la célula.) Tu trabajo es encontrarlos y caracterizarlos."),
         tr("En este juego cada aminoácido aparece donde su química es protagonista: "
            "los no polares en la membrana, los básicos junto al ARN ribosomal y al "
            "ADN. En una célula real hay aminoácidos libres en todas partes."),

@@ -27,8 +27,8 @@ EN = {
         'Manual',
     'Salir':
         'Quit',
-    'Soy el René-virus, un virus inofensivo: no enfermo a nadie, solo estudio proteómica. Como todo virus, no tengo ribosomas propios: mis proteínas las fabrican los ribosomas de la célula con los 20 aminoácidos estándar. Tu trabajo es encontrarlos y caracterizarlos.':
-        "I'm the René-virus, a harmless virus: I don't make anyone sick, I just study proteomics. Like every virus, I have no ribosomes of my own: my proteins are made by the cell's ribosomes from the 20 standard amino acids. Your job is to find them and characterize them.",
+    'Soy el René-virus, un virus inofensivo: no enfermo a nadie, solo estudio proteómica. Como la mayoría de los virus, no traigo ninguna pieza de ribosoma: mis proteínas las fabrican los ribosomas de la célula con los 20 aminoácidos estándar. (Algunos virus gigantes y fagos sí traen genes de unas pocas proteínas ribosomales, pero ningún virus conocido arma un ribosoma completo: todos traducen con los de la célula.) Tu trabajo es encontrarlos y caracterizarlos.':
+        "I'm the René-virus, a harmless virus: I don't make anyone sick, I just study proteomics. Like most viruses, I carry no piece of a ribosome: my proteins are made by the cell's ribosomes from the 20 standard amino acids. (Some giant viruses and phages do carry genes for a few ribosomal proteins, but no known virus builds a complete ribosome: they all translate with the cell's.) Your job is to find them and characterize them.",
     'En este juego cada aminoácido aparece donde su química es protagonista: los no polares en la membrana, los básicos junto al ARN ribosomal y al ADN. En una célula real hay aminoácidos libres en todas partes.':
         'In this game each amino acid shows up where its chemistry plays the lead role: the nonpolar ones in the membrane, the basic ones next to ribosomal RNA and DNA. In a real cell there are free amino acids everywhere.',
     'Cada aminoácido pertenece a uno de los 5 grupos de Lehninger y cada movimiento usa la química de uno de ellos. La afinidad depende de la interacción real entre los dos grupos; la tabla completa está en el manual [M].':
