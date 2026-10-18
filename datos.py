@@ -197,7 +197,7 @@ AMINOACIDOS = {
             "        |",
             "        CH3",
         ],
-        pista="Tioéter (S sin H). AUG es el codón de inicio: toda proteína se empieza a sintetizar con Met. Da origen a la SAM, el donador de metilos.",
+        pista="Tioéter (S sin H). AUG es el codón de inicio: casi toda proteína se empieza a sintetizar con Met. Da origen a la SAM, el donador de metilos.",
     ),
     "P": dict(
         nombre="Prolina", tres="Pro", grupo="alifatico", tipos=("NP",),
@@ -888,7 +888,7 @@ ZONAS = {
         por_que="Ribosomas libres traduciendo ARNm en el citosol. Sus proteínas "
                 "ribosomales son muy ricas en Lys: sus cargas + neutralizan los "
                 "fosfatos (−) del ARN ribosomal. Aquí "
-                "consigues las Lys para tu NLS; la Arg solo vive dentro del "
+                "consigues las Lys para tu NLS; en el juego, la Arg solo vive dentro del "
                 "núcleo.",
     ),
     "nucleo": dict(

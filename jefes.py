@@ -95,8 +95,7 @@ JEFES = {
         nombre="Guardián del Golgi", reto="Dominio tipo mucina",
         desc="En el Golgi se añaden O-glicanos al OH de Ser y Thr. Construye un "
              "dominio tipo mucina: al menos 6 residuos y al menos 60% de S o T. "
-             "(La Asn llega del RE ya N-glicosilada; aquí solo se recorta su "
-             "glicano.)",
+             "(La Asn llega del RE ya N-glicosilada; aquí su glicano se recorta y se le agregan azúcares.)",
         utiles="ST",
         condiciones=lambda s: [(tr("Al menos 6 residuos"), len(s) >= 6),
                                (tr("≥ 60% de Ser o Thr"), frac_st(s) >= 0.6)],
@@ -120,9 +119,7 @@ JEFES = {
         condiciones=lambda s: [(tr("Entre 3 y 8 residuos"), 3 <= len(s) <= 8),
                                (tr("Carga a pH 7.4 entre −1 y +1"), -1 <= carga_ph(s, 7.4) <= 1),
                                (tr("Carga a pH 5.0 ≥ +2"), carga_ph(s, 5.0) >= 2)],
-        bio="La His (pKR 6) es la única cadena lateral que cambia mucho de "
-            "carga entre pH 7.4 y 5. Así funcionan los péptidos que escapan de "
-            "endosomas y muchos sensores de pH en proteínas.",
+        bio="La His (pKR 6) es la cadena lateral que más cambia de carga entre pH 7.4 y 5. Así funcionan muchos péptidos que escapan de endosomas y muchos sensores de pH en proteínas.",
         premio=("ATP", 3),
     ),
     "mec": dict(
@@ -525,8 +522,7 @@ MUTACIONES = [
                 "de proliferación",
                 "Se forma un puente disulfuro que la deja inactiva para siempre",
                 "Nada: Gly y Asp son pequeños y caben en el mismo sitio"],
-         expl="La Gly12 está pegada al sitio del GTP; cualquier cadena lateral "
-              "impide que la GAP acelere la hidrólisis. KRAS-GTP sigue mandando "
+         expl="La Gly12 está pegada al sitio del GTP; casi cualquier cadena lateral impide que la GAP acelere la hidrólisis. KRAS-GTP sigue mandando "
               "señales de proliferación."),
     dict(texto="Fenilcetonuria: en la fenilalanina hidroxilasa, Arg408 → Trp "
                "(R408W). ¿Qué se pierde en ese sitio?",

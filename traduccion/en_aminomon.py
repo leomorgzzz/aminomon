@@ -33,8 +33,8 @@ EN = {
         'In this game each amino acid shows up where its chemistry plays the lead role: the nonpolar ones in the membrane, the basic ones next to ribosomal RNA and DNA. In a real cell there are free amino acids everywhere.',
     'Cada aminoácido pertenece a uno de los 5 grupos de Lehninger y cada movimiento usa la química de uno de ellos. La afinidad depende de la interacción real entre los dos grupos; la tabla completa está en el manual [M].':
         "Each amino acid belongs to one of Lehninger's 5 groups, and each move uses the chemistry of one of them. Affinity depends on the real interaction between the two groups; the full table is in the manual [M].",
-    'Empiezas con Metionina: AUG es el codón de inicio, así que toda proteína se empieza a sintetizar con ella.':
-        'You start with Methionine: AUG is the start codon, so every protein starts being made with it.',
+    'Empiezas con Metionina: AUG es el codón de inicio, así que casi toda proteína se empieza a sintetizar con ella.':
+        'You start with Methionine: AUG is the start codon, so almost every protein starts being made with it.',
     'Elige un segundo aminoácido (1-3)':
         'Choose a second amino acid (1-3)',
     'Cargado +. Puente salino ×2 contra los ácidos del RE y catión–π contra los aromáticos.':
@@ -45,8 +45,8 @@ EN = {
         'Polar uncharged. H-bonds ×2 against polar ones. With ATP a kinase phosphorylates it and it becomes Charged −.',
     'Tu equipo inicial: Metionina y {nombre}.\n\nEn las zonas marcadas con símbolos aparecen aminoácidos salvajes. Deduce su grupo [D], usa movimientos afines y, con afinidad ≥ 50, lanza un ARNt [T].':
         'Your starting team: Methionine and {nombre}.\n\nWild amino acids appear in the areas marked with symbols. Deduce their group [D], use moves with affinity and, with affinity ≥ 50, throw a tRNA [T].',
-    'La mitocondria (☼) restablece a tu equipo y recarga ATP. Los jefes (J) piden construir péptidos. Para entrar al núcleo necesitas una NLS rica en Lys (K), que encontrarás en los ribosomas (÷); la Arg (R) solo vive dentro del núcleo. Los carteles (i) describen cada compartimento. Yo soy la V del mapa: búscame cuando quieras un consejo.':
-        "The mitochondrion (☼) restores your team and recharges ATP. Bosses (J) ask you to build peptides. To enter the nucleus you need an NLS rich in Lys (K), which you'll find in the ribosomes (÷); Arg (R) only lives inside the nucleus. Signs (i) describe each compartment. I'm the V on the map: come find me whenever you want advice.",
+    'La mitocondria (☼) restablece a tu equipo y recarga ATP. Los jefes (J) piden construir péptidos. Para entrar al núcleo necesitas una NLS rica en Lys (K), que encontrarás en los ribosomas (÷); en el juego, la Arg (R) solo vive dentro del núcleo. Los carteles (i) describen cada compartimento. Yo soy la V del mapa: búscame cuando quieras un consejo.':
+        "The mitochondrion (☼) restores your team and recharges ATP. Bosses (J) ask you to build peptides. To enter the nucleus you need an NLS rich in Lys (K), which you'll find in the ribosomes (÷); in the game, Arg (R) only lives inside the nucleus. Signs (i) describe each compartment. I'm the V on the map: come find me whenever you want advice.",
     ' · P cadena':
         ' · P chain',
     'EQUIPO':

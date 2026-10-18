@@ -130,8 +130,7 @@ def p_jugar(juego, rival, an):
         *parrafo(tr("Cada jefe pide construir un péptido con lo que ya capturaste; "
                     "al lograrlo ves tu péptido dibujado. El poro nuclear es un jefe: "
                     "necesitas una NLS con al menos 4 Lys (viven en los "
-                    "ribosomas ÷) para entrar al núcleo. La Arg solo vive "
-                    "adentro (núcleo y nucléolo). En cada reto puedes usar cada "
+                    "ribosomas ÷) para entrar al núcleo. En el juego, la Arg solo vive adentro (núcleo y nucléolo). En cada reto puedes usar cada "
                     "aminoácido tantas veces como lo tengas en tu equipo."), an),
         L(""),
         T(tr("Después de la Chaperona")),
@@ -349,7 +348,7 @@ def p_nutricion(juego, rival, an):
         out.append(L(""))
     out.append(T(tr("Truco para los esenciales")))
     out += parrafo(tr("'PVT TIM HaLL': Phe Val Thr Trp Ile Met His (Arg) Leu Lys. La A "
-                      "es Arg, que solo es esencial en neonatos (condicional)."), an, sangria="  ")
+                      "es Arg, esencial solo en ciertas condiciones (p. ej., en neonatos)."), an, sangria="  ")
     return out
 
 

@@ -263,7 +263,7 @@ def intro(win):
            "movimiento usa la química de uno de ellos. La afinidad depende de la "
            "interacción real entre los dos grupos; la tabla completa está en el "
            "manual [M]."),
-        tr("Empiezas con Metionina: AUG es el codón de inicio, así que toda proteína se empieza a sintetizar con ella."),
+        tr("Empiezas con Metionina: AUG es el codón de inicio, así que casi toda proteína se empieza a sintetizar con ella."),
     ], tr("René-virus"))
     progreso.capturar(juego, "M", 3)
     bienvenida(win, "M")
@@ -306,8 +306,7 @@ def intro(win):
            "lanza un ARNt [T].", nombre=a["nombre"]),
         tr("La mitocondria (☼) restablece a tu equipo y recarga ATP. Los jefes "
            "(J) piden construir péptidos. Para entrar al núcleo necesitas una NLS "
-           "rica en Lys (K), que encontrarás en los ribosomas (÷); la Arg (R) "
-           "solo vive dentro del núcleo. Los carteles (i) describen cada "
+           "rica en Lys (K), que encontrarás en los ribosomas (÷); en el juego, la Arg (R) solo vive dentro del núcleo. Los carteles (i) describen cada "
            "compartimento. Yo soy la V del mapa: búscame cuando quieras un consejo."),
         tr("Para atrapar un aminoácido hay que reconocer su estructura. Practica "
            "cuando quieras en la Aminodex: [X] y luego [P]. Los que fallas te "

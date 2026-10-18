@@ -253,8 +253,8 @@ EN = {
         'The most hydrophobic (KD 4.5). It has two chiral carbons (Cα and Cβ). Isomer of Leu.',
     'Metionina':
         'Methionine',
-    'Tioéter (S sin H). AUG es el codón de inicio: toda proteína se empieza a sintetizar con Met. Da origen a la SAM, el donador de metilos.':
-        'Thioether (S without H). AUG is the start codon: every protein starts being made with Met. It gives rise to SAM, the methyl donor.',
+    'Tioéter (S sin H). AUG es el codón de inicio: casi toda proteína se empieza a sintetizar con Met. Da origen a la SAM, el donador de metilos.':
+        'Thioether (S without H). AUG is the start codon: almost every protein starts being made with Met. It gives rise to SAM, the methyl donor.',
     'Prolina':
         'Proline',
     'Su α-amino es secundario: la cadena lateral se cierra sobre el N. Ese anillo rígido rompe hélices α y forma giros. Su pK2 (10.96) es el más alto de todos.':
@@ -439,8 +439,8 @@ EN = {
         'The polar ones live here: on the surface of soluble proteins they form H-bonds with water.',
     'Ribosomas':
         'Ribosomes',
-    'Ribosomas libres traduciendo ARNm en el citosol. Sus proteínas ribosomales son muy ricas en Lys: sus cargas + neutralizan los fosfatos (−) del ARN ribosomal. Aquí consigues las Lys para tu NLS; la Arg solo vive dentro del núcleo.':
-        'Free ribosomes translating mRNA in the cytosol. Their ribosomal proteins are very rich in Lys: their + charges neutralize the (−) phosphates of ribosomal RNA. Here you get the Lys for your NLS; Arg only lives inside the nucleus.',
+    'Ribosomas libres traduciendo ARNm en el citosol. Sus proteínas ribosomales son muy ricas en Lys: sus cargas + neutralizan los fosfatos (−) del ARN ribosomal. Aquí consigues las Lys para tu NLS; en el juego, la Arg solo vive dentro del núcleo.':
+        'Free ribosomes translating mRNA in the cytosol. Their ribosomal proteins are very rich in Lys: their + charges neutralize the (−) phosphates of ribosomal RNA. Here you get the Lys for your NLS; in the game, Arg only lives inside the nucleus.',
     'Núcleo (cromatina)':
         'Nucleus (chromatin)',
     'Las histonas son ricas en Lys y Arg y abrazan al ADN, cargado (−) por sus fosfatos; H3 y H4 son las histonas «ricas en Arg». La Arg solo aparece aquí y en el nucléolo. Para entrar, tu proteína necesita una señal de localización nuclear (NLS).':
