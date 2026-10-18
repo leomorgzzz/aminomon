@@ -562,22 +562,8 @@ class Partida:
                "Ir con el René-virus"]
         op = d.menu(self.win, "Trampa", ops)
         if op in (0, 1):
-            for c in datos.ORDEN:
-                if not progreso.capturado(j, c):
-                    progreso.capturar(j, c, 30)
-            for m in datos.MODIFICACIONES:
-                if m not in j["evos_vistas"]:
-                    j["evos_vistas"].append(m)
-                    j["equipo"].append(progreso.nuevo_mon(m, 30))
-            j["vistos"] = list(dict.fromkeys(j["vistos"] + list(datos.ORDEN)))
-            j["insignias"] = list(jefes.JEFES)
-            j["zonas_visitadas"] = list(datos.ZONAS)
-            j["terminado"] = j["doctorado"] = j["sec"] = True
-            posgame.dar_sec(j)
-        if op == 1:
-            j["peptidos"] = list(datos.PEPTIDOS)
-            j.setdefault("records", {})["laboratorio"] = 6
-        elif op == 2:
+            desbloquear(j, todo=op == 1)
+        if op == 2:
             j["recompensas"] = [r for r in j["recompensas"] if r == "sec_equipo"]
         elif op == 3:
             j["objetos"]["ATP"] = 99
@@ -758,6 +744,17 @@ def main(win):
     esperar_tamano(win)
     import pantalla
     pantalla.calibrar(win, d, tr)
+    if TRAMPA:
+        # directo a una partida con todo desbloqueado, junto al René-virus
+        juego = progreso.cargar()
+        if juego is None:
+            juego = progreso.nuevo_juego(mapa.INICIO)
+            desbloquear(juego)
+            progreso.guardar(juego)
+        partida = Partida(win, juego)
+        partida.mensaje = "Modo trampa: * o F9 abre el menú de trampas."
+        partida.jugar()
+        return None
     eleccion = titulo(win)
     if eleccion in ("salir", "idioma"):
         return eleccion
@@ -766,6 +763,27 @@ def main(win):
 
 
 TRAMPA = "--trampa" in sys.argv
+
+
+def desbloquear(j, todo=False):
+    """La trampa: todo lo del juego principal hecho (y con todo=True, también
+    el post-juego)."""
+    for c in datos.ORDEN:
+        if not progreso.capturado(j, c):
+            progreso.capturar(j, c, 30)
+    for m in datos.MODIFICACIONES:
+        if m not in j["evos_vistas"]:
+            j["evos_vistas"].append(m)
+            j["equipo"].append(progreso.nuevo_mon(m, 30))
+    j["vistos"] = list(dict.fromkeys(j["vistos"] + list(datos.ORDEN)))
+    j["insignias"] = list(jefes.JEFES)
+    j["zonas_visitadas"] = list(datos.ZONAS)
+    j["terminado"] = j["doctorado"] = j["sec"] = True
+    posgame.dar_sec(j)
+    if todo:
+        j["peptidos"] = list(datos.PEPTIDOS)
+        j.setdefault("records", {})["laboratorio"] = 6
+
 if TRAMPA:
     progreso.ARCHIVO = os.path.expanduser("~/.aminomon_trampa.json")
 
