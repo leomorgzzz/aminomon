@@ -124,7 +124,7 @@ def p_jugar(juego, rival, an):
                     "quística, KRAS, Huntington…)."), an),
         L(""),
         T(tr("Después del examen final")),
-        *parrafo(tr("El René-virus te hace encargos de síntesis: péptidos reales (encefalinas, oxitocina, angiotensina II, sustancia P…). Traduces su ARNm y, si tu equipo tiene suficientes copias de cada residuo, se sintetiza y entra a la pestaña Péptidos de la Aminodex."), an),
+        *parrafo(tr("El René-virus te hace 6 encargos de síntesis, del RGD al péptido Tat. Cada péptido se arma en un ribosoma: a cada codón que llega al sitio A le eliges su ARNt antes de que se acabe el tiempo. Si fallas no te da la respuesta: te marca los codones malos y lo repites con otros. Al terminar se abre la síntesis libre con el resto del catálogo, y todo lo que sintetizas entra a la pestaña Péptidos de la Aminodex."), an),
     ]
 
 

@@ -101,6 +101,7 @@ import posgame
 import manual
 import mapa
 import progreso
+import sintesis
 from idioma import tr
 
 PROB_ENCUENTRO = 0.10
@@ -509,7 +510,7 @@ class Partida:
                 op = d.menu(self.win, tr("René-virus"), [t for _, t in ops])
                 clave = ops[op][0] if op is not None else "nada"
                 if clave == "encargo":
-                    jefes.encargo(self.win, j)
+                    sintesis.encargo(self.win, j)
                 elif clave == "lab":
                     posgame.laboratorio(self.win, j)
                 elif clave == "sec":
@@ -549,6 +550,45 @@ class Partida:
                 j["carteles_leidos"].append(especial)
             self.dibujar()
             d.popup(self.win, texto, titulo_c)
+
+    def trampa(self):
+        """Solo con --trampa (para probar sin volver a jugar todo). Usa su propia
+        partida, ~/.aminomon_trampa.json, así que la normal no se toca."""
+        j = self.juego
+        ops = ["Desbloquear hasta el post-juego (sin péptidos ni laboratorio)",
+               "Completar todo (habla con el René-virus para ver el final)",
+               "Borrar avisos y regalos (para volver a verlos)",
+               "ATP 99 y equipo curado",
+               "Ir con el René-virus"]
+        op = d.menu(self.win, "Trampa", ops)
+        if op in (0, 1):
+            for c in datos.ORDEN:
+                if not progreso.capturado(j, c):
+                    progreso.capturar(j, c, 30)
+            for m in datos.MODIFICACIONES:
+                if m not in j["evos_vistas"]:
+                    j["evos_vistas"].append(m)
+                    j["equipo"].append(progreso.nuevo_mon(m, 30))
+            j["vistos"] = list(dict.fromkeys(j["vistos"] + list(datos.ORDEN)))
+            j["insignias"] = list(jefes.JEFES)
+            j["zonas_visitadas"] = list(datos.ZONAS)
+            j["terminado"] = j["doctorado"] = j["sec"] = True
+            posgame.dar_sec(j)
+        if op == 1:
+            j["peptidos"] = list(datos.PEPTIDOS)
+            j.setdefault("records", {})["laboratorio"] = 6
+        elif op == 2:
+            j["recompensas"] = [r for r in j["recompensas"] if r == "sec_equipo"]
+        elif op == 3:
+            j["objetos"]["ATP"] = 99
+            progreso.curar_equipo(j)
+        elif op == 4:
+            j["pos"] = list(mapa.INICIO)
+            self.zona = mapa.zona(*j["pos"])
+            self.rastro = []
+        if op is not None:
+            progreso.guardar(j)
+            self.mensaje = "Trampa aplicada."
 
     def regalos(self):
         """Regalos del René-virus por completar la Aminodex y las modificaciones."""
@@ -609,14 +649,13 @@ class Partida:
             partes.append(tr("Ya tienes la Maestría de la Chaperona. Solo te falta mi "
                              "examen final."))
         else:
-            n, total = len(j["peptidos"]), len(datos.PEPTIDOS)
+            n, total = sintesis.capitulo(j), len(sintesis.HISTORIA)
             if n < total:
-                partes.append(tr("Encargos de síntesis: {n}/{total} péptidos del catálogo. Los "
-                                 "largos piden varias copias del mismo aminoácido: sigue "
-                                 "capturando.", n=n, total=total))
+                partes.append(tr("Encargos de síntesis: llevas {n}/{total}. Cada uno es un "
+                                 "péptido real que armas en el ribosoma.", n=n, total=total))
             else:
-                partes.append(tr("Catálogo de péptidos completo. Puedes repetir encargos "
-                                 "y mi examen para seguir practicando."))
+                partes.append(tr("Terminaste mis encargos. En «Síntesis libre» quedan los "
+                                 "otros péptidos del catálogo, y puedes repetir mi examen."))
         if not all(m["energia"] > 0 for m in j["equipo"]):
             partes.append(tr("Tu equipo está cansado: ve a la mitocondria (☼)."))
         lista = progreso.pendientes(j)
@@ -694,6 +733,8 @@ class Partida:
                                 if ajustes["sonido"] else tr("Sonido desactivado."))
                 if ajustes["sonido"]:
                     progreso.sonar(True)
+            elif TRAMPA and (k == curses.KEY_F9 or k == "*"):
+                self.trampa()
             elif d.es(k, "g"):
                 progreso.guardar(self.juego)
                 self.mensaje = tr("Partida guardada en ~/.aminomon.json")
@@ -723,6 +764,10 @@ def main(win):
     juego = progreso.cargar() if eleccion == "continuar" else intro(win)
     Partida(win, juego).jugar()
 
+
+TRAMPA = "--trampa" in sys.argv
+if TRAMPA:
+    progreso.ARCHIVO = os.path.expanduser("~/.aminomon_trampa.json")
 
 if __name__ == "__main__":
     if "--update" in sys.argv or "--actualizar" in sys.argv:

@@ -401,4 +401,6 @@ EN = {
         'UGG is the only Trp codon. The ribosome stops translating when it reaches a stop codon.',
     'Casi todos los aminoácidos tienen más de un codón, y suelen diferir en la tercera base.':
         'Almost every amino acid has more than one codon, and they usually differ in the third base.',
+    'Ahora puedo hacerte encargos de síntesis: {n} péptidos reales que armarás en un ribosoma, codón por codón. Habla conmigo (V) cuando quieras; te explico todo desde cero. Los que hagas quedan en la pestaña Péptidos de la Aminodex [X].':
+        "Now I can give you synthesis orders: {n} real peptides you'll build on a ribosome, codon by codon. Talk to me (V) whenever you like; I'll explain everything from scratch. The ones you make go into the Peptides tab of the Aminodex [X].",
 }

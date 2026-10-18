@@ -29,4 +29,6 @@ EN = {
         'Synthesize the {n} catalog peptides',
     'Resolver 5 de 6 en el laboratorio del René-virus':
         "Solve 5 of 6 in René-virus's lab",
+    'Terminar los {n} encargos de síntesis':
+        'Finish the {n} synthesis orders',
 }

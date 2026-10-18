@@ -187,4 +187,8 @@ EN = {
         'Selenocysteine (event)',
     '¿Ver el evento de la selenocisteína?':
         'See the selenocysteine event?',
+    'Encargos de síntesis: llevas {n}/{total}. Cada uno es un péptido real que armas en el ribosoma.':
+        'Synthesis orders: {n}/{total} done. Each one is a real peptide you build on the ribosome.',
+    'Terminaste mis encargos. En «Síntesis libre» quedan los otros péptidos del catálogo, y puedes repetir mi examen.':
+        'You finished my orders. "Free synthesis" has the other peptides in the catalog, and you can retake my exam.',
 }

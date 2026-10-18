@@ -263,4 +263,6 @@ EN = {
         'In the cell they are made on residues of a protein, during or after translation, not on free amino acids: in the game, each member of your team stands for one of those residues.',
     'En su grupo: ':
         'Within its group: ',
+    'El René-virus te hace 6 encargos de síntesis, del RGD al péptido Tat. Cada péptido se arma en un ribosoma: a cada codón que llega al sitio A le eliges su ARNt antes de que se acabe el tiempo. Si fallas no te da la respuesta: te marca los codones malos y lo repites con otros. Al terminar se abre la síntesis libre con el resto del catálogo, y todo lo que sintetizas entra a la pestaña Péptidos de la Aminodex.':
+        "The René-virus gives you 6 synthesis orders, from RGD to the Tat peptide. Each peptide is built on a ribosome: for every codon that reaches the A site you pick its tRNA before time runs out. If you miss, it doesn't tell you the answer: it marks the wrong codons and you repeat it with other ones. When you finish, free synthesis opens with the rest of the catalog, and everything you synthesize goes into the Peptides tab of the Aminodex.",
 }

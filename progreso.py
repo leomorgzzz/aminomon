@@ -111,6 +111,7 @@ def modificaciones_completas(juego):
 def pendientes(juego):
     """[(texto, hecho)] de todo lo que hay que terminar en el juego."""
     import jefes
+    import sintesis
     return [
         (tr("Capturar los 20 aminoácidos"), aminodex_completa(juego)),
         (tr("Conseguir las {n} modificaciones", n=len(datos.MODIFICACIONES)),
@@ -119,8 +120,8 @@ def pendientes(juego):
         (tr("Aprobar el examen de la Chaperona"), bool(juego.get("terminado"))),
         (tr("Aprobar el examen final del René-virus"), bool(juego.get("doctorado"))),
         (tr("El evento de la selenocisteína"), bool(juego.get("sec"))),
-        (tr("Sintetizar los {n} péptidos del catálogo", n=len(datos.PEPTIDOS)),
-         len(juego.get("peptidos", [])) >= len(datos.PEPTIDOS)),
+        (tr("Terminar los {n} encargos de síntesis", n=len(sintesis.HISTORIA)),
+         sintesis.historia_completa(juego)),
         (tr("Resolver 5 de 6 en el laboratorio del René-virus"),
          juego.get("records", {}).get("laboratorio", 0) >= 5),
     ]
