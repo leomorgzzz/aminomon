@@ -745,12 +745,11 @@ def main(win):
     import pantalla
     pantalla.calibrar(win, d, tr)
     if TRAMPA:
-        # directo a una partida con todo desbloqueado, junto al René-virus
-        juego = progreso.cargar()
-        if juego is None:
-            juego = progreso.nuevo_juego(mapa.INICIO)
-            desbloquear(juego)
-            progreso.guardar(juego)
+        # directo a una partida con todo desbloqueado, junto al René-virus;
+        # se desbloquea en cada arranque (también si ya había una partida)
+        juego = progreso.cargar() or progreso.nuevo_juego(mapa.INICIO)
+        desbloquear(juego)
+        progreso.guardar(juego)
         partida = Partida(win, juego)
         partida.mensaje = "Modo trampa: * o F9 abre el menú de trampas."
         partida.jugar()
