@@ -191,16 +191,10 @@ EN = {
         'Golgi Guardian',
     'Dominio tipo mucina':
         'Mucin-type domain',
-    'En el Golgi se añaden O-glicanos al OH de Ser y Thr. Construye un dominio tipo mucina: al menos 6 residuos y al menos 60% de S o T. (La Asn llega del RE ya N-glicosilada; aquí su glicano se recorta y se le agregan azúcares.)':
-        'In the Golgi, O-glycans are added to the OH of Ser and Thr. Build a mucin-type domain: at least 6 residues and at least 60% S or T. (Asn arrives from the ER already N-glycosylated; here its glycan is trimmed and extended with more sugars.)',
-    'Las mucinas tienen dominios ricos en Pro, Thr y Ser (PTS). En el Golgi, las GalNAc-transferasas ponen O-glicanos en casi todas sus Ser/Thr: la proteína queda cubierta de azúcares y atrapa agua (el moco). La N-glicosilación de la Asn es igual de común, pero empieza antes: la OST del RE la pone durante la traducción sobre la secuencia consenso N-X-S/T. Con nivel 5, tus Ser y Thr se pueden O-glicosilar dentro del Golgi (Equipo → V).':
-        "Mucins have domains rich in Pro, Thr and Ser (PTS). In the Golgi, GalNAc-transferases put O-glycans on almost all of their Ser/Thr: the protein ends up coated in sugars and traps water (mucus). Asn N-glycosylation is just as common, but it starts earlier: the ER's OST adds it during translation at the N-X-S/T sequon. At level 5, your Ser and Thr can be O-glycosylated inside the Golgi (Team → V).",
     'Guardiana del Lisosoma':
         'Lysosome Guardian',
     'Sensor de pH':
         'pH sensor',
-    'Construye un péptido de 3 a 8 residuos casi neutro en el citosol (carga entre −1 y +1 a pH 7.4) que se vuelva claramente positivo en el lisosoma (carga ≥ +2 a pH 5). Se cuentan solo las cadenas laterales. Pista: usa varias His (pKR 6.0), casi neutras a pH 7.4 y casi todas protonadas a pH 5.':
-        'Build a peptide of 3 to 8 residues that is nearly neutral in the cytosol (charge between −1 and +1 at pH 7.4) and becomes clearly positive in the lysosome (charge ≥ +2 at pH 5). Only side chains count. Hint: use several His (pKR 6.0), almost neutral at pH 7.4 and almost fully protonated at pH 5.',
     'La His (pKR 6) es la cadena lateral que más cambia de carga entre pH 7.4 y 5. Así funcionan muchos péptidos que escapan de endosomas y muchos sensores de pH en proteínas.':
         "His (pKR 6) is the side chain whose charge changes the most between pH 7.4 and 5. That's how many endosome-escaping peptides and many protein pH sensors work.",
     'Guardián del Colágeno':
@@ -363,4 +357,48 @@ EN = {
         'Leu → Phe: a bigger aromatic ring comes in',
     'Codón de paro: la proteína sale truncada':
         'Stop codon: the protein comes out truncated',
+    'En el Golgi se añaden O-glicanos al OH de Ser y Thr. Construye un dominio tipo mucina: al menos 6 residuos y al menos 60% de S o T.':
+        'In the Golgi, O-glycans are added to the OH of Ser and Thr. Build a mucin-type domain: at least 6 residues and at least 60% S or T.',
+    'Las mucinas tienen dominios ricos en Pro, Thr y Ser. En el Golgi, las GalNAc-transferasas ponen O-glicanos en casi todas sus Ser/Thr: la proteína se cubre de azúcares que atrapan agua (el moco). Con nivel 5, tus Ser y Thr se pueden O-glicosilar aquí (Equipo → V).':
+        'Mucins have domains rich in Pro, Thr and Ser. In the Golgi, GalNAc-transferases put O-glycans on almost all their Ser/Thr: the protein gets coated in sugars that trap water (mucus). At level 5, your Ser and Thr can be O-glycosylated here (Team → V).',
+    'Construye un péptido de 3 a 8 residuos casi neutro en el citosol (carga de −1 a +1 a pH 7.4) y claramente positivo en el lisosoma (≥ +2 a pH 5). Solo cuentan las cadenas laterales. Pista: la His (pKR 6.0) está casi neutra a pH 7.4 y casi toda protonada a pH 5.':
+        'Build a peptide of 3 to 8 residues that is nearly neutral in the cytosol (charge −1 to +1 at pH 7.4) and clearly positive in the lysosome (≥ +2 at pH 5). Only side chains count. Hint: His (pKR 6.0) is nearly neutral at pH 7.4 and almost fully protonated at pH 5.',
+    'EXAMEN DEL RENÉ-VIRUS · {n}/{total} · {parte} · aciertos {a} (se aprueba con 7)':
+        'RENÉ-VIRUS EXAM · {n}/{total} · {parte} · correct {a} (7 to pass)',
+    'Mutaciones reales':
+        'Real mutations',
+    'Pregunta · contesta aquí':
+        'Question · answer here',
+    '► Pulsa el número de tu respuesta':
+        '► Press the number of your answer',
+    'Examen final del René-virus':
+        'René-virus final exam',
+    'Contexto':
+        'Context',
+    'CÓMO FUNCIONA\n\n• Parte 1: traduce 3 ARNm. Busca el primer AUG, lee de 3 en 3 y para en el codón de paro; escribe la proteína en código de 1 letra.\n• Parte 2: 5 mutaciones de enfermedades humanas. Cada una trae su contexto; contesta con 1-4.\n• Se aprueba con 7 de 8. Arriba ves tus aciertos.':
+        'HOW IT WORKS\n\n• Part 1: translate 3 mRNAs. Find the first AUG, read 3 by 3 and stop at the stop codon; type the protein in 1-letter code.\n• Part 2: 5 mutations from human diseases. Each one comes with its context; answer with 1-4.\n• You pass with 7 of 8. Your correct answers are shown at the top.',
+    'Ahora puedo hacerte encargos de síntesis: péptidos reales ({n} en el catálogo) que tendrás que traducir de su ARNm y construir con los residuos de tu equipo. Habla conmigo (V) cuando quieras. El catálogo está en la pestaña Péptidos de la Aminodex [X].':
+        "Now I can give you synthesis orders: real peptides ({n} in the catalog) that you'll translate from their mRNA and build with your team's residues. Talk to me (V) whenever you like. The catalog is in the Peptides tab of the Aminodex [X].",
+    'La hemoglobina (Hb) lleva el O2 en los eritrocitos. Es una proteína soluble: sus residuos de superficie están en contacto con el agua.':
+        'Hemoglobin (Hb) carries O2 in red blood cells. It is a soluble protein: its surface residues are in contact with water.',
+    'Es el mismo residuo 6 de la β-globina, en la superficie de la Hb.':
+        'It is the same residue 6 of β-globin, on the surface of Hb.',
+    'El colágeno tipo I da resistencia a huesos y piel. Es una triple hélice: tres cadenas enrolladas muy juntas, con la secuencia Gly-X-Y repetida.':
+        'Type I collagen gives strength to bone and skin. It is a triple helix: three chains wound tightly together, with the Gly-X-Y sequence repeated.',
+    'CFTR es un canal de cloruro de la membrana. Se sintetiza en el RE, donde las chaperonas revisan que esté bien plegada antes de dejarla seguir al Golgi.':
+        'CFTR is a chloride channel in the membrane. It is made in the ER, where chaperones check that it is folded correctly before letting it move on to the Golgi.',
+    'KRAS es un interruptor: con GTP está encendida y manda señales de proliferación; se apaga al hidrolizar el GTP a GDP, con ayuda de una proteína GAP. La Gly12 está junto al sitio del GTP.':
+        'KRAS is a switch: with GTP bound it is on and sends proliferation signals; it turns off by hydrolyzing GTP to GDP, helped by a GAP protein. Gly12 sits next to the GTP site.',
+    'La fenilalanina hidroxilasa del hígado convierte la Phe en Tyr. La Arg408 está en su dominio catalítico.':
+        'Liver phenylalanine hydroxylase converts Phe into Tyr. Arg408 is in its catalytic domain.',
+    'La huntingtina se expresa en muchas células, sobre todo en las neuronas. Su gen empieza con un tramo de codones CAG repetidos: lo normal es tener menos de ~36.':
+        'Huntingtin is expressed in many cells, especially neurons. Its gene starts with a stretch of repeated CAG codons: fewer than ~36 is normal.',
+    'p53 es un factor de transcripción que frena la división de las células con el ADN dañado. La Arg175 no toca el ADN: ayuda a mantener la forma de la región que sí se une a él.':
+        "p53 is a transcription factor that stops cells with damaged DNA from dividing. Arg175 doesn't touch the DNA: it helps hold the shape of the region that does bind it.",
+    'GAG codifica Glu y GUG codifica Val. Cambió una sola base (A → U) y el marco de lectura sigue igual.':
+        'GAG codes for Glu and GUG codes for Val. A single base changed (A → U) and the reading frame stays the same.',
+    'UGG es el único codón del Trp. El ribosoma deja de traducir cuando llega a un codón de paro.':
+        'UGG is the only Trp codon. The ribosome stops translating when it reaches a stop codon.',
+    'Casi todos los aminoácidos tienen más de un codón, y suelen diferir en la tercera base.':
+        'Almost every amino acid has more than one codon, and they usually differ in the third base.',
 }

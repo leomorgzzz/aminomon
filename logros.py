@@ -57,8 +57,14 @@ def nuevos(juego):
     return salida
 
 
-def anunciar(win, juego):
+def anunciar(win, juego, redibujar=None):
+    """Un aviso por logro nuevo; redibujar() limpia lo de atrás para que los
+    avisos no se encimen con el anterior."""
     for nombre in nuevos(juego):
+        if redibujar:
+            redibujar()
+        else:
+            win.erase()
         d.popup(win, tr("¡Logro desbloqueado! {nombre}", nombre=tr(nombre)), tr("Logro"),
                 ancho=50, attr=d.c("bien"))
 

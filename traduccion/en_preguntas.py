@@ -235,4 +235,10 @@ EN = {
         'MODIFICATIONS · {i}/{total} · correct {n}',
     '{nombre} ({tres}), de {base}: {cambio}':
         '{nombre} ({tres}), from {base}: {cambio}',
+    'Pregunta · contesta aquí':
+        'Question · answer here',
+    '► Pulsa el número de tu respuesta':
+        '► Press the number of your answer',
+    '¿Cys o Sec? (selenocisteína)':
+        'Cys or Sec? (selenocysteine)',
 }

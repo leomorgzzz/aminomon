@@ -27,12 +27,6 @@ EN = {
         'Manual',
     'Salir':
         'Quit',
-    'Soy el René-virus, un virus inofensivo: no enfermo a nadie, solo estudio proteómica. Como la mayoría de los virus, no traigo ninguna pieza de ribosoma: mis proteínas las fabrican los ribosomas de la célula con los 20 aminoácidos estándar. (Algunos virus gigantes y fagos sí traen genes de unas pocas proteínas ribosomales, pero ningún virus conocido arma un ribosoma completo: todos traducen con los de la célula.) Tu trabajo es encontrarlos y caracterizarlos.':
-        "I'm the René-virus, a harmless virus: I don't make anyone sick, I just study proteomics. Like most viruses, I carry no piece of a ribosome: my proteins are made by the cell's ribosomes from the 20 standard amino acids. (Some giant viruses and phages do carry genes for a few ribosomal proteins, but no known virus builds a complete ribosome: they all translate with the cell's.) Your job is to find them and characterize them.",
-    'En este juego cada aminoácido aparece donde su química es protagonista: los no polares en la membrana, los básicos junto al ARN ribosomal y al ADN. En una célula real hay aminoácidos libres en todas partes.':
-        'In this game each amino acid shows up where its chemistry plays the lead role: the nonpolar ones in the membrane, the basic ones next to ribosomal RNA and DNA. In a real cell there are free amino acids everywhere.',
-    'Cada aminoácido pertenece a uno de los 5 grupos de Lehninger y cada movimiento usa la química de uno de ellos. La afinidad depende de la interacción real entre los dos grupos; la tabla completa está en el manual [M].':
-        "Each amino acid belongs to one of Lehninger's 5 groups, and each move uses the chemistry of one of them. Affinity depends on the real interaction between the two groups; the full table is in the manual [M].",
     'Empiezas con Metionina: AUG es el codón de inicio, así que casi toda proteína se empieza a sintetizar con ella.':
         'You start with Methionine: AUG is the start codon, so almost every protein starts being made with it.',
     'Elige un segundo aminoácido (1-3)':
@@ -45,8 +39,6 @@ EN = {
         'Polar uncharged. H-bonds ×2 against polar ones. With ATP a kinase phosphorylates it and it becomes Charged −.',
     'Tu equipo inicial: Metionina y {nombre}.\n\nEn las zonas marcadas con símbolos aparecen aminoácidos salvajes. Deduce su grupo [D], usa movimientos afines y, con afinidad ≥ 50, lanza un ARNt [T].':
         'Your starting team: Methionine and {nombre}.\n\nWild amino acids appear in the areas marked with symbols. Deduce their group [D], use moves with affinity and, with affinity ≥ 50, throw a tRNA [T].',
-    'La mitocondria (☼) restablece a tu equipo y recarga ATP. Los jefes (J) piden construir péptidos. Para entrar al núcleo necesitas una NLS rica en Lys (K), que encontrarás en los ribosomas (÷); en el juego, la Arg (R) solo vive dentro del núcleo. Los carteles (i) describen cada compartimento. Yo soy la V del mapa: búscame cuando quieras un consejo.':
-        "The mitochondrion (☼) restores your team and recharges ATP. Bosses (J) ask you to build peptides. To enter the nucleus you need an NLS rich in Lys (K), which you'll find in the ribosomes (÷); in the game, Arg (R) only lives inside the nucleus. Signs (i) describe each compartment. I'm the V on the map: come find me whenever you want advice.",
     ' · P cadena':
         ' · P chain',
     'EQUIPO':
@@ -155,8 +147,6 @@ EN = {
         'Vitamin C',
     'Vitamina K':
         'Vitamin K',
-    'Para atrapar un aminoácido hay que reconocer su estructura. Practica cuando quieras en la Aminodex: [X] y luego [P]. Los que fallas te saldrán más seguido hasta que los domines.':
-        'To catch an amino acid you must recognize its structure. Practice whenever you want in the Aminodex: [X] and then [P]. The ones you miss will show up more often until you master them.',
     'Descargando {version}...':
         'Downloading {version}...',
     'Se abrió la página de descarga en el navegador.':
@@ -175,4 +165,26 @@ EN = {
         "Sound on: one bell when you're right, two when you're wrong.",
     'Sonido desactivado.':
         'Sound off.',
+    'Soy el René-virus: no enfermo a nadie, solo estudio proteómica. Como la mayoría de los virus, no traigo ribosomas: mis proteínas las hacen los de la célula con los 20 aminoácidos estándar. (Algunos virus gigantes y fagos traen genes de unas pocas proteínas ribosomales, pero ninguno arma un ribosoma completo.) Tu trabajo: encontrar y caracterizar esos 20.':
+        "I'm René-virus: I don't make anyone sick, I just study proteomics. Like most viruses, I carry no ribosomes: my proteins are made by the cell's ribosomes with the 20 standard amino acids. (Some giant viruses and phages carry genes for a few ribosomal proteins, but none builds a complete ribosome.) Your job: find and characterize those 20.",
+    'En el juego, cada aminoácido vive donde su química es protagonista: los no polares en la membrana, los básicos junto al ARN y al ADN. En una célula real hay aminoácidos libres en todas partes.':
+        'In the game, each amino acid lives where its chemistry plays the lead role: nonpolar ones in the membrane, basic ones next to RNA and DNA. In a real cell there are free amino acids everywhere.',
+    'Cada aminoácido es de uno de los 5 grupos de Lehninger y cada movimiento usa la química de uno de ellos. La afinidad depende de la interacción real entre los dos grupos (tabla en el manual [M]).':
+        "Each amino acid belongs to one of Lehninger's 5 groups, and each move uses the chemistry of one of them. Affinity depends on the real interaction between the two groups (table in the manual [M]).",
+    'La mitocondria (☼) restablece a tu equipo y recarga el ATP, que se gasta al fosforilar (Equipo → V). Los jefes (J) piden construir péptidos. Para entrar al núcleo necesitas una NLS: junta 4 Lys (K) en los ribosomas (÷). Los carteles (i) explican cada zona. Yo soy la V del mapa: búscame para pedir consejo.':
+        "The mitochondrion (☼) restores your team and refills ATP, which is spent on phosphorylation (Team → V). Bosses (J) ask you to build peptides. To enter the nucleus you need an NLS: gather 4 Lys (K) in the ribosomes (÷). Signs (i) explain each zone. I'm the V on the map: find me for advice.",
+    'Para atrapar un aminoácido hay que reconocer su estructura. Practica en la Aminodex ([X] y luego [P]): los que fallas saldrán más seguido.':
+        'To catch an amino acid you must recognize its structure. Practice in the Aminodex ([X], then [P]): the ones you miss will show up more often.',
+    '  para modificar: [E] → V':
+        '  for modifying: [E] → V',
+    'Una selenocisteína se unió a tu equipo.':
+        'A selenocysteine joined your team.',
+    'Para terminar todo ({h}/{n}):':
+        'To finish everything ({h}/{n}):',
+    'Selenocisteína (ficha)':
+        'Selenocysteine (card)',
+    'Selenocisteína (evento)':
+        'Selenocysteine (event)',
+    '¿Ver el evento de la selenocisteína?':
+        'See the selenocysteine event?',
 }

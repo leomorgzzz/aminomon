@@ -406,14 +406,11 @@ AMINOACIDOS = {
 # KD combina la energía de pasar del agua al vapor con qué tan seguido aparece
 # enterrado cada residuo en proteínas de estructura conocida.
 NOTA_KD = {
-    "G": "No polar no es lo mismo que hidrofóbico. La Gly es no polar porque su "
-         "R es un H, pero ese H no tiene superficie que esconder del agua: el "
-         "efecto hidrofóbico crece con la superficie de C–H que se entierra. Sin "
-         "cadena lateral pesa más su esqueleto polar (N–H y C=O), por eso KD ≈ 0 "
-         "(−0.4). Lehninger: es formalmente no polar, pero su cadena tan pequeña "
-         "no contribuye de verdad a las interacciones hidrofóbicas.",
-    "P": "Su anillo es de C–H, pero KD −1.6: rompe hélices y suele quedar en "
-         "giros y lazos expuestos al agua, en la superficie de la proteína.",
+    "G": "No polar no es lo mismo que hidrofóbico. El R de la Gly es un H, sin superficie de C–H que esconder del agua, así que pesa más su esqueleto polar (N–H y C=O): KD ≈ 0 (−0.4). Lehninger: es formalmente no polar, pero casi no contribuye a las interacciones hidrofóbicas.",
+    "P": "Por estructura es no polar (su anillo es solo C–H), pero KD −1.6. KD "
+         "no mide solo la cadena: también cuenta qué tan seguido queda enterrada en "
+         "proteínas, y la Pro, que rompe hélices y láminas, suele quedar en giros y "
+         "lazos de la superficie, en contacto con el agua.",
     "C": "Es polar sin carga por el S–H, pero el S casi no es más electronegativo "
          "que el C (2.58 frente a 2.55): el S–H es muy poco polar y forma puentes "
          "de H débiles. Además suele estar enterrada en las proteínas (sola o en "
@@ -477,6 +474,8 @@ MODIFICACIONES = {
     "Hyl": dict(
         base="K", nombre="Hidroxilisina", tres="Hyl", tipos=("POS",),
         carga="Positiva (+1)", req=dict(nivel=5, objeto="Vitamina C"),
+        matiz="▼ Un poco menos básica: el OH cercano baja el pKa del amonio "
+              "(≈ 9.7 frente a 10.5 de la Lys), pero a pH 7 sigue siendo +1.",
         cambio="Conserva la carga + (sigue en el grupo básico) y gana un OH "
                "en el carbono δ.",
         bio="La lisil hidroxilasa (también dependiente de vitamina C) la "
@@ -508,6 +507,8 @@ MODIFICACIONES = {
     "Kme3": dict(
         base="K", nombre="Trimetil-lisina", tres="Kme3", tipos=("POS",),
         carga="Positiva (+1, permanente)", req=dict(nivel=7, zona="nucleo"),
+        matiz="▲ Más firmemente cargada: sin H en el N no tiene pKa, así que no "
+              "pierde la carga + a ningún pH.",
         cambio="Sigue siendo + (amonio cuaternario: ya no puede perder la "
                "carga ni acetilarse, porque su N no tiene H).",
         bio="Las metiltransferasas de histonas (HMT) usan SAM, derivada de la "
@@ -572,6 +573,7 @@ MODIFICACIONES = {
     "Gla": dict(
         base="E", nombre="γ-carboxiglutamato", tres="Gla", tipos=("NEG",),
         carga="Negativa (≈ −2)", req=dict(nivel=5, objeto="Vitamina K"),
+        matiz="▲ Más ácido: dos carboxilatos, carga ≈ −2 frente a −1 del Glu.",
         cambio="Gana un segundo carboxilo en el carbono γ: carga ≈ −2.",
         bio="La γ-glutamil carboxilasa (en el RE) usa vitamina K. Los Gla de "
             "la protrombina y los factores VII, IX y X atrapan Ca²+ y anclan "
@@ -586,6 +588,7 @@ MODIFICACIONES = {
     "Nglc": dict(
         base="N", nombre="Asn N-glicosilada", tres="Asn-Glc", tipos=("POL",),
         carga="Neutra", req=dict(nivel=5, zona="re"),
+        matiz="▲ Más polar: el glicano trae muchos OH que forman puentes de H.",
         cambio="Se le une un árbol de azúcares al N de la amida: aún más polar.",
         bio="La oligosacariltransferasa (OST) del RE la añade en la secuencia consenso "
             "N-X-S/T (X ≠ Pro). Los glicanos ayudan al plegamiento (ciclo "
@@ -599,6 +602,7 @@ MODIFICACIONES = {
     "gS": dict(
         base="S", nombre="Ser O-glicosilada", tres="Ser-GalNAc", tipos=("POL",),
         carga="Neutra", req=dict(nivel=5, zona="golgi"),
+        matiz="▲ Más polar: la GalNAc trae varios OH que forman puentes de H.",
         cambio="Se le une una N-acetilgalactosamina (GalNAc) al O del OH: sigue "
                "siendo polar, pero ahora carga un azúcar.",
         bio="Las GalNAc-transferasas (GALNT) del Golgi le ponen la GalNAc y luego "
@@ -612,6 +616,7 @@ MODIFICACIONES = {
     "gT": dict(
         base="T", nombre="Thr O-glicosilada", tres="Thr-GalNAc", tipos=("POL",),
         carga="Neutra", req=dict(nivel=5, zona="golgi"),
+        matiz="▲ Más polar: la GalNAc trae varios OH que forman puentes de H.",
         cambio="Se le une una GalNAc al O del OH: sigue siendo polar, pero ahora "
                "carga un azúcar.",
         bio="Mismas GalNAc-transferasas del Golgi; muchas prefieren Thr. En las "
@@ -711,6 +716,18 @@ PEPTIDOS = {
             "fármacos a las células. Al René-virus le cae bien."),
 }
 
+# ============================================ la selenocisteína (posgame)
+# No es una modificación postraduccional: la Ser se convierte en Sec sobre su
+# ARNt, antes de entrar a la proteína. No está en los 5 grupos de Lehninger;
+# en el juego es Polar como la Cys y Cargado − porque a pH 7 su selenol (pKa
+# ≈ 5.2) está casi todo desprotonado (–Se−).
+SEC = dict(
+    nombre="Selenocisteína", tres="Sec", una="U", tipos=("POL", "NEG"),
+    carga="≈ −1 a pH 7 (selenolato, pKa ≈ 5.2)", masa=168.06,
+    grupo_r=("selanilmetilo", "–CH2–SeH", "selenol"),
+    cadena=["        CH2", "        |", "        SeH"],
+)
+
 OBJETOS = {
     "ATP": "Donador de fosfato para las quinasas. Lo da la mitocondria.",
     "Vitamina C": "Cofactor de las hidroxilasas de Pro y Lys (colágeno).",
@@ -806,6 +823,7 @@ INTERACCIONES_R = {
     "gS": [("POL", "O-glicano (O–H)", 55)],
     "gT": [("POL", "O-glicano (O–H)", 55)],
     "Cit": [("POL", "ureido", 50)],
+    "U": [("POL", "selenol", 40), ("NEG", "selenolato", 40)],
 }
 
 
@@ -838,7 +856,13 @@ MOVIMIENTOS = {
         "Con cualquier otro residuo no ocurre.",
         "2 R–SH → R–S–S–R + 2H+ + 2e− (oxidación)."),
 }
+MOVIMIENTOS["puente_selenilsulfuro"] = _m(
+    "Puente selenilsulfuro", "POL", 50,
+    "Enlace covalente Se–S. Solo se forma con una Cys: afinidad máxima. "
+    "Con cualquier otro residuo no ocurre.",
+    "R–SeH + R'–SH → R–Se–S–R' + 2H+ + 2e− (así trabaja la tiorredoxina reductasa).")
 MOVIMIENTOS["puente_disulfuro"]["efecto"] = "disulfuro"
+MOVIMIENTOS["puente_selenilsulfuro"]["efecto"] = "disulfuro"
 traducir(MOVIMIENTOS, "nombre", "desc", "ciencia")      # los fijos (los de R ya vienen traducidos)
 for _fid, _lista in INTERACCIONES_R.items():
     for _tipo, _grupo, _poder in _lista:
@@ -852,6 +876,8 @@ def movimientos_de(fid):
     movs = [f"{fid}:{t}" for t, _, _ in INTERACCIONES_R[fid]]
     if fid == "C":
         movs.append("puente_disulfuro")
+    if fid == "U":
+        movs.append("puente_selenilsulfuro")
     base = MODIFICACIONES[fid]["base"] if fid in MODIFICACIONES else fid
     if base != "P":          # la Pro (y la Hyp) no tiene H en el N del esqueleto
         movs.append("puente_h_esqueleto")
@@ -988,7 +1014,8 @@ GLOSARIO = [
                           "D=Asp, E=Glu, K=Lys, R=Arg."),
     ("Codón / anticodón", "Triplete del ARNm y su complemento en el ARNt "
                           "(antiparalelo). AUG = Met = inicio."),
-    ("Modificación postraduccional", "Cambio químico tras la traducción: "
+    ("Modificación postraduccional", "Cambio químico de un residuo dentro de una "
+                                     "proteína, durante o después de la traducción: "
                                      "fosforilación, acetilación, "
                                      "hidroxilación, glicosilación…"),
     ("Puente salino", "Atracción entre una carga + y una − (Lys–Asp)."),
@@ -1013,16 +1040,22 @@ GRUPOS = {k: tr(v) for k, v in GRUPOS.items()}
 NUTRICION = {tr(k): tr(v) for k, v in NUTRICION.items()}
 traducir(AMINOACIDOS, "nombre", "carga", "nutricion", "pista")
 NOTA_KD = {k: tr(v) for k, v in NOTA_KD.items()}
-traducir(MODIFICACIONES, "nombre", "carga", "cambio", "bio", "pista")
+traducir(MODIFICACIONES, "nombre", "carga", "cambio", "bio", "pista", "matiz")
 OBJETOS = {k: tr(v) for k, v in OBJETOS.items()}
 traducir(ZONAS, "nombre", "por_que")
 GLOSARIO = [(tr(a), tr(b)) for a, b in GLOSARIO]
 traducir(PEPTIDOS, "nombre", "bio")
+SEC["nombre"], SEC["carga"] = tr(SEC["nombre"]), tr(SEC["carga"])
+SEC["grupo_r"] = tuple(tr(x) for x in SEC["grupo_r"])
 
 
 # ============================================================ utilidades
 def forma(fid):
     """Datos de un aminoácido o de un residuo modificado con interfaz común."""
+    if fid == "U":
+        return dict(id="U", base="U", nombre=SEC["nombre"], tres="Sec", tipos=SEC["tipos"],
+                    carga=SEC["carga"], masa=SEC["masa"], movs=movimientos_de("U"),
+                    arte=arte(SEC), evo=False)
     if fid in AMINOACIDOS:
         aa = AMINOACIDOS[fid]
         return dict(

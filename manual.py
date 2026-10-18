@@ -99,12 +99,7 @@ def p_jugar(juego, rival, an):
                     "Solo ves su estructura: deduce su grupo [D] para ganar +10 de "
                     "afinidad y ver qué interacción formará cada movimiento. Si no, "
                     "el grupo se revela tras 3 turnos."), an),
-        *parrafo(tr("Cada movimiento es una interacción formada por tu grupo R (o por "
-                    "tu esqueleto) con el rival. Su nombre indica la clase de "
-                    "interacción y el grupo que la forma; la interacción concreta "
-                    "(puente salino, catión–π, repulsión…) depende del grupo del rival "
-                    "y se muestra a la derecha de cada movimiento. Si el rival tiene "
-                    "dos tipos, los factores se multiplican (×2 · ×2 = ×4)."), an),
+        *parrafo(tr("Cada movimiento es una interacción de tu grupo R (o de tu esqueleto) con el rival. La interacción concreta (puente salino, catión–π, repulsión…) depende del grupo del rival y se ve a la derecha del movimiento. Si el rival tiene dos tipos, los factores se multiplican (×2 · ×2 = ×4)."), an),
         *parrafo(tr("Con afinidad ≥ 50 lanza un ARNt (T) y responde bien la pregunta. "
                     "El rival responde con agitación térmica que baja tu ENERGÍA."), an),
         L(""),
@@ -118,20 +113,10 @@ def p_jugar(juego, rival, an):
                     "puedes elegir «sin animación» si solo quieres practicar."), an, "tenue"),
         L(""),
         T(tr("Captura")),
-        *parrafo(tr("Para atraparlo hay que reconocer su estructura: primero el nombre, "
-                    "luego el código de 3 letras y luego el de 1. Subes de paso al "
-                    "acertar más de lo que fallas. Después se mezclan carga, grupo, "
-                    "pKR, pI (y calcularlo), nutrición, codones e hidropatía. Los "
-                    "aminoácidos que fallas salen más en el campo. Si aparece uno que ya "
-                    "capturaste, reconocerlo te da afinidad extra. En la Aminodex [P] "
-                    "practicas el reconocimiento de los que ya capturaste."), an),
+        *parrafo(tr("Para atraparlo hay que reconocer su estructura: primero el nombre, luego el código de 3 letras y luego el de 1. Después se mezclan carga, grupo, pKR, pI, nutrición, codones e hidropatía. Los que fallas salen más en el campo, y reconocer a uno que ya capturaste da afinidad extra."), an),
         L(""),
         T(tr("Jefes")),
-        *parrafo(tr("Cada jefe pide construir un péptido con lo que ya capturaste; "
-                    "al lograrlo ves tu péptido dibujado. El poro nuclear es un jefe: "
-                    "necesitas una NLS con al menos 4 Lys (viven en los "
-                    "ribosomas ÷) para entrar al núcleo. En el juego, la Arg solo vive adentro (núcleo y nucléolo). En cada reto puedes usar cada "
-                    "aminoácido tantas veces como lo tengas en tu equipo."), an),
+        *parrafo(tr("Cada jefe pide construir un péptido con lo que ya capturaste; puedes usar cada aminoácido tantas veces como lo tengas en tu equipo. El poro nuclear también es un jefe: para entrar al núcleo necesitas una NLS con al menos 4 Lys (viven en los ribosomas ÷)."), an),
         L(""),
         T(tr("Después de la Chaperona")),
         *parrafo(tr("Habla con el René-virus (V): su examen final te pide traducir "
@@ -139,12 +124,7 @@ def p_jugar(juego, rival, an):
                     "quística, KRAS, Huntington…)."), an),
         L(""),
         T(tr("Después del examen final")),
-        *parrafo(tr("El René-virus te hace encargos de síntesis: péptidos reales "
-                    "(encefalinas, oxitocina, angiotensina II, sustancia P, Tat del "
-                    "VIH…). Traduces su ARNm y, si tu equipo tiene suficientes copias "
-                    "de cada residuo, se sintetiza y entra al catálogo de péptidos, al "
-                    "final de la Aminodex. Los largos piden varias Arg, Gly o Phe: "
-                    "sigue capturando."), an),
+        *parrafo(tr("El René-virus te hace encargos de síntesis: péptidos reales (encefalinas, oxitocina, angiotensina II, sustancia P…). Traduces su ARNm y, si tu equipo tiene suficientes copias de cada residuo, se sintetiza y entra a la pestaña Péptidos de la Aminodex."), an),
     ]
 
 
@@ -283,7 +263,11 @@ def p_interacciones(juego, rival, an):
 def p_modificaciones(juego, rival, an):
     out = [T(tr("Modificaciones postraduccionales")),
            *parrafo(tr("Se activan desde el menú Equipo [E] → V cuando se cumplen los "
-                       "requisitos. √ = ya la conseguiste."), an), L("")]
+                       "requisitos. √ = ya la conseguiste."), an),
+           *parrafo(tr("En la célula se hacen sobre residuos de una proteína, durante o "
+                       "después de la traducción, no sobre aminoácidos libres: en el juego, "
+                       "cada miembro de tu equipo representa uno de esos residuos."), an, "tenue"),
+           L("")]
     for eid, ev in datos.MODIFICACIONES.items():
         base = AA[ev["base"]]
         visto = "√ " if eid in juego["evos_vistas"] else "  "
@@ -307,6 +291,8 @@ def p_modificaciones(juego, rival, an):
         out.append(L((tr("    Interacciones: "), "titulo"),
                      *[(f"{m['nombre']}  ", m["tipo"]) for m in propias]))
         out += parrafo(tr("Cambio: ") + ev["cambio"], an, sangria="    ")
+        if ev.get("matiz"):
+            out += parrafo(tr("En su grupo: ") + ev["matiz"], an, sangria="    ")
         out += parrafo(tr("Biología: ") + ev["bio"], an, "agua", "    ")
         out.append(L(""))
     out.append(L((tr("Objetos: "), "titulo"),

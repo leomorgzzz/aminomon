@@ -264,23 +264,25 @@ def elegir_aleatoria(juego):
 
 
 def preguntar(win, juego, aa, tipo, y, x, ancho, alto_min=0, estructura=False,
-              opciones=False, salir=False):
+              opciones=False, salir=False, p=None):
     """Muestra la pregunta en un área y devuelve True si acierta. alto_min
     estira el recuadro para tapar por completo lo que haya debajo. Con salir,
-    Esc la abandona sin contarla y devuelve None."""
-    p = generar(aa, tipo, estructura, opciones)
+    Esc la abandona sin contarla y devuelve None. p: una pregunta ya armada
+    (la de la Sec, que no está en los 20)."""
+    p = p or generar(aa, tipo, estructura, opciones)
     texto = d.envolver(p["texto"], ancho - 4)
     alto = max(alto_min, len(texto) + (len(p["opciones"]) if p["opciones"] else 2) + 4)
     d.limpiar_area(win, y, x, alto, ancho)
-    d.caja(win, y, x, alto, ancho, tr("Pregunta"))
+    # resaltado: aquí es donde hay que contestar
+    d.caja(win, y, x, alto, ancho, tr("Pregunta · contesta aquí"), d.c("titulo", curses.A_BOLD), resaltar=True)
     for i, l in enumerate(texto):
         d.put(win, y + 1 + i, x + 2, l, d.c("texto", curses.A_BOLD))
     y1 = y + 1 + len(texto)
     if p["opciones"]:
         for i, o in enumerate(p["opciones"]):
             d.put(win, y1 + i, x + 4, f"{i + 1}) {o}", d.c("texto"))
-        d.put(win, y + alto - 2, x + 2, tr("Pulsa el número de tu respuesta") +
-              (tr(" · Esc salir") if salir else ""), d.c("tenue"))
+        d.put(win, y + alto - 2, x + 2, tr("► Pulsa el número de tu respuesta") +
+              (tr(" · Esc salir") if salir else ""), d.c("titulo", curses.A_BOLD))
         win.refresh()
         while True:
             k = d.tecla(win)
@@ -294,9 +296,9 @@ def preguntar(win, juego, aa, tipo, y, x, ancho, alto_min=0, estructura=False,
         eleccion = (r or "").strip()
     bien = eleccion.lower() == p["respuesta"].lower()
     progreso.registrar(juego, f"{aa}:{tipo}", bien)
-    if tipo in RECONOCER:
+    if tipo in RECONOCER and aa in AA:
         progreso.repasar(juego, aa, bien)
-    if not bien and tipo in RECONOCER:
+    if not bien and tipo in RECONOCER and aa in AA:
         confundir(juego, aa, a_codigo(eleccion, tipo))
     if bien:
         texto = tr("Correcto. ") + p["explicacion"]
@@ -359,7 +361,7 @@ def practica(win, juego):
                      n=len(juego["evos_vistas"])),
                   tr("Contrarreloj: 60 s, cuantas puedas (récord {r})", r=record),
                   tr("Tus confusiones ({n})", n=n_conf)] + (
-                     [tr("¿Cys o Sec? (el aminoácido 21)")] if juego.get("sec") else []) + [tr("Volver")]
+                     [tr("¿Cys o Sec? (selenocisteína)")] if juego.get("sec") else []) + [tr("Volver")]
         win.erase()
         op = d.menu(win, tr("Práctica de reconocimiento"), textos)
         if op is None or op == len(modos):
@@ -390,6 +392,9 @@ def practica(win, juego):
          "diferente": _practica_diferente, "mods": _practica_mods, "reloj": _contrarreloj,
          "confusiones": _practica_confusiones,
          "sec": lambda w, j: __import__("posgame").practica_sec(w, j)}[modo](win, juego)
+        # el logro se anuncia al cumplirlo, no hasta volver al mapa
+        import logros
+        logros.anunciar(win, juego)
 
 
 def _solo_cadena(arte):
@@ -408,8 +413,14 @@ def _practica_normal(win, juego, cadena=False, solo=None):
         d.popup(win, tr("Captura primero algún aminoácido."), tr("Práctica de reconocimiento"))
         return
     aciertos = hechas = 0
+    import posgame
     for i in range(PREGUNTAS_PRACTICA):
         aa, tipo = random.choices(claves, [progreso.peso(juego, f"{a}:{t}") for a, t in claves])[0]
+        p = None
+        if juego.get("sec") and solo is None and random.random() < 0.12:
+            # la Sec también sale, aunque no cuente en el 20/20
+            aa, tipo = "U", "nombre" if cadena else random.choice(RECONOCER)
+            p = posgame.pregunta_sec(tipo)
         alto, ancho = win.getmaxyx()
         win.erase()
         d.put(win, 0, 1, tr("PRÁCTICA DE RECONOCIMIENTO · {i}/{total} · aciertos {n} · "
@@ -429,7 +440,7 @@ def _practica_normal(win, juego, cadena=False, solo=None):
         else:
             y = 2
         bien = preguntar(win, juego, aa, tipo, y, x, min(64, ancho - x - 1), estructura=True,
-                         opciones=True, salir=True)
+                         opciones=True, salir=True, p=p)
         if bien is None:
             break
         aciertos += bien

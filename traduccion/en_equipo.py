@@ -33,4 +33,10 @@ EN = {
         'Can become',
     'Requisitos:':
         'Requirements:',
+    '¡Conseguiste las {n} modificaciones! Habla con el René-virus (V): tiene algo para ti.':
+        'You got all {n} modifications! Talk to the René-virus (V): it has something for you.',
+    'Modificaciones completas':
+        'Modifications complete',
+    'En su grupo: ':
+        'Within its group: ',
 }

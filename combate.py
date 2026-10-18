@@ -36,6 +36,7 @@ GRUPO = {
     "Gla": ("─CH(COO−)2", "(−OOC)2CH─"), "Nglc": (tr("─CONH─glicano"), tr("glicano─HNOC─")),
     "Cit": ("─NH─CO─NH2", "H2N─OC─NH─"),
     "gS": ("─CH2─O─GalNAc", "GalNAc─O─CH2─"), "gT": ("─CH(CH3)─O─GalNAc", "GalNAc─O─CH─"),
+    "U": ("─CH2─SeH", "HSe─CH2─"),
 }
 
 # Puentes de H: papel del grupo polar (D = donador, A = aceptor) y cómo se
@@ -55,6 +56,7 @@ HB = {
     "Cit": ("DA", "─CON(H)─H", "─(H2N)C═O:", "H─N(H)OC─", ":O═C(NH2)─"),
     "gS": ("DA", "─GalNAc─O─H", "─GalNAc(H)O:", "H─O─GalNAc─", ":O(H)GalNAc─"),
     "gT": ("DA", "─GalNAc─O─H", "─GalNAc(H)O:", "H─O─GalNAc─", ":O(H)GalNAc─"),
+    "U": ("DA", "─Se─H", "─(H)Se:", "H─Se─", ":Se(H)─"),
     "H": ("DA", tr("─imidazol─N─H"), tr("─imidazol─N:"), tr("H─N─imidazol─"), tr(":N─imidazol─")),
 }
 CARGADO = {
@@ -91,6 +93,7 @@ class Combate:
         self.log = []
         self.ultimo_mult = 1.0
         self.cuadro = []
+        self.esperando = False
         self.activo = self._primer_vivo()
         self._reiniciar_estado()
         juego.setdefault("ajustes", {}).setdefault("velocidad", "lenta")
@@ -151,8 +154,12 @@ class Combate:
     def _mult_mov(self, mid):
         m = datos.MOVIMIENTOS[mid]
         if m["efecto"] == "disulfuro":
+            if self.aa == "C" and mid == "puente_selenilsulfuro":
+                return 2.0, [("POL", 2, tr("puente selenilsulfuro (covalente)"))]
             if self.aa == "C":
                 return 2.0, [("POL", 2, tr("puente disulfuro (covalente)"))]
+            if mid == "puente_selenilsulfuro":
+                return 0.0, [(self.tipos_salvaje()[0], 0, tr("sin una Cys no hay enlace Se–S"))]
             return 0.0, [(self.tipos_salvaje()[0], 0, tr("sin otra Cys no hay disulfuro"))]
         mult, partes = datos.multiplicador(m["tipo"], self.tipos_salvaje())
         if m["tipo"] == datos.NEUTRO:
@@ -254,9 +261,15 @@ class Combate:
         d.put(w, y, x + 2, tr("Energía"), d.c("texto"))
         d.barra(w, y, x + 11, ancho_barra, self.mon["energia"], emax, d.c("titulo"))
         d.put(w, y, x + 12 + ancho_barra, f"{self.mon['energia']:3d}/{emax}", d.c("tenue"))
-        d.put(w, y, x + 21 + ancho_barra, f"ATP {self.juego['objetos']['ATP']}", d.c("tenue"))
 
-        d.caja(w, L["movs"], x, L["nmov"] + 2, cw, tr("Interacciones"))
+        if self.esperando:
+            # tu turno: el recuadro de las interacciones se resalta para que se
+            # note que el juego espera tu jugada
+            d.caja(w, L["movs"], x, L["nmov"] + 2, cw,
+                   tr("Tu turno: elige 1-{n}, D, T, C o H", n=L["nmov"]),
+                   d.c("titulo", curses.A_BOLD), resaltar=True)
+        else:
+            d.caja(w, L["movs"], x, L["nmov"] + 2, cw, tr("Interacciones"))
         con_chip = cw >= 90       # si no cabe la etiqueta, el color del nombre indica el grupo
         filas = []
         for i, mid in enumerate(self.movimientos()):
@@ -346,6 +359,8 @@ class Combate:
             return nombre, self.ctx_base()
         if mid == "puente_disulfuro" and self.aa == "C":
             return "disulfuro", self.ctx_base()
+        if mid == "puente_selenilsulfuro" and self.aa == "C":
+            return "selenilsulfuro", self.ctx_base()
         if mid == "entrecruzar":
             return "enlace", self.ctx_base()
         if any(pm == 0 for _, pm, _ in partes):
@@ -423,11 +438,16 @@ class Combate:
         texto_m = f"×{datos.fmt_mult(mult)} {flechas(mult)}".strip()
 
         if m["efecto"] == "disulfuro" and self.aa != "C":
-            self.animar("sin_puente_h", dict(self.ctx_base(), hb_izq="─CH2─S─H",
+            sec = mid == "puente_selenilsulfuro"
+            self.animar("sin_puente_h", dict(self.ctx_base(),
+                                             hb_izq="─CH2─Se─H" if sec else "─CH2─S─H",
                                              hb_der=GRUPO[self.aa][1] if self.nombre_visible else "R?─",
-                                             motivo=tr("el disulfuro solo se forma entre dos Cys"),
-                                             nombre=tr("sin otra Cys no hay disulfuro")))
-            self.decir(tr("Sin otra Cys no hay disulfuro: no se forma ninguna interacción."))
+                                             motivo=tr("el enlace Se–S solo se forma con una Cys") if sec
+                                             else tr("el disulfuro solo se forma entre dos Cys"),
+                                             nombre=tr("sin una Cys no hay enlace Se–S") if sec
+                                             else tr("sin otra Cys no hay disulfuro")))
+            self.decir(tr("Sin una Cys no hay enlace Se–S: no se forma ninguna interacción.") if sec
+                       else tr("Sin otra Cys no hay disulfuro: no se forma ninguna interacción."))
             self.ultimo_mult = 1.0
             return
 
@@ -439,7 +459,9 @@ class Combate:
         if m["efecto"] == "disulfuro":
             self.salvaje["afinidad"] = 100
             self.ultimo_mult = 2.0
-            self.decir(tr("Enlace covalente S–S entre las dos Cys: afinidad máxima."))
+            self.decir(tr("Enlace covalente Se–S entre tu Sec y la Cys: afinidad máxima.")
+                       if self.mon["id"] == "U" else
+                       tr("Enlace covalente S–S entre las dos Cys: afinidad máxima."))
             progreso.dar_xp(self.mon, 3)
             return
 
@@ -600,7 +622,8 @@ class Combate:
 
     def info(self):
         f = datos.forma(self.mon["id"])
-        nombre_r = datos.GRUPO_R.get(f["base"], ("", "", ""))
+        nombre_r = datos.GRUPO_R.get(f["base"], datos.SEC["grupo_r"] if f["base"] == "U"
+                                     else ("", "", ""))
         lineas = [tr("Grupo: {grupo}", grupo=datos.nombre_tipos(f["tipos"]))]
         if not f["evo"]:
             lineas.append(tr("Grupo R: {nombre}  {formula}  ({clase})", nombre=nombre_r[0],
@@ -628,8 +651,10 @@ class Combate:
             self.reconocer()
         self.decir(tr("Deduce su grupo [D] o interactúa [1-5]."))
         while True:
+            self.esperando = True
             self.dibujar()
             k = d.tecla(self.win)
+            self.esperando = False
             resultado = None
             movs = self.movimientos()
             if isinstance(k, str) and k.isdigit() and 1 <= int(k) <= len(movs):

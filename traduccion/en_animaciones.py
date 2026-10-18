@@ -99,4 +99,8 @@ EN = {
         'fast',
     'sin animación':
         'no animation',
+    'un selenol (SeH) y un tiol (SH) se acercan':
+        'a selenol (SeH) and a thiol (SH) come close',
+    'enlace covalente Se–S (selenilsulfuro)':
+        'covalent Se–S bond (selenylsulfide)',
 }

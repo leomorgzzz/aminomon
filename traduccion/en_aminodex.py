@@ -83,4 +83,20 @@ EN = {
         'You mix it up with',
     'repasar hoy {n}':
         'review today {n}',
+    'residuo modificado dentro de una proteína':
+        'residue modified inside a protein',
+    'fuera de los 20 estándar':
+        'outside the 20 standard ones',
+    'En su grupo':
+        'Within its group',
+    ' Tab cambia ':
+        ' Tab switches ',
+    'Aminoácidos':
+        'Amino acids',
+    'Péptidos':
+        'Peptides',
+    '─ fuera de los 20 ─':
+        '─ outside the 20 ─',
+    'Hay un aminoácido fuera de los 20. Habla con el René-virus (V) para su evento.':
+        'There is an amino acid outside the 20. Talk to René-virus (V) for its event.',
 }

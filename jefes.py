@@ -93,28 +93,16 @@ JEFES = {
     ),
     "golgi": dict(
         nombre="Guardián del Golgi", reto="Dominio tipo mucina",
-        desc="En el Golgi se añaden O-glicanos al OH de Ser y Thr. Construye un "
-             "dominio tipo mucina: al menos 6 residuos y al menos 60% de S o T. "
-             "(La Asn llega del RE ya N-glicosilada; aquí su glicano se recorta y se le agregan azúcares.)",
+        desc="En el Golgi se añaden O-glicanos al OH de Ser y Thr. Construye un dominio tipo mucina: al menos 6 residuos y al menos 60% de S o T.",
         utiles="ST",
         condiciones=lambda s: [(tr("Al menos 6 residuos"), len(s) >= 6),
                                (tr("≥ 60% de Ser o Thr"), frac_st(s) >= 0.6)],
-        bio="Las mucinas tienen dominios ricos en Pro, Thr y Ser (PTS). En el "
-            "Golgi, las GalNAc-transferasas ponen O-glicanos en casi todas sus "
-            "Ser/Thr: la proteína queda cubierta de azúcares y atrapa agua "
-            "(el moco). La N-glicosilación de la Asn es igual de común, pero "
-            "empieza antes: la OST del RE la pone durante la traducción sobre la "
-            "secuencia consenso N-X-S/T. Con nivel 5, tus Ser y Thr se pueden O-glicosilar "
-            "dentro del Golgi (Equipo → V).",
+        bio="Las mucinas tienen dominios ricos en Pro, Thr y Ser. En el Golgi, las GalNAc-transferasas ponen O-glicanos en casi todas sus Ser/Thr: la proteína se cubre de azúcares que atrapan agua (el moco). Con nivel 5, tus Ser y Thr se pueden O-glicosilar aquí (Equipo → V).",
         premio=("ATP", 3),
     ),
     "lisosoma": dict(
         nombre="Guardiana del Lisosoma", reto="Sensor de pH",
-        desc="Construye un péptido de 3 a 8 residuos casi neutro en el "
-             "citosol (carga entre −1 y +1 a pH 7.4) que se vuelva claramente "
-             "positivo en el lisosoma (carga ≥ +2 a pH 5). Se cuentan solo las "
-             "cadenas laterales. Pista: usa varias His (pKR 6.0), casi neutras a "
-             "pH 7.4 y casi todas protonadas a pH 5.",
+        desc="Construye un péptido de 3 a 8 residuos casi neutro en el citosol (carga de −1 a +1 a pH 7.4) y claramente positivo en el lisosoma (≥ +2 a pH 5). Solo cuentan las cadenas laterales. Pista: la His (pKR 6.0) está casi neutra a pH 7.4 y casi toda protonada a pH 5.",
         utiles="H",
         condiciones=lambda s: [(tr("Entre 3 y 8 residuos"), 3 <= len(s) <= 8),
                                (tr("Carga a pH 7.4 entre −1 y +1"), -1 <= carga_ph(s, 7.4) <= 1),
@@ -483,7 +471,10 @@ for _s in STOP:
     CODIGO[_s] = "*"
 
 MUTACIONES = [
-    dict(texto="Anemia falciforme (HbS): en la β-globina, Glu6 → Val (E6V). "
+    dict(contexto="La hemoglobina (Hb) lleva el O2 en los eritrocitos. Es una proteína soluble: sus"
+                  " residuos de superficie están en contacto con el agua.",
+         cambio=("E", "V"),
+         texto="Anemia falciforme (HbS): en la β-globina, Glu6 → Val (E6V). "
                "¿Qué cambia en ese residuo de la superficie?",
          correcta="Pierde una carga − y deja un parche hidrofóbico pegajoso",
          otras=["Gana una carga + y forma un puente salino que endurece la Hb",
@@ -492,13 +483,18 @@ MUTACIONES = [
          expl="Glu es Cargado − (pKR 4.25); Val es No polar (KD +4.2). La Val6 "
               "encaja en un bolsillo hidrofóbico de otra Hb: se forman fibras y "
               "el eritrocito toma forma de hoz."),
-    dict(texto="Hemoglobina C: Glu6 → Lys (E6K). ¿Cuánto cambia la carga de esa "
+    dict(contexto="Es el mismo residuo 6 de la β-globina, en la superficie de la Hb.",
+         cambio=("E", "K"),
+         texto="Hemoglobina C: Glu6 → Lys (E6K). ¿Cuánto cambia la carga de esa "
                "cadena lateral a pH 7?",
          correcta="+2 (de −1 a +1)",
          otras=["+1 (de 0 a +1)", "0 (las dos son polares)", "−2 (de +1 a −1)"],
          expl="Glu a pH 7 es −1; Lys es +1. Por eso HbC migra distinto en la "
               "electroforesis."),
-    dict(texto="Osteogénesis imperfecta: una Gly del colágeno tipo I (Gly-X-Y) "
+    dict(contexto="El colágeno tipo I da resistencia a huesos y piel. Es una triple hélice: tres "
+                  "cadenas enrolladas muy juntas, con la secuencia Gly-X-Y repetida.",
+         cambio=("G", "S"),
+         texto="Osteogénesis imperfecta: una Gly del colágeno tipo I (Gly-X-Y) "
                "cambia a Ser. ¿Por qué es tan grave?",
          correcta="Solo la Gly cabe en el centro de la triple hélice",
          otras=["La Ser se fosforila y repele a las otras dos cadenas",
@@ -507,7 +503,9 @@ MUTACIONES = [
          expl="En la triple hélice, cada tercer residuo queda en el eje central, "
               "donde solo cabe un H. Sustituir esa Gly rompe el plegamiento: "
               "huesos frágiles."),
-    dict(texto="Fibrosis quística: la mutación más común de CFTR (ΔF508) elimina "
+    dict(contexto="CFTR es un canal de cloruro de la membrana. Se sintetiza en el RE, donde las "
+                  "chaperonas revisan que esté bien plegada antes de dejarla seguir al Golgi.",
+         texto="Fibrosis quística: la mutación más común de CFTR (ΔF508) elimina "
                "una Phe. ¿Qué le pasa a la proteína?",
          correcta="Se pliega mal y el RE la retiene y la degrada (ERAD)",
          otras=["Se vuelve más ácida y precipita en el citosol",
@@ -515,7 +513,11 @@ MUTACIONES = [
                 "Gana un sitio de N-glicosilación y se acumula en el Golgi"],
          expl="Sin la Phe508 el dominio NBD1 no se pliega bien. Las chaperonas del RE la detectan, se ubiquitina y el proteasoma la degrada: "
               "casi no llega a la membrana."),
-    dict(texto="KRAS G12D (frecuente en cáncer de páncreas): Gly12 → Asp. "
+    dict(contexto="KRAS es un interruptor: con GTP está encendida y manda señales de proliferación;"
+                  " se apaga al hidrolizar el GTP a GDP, con ayuda de una proteína GAP. La Gly12 "
+                  "está junto al sitio del GTP.",
+         cambio=("G", "D"),
+         texto="KRAS G12D (frecuente en cáncer de páncreas): Gly12 → Asp. "
                "¿Qué cambia?",
          correcta="La cadena lateral estorba la hidrólisis del GTP: KRAS queda encendida",
          otras=["KRAS pierde su sitio de unión a ATP y deja de mandar señales "
@@ -524,7 +526,10 @@ MUTACIONES = [
                 "Nada: Gly y Asp son pequeños y caben en el mismo sitio"],
          expl="La Gly12 está pegada al sitio del GTP; casi cualquier cadena lateral impide que la GAP acelere la hidrólisis. KRAS-GTP sigue mandando "
               "señales de proliferación."),
-    dict(texto="Fenilcetonuria: en la fenilalanina hidroxilasa, Arg408 → Trp "
+    dict(contexto="La fenilalanina hidroxilasa del hígado convierte la Phe en Tyr. La Arg408 está "
+                  "en su dominio catalítico.",
+         cambio=("R", "W"),
+         texto="Fenilcetonuria: en la fenilalanina hidroxilasa, Arg408 → Trp "
                "(R408W). ¿Qué se pierde en ese sitio?",
          correcta="Una carga + que hacía puentes salinos; la enzima se pliega mal",
          otras=["Un sitio de fosforilación que activaba a la enzima en el ayuno",
@@ -532,14 +537,20 @@ MUTACIONES = [
                 "Un grupo ácido que unía al cofactor (tetrahidrobiopterina)"],
          expl="Arg es Cargado + (pKR 12.5); Trp es Aromático. Sin la enzima, la "
               "Phe se acumula y la Tyr se vuelve esencial para el paciente."),
-    dict(texto="Enfermedad de Huntington: la huntingtina tiene demasiadas "
+    dict(contexto="La huntingtina se expresa en muchas células, sobre todo en las neuronas. Su gen "
+                  "empieza con un tramo de codones CAG repetidos: lo normal es tener menos de ~36.",
+         texto="Enfermedad de Huntington: la huntingtina tiene demasiadas "
                "repeticiones del codón CAG. ¿Qué tramo se alarga en la proteína?",
          correcta="Poliglutamina (CAG = Gln)",
          otras=["Polialanina (CAG = Ala)", "Polihistidina (CAG = His)",
                 "Policisteína (CAG = Cys)"],
          expl="CAG codifica Gln. Con más de ~36 repeticiones, el tramo poli-Q "
               "se agrega y daña las neuronas."),
-    dict(texto="p53 R175H (mutación frecuente en cáncer). Arg e His son del "
+    dict(contexto="p53 es un factor de transcripción que frena la división de las células con el "
+                  "ADN dañado. La Arg175 no toca el ADN: ayuda a mantener la forma de la región que"
+                  " sí se une a él.",
+         cambio=("R", "H"),
+         texto="p53 R175H (mutación frecuente en cáncer). Arg e His son del "
                "grupo básico, ¿por qué la His no sustituye bien a la Arg?",
          correcta="A pH 7 la His casi no tiene carga; la Arg (pKR 12.5) sí",
          otras=["La His es más grande y no cabe en el sitio de unión al ADN",
@@ -547,20 +558,26 @@ MUTACIONES = [
                 "La His forma disulfuros con las Cys cercanas del dominio"],
          expl="Estar en el mismo grupo de Lehninger no hace a dos residuos "
               "intercambiables: el pKR decide si la carga existe a pH 7."),
-    dict(texto="El alelo de la HbS se debe a GAG → GUG en el codón 6. ¿Qué tipo "
+    dict(contexto="GAG codifica Glu y GUG codifica Val. Cambió una sola base (A → U) y el marco de "
+                  "lectura sigue igual.",
+         texto="El alelo de la HbS se debe a GAG → GUG en el codón 6. ¿Qué tipo "
                "de mutación es?",
          correcta="De sentido erróneo (missense)",
          otras=["Silenciosa (sinónima)", "Sin sentido (nonsense)",
                 "Corrimiento del marco (frameshift)"],
          expl="GAG = Glu y GUG = Val: cambia un aminoácido por otro."),
-    dict(texto="Un codón UGG (Trp) muta a UGA. ¿Qué le pasa a la proteína?",
+    dict(contexto="UGG es el único codón del Trp. El ribosoma deja de traducir cuando llega a un "
+                  "codón de paro.",
+         texto="Un codón UGG (Trp) muta a UGA. ¿Qué le pasa a la proteína?",
          correcta="Sale truncada: UGA es codón de paro (sin sentido)",
          otras=["Nada: UGA también codifica Trp en el citosol humano",
                 "Se cambia el Trp por una Cys, de codón parecido (UGU)",
                 "Se corre el marco de lectura y cambia todo lo que sigue"],
          expl="UAA, UAG y UGA son los codones de paro (en mitocondrias humanas "
               "UGA sí es Trp, pero no en el citosol)."),
-    dict(texto="Un codón CUU (Leu) muta a CUC. ¿Efecto en la proteína?",
+    dict(contexto="Casi todos los aminoácidos tienen más de un codón, y suelen diferir en la "
+                  "tercera base.",
+         texto="Un codón CUU (Leu) muta a CUC. ¿Efecto en la proteína?",
          correcta="Ninguno: CUC también es Leu (silenciosa)",
          otras=["Leu → Pro: se rompe la hélice α donde estaba",
                 "Leu → Phe: entra un anillo aromático más grande",
@@ -570,7 +587,7 @@ MUTACIONES = [
 ]
 
 
-traducir(MUTACIONES, "texto", "correcta", "otras", "expl")
+traducir(MUTACIONES, "texto", "correcta", "otras", "expl", "contexto")
 
 
 def _arn_aleatorio():
@@ -585,12 +602,11 @@ def _arn_aleatorio():
             return arn, prot, len(utr5)
 
 
-def traducir(win, juego, n, total):
+def traducir(win, juego, n, total, aciertos=0):
     arn, prot, ini = _arn_aleatorio()
     alto, ancho = win.getmaxyx()
     win.erase()
-    d.put(win, 0, 1, tr("EXAMEN DEL RENÉ-VIRUS · {n}/{total} · Traducción", n=n, total=total),
-          d.c("titulo", curses.A_BOLD))
+    _cabecera(win, n, total, aciertos, tr("Traducción"))
     texto = tr("Lee este ARNm como un ribosoma: busca el primer AUG, lee de 3 en 3 "
                "y detente en el codón de paro (UAA, UAG o UGA). Escribe la proteína "
                "en código de 1 letra (incluye la Met inicial, no el paro).")
@@ -613,19 +629,42 @@ def traducir(win, juego, n, total):
     return bien
 
 
-def mutacion(win, juego, caso, n, total):
+def _antes_despues(cambio):
+    """«Glu (Cargado −, pKR 4.25) → Val (No polar)» para el contexto."""
+    def uno(c):
+        a = AA[c]
+        extra = f", pKR {a['pkr']:.2f}" if a["pkr"] else ""
+        return f"{a['tres']} ({datos.nombre_tipos(a['tipos'])}{extra})"
+    return f"{uno(cambio[0])} → {uno(cambio[1])}"
+
+
+def _cabecera(win, n, total, aciertos, parte):
+    d.put(win, 0, 1, tr("EXAMEN DEL RENÉ-VIRUS · {n}/{total} · {parte} · aciertos {a} "
+                        "(se aprueba con 7)", n=n, total=total, parte=parte, a=aciertos),
+          d.c("titulo", curses.A_BOLD))
+
+
+def mutacion(win, juego, caso, n, total, aciertos=0):
     alto, ancho = win.getmaxyx()
     win.erase()
-    d.put(win, 0, 1, tr("EXAMEN DEL RENÉ-VIRUS · {n}/{total} · Mutaciones reales", n=n, total=total),
-          d.c("titulo", curses.A_BOLD))
+    _cabecera(win, n, total, aciertos, tr("Mutaciones reales"))
     w = min(ancho - 2, 90)
     x = (ancho - w) // 2
     ops = [caso["correcta"]] + caso["otras"]
     random.shuffle(ops)
-    lineas = d.envolver(caso["texto"], w - 4)
+    contexto = caso.get("contexto", "")
+    if caso.get("cambio"):
+        contexto += "\n" + _antes_despues(caso["cambio"])
     y = 2
+    if contexto:
+        lineas_c = d.envolver(contexto, w - 4)
+        d.caja(win, y, x, len(lineas_c) + 2, w, tr("Contexto"))
+        for i, l in enumerate(lineas_c):
+            d.put(win, y + 1 + i, x + 2, l, d.c("agua"))
+        y += len(lineas_c) + 2
+    lineas = d.envolver(caso["texto"], w - 4)
     d.caja(win, y, x, len(lineas) + 3 + sum(len(d.envolver(o, w - 10)) for o in ops) + 2, w,
-           tr("Pregunta"))
+           tr("Pregunta · contesta aquí"), d.c("titulo", curses.A_BOLD), resaltar=True)
     for l in lineas:
         y += 1
         d.put(win, y, x + 2, l, d.c("texto", curses.A_BOLD))
@@ -634,7 +673,7 @@ def mutacion(win, juego, caso, n, total):
         for k, l in enumerate(d.envolver(o, w - 10)):
             y += 1
             d.put(win, y, x + 4, (f"{i + 1}) " if k == 0 else "   ") + l, d.c("texto"))
-    d.put(win, y + 2, x + 2, tr("Pulsa el número de tu respuesta"), d.c("tenue"))
+    d.put(win, y + 2, x + 2, tr("► Pulsa el número de tu respuesta"), d.c("titulo", curses.A_BOLD))
     win.refresh()
     while True:
         k = d.tecla(win)
@@ -649,14 +688,17 @@ def mutacion(win, juego, caso, n, total):
 
 def examen_rene(win, juego):
     d.dialogo(win, [
-        tr("Traduce 3 ARNm y analiza 5 mutaciones asociadas a enfermedades "
-           "humanas. Se aprueba con 7 de 8.")], tr("René-virus"))
+        tr("CÓMO FUNCIONA\n\n• Parte 1: traduce 3 ARNm. Busca el primer AUG, lee de 3 en 3 "
+           "y para en el codón de paro; escribe la proteína en código de 1 letra.\n"
+           "• Parte 2: 5 mutaciones de enfermedades humanas. Cada una trae su contexto; "
+           "contesta con 1-4.\n• Se aprueba con 7 de 8. Arriba ves tus aciertos.")],
+        tr("Examen final del René-virus"))
     total = 8
     aciertos = 0
     for n in range(1, 4):
-        aciertos += traducir(win, juego, n, total)
+        aciertos += traducir(win, juego, n, total, aciertos)
     for n, caso in enumerate(random.sample(MUTACIONES, 5), start=4):
-        aciertos += mutacion(win, juego, caso, n, total)
+        aciertos += mutacion(win, juego, caso, n, total, aciertos)
     if aciertos >= 7:
         primera = not juego.get("doctorado")
         juego["doctorado"] = True
@@ -665,8 +707,8 @@ def examen_rene(win, juego):
             texto += "\n\n" + tr("Ahora puedo hacerte encargos de síntesis: péptidos reales "
                                  "({n} en el catálogo) que tendrás que traducir de su ARNm y "
                                  "construir con los residuos de tu equipo. Habla conmigo (V) "
-                                 "cuando quieras. El catálogo está al final de la Aminodex [X].",
-                                 n=len(datos.PEPTIDOS))
+                                 "cuando quieras. El catálogo está en la pestaña Péptidos de la "
+                                 "Aminodex [X].", n=len(datos.PEPTIDOS))
         d.popup(win, texto, tr("René-virus"), attr=d.c("bien"))
     else:
         d.popup(win, tr("{n}/8. No aprobado. Repasa los codones (pestaña Chuleta) y las "

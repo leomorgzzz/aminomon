@@ -160,7 +160,8 @@ def put(win, y, x, texto, attr=0):
         pass
 
 
-def caja(win, y, x, h, w, titulo=None, attr=None):
+def caja(win, y, x, h, w, titulo=None, attr=None, resaltar=False):
+    """resaltar: el título va en video inverso (donde el jugador debe contestar)."""
     attr = c("tenue") if attr is None else attr
     put(win, y, x, "┌" + "─" * (w - 2) + "┐", attr)
     for i in range(1, h - 1):
@@ -168,7 +169,8 @@ def caja(win, y, x, h, w, titulo=None, attr=None):
         put(win, y + i, x + w - 1, "│", attr)
     put(win, y + h - 1, x, "└" + "─" * (w - 2) + "┘", attr)
     if titulo:
-        put(win, y, x + 2, f" {titulo} ", c("titulo", curses.A_BOLD))
+        put(win, y, x + 2, f" {titulo} ",
+            c("titulo", curses.A_BOLD | (curses.A_REVERSE if resaltar else 0)))
 
 
 def limpiar_area(win, y, x, h, w):
@@ -203,6 +205,11 @@ def _colorear(linea, esqueleto=False):
         ch = linea[i]
         sig = linea[i + 1] if i + 1 < len(linea) else ""
         ant = linea[i - 1] if i else ""
+        if ch == "S" and sig == "e":                  # selenio (Se)
+            trozos.append(("Se", "atS"))
+            ultimo = "atS"
+            i += 2
+            continue
         if ch.isupper() and sig.islower() and sig not in "αβγδε":
             j = i
             while j < len(linea) and linea[j].isalpha():
@@ -354,9 +361,12 @@ def popup(win, texto, titulo=None, ancho=60, attr=None, esperar=True):
         seguir = tr("[Enter] seguir")
         put(win, y0 + h - 2, x0 + ancho - len(seguir) - 4, seguir, c("tenue"))
         win.refresh()
+        # solo Enter: así una tecla de movimiento o un número que venía
+        # presionado no se salta el texto sin leerlo
+        curses.flushinp()
         while True:
             k = tecla(win)
-            if k != curses.KEY_RESIZE:
+            if k in ENTER:
                 return k
     win.refresh()
 

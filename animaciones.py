@@ -279,6 +279,20 @@ def esqueleto(h, w, ctx):
 
 
 
+def selenilsulfuro(h, w, ctx):
+    """Sec + Cys: como el disulfuro, pero con un Se (enlace Se–S)."""
+    izq, der = "Sec─SeH", "HS─Cys"
+    cuadros, (y, fi, fd) = _acercar(h, w, izq, der, ctx["color_mio"], ctx["color_rival"],
+                                    hueco=1, sub=tr("un selenol (SeH) y un tiol (SH) se acercan"))
+    for i in range(1, 7):
+        cuadros.append([(y, fi, "Sec─Se ", ctx["color_mio"]), (y, fd, " S─Cys", ctx["color_rival"]),
+                        (max(0, y - i), fi + 6, "H", "agua"), (max(0, y - i), fd, "H", "agua"),
+                        _sub(h, w, tr("se oxidan: salen 2H+ + 2e−"))])
+    final = [(y, w // 2 - 7, "Sec─Se─S─Cys", "titulo"), (0, 1, "2H+ + 2e−", "tenue")]
+    cuadros.append(final + [_sub(h, w, tr("enlace covalente Se–S (selenilsulfuro)"), "titulo")])
+    return cuadros
+
+
 def disulfuro(h, w, ctx):
     izq, der = "Cys─SH", "HS─Cys"
     cuadros, (y, fi, fd) = _acercar(h, w, izq, der, ctx["color_mio"], ctx["color_rival"],
@@ -360,7 +374,7 @@ ANIMACIONES = {
     "salino": salino, "repulsion": repulsion, "hidrofobico": hidrofobico,
     "solvatacion": solvatacion, "puente_h": puente_h, "sin_puente_h": sin_puente_h,
     "pi": pi, "cation_pi": cation_pi, "oh_pi": oh_pi, "vdw": vdw,
-    "esqueleto": esqueleto, "disulfuro": disulfuro, "agitacion": agitacion,
+    "esqueleto": esqueleto, "disulfuro": disulfuro, "selenilsulfuro": selenilsulfuro, "agitacion": agitacion,
     "trna": trna,
 }
 

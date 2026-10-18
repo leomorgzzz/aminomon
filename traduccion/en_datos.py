@@ -311,8 +311,6 @@ EN = {
         'Histidine',
     'Imidazol con pKR ≈ 6: a pH 7 solo ~10% está protonada, a pH 5 casi toda. Por eso cede o toma H+ en sitios activos y en la hemoglobina.':
         "Imidazole with pKR ≈ 6: at pH 7 only ~10% is protonated, at pH 5 almost all of it. That's why it gives or takes H+ in active sites and in hemoglobin.",
-    'No polar no es lo mismo que hidrofóbico. La Gly es no polar porque su R es un H, pero ese H no tiene superficie que esconder del agua: el efecto hidrofóbico crece con la superficie de C–H que se entierra. Sin cadena lateral pesa más su esqueleto polar (N–H y C=O), por eso KD ≈ 0 (−0.4). Lehninger: es formalmente no polar, pero su cadena tan pequeña no contribuye de verdad a las interacciones hidrofóbicas.':
-        "Nonpolar is not the same as hydrophobic. Gly is nonpolar because its R is an H, but that H has no surface to hide from water: the hydrophobic effect grows with the C–H surface that gets buried. With no side chain, its polar backbone (N–H and C=O) weighs more, so KD ≈ 0 (−0.4). Lehninger: it's formally nonpolar, but its tiny side chain doesn't really contribute to hydrophobic interactions.",
     'Su anillo es de C–H, pero KD −1.6: rompe hélices y suele quedar en giros y lazos expuestos al agua, en la superficie de la proteína.':
         'Its ring is made of C–H, but KD −1.6: it breaks helices and usually sits in turns and loops exposed to water, on the protein surface.',
     'Es polar sin carga por el S–H, pero el S casi no es más electronegativo que el C (2.58 frente a 2.55): el S–H es muy poco polar y forma puentes de H débiles. Además suele estar enterrada en las proteínas (sola o en disulfuros), así que su KD es +2.5. Otros libros la ponen con los hidrofóbicos.':
@@ -595,4 +593,32 @@ EN = {
         'HIV-1 Tat peptide',
     'Residuos 47–57 de la proteína Tat del VIH-1: tan rico en Arg que atraviesa membranas. Se usa como péptido penetrante para meter fármacos a las células. Al René-virus le cae bien.':
         "Residues 47–57 of the HIV-1 Tat protein: so rich in Arg that it crosses membranes. It's used as a cell-penetrating peptide to get drugs into cells. The René-virus likes it.",
+    'No polar no es lo mismo que hidrofóbico. El R de la Gly es un H, sin superficie de C–H que esconder del agua, así que pesa más su esqueleto polar (N–H y C=O): KD ≈ 0 (−0.4). Lehninger: es formalmente no polar, pero casi no contribuye a las interacciones hidrofóbicas.':
+        "Nonpolar is not the same as hydrophobic. Gly's R is an H, with no C–H surface to hide from water, so its polar backbone (N–H and C=O) weighs more: KD ≈ 0 (−0.4). Lehninger: it's formally nonpolar, but it barely contributes to hydrophobic interactions.",
+    'Puente selenilsulfuro':
+        'Selenylsulfide bridge',
+    'Enlace covalente Se–S. Solo se forma con una Cys: afinidad máxima. Con cualquier otro residuo no ocurre.':
+        "Covalent Se–S bond. It only forms with a Cys: maximum affinity. With any other residue it doesn't happen.",
+    "R–SeH + R'–SH → R–Se–S–R' + 2H+ + 2e− (así trabaja la tiorredoxina reductasa).":
+        "R–SeH + R'–SH → R–Se–S–R' + 2H+ + 2e− (this is how thioredoxin reductase works).",
+    '▼ Un poco menos básica: el OH cercano baja el pKa del amonio (≈ 9.7 frente a 10.5 de la Lys), pero a pH 7 sigue siendo +1.':
+        '▼ Slightly less basic: the nearby OH lowers the ammonium pKa (≈ 9.7 vs. 10.5 for Lys), but at pH 7 it is still +1.',
+    '▲ Más firmemente cargada: sin H en el N no tiene pKa, así que no pierde la carga + a ningún pH.':
+        "▲ More firmly charged: with no H on the N it has no pKa, so it doesn't lose its + charge at any pH.",
+    '▲ Más ácido: dos carboxilatos, carga ≈ −2 frente a −1 del Glu.':
+        '▲ More acidic: two carboxylates, charge ≈ −2 vs. −1 for Glu.',
+    '▲ Más polar: el glicano trae muchos OH que forman puentes de H.':
+        '▲ More polar: the glycan brings many OH groups that form H bonds.',
+    '▲ Más polar: la GalNAc trae varios OH que forman puentes de H.':
+        '▲ More polar: the GalNAc brings several OH groups that form H bonds.',
+    'Selenocisteína':
+        'Selenocysteine',
+    '≈ −1 a pH 7 (selenolato, pKa ≈ 5.2)':
+        '≈ −1 at pH 7 (selenolate, pKa ≈ 5.2)',
+    'selanilmetilo':
+        'selanylmethyl',
+    '–CH2–SeH':
+        '–CH2–SeH',
+    'selenol':
+        'selenol',
 }

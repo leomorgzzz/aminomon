@@ -122,7 +122,7 @@ def ficha_modificacion(win, juego, eid, y, x, ancho):
     alto = win.getmaxyx()[0]
     d.put(win, y, x, ev["nombre"], d.c(ev["tipos"][0], curses.A_BOLD))
     d.put(win, y, x + len(ev["nombre"]) + 2, ev["tres"], d.c("texto"))
-    d.put(win, y + 1, x, tr("modificación postraduccional"), d.c("tenue"))
+    d.put(win, y + 1, x, tr("residuo modificado dentro de una proteína"), d.c("tenue"))
     fy = y + 2
     ancho_b = d.etiqueta_tipos(win, fy, x, base["tipos"])
     d.put(win, fy, x + ancho_b + 1, "→", d.c("tenue"))
@@ -138,6 +138,8 @@ def ficha_modificacion(win, juego, eid, y, x, ancho):
         (tr("Interacciones"), ", ".join(propias)),
         (tr("Cambio"), ev["cambio"]),
     ]
+    if ev.get("matiz"):                 # mismo grupo: ¿más o menos de ese grupo?
+        filas.append((tr("En su grupo"), ev["matiz"]))
     col = max(len(etq) for etq, _ in filas) + 2
     for etq, valor in filas:
         for i, l in enumerate(d.envolver(valor, ancho - col)):
@@ -155,6 +157,23 @@ def ficha_modificacion(win, juego, eid, y, x, ancho):
         fy += 1
 
 
+def ficha_sec(win, x, ancho, filas):
+    alto = win.getmaxyx()[0]
+    d.put(win, 2, x, datos.SEC["nombre"], d.c("POL", curses.A_BOLD))
+    d.put(win, 2, x + len(datos.SEC["nombre"]) + 2, "Sec · U", d.c("texto"))
+    d.put(win, 3, x, tr("fuera de los 20 estándar"), d.c("tenue"))
+    fy = 5
+    col = max(len(r) for r, _ in filas) + 2
+    for rotulo, valor in filas:
+        for i, l in enumerate(d.envolver(valor, ancho - col)):
+            if fy >= alto - 2:
+                return
+            if i == 0:
+                d.put(win, fy, x, rotulo, d.c("tenue"))
+            d.put(win, fy, x + col, l, d.c("texto"))
+            fy += 1
+
+
 def ficha_peptido(win, juego, pid, y, x, ancho):
     pep = datos.PEPTIDOS[pid]
     d.put(win, y, x, pep["nombre"], d.c("titulo", curses.A_BOLD))
@@ -162,18 +181,21 @@ def ficha_peptido(win, juego, pid, y, x, ancho):
     jefes.dibujar_resumen(win, y + 3, x, ancho, pep)
 
 
-def entradas(juego):
-    """Lista de la Aminodex: cada aminoácido seguido de las formas modificadas
-    que ya conseguiste (las demás no aparecen). Tras el examen final, al final
-    va el catálogo de péptidos."""
+def entradas(juego, pestana="aa"):
+    """Lista de la Aminodex. Pestaña «aa»: cada aminoácido seguido de las formas
+    modificadas que ya conseguiste (las demás no aparecen) y, en una sección
+    aparte, la Sec. Pestaña «pep» (tras el examen final): el catálogo de
+    péptidos."""
+    if pestana == "pep":
+        return [("pep", p) for p in datos.PEPTIDOS]
     lista = []
     for c in datos.ORDEN:
         lista.append(("aa", c))
         for e in datos.modificaciones_de(c):
             if e in juego["evos_vistas"]:
                 lista.append(("evo", e))
-    if juego.get("doctorado"):
-        lista += [("pep", p) for p in datos.PEPTIDOS]
+    if juego.get("sec") or progreso.aminodex_completa(juego):
+        lista += [("sep", None), ("sec", "U")]
     return lista
 
 
@@ -184,6 +206,8 @@ def _ancho_dibujo(cid):
     """Columnas de la estructura de una entrada con su rótulo de grupo R."""
     if cid in datos.MODIFICACIONES:
         etiqueta = datos.MODIFICACIONES[cid]["nombre"]
+    elif cid == "U":
+        etiqueta = datos.SEC["grupo_r"][0]
     else:
         etiqueta = datos.GRUPO_R[cid][0]
     return d.ancho_estructura(datos.forma(cid)["arte"], etiqueta)
@@ -194,15 +218,16 @@ def columna_ficha(lista, cid, ancho):
     lista (así no salta al cambiar de entrada); si con eso la ficha queda muy
     angosta, a la derecha de la estructura actual."""
     base = 46 if ancho < 100 else 50
-    comun = max(base, X_ESTRUCTURA + max(_ancho_dibujo(c) for clase, c in lista
-                                         if clase != "pep") + 3)
+    comun = max(base, X_ESTRUCTURA + max([_ancho_dibujo(c) for clase, c in lista
+                                          if clase not in ("pep", "sep")] or [0]) + 3)
     if ancho - comun >= 48:
         return comun
     return max(base, X_ESTRUCTURA + _ancho_dibujo(cid) + 3)
 
 
 def mostrar(win, juego):
-    lista = entradas(juego)
+    pestana = "aa"
+    lista = entradas(juego, pestana)
     sel = 0
     while True:
         alto, ancho = win.getmaxyx()
@@ -225,6 +250,14 @@ def mostrar(win, juego):
             cabecera = " · ".join(partes)
         d.put(win, 0, 1, cabecera, d.c("titulo", curses.A_BOLD))
         d.put(win, 1, 0, "─" * ancho, d.c("tenue"))
+        if juego.get("doctorado"):          # pestañas: los péptidos van aparte
+            cx = 2
+            for clave, nombre in (("aa", tr("Aminoácidos")), ("pep", tr("Péptidos"))):
+                texto = f" {nombre} "
+                d.put(win, 1, cx, texto, d.c("titulo", curses.A_BOLD | curses.A_REVERSE)
+                      if clave == pestana else d.c("tenue"))
+                cx += len(texto) + 1
+            d.put(win, 1, cx + 1, tr(" Tab cambia "), d.c("tenue"))
         visibles = alto - 3
         inicio = max(0, min(sel - visibles // 2, len(lista) - visibles))
         for fila, i in enumerate(range(inicio, min(len(lista), inicio + visibles))):
@@ -238,6 +271,13 @@ def mostrar(win, juego):
                     texto, attr = f"{num:2} · {tr('¿¿??')}", d.c("tenue")
                 else:
                     texto, attr = f"{num:2}   ------", d.c("tenue")
+            elif clase == "sep":
+                texto, attr = tr("─ fuera de los 20 ─"), d.c("tenue")
+            elif clase == "sec":
+                if juego.get("sec"):
+                    texto, attr = f" U √ {datos.SEC['nombre']}", d.c("POL")
+                else:
+                    texto, attr = "    ------", d.c("tenue")
             elif clase == "pep":
                 num = list(datos.PEPTIDOS).index(cid) + 1
                 if cid in juego["peptidos"]:
@@ -247,7 +287,7 @@ def mostrar(win, juego):
             else:
                 ev = datos.MODIFICACIONES[cid]
                 texto, attr = f"   └ {ev['nombre'][:16]}", d.c(ev["tipos"][0])
-            if i == sel:
+            if i == sel and clase != "sep":
                 attr |= curses.A_REVERSE
             d.put(win, 2 + fila, 1, f"{texto:<21}", attr)
 
@@ -260,6 +300,17 @@ def mostrar(win, juego):
                 d.put(win, 8, x_ficha, tr("Péptido {n}: aún no lo sintetizas. Pídeselo al "
                                           "René-virus (V).", n=list(datos.PEPTIDOS).index(cid) + 1),
                       d.c("tenue"))
+        elif clase == "sec":
+            if juego.get("sec"):
+                import posgame
+                d.estructura(win, 2, X_ESTRUCTURA, posgame.SEC_ARTE,
+                             etiqueta_r=datos.SEC["grupo_r"][0], color_r="POL")
+                ficha_sec(win, x_ficha, min(ancho - x_ficha - 1, 70), posgame.filas_sec())
+            else:
+                for i, l in enumerate(d.envolver(
+                        tr("Hay un aminoácido fuera de los 20. Habla con el René-virus (V) "
+                           "para su evento."), ancho - X_ESTRUCTURA - 2)):
+                    d.put(win, 8 + i, X_ESTRUCTURA, l, d.c("tenue"))
         elif clase == "aa":
             if juego["capturados"].get(cid):
                 d.estructura(win, 2, X_ESTRUCTURA, datos.forma(cid)["arte"],
@@ -288,17 +339,25 @@ def mostrar(win, juego):
         d.put(win, alto - 1, 1, tr("↑/↓ elegir   ←/→ saltar de aminoácido   P practicar   L logros   "
                                    "M manual   Esc salir"),
               d.c("tenue"))
+        n_lista = len(lista)
         win.refresh()
         k = d.tecla(win)
         if k == d.ESC or d.es(k, "q", "x"):
             return
-        if d.es(k, curses.KEY_DOWN, "j", "s"):
-            sel = (sel + 1) % len(lista)
+        if k == "\t" and juego.get("doctorado"):
+            pestana = "pep" if pestana == "aa" else "aa"
+            lista, sel = entradas(juego, pestana), 0
+        elif d.es(k, curses.KEY_DOWN, "j", "s"):
+            sel = (sel + 1) % n_lista
+            if lista[sel][0] == "sep":
+                sel = (sel + 1) % n_lista
         elif d.es(k, curses.KEY_UP, "k", "w"):
-            sel = (sel - 1) % len(lista)
-        elif d.es(k, curses.KEY_RIGHT, "d"):
-            sel = next((i for i in range(sel + 1, len(lista)) if lista[i][0] == "aa"), 0)
-        elif d.es(k, curses.KEY_LEFT, "a"):
+            sel = (sel - 1) % n_lista
+            if lista[sel][0] == "sep":
+                sel = (sel - 1) % n_lista
+        elif d.es(k, curses.KEY_RIGHT, "d") and pestana == "aa":
+            sel = next((i for i in range(sel + 1, n_lista) if lista[i][0] == "aa"), 0)
+        elif d.es(k, curses.KEY_LEFT, "a") and pestana == "aa":
             previos = [i for i in range(sel) if lista[i][0] == "aa"]
             sel = previos[-1] if previos else max(i for i, e in enumerate(lista) if e[0] == "aa")
         elif d.es(k, "p"):

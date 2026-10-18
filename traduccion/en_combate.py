@@ -177,4 +177,16 @@ EN = {
         'You recognized it: +{n} affinity.',
     'No lo reconociste: su nombre queda oculto.':
         'You did not recognize it: its name stays hidden.',
+    'Tu turno: elige 1-{n}, D, T, C o H':
+        'Your turn: choose 1-{n}, D, T, C or H',
+    'Sin una Cys no hay enlace Se–S: no se forma ninguna interacción.':
+        'Without a Cys there is no Se–S bond: no interaction forms.',
+    'Enlace covalente Se–S entre tu Sec y la Cys: afinidad máxima.':
+        'Covalent Se–S bond between your Sec and the Cys: maximum affinity.',
+    'puente selenilsulfuro (covalente)':
+        'selenylsulfide bridge (covalent)',
+    'sin una Cys no hay enlace Se–S':
+        'without a Cys there is no Se–S bond',
+    'el enlace Se–S solo se forma con una Cys':
+        'the Se–S bond only forms with a Cys',
 }

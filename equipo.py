@@ -147,9 +147,17 @@ def modificar(win, juego, mon, zona_actual):
     texto = (f"{ev['cambio']}\n\n"
              + tr("Grupo: {antes} → {despues}", antes=datos.nombre_tipos(f["tipos"]),
                   despues=datos.nombre_tipos(ev["tipos"])) + "\n"
+             + (tr("En su grupo: ") + ev["matiz"] + "\n" if ev.get("matiz") else "")
              + tr("Interacciones: {movs}", movs=propias) + f"\n\n{ev['bio']}")
     for i, l in enumerate(d.envolver(texto, 52)):
         d.put(win, 2 + i, 26, l, d.c("texto"))
     d.put(win, win.getmaxyx()[0] - 1, 1, tr("[Enter] seguir"), d.c("tenue"))
     win.refresh()
-    d.tecla(win)
+    while d.tecla(win) not in d.ENTER:
+        pass
+    if progreso.modificaciones_completas(juego) and "aviso_ptm" not in juego["recompensas"]:
+        juego["recompensas"].append("aviso_ptm")
+        win.erase()
+        d.popup(win, tr("¡Conseguiste las {n} modificaciones! Habla con el René-virus (V): "
+                        "tiene algo para ti.", n=len(datos.MODIFICACIONES)),
+                tr("Modificaciones completas"), attr=d.c("bien"))

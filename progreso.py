@@ -48,7 +48,8 @@ def cargar():
     for k, v in base["objetos"].items():
         juego["objetos"].setdefault(k, v)
     juego["equipo"] = [m for m in juego["equipo"]
-                       if m["id"] in datos.AMINOACIDOS or m["id"] in datos.MODIFICACIONES]
+                       if m["id"] in datos.AMINOACIDOS or m["id"] in datos.MODIFICACIONES
+                       or m["id"] == "U"]
     return juego
 
 
@@ -105,6 +106,28 @@ def aminodex_completa(juego):
 
 def modificaciones_completas(juego):
     return all(e in juego["evos_vistas"] for e in datos.MODIFICACIONES)
+
+
+def pendientes(juego):
+    """[(texto, hecho)] de todo lo que hay que terminar en el juego."""
+    import jefes
+    return [
+        (tr("Capturar los 20 aminoácidos"), aminodex_completa(juego)),
+        (tr("Conseguir las {n} modificaciones", n=len(datos.MODIFICACIONES)),
+         modificaciones_completas(juego)),
+        (tr("Ganar las {n} insignias", n=len(jefes.JEFES)), len(juego["insignias"]) >= len(jefes.JEFES)),
+        (tr("Aprobar el examen de la Chaperona"), bool(juego.get("terminado"))),
+        (tr("Aprobar el examen final del René-virus"), bool(juego.get("doctorado"))),
+        (tr("El evento de la selenocisteína"), bool(juego.get("sec"))),
+        (tr("Sintetizar los {n} péptidos del catálogo", n=len(datos.PEPTIDOS)),
+         len(juego.get("peptidos", [])) >= len(datos.PEPTIDOS)),
+        (tr("Resolver 5 de 6 en el laboratorio del René-virus"),
+         juego.get("records", {}).get("laboratorio", 0) >= 5),
+    ]
+
+
+def todo_completo(juego):
+    return all(hecho for _, hecho in pendientes(juego))
 
 
 def conteo_equipo(juego):
