@@ -2,7 +2,7 @@ r"""Caritas: una por aminoácido, del color de su grupo de Lehninger.
 
 El grupo también se nota en la cara: los cargados llevan su carga en los
 cachetes (+ o −), los aromáticos lentes de anillo y los polares gotitas de agua
-(°). El «pelo» recuerda la cadena lateral: la Met lleva su codón AUG, la Cys
+(°). El «pelo» recuerda la cadena lateral: la Met su S-CH3, la Cys
 su S-H, los ácidos su COO y los básicos su N.
 
 Cada carita mide 5 filas × 11 columnas: el pelo, la frente, los ojos, la boca
@@ -21,7 +21,7 @@ CARAS = {
     "V": (r"    \|/    ", r"- -", r"\_/"),
     "L": (r"   \\|//   ", r"° °", r"\_/"),
     "I": (r"   //|\\   ", r"o o", r"\_/"),
-    "M": (r"   [AUG]   ", r"^ ^", r"\o/"),
+    "M": (r"   S-CH3   ", r"^ ^", r"\o/"),
     "P": (r"    @@@    ", r"- -", r"~~~"),
     "F": (r"   .-O-.   ", r"o o", r"\_/"),
     "Y": (r"   .-O-OH  ", r"o o", r"\o/"),
