@@ -25,8 +25,6 @@ EN = {
         'Now the mice even cuddle. The disulfide formed on its own when the two Cys were oxidized.',
     'El último. Quiero meter fármacos a las células, y un virus como yo sabe cómo: el péptido Tat del VIH-1 cruza membranas por su montón de Arg y Lys. Son 11 aminoácidos y el ribosoma va a toda velocidad.':
         "The last one. I want to get drugs into cells, and a virus like me knows how: the HIV-1 Tat peptide crosses membranes thanks to its pile of Arg and Lys. It's 11 amino acids and the ribosome is at full speed.",
-    '¡Lo lograste! Con este péptido pego fármacos y los meto a las células. Ya lees ARNm como un ribosoma.':
-        'You did it! With this peptide I can attach drugs and get them into cells. You read mRNA like a ribosome now.',
     'Cadena (N → C):':
         'Chain (N → C):',
     'ribosoma':
@@ -117,10 +115,14 @@ EN = {
         "HOW IT WORKS\n\n• Same as the other orders, with the anticodons shown.\n• The Sec-tRNA's anticodon is 3'-ACU-5': it pairs with UGA.\n• Here the stop is UAA or UAG; that codon does take the release factor.\n• It's 4 amino acids and {s} s per codon.",
     'ENCARGO ESPECIAL · Tiorredoxina reductasa (Gly-Cys-Sec-Gly)':
         'SPECIAL ORDER · Thioredoxin reductase (Gly-Cys-Sec-Gly)',
-    'Sintetizaste Gly-Cys-Sec-Gly. El UGA se leyó como Sec gracias al SECIS, y el paro UAA/UAG soltó la cadena. En la enzima completa (casi 500 aminoácidos) este final es el sitio activo: la Sec y la Cys vecina reducen a la tiorredoxina y quedan unidas por un puente Se–S, que la propia enzima vuelve a abrir con NADPH.':
-        'You synthesized Gly-Cys-Sec-Gly. The UGA was read as Sec thanks to the SECIS, and the UAA/UAG stop released the chain. In the full enzyme (almost 500 amino acids) this end is the active site: the Sec and the neighboring Cys reduce thioredoxin and end up joined by a Se–S bridge, which the enzyme itself opens again with NADPH.',
     'Encargo especial: la selenoproteína':
         'Special order: the selenoprotein',
     'Liberaste la cadena: con el SECIS, este UGA no es de paro.':
         'You released the chain: with the SECIS, this UGA is not a stop.',
+    '¡Lo lograste, {jugador}! Con este péptido pego fármacos y los meto a las células. Ya lees ARNm como un ribosoma.':
+        'You did it, {jugador}! With this peptide I can attach drugs and get them into cells. You read mRNA like a ribosome now.',
+    'El UGA se leyó como Sec gracias al SECIS, y el paro UAA/UAG soltó la cadena. En la enzima completa (casi 500 aminoácidos) este final es el sitio activo: la Sec y la Cys vecina reducen a la tiorredoxina y quedan unidas por un puente Se–S, que la propia enzima vuelve a abrir con NADPH.':
+        'The UGA was read as Sec thanks to the SECIS, and the UAA/UAG stop released the chain. In the full enzyme (almost 500 amino acids) this end is the active site: the Sec and the neighboring Cys reduce thioredoxin and end up joined by a Se–S bridge, which the enzyme itself opens again with NADPH.',
+    '{jugador}, sintetizaste Gly-Cys-Sec-Gly.':
+        '{jugador}, you synthesized Gly-Cys-Sec-Gly.',
 }

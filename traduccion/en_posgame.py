@@ -41,8 +41,6 @@ EN = {
         'HOW IT WORKS\n\n• Walk with WASD or the arrows to a bench.\n• T titration: put the cursor on the curve where the pK or the pI is.\n• E electrophoresis: choose which electrode each amino acid moves to.\n• I ion exchange: say in what order they leave the column.\n• There are {n} problems per visit; your count is at the top. The exit is at the bottom.',
     'SELENOCISTEÍNA · pregunta {n}/3 · aciertos {a}':
         'SELENOCYSTEINE · question {n}/3 · correct {a}',
-    '¡3/3! Una Ser se cargó en el ARNt-Sec y, con selenofosfato, se convirtió en selenocisteína. Ya está en tu equipo y en la Aminodex, en una sección aparte: no cuenta en el 20/20.':
-        "3/3! A Ser was loaded onto tRNA-Sec and, with selenophosphate, became selenocysteine. It's now on your team and in the Aminodex, in a separate section: it doesn't count toward the 20/20.",
     'SELENOCISTEÍNA · Sec · U  (fuera de los 20)':
         'SELENOCYSTEINE · Sec · U  (outside the 20)',
     'el pK1: donde amortigua el α-COOH':
@@ -175,8 +173,12 @@ EN = {
         'On the vertical stretches the',
     'cursor sube por la curva.':
         'cursor climbs along the curve.',
-    'Te doy la bienvenida a mi laboratorio de proteómica: aquí la química de cada aminoácido se mide.':
-        "Welcome to my proteomics lab: here each amino acid's chemistry gets measured.",
-    'Capturaste los 20 aminoácidos, conseguiste las {m} modificaciones, ganaste las {i} insignias, aprobaste los dos exámenes, conociste a la selenocisteína, cumpliste los {p} encargos de síntesis (y la selenoproteína) y resolviste el laboratorio.':
-        'You caught the 20 amino acids, got the {m} modifications, won the {i} badges, passed both exams, met selenocysteine, completed the {p} synthesis orders (and the selenoprotein) and solved the lab.',
+    'Una Ser se cargó en el ARNt-Sec y, con selenofosfato, se convirtió en selenocisteína. Ya está en tu equipo y en la Aminodex, en una sección aparte: no cuenta en el 20/20.':
+        "A Ser was loaded onto the Sec-tRNA and, with selenophosphate, became selenocysteine. It's now in your team and in the Aminodex, in a separate section: it doesn't count toward the 20/20.",
+    '{jugador}, te doy la bienvenida a mi laboratorio de proteómica: aquí la química de cada aminoácido se mide.':
+        "{jugador}, welcome to my proteomics lab: here each amino acid's chemistry gets measured.",
+    '¡3/3, {jugador}!':
+        '3/3, {jugador}!',
+    'Se certifica que {jugador} capturó los 20 aminoácidos, consiguió las {m} modificaciones, ganó las {i} insignias, aprobó los dos exámenes, conoció a la selenocisteína, cumplió los {p} encargos de síntesis (y la selenoproteína) y resolvió el laboratorio.':
+        'This certifies that {jugador} caught the 20 amino acids, got the {m} modifications, won the {i} badges, passed both exams, met selenocysteine, completed the {p} synthesis orders (and the selenoprotein) and solved the lab.',
 }

@@ -25,6 +25,7 @@ def nuevo_juego(pos):
         terminado=False,
         recompensas=[],       # avisos y regalos del René-virus ya entregados
         peptidos=[],          # encargos de síntesis cumplidos (post-juego)
+        nombre="",            # cómo te llama el juego
     )
 
 
@@ -51,6 +52,11 @@ def cargar():
                        if m["id"] in datos.AMINOACIDOS or m["id"] in datos.MODIFICACIONES
                        or m["id"] == "U"]
     return juego
+
+
+def jugador(juego):
+    """Tu nombre; en partidas sin nombre, «colega»."""
+    return juego.get("nombre") or tr("colega")
 
 
 # ------------------------------------------------------------- aminomones

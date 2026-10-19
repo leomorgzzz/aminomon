@@ -252,9 +252,32 @@ def bienvenida(win, c):
         pass
 
 
+LARGO_NOMBRE = 16
+
+
+def pedir_nombre(win, juego):
+    """Pide tu nombre (no puede quedar vacío); el juego te llama así."""
+    while True:
+        alto, ancho = win.getmaxyx()
+        win.erase()
+        w = min(ancho - 2, 60)
+        y0, x0 = alto // 2 - 4, (ancho - w) // 2
+        d.caja(win, y0, x0, 8, w, tr("Antes de empezar"), d.c("titulo", curses.A_BOLD), resaltar=True)
+        d.put(win, y0 + 2, x0 + 3, tr("¿Cómo te llamas? Así te llamarán en el juego."), d.c("texto"))
+        d.put(win, y0 + 6, x0 + 3, tr("Escribe y pulsa Enter (máximo {n} letras)", n=LARGO_NOMBRE),
+              d.c("tenue"))
+        nombre = d.pedir_texto(win, y0 + 4, x0 + 3, tr("Nombre: "), LARGO_NOMBRE)
+        nombre = " ".join((nombre or "").split())
+        if nombre:
+            juego["nombre"] = nombre
+            return
+
+
 def intro(win):
     juego = progreso.nuevo_juego(mapa.INICIO)
+    pedir_nombre(win, juego)
     d.dialogo(win, [
+        tr("Hola, {jugador}.", jugador=progreso.jugador(juego)) + " " +
         tr("Soy el René-virus: no enfermo a nadie, solo estudio proteómica. Como la mayoría de los virus, no traigo ribosomas: mis proteínas las hacen los de la célula con los 20 aminoácidos estándar. (Algunos virus gigantes y fagos traen genes de unas pocas proteínas ribosomales, pero ninguno arma un ribosoma completo.) Tu trabajo: encontrar y caracterizar esos 20."),
         tr("En el juego, cada aminoácido vive donde su química es protagonista: los no polares en la membrana, los básicos junto al ARN y al ADN. En una célula real hay aminoácidos libres en todas partes."),
         tr("Cada aminoácido es de uno de los 5 grupos de Lehninger y cada movimiento usa la química de uno de ellos. La afinidad depende de la interacción real entre los dos grupos (tabla en el manual [M])."),
@@ -295,10 +318,10 @@ def intro(win):
     progreso.capturar(juego, c, 3)
     bienvenida(win, c)
     d.dialogo(win, [
-        tr("Tu equipo inicial: Metionina y {nombre}.\n\n"
+        tr("{jugador}, tu equipo inicial: Metionina y {nombre}.\n\n"
            "En las zonas marcadas con símbolos aparecen aminoácidos salvajes. "
            "Deduce su grupo [D], usa movimientos afines y, con afinidad ≥ 50, "
-           "lanza un ARNt [T].", nombre=a["nombre"]),
+           "lanza un ARNt [T].", nombre=a["nombre"], jugador=progreso.jugador(juego)),
         tr("La mitocondria (☼) restablece a tu equipo y recarga el ATP, que se gasta al fosforilar (Equipo → V). Los jefes (J) piden construir péptidos. Para entrar al núcleo necesitas una NLS: junta 4 Lys (K) en los ribosomas (÷). Los carteles (i) explican cada zona. Yo soy la V del mapa: búscame para pedir consejo."),
         tr("Para atrapar un aminoácido hay que reconocer su estructura. Practica en la Aminodex ([X] y luego [P]): los que fallas saldrán más seguido."),
     ], tr("René-virus"))
@@ -340,6 +363,9 @@ class Partida:
         else:
             d.put(w, 0, 1, "AMINOMON", d.c("titulo", curses.A_BOLD))
         d.put(w, 0, 11, f"· {info.get('nombre', '')}", d.c(info.get("color", "texto"), curses.A_BOLD))
+        if j.get("nombre"):
+            xn = 14 + len(info.get("nombre", ""))
+            d.put(w, 0, xn, f"· {j['nombre']}", d.c("tenue", curses.A_BOLD))
         if not panel:
             d.put(w, 0, max(40, vw - 42),
                   tr("Aminodex {n}/20  Insignias {i}/{total}  ATP {atp}", n=n,
@@ -566,11 +592,11 @@ class Partida:
         if progreso.modificaciones_completas(j) and "ptm" not in j["recompensas"]:
             j["recompensas"].append("ptm")
             self.dibujar()
-            d.popup(self.win, tr("¡Conseguiste todas las modificaciones "
+            d.popup(self.win, tr("¡{jugador}, conseguiste todas las modificaciones "
                                  "postraduccionales! En tu cadena, los residuos "
                                  "modificados ahora se ven marcados con el color de su "
                                  "nuevo grupo, y el título del mapa se pinta con los 5 "
-                                 "grupos de Lehninger."),
+                                 "grupos de Lehninger.", jugador=progreso.jugador(j)),
                     tr("René-virus"), attr=d.c("bien"))
         if progreso.todo_completo(j) and "final" not in j["recompensas"]:
             j["recompensas"].append("final")
@@ -584,7 +610,7 @@ class Partida:
 
     def consejo(self):
         j = self.juego
-        partes = []
+        partes = [tr("¿Qué tal, {jugador}?", jugador=progreso.jugador(j))]
         faltan = [c for c in datos.ORDEN if not j["capturados"].get(c)]
         if faltan:
             zonas = [z for z, info in datos.ZONAS.items()
@@ -650,8 +676,8 @@ class Partida:
             if progreso.aminodex_completa(j) and "aviso_aminodex" not in j["recompensas"]:
                 j["recompensas"].append("aviso_aminodex")
                 self.dibujar()          # sin el aviso de captura detrás
-                d.popup(self.win, tr("Capturaste los 20 aminoácidos estándar. Habla con "
-                                     "el René-virus (V): tiene algo para ti."),
+                d.popup(self.win, tr("¡{jugador}, capturaste los 20 aminoácidos estándar! Habla con "
+                                     "el René-virus (V): tiene algo para ti.", jugador=progreso.jugador(j)),
                         tr("Aminodex completa"),
                         attr=d.c("bien"))
             progreso.guardar(j)
@@ -724,7 +750,13 @@ def main(win):
     eleccion = titulo(win)
     if eleccion in ("salir", "idioma"):
         return eleccion
-    juego = progreso.cargar() if eleccion == "continuar" else intro(win)
+    if eleccion == "continuar":
+        juego = progreso.cargar()
+        if not juego.get("nombre"):             # partidas de antes del nombre
+            pedir_nombre(win, juego)
+            progreso.guardar(juego)
+    else:
+        juego = intro(win)
     Partida(win, juego).jugar()
 
 

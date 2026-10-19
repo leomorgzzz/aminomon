@@ -11,8 +11,6 @@ EN = {
         'Useful and not caught yet: ',
     'N-terminal ↓':
         'N-terminus ↓',
-    'Reto superado: {reto}  ·  {seq}':
-        'Challenge cleared: {reto}  ·  {seq}',
     'Recibes la insignia «{reto}», {n} {objeto} y +10 XP para todo tu equipo.':
         'You get the «{reto}» badge, {n} {objeto} and +10 XP for your whole team.',
     'Usa los aminoácidos de tu equipo, en código de 1 letra, del extremo N al C. Cada uno se puede usar tantas veces como lo tengas en el equipo (×n).':
@@ -25,8 +23,6 @@ EN = {
         'Length {n}   GRAVY {gravy:+.2f}   Net charge pH 7 {carga:+d}',
     'Chaperona':
         'Chaperone',
-    '{n}/{total}. La proteína alcanzó su estado nativo: obtienes la Maestría en Aminoácidos.':
-        "{n}/{total}. The protein reached its native state: you earn the Master's in Amino Acids.",
     'Proteína: ':
         'Protein: ',
     'Traducción':
@@ -35,8 +31,6 @@ EN = {
         'Question',
     'Resultado':
         'Result',
-    '{n}/8. Aprobado: Doctorado en Proteínas.':
-        '{n}/8. Passed: PhD in Proteins.',
     'Péptido sintetizado: {nombre}  ·  {seq}':
         'Peptide synthesized: {nombre}  ·  {seq}',
     '+5 XP para todo tu equipo y 1 ATP.':
@@ -375,4 +369,10 @@ EN = {
         'Almost every amino acid has more than one codon, and they usually differ in the third base.',
     'Ahora puedo hacerte encargos de síntesis: {n} péptidos reales que armarás en un ribosoma, codón por codón. Habla conmigo (V) cuando quieras; te explico todo desde cero. Los que hagas quedan en la pestaña Péptidos de la Aminodex [X].':
         "Now I can give you synthesis orders: {n} real peptides you'll build on a ribosome, codon by codon. Talk to me (V) whenever you like; I'll explain everything from scratch. The ones you make go into the Peptides tab of the Aminodex [X].",
+    '¡Bien, {jugador}! Reto superado: {reto}  ·  {seq}':
+        'Nice, {jugador}! Challenge passed: {reto}  ·  {seq}',
+    '{n}/{total}. La proteína alcanzó su estado nativo: {jugador}, obtienes la Maestría en Aminoácidos.':
+        "{n}/{total}. The protein reached its native state: {jugador}, you earn the Master's in Amino Acids.",
+    '{n}/8. Aprobado: {jugador}, ya tienes el Doctorado en Proteínas.':
+        '{n}/8. Passed: {jugador}, you now hold the PhD in Proteins.',
 }

@@ -53,7 +53,7 @@ HISTORIA = [
      tr("El último. Quiero meter fármacos a las células, y un virus como yo sabe cómo: "
         "el péptido Tat del VIH-1 cruza membranas por su montón de Arg y Lys. Son 11 "
         "aminoácidos y el ribosoma va a toda velocidad."),
-     tr("¡Lo lograste! Con este péptido pego fármacos y los meto a las células. Ya "
+     tr("¡Lo lograste, {jugador}! Con este péptido pego fármacos y los meto a las células. Ya "
         "lees ARNm como un ribosoma.")),
 ]
 
@@ -396,7 +396,7 @@ def _jugar_capitulo(win, juego, n):
             return
         bien, codones, malos, leido = r
         if bien:
-            _sintetizado(win, juego, pid, despues)
+            _sintetizado(win, juego, pid, despues.replace("{jugador}", progreso.jugador(juego)))
             return
         _revision(win, codones, malos, leido, ver_anti)
         win.erase()
@@ -451,7 +451,7 @@ def _seleno(win, juego):
         progreso.dar_xp(m, 5)
     progreso.guardar(juego)
     win.erase()
-    d.popup(win, tr("Sintetizaste Gly-Cys-Sec-Gly. El UGA se leyó como Sec gracias al SECIS, "
+    d.popup(win, tr("{jugador}, sintetizaste Gly-Cys-Sec-Gly.", jugador=progreso.jugador(juego)) + " " + tr("El UGA se leyó como Sec gracias al SECIS, "
                     "y el paro UAA/UAG soltó la cadena. En la enzima completa (casi 500 "
                     "aminoácidos) este final es el sitio activo: la Sec y la Cys vecina reducen "
                     "a la tiorredoxina y quedan unidas por un puente Se–S, que la propia enzima "

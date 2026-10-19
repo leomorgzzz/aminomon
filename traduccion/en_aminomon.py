@@ -37,8 +37,6 @@ EN = {
         'Charged −. Salt bridge ×2 against the basic ones in the ribosomes and the nucleus.',
     'Polar sin carga. Puentes de H ×2 contra los polares. Con ATP una quinasa la fosforila y se vuelve Cargado −.':
         'Polar uncharged. H-bonds ×2 against polar ones. With ATP a kinase phosphorylates it and it becomes Charged −.',
-    'Tu equipo inicial: Metionina y {nombre}.\n\nEn las zonas marcadas con símbolos aparecen aminoácidos salvajes. Deduce su grupo [D], usa movimientos afines y, con afinidad ≥ 50, lanza un ARNt [T].':
-        'Your starting team: Methionine and {nombre}.\n\nWild amino acids appear in the areas marked with symbols. Deduce their group [D], use moves with affinity and, with affinity ≥ 50, throw a tRNA [T].',
     ' · P cadena':
         ' · P chain',
     'EQUIPO':
@@ -69,8 +67,6 @@ EN = {
         "The nuclear pore won't let you through without an NLS (≥ 4 Lys). Look for them in the ribosomes (÷).",
     '¡Completaste la Aminodex! Te regalo una cadena naciente: desde ahora tu equipo te sigue por el mapa como un péptido, cada residuo con su código de 1 letra y el color de su grupo. [P] la muestra u oculta.':
         "You completed the Aminodex! Here's a gift: a nascent chain. From now on your team follows you around the map like a peptide, each residue with its 1-letter code and its group's color. [P] shows or hides it.",
-    '¡Conseguiste todas las modificaciones postraduccionales! En tu cadena, los residuos modificados ahora se ven marcados con el color de su nuevo grupo, y el título del mapa se pinta con los 5 grupos de Lehninger.':
-        "You got all the post-translational modifications! In your chain, modified residues are now marked with their new group's color, and the map title is painted with Lehninger's 5 groups.",
     'Aminoácidos por capturar: {n}. Zonas con especies pendientes: {zonas}.':
         'Amino acids still to catch: {n}. Areas with species still to find: {zonas}.',
     'Retos pendientes: {retos}.':
@@ -91,8 +87,6 @@ EN = {
         'Aminodex complete, with all the modifications.',
     'Ya tienes todas las insignias: presenta el examen de la Chaperona (H).':
         "You have all the badges: take the Chaperone's exam (H).",
-    'Capturaste los 20 aminoácidos estándar. Habla con el René-virus (V): tiene algo para ti.':
-        'You caught the 20 standard amino acids. Talk to the René-virus (V): it has something for you.',
     'Aminodex completa':
         'Aminodex complete',
     'Todo tu equipo se desnaturalizó. Vuelves a la mitocondria con la energía restablecida.':
@@ -189,4 +183,22 @@ EN = {
         'Orders {n}/{total}',
     'Terminaste mis encargos. Me queda uno especial: una selenoproteína, con la Sec dentro del ribosoma.':
         'You finished my orders. I have one special one left: a selenoprotein, with Sec inside the ribosome.',
+    'Antes de empezar':
+        'Before you start',
+    '¿Cómo te llamas? Así te llamarán en el juego.':
+        "What's your name? That's what the game will call you.",
+    'Escribe y pulsa Enter (máximo {n} letras)':
+        'Type it and press Enter (up to {n} letters)',
+    'Nombre: ':
+        'Name: ',
+    '{jugador}, tu equipo inicial: Metionina y {nombre}.\n\nEn las zonas marcadas con símbolos aparecen aminoácidos salvajes. Deduce su grupo [D], usa movimientos afines y, con afinidad ≥ 50, lanza un ARNt [T].':
+        '{jugador}, your starting team: Methionine and {nombre}.\n\nWild amino acids show up in the areas marked with symbols. Deduce their group [D], use matching moves and, with affinity ≥ 50, throw a tRNA [T].',
+    '¿Qué tal, {jugador}?':
+        "How's it going, {jugador}?",
+    '¡{jugador}, conseguiste todas las modificaciones postraduccionales! En tu cadena, los residuos modificados ahora se ven marcados con el color de su nuevo grupo, y el título del mapa se pinta con los 5 grupos de Lehninger.':
+        "{jugador}, you got all the post-translational modifications! In your chain, the modified residues are now marked with the color of their new group, and the map title is painted with Lehninger's 5 groups.",
+    'Hola, {jugador}.':
+        'Hi, {jugador}.',
+    '¡{jugador}, capturaste los 20 aminoácidos estándar! Habla con el René-virus (V): tiene algo para ti.':
+        '{jugador}, you caught the 20 standard amino acids! Talk to the René-virus (V): it has something for you.',
 }

@@ -230,7 +230,8 @@ def mostrar_exito(win, juego, zona, seq):
     j = JEFES[zona]
     alto, ancho = win.getmaxyx()
     win.erase()
-    d.put(win, 0, 1, tr("Reto superado: {reto}  ·  {seq}", reto=j["reto"], seq=seq),
+    d.put(win, 0, 1, tr("¡Bien, {jugador}! Reto superado: {reto}  ·  {seq}", reto=j["reto"], seq=seq,
+                        jugador=progreso.jugador(juego)),
           d.c("bien", curses.A_BOLD))
     if zona == "membrana":
         y = dibujar_membrana(win, 2, 2, seq[: max(1, alto - 14)])
@@ -449,8 +450,9 @@ def chaperona(win, juego):
     if aciertos >= NATIVO:
         juego["terminado"] = True
         extras = aciertos - NATIVO
-        texto = tr("{n}/{total}. La proteína alcanzó su estado nativo: obtienes la "
-                   "Maestría en Aminoácidos.", n=aciertos, total=total)
+        texto = tr("{n}/{total}. La proteína alcanzó su estado nativo: {jugador}, obtienes la "
+                   "Maestría en Aminoácidos.", n=aciertos, total=total,
+                   jugador=progreso.jugador(juego))
         if extras:
             juego["objetos"]["ATP"] += extras
             nombres = tr(" y ").join((t[len("extra: "):] if t.startswith("extra: ") else t) for t, _ in EXTRAS[:extras])
@@ -703,7 +705,8 @@ def examen_rene(win, juego):
         import sintesis
         primera = not juego.get("doctorado")
         juego["doctorado"] = True
-        texto = tr("{n}/8. Aprobado: Doctorado en Proteínas.", n=aciertos)
+        texto = tr("{n}/8. Aprobado: {jugador}, ya tienes el Doctorado en Proteínas.", n=aciertos,
+                   jugador=progreso.jugador(juego))
         if primera:
             texto += "\n\n" + tr("Ahora puedo hacerte encargos de síntesis: {n} péptidos reales "
                                  "que armarás en un ribosoma, codón por codón. Habla conmigo (V) "

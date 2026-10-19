@@ -31,4 +31,6 @@ EN = {
         'Finish the {n} synthesis orders',
     'El encargo especial de la selenoproteína':
         'The special selenoprotein order',
+    'colega':
+        'colleague',
 }

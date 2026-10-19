@@ -91,6 +91,13 @@ for f in sorted(glob.glob(os.path.join(RAIZ, "traduccion", "en_*.py"))):
         vistas.setdefault(k, (os.path.basename(f), v))
 revisar("ninguna clave tiene dos traducciones distintas", not choques, "\n".join(choques))
 
+# un {campo} que falta o sobra en el inglés hace que tr() falle al formatear
+_campo = re.compile(r"{(\w+)[^}]*}")
+campos_mal = [f"{k[:60]!r}" for k, (_, v) in vistas.items()
+              if set(_campo.findall(k)) != set(_campo.findall(v))]
+revisar("cada traducción tiene los mismos {campos} que el español", not campos_mal,
+        "\n".join(campos_mal[:10]))
+
 # ------------------------------------------------ 4. datos en inglés
 sys.argv = ["x", "--en"]
 os.environ["HOME"] = tempfile.mkdtemp()

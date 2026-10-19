@@ -91,7 +91,7 @@ def evento_sec(win, juego):
     dar_sec(juego)
     progreso.guardar(juego)
     win.erase()
-    d.popup(win, tr("¡3/3! Una Ser se cargó en el ARNt-Sec y, con selenofosfato, se convirtió "
+    d.popup(win, tr("¡3/3, {jugador}!", jugador=progreso.jugador(juego)) + " " + tr("Una Ser se cargó en el ARNt-Sec y, con selenofosfato, se convirtió "
                     "en selenocisteína. Ya está en tu equipo y en la Aminodex, en una sección "
                     "aparte: no cuenta en el 20/20."), tr("René-virus"), attr=d.c("bien"))
     tarjeta_sec(win)
@@ -542,7 +542,7 @@ def _ayuda_lab():
 
 def laboratorio(win, juego):
     """El laboratorio del René-virus: un cuarto con tres mesas."""
-    d.dialogo(win, [tr("Te doy la bienvenida a mi laboratorio de proteómica: aquí la química de cada aminoácido se mide."), _ayuda_lab()], tr("René-virus"))
+    d.dialogo(win, [tr("{jugador}, te doy la bienvenida a mi laboratorio de proteómica: aquí la química de cada aminoácido se mide.", jugador=progreso.jugador(juego)), _ayuda_lab()], tr("René-virus"))
     pos = [27, 9]
     hechos = aciertos = 0
     por_mesa = {m: 0 for m in MESAS}
@@ -686,8 +686,9 @@ def final(win, juego):
     win.erase()
     reloj = juego.get("records", {})
     aciertos = sum(juego["aciertos"].values())
-    texto = (tr("Capturaste los 20 aminoácidos, conseguiste las {m} modificaciones, ganaste las {i} insignias, aprobaste los dos exámenes, conociste a la selenocisteína, cumpliste los {p} encargos de síntesis (y la selenoproteína) y resolviste el laboratorio.",
-                m=len(datos.MODIFICACIONES), i=len(juego["insignias"]), p=len(sintesis.HISTORIA))
+    texto = (tr("Se certifica que {jugador} capturó los 20 aminoácidos, consiguió las {m} modificaciones, ganó las {i} insignias, aprobó los dos exámenes, conoció a la selenocisteína, cumplió los {p} encargos de síntesis (y la selenoproteína) y resolvió el laboratorio.",
+                m=len(datos.MODIFICACIONES), i=len(juego["insignias"]), p=len(sintesis.HISTORIA),
+                jugador=progreso.jugador(juego))
              + "\n\n" + tr("Aciertos de reconocimiento: {a} · contrarreloj: {r} · laboratorio: {l}/6",
                            a=aciertos, r=reloj.get("reloj", 0), l=reloj.get("laboratorio", 0))
              + "\n\n" + tr("De regalo: un ♦ junto al título del mapa. Gracias por jugar; puedes "
