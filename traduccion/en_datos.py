@@ -311,8 +311,6 @@ EN = {
         'Histidine',
     'Imidazol con pKR ≈ 6: a pH 7 solo ~10% está protonada, a pH 5 casi toda. Por eso cede o toma H+ en sitios activos y en la hemoglobina.':
         "Imidazole with pKR ≈ 6: at pH 7 only ~10% is protonated, at pH 5 almost all of it. That's why it gives or takes H+ in active sites and in hemoglobin.",
-    'Su anillo es de C–H, pero KD −1.6: rompe hélices y suele quedar en giros y lazos expuestos al agua, en la superficie de la proteína.':
-        'Its ring is made of C–H, but KD −1.6: it breaks helices and usually sits in turns and loops exposed to water, on the protein surface.',
     'Es polar sin carga por el S–H, pero el S casi no es más electronegativo que el C (2.58 frente a 2.55): el S–H es muy poco polar y forma puentes de H débiles. Además suele estar enterrada en las proteínas (sola o en disulfuros), así que su KD es +2.5. Otros libros la ponen con los hidrofóbicos.':
         "It's polar uncharged because of the S–H, but S is barely more electronegative than C (2.58 vs 2.55): the S–H is only weakly polar and forms weak H-bonds. It's also usually buried inside proteins (alone or in disulfides), so its KD is +2.5. Other textbooks put it with the hydrophobic ones.",
     'Su anillo es poco polar, pero el O–H del fenol forma puentes de H con el agua: KD −1.3, mucho menos hidrofóbica que la Phe (+2.8).':
@@ -519,8 +517,6 @@ EN = {
         'A triplet in the mRNA and its complement in the tRNA (antiparallel). AUG = Met = start.',
     'Modificación postraduccional':
         'Post-translational modification',
-    'Cambio químico tras la traducción: fosforilación, acetilación, hidroxilación, glicosilación…':
-        'A chemical change after translation: phosphorylation, acetylation, hydroxylation, glycosylation…',
     'Puente salino':
         'Salt bridge',
     'Atracción entre una carga + y una − (Lys–Asp).':
@@ -621,4 +617,8 @@ EN = {
         '–CH2–SeH',
     'selenol':
         'selenol',
+    'selenolato':
+        'selenolate',
+    'disulfuro':
+        'disulfide',
 }

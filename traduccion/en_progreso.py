@@ -25,8 +25,6 @@ EN = {
         "Pass René-virus's final exam",
     'El evento de la selenocisteína':
         'The selenocysteine event',
-    'Sintetizar los {n} péptidos del catálogo':
-        'Synthesize the {n} catalog peptides',
     'Resolver 5 de 6 en el laboratorio del René-virus':
         "Solve 5 of 6 in René-virus's lab",
     'Terminar los {n} encargos de síntesis':

@@ -175,8 +175,8 @@ def _dibujar(win, titulo, codones, i, cadena, antis, malos, ops, ver_anti, queda
     d.put(win, y + 1 + len(ops), 3, f"{len(ops) + 1}) " + tr("Factor de liberación (codón de paro)"),
           d.c("texto", curses.A_BOLD))
     d.put(win, y + 2 + len(ops), 3, tr("Pulsa 1-{n} · Esc pausa", n=len(ops) + 1), d.c("tenue"))
-    if aviso:
-        d.put(win, y + len(ops) + 5, 2, aviso[0], d.c(aviso[1], curses.A_BOLD))
+    if aviso:                       # debajo de la cadena: así cabe también en 80×24
+        d.put(win, 4, 2, aviso[0], d.c(aviso[1], curses.A_BOLD))
     win.refresh()
 
 

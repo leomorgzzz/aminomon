@@ -7,8 +7,6 @@ EN = {
         'Folding {n}/{total}',
     'Lee este ARNm como un ribosoma: busca el primer AUG, lee de 3 en 3 y detente en el codón de paro (UAA, UAG o UGA). Escribe la proteína en código de 1 letra (incluye la Met inicial, no el paro).':
         'Read this mRNA like a ribosome: find the first AUG, read 3 by 3 and stop at the stop codon (UAA, UAG or UGA). Write the protein in 1-letter code (include the initial Met, not the stop).',
-    'Necesito este péptido. Aquí está su ARNm, ya recortado: el marco empieza en la primera base. Tradúcelo de 3 en 3 hasta el codón de paro y escribe el péptido en código de 1 letra. Después lo sintetizo con los residuos de tu equipo.':
-        "I need this peptide. Here's its mRNA, already trimmed: the frame starts at the first base. Translate it 3 by 3 up to the stop codon and write the peptide in 1-letter code. Then I'll synthesize it with your team's residues.",
     'Útiles y aún sin capturar: ':
         'Useful and not caught yet: ',
     'N-terminal ↓':
@@ -29,36 +27,22 @@ EN = {
         'Chaperone',
     '{n}/{total}. La proteína alcanzó su estado nativo: obtienes la Maestría en Aminoácidos.':
         "{n}/{total}. The protein reached its native state: you earn the Master's in Amino Acids.",
-    'EXAMEN DEL RENÉ-VIRUS · {n}/{total} · Traducción':
-        'RENÉ-VIRUS EXAM · {n}/{total} · Translation',
     'Proteína: ':
         'Protein: ',
     'Traducción':
         'Translation',
-    'EXAMEN DEL RENÉ-VIRUS · {n}/{total} · Mutaciones reales':
-        'RENÉ-VIRUS EXAM · {n}/{total} · Real mutations',
     'Pregunta':
         'Question',
-    'Pulsa el número de tu respuesta':
-        'Press the number of your answer',
     'Resultado':
         'Result',
     '{n}/8. Aprobado: Doctorado en Proteínas.':
         '{n}/8. Passed: PhD in Proteins.',
-    'Encargos de síntesis ({n}/{total})':
-        'Synthesis orders ({n}/{total})',
-    'ENCARGO DEL RENÉ-VIRUS · {nombre}':
-        'RENÉ-VIRUS ORDER · {nombre}',
-    'Péptido: ':
-        'Peptide: ',
     'Péptido sintetizado: {nombre}  ·  {seq}':
         'Peptide synthesized: {nombre}  ·  {seq}',
     '+5 XP para todo tu equipo y 1 ATP.':
         '+5 XP for your whole team and 1 ATP.',
     '+5 XP para todo tu equipo.':
         '+5 XP for your whole team.',
-    ' ¡Completaste el catálogo de péptidos! Puedes repetir los encargos para seguir practicando la traducción.':
-        ' You completed the peptide catalog! You can repeat orders to keep practicing translation.',
     'carga a pH 7.4: {a:+.2f}   →   a pH 5.0: {b:+.2f}':
         'charge at pH 7.4: {a:+.2f}   →   at pH 5.0: {b:+.2f}',
     'Reto: {reto}.':
@@ -81,12 +65,8 @@ EN = {
         '{n}/{total}. Hydrophobic regions were left exposed: Hsp70 binds them, spends ATP and lets you try again. Review the manual and come back whenever you want.',
     "UTR 5' de {n} nt, luego: {lectura}":
         "5' UTR of {n} nt, then: {lectura}",
-    'Traduce 3 ARNm y analiza 5 mutaciones asociadas a enfermedades humanas. Se aprueba con 7 de 8.':
-        'Translate 3 mRNAs and analyze 5 mutations linked to human diseases. You pass with 7 out of 8.',
     '{n}/8. No aprobado. Repasa los codones (pestaña Chuleta) y las propiedades de cada grupo; las preguntas cambian en cada intento.':
         '{n}/8. Not passed. Review the codons (Cheat sheet tab) and the properties of each group; the questions change every attempt.',
-    'Incorrecto. Era {seq}: {lectura}\n\nCada vez que lo pidas el ARNm usa codones distintos.':
-        'Wrong. It was {seq}: {lectura}\n\nEach time you ask for it, the mRNA uses different codons.',
     '♦ quinasa':
         '♦ kinase',
     '► receptor':
@@ -105,10 +85,6 @@ EN = {
         'Correct. ',
     'Incorrecto. Era {prot}. ':
         'Wrong. It was {prot}. ',
-    'Ahora puedo hacerte encargos de síntesis: péptidos reales ({n} en el catálogo) que tendrás que traducir de su ARNm y construir con los residuos de tu equipo. Habla conmigo (V) cuando quieras. El catálogo está al final de la Aminodex [X].':
-        "Now I can give you synthesis orders: real peptides ({n} in the catalog) that you'll have to translate from their mRNA and build with your team's residues. Talk to me (V) whenever you want. The catalog is at the end of the Aminodex [X].",
-    'Captúralos y vuelve.':
-        'Catch them and come back.',
     '▼ centro':
         '▼ center',
     'X (fuera)':
@@ -149,8 +125,6 @@ EN = {
         'stop',
     "'{c}' no es el código de ningún aminoácido estándar.":
         "'{c}' is not the code of any standard amino acid.",
-    'Traducción correcta, pero a tu equipo le faltan residuos para sintetizarlo:':
-        'Correct translation, but your team is missing residues to synthesize it:',
     'No tienes {nombre} ({c}) en tu equipo. Búscalo en: {donde}.':
         "You don't have {nombre} ({c}) in your team. Look for it in: {donde}.",
     'Solo tienes {n} {nombre} ({c}) en tu equipo. Captura más en: {donde}.':
@@ -377,8 +351,6 @@ EN = {
         'Context',
     'CÓMO FUNCIONA\n\n• Parte 1: traduce 3 ARNm. Busca el primer AUG, lee de 3 en 3 y para en el codón de paro; escribe la proteína en código de 1 letra.\n• Parte 2: 5 mutaciones de enfermedades humanas. Cada una trae su contexto; contesta con 1-4.\n• Se aprueba con 7 de 8. Arriba ves tus aciertos.':
         'HOW IT WORKS\n\n• Part 1: translate 3 mRNAs. Find the first AUG, read 3 by 3 and stop at the stop codon; type the protein in 1-letter code.\n• Part 2: 5 mutations from human diseases. Each one comes with its context; answer with 1-4.\n• You pass with 7 of 8. Your correct answers are shown at the top.',
-    'Ahora puedo hacerte encargos de síntesis: péptidos reales ({n} en el catálogo) que tendrás que traducir de su ARNm y construir con los residuos de tu equipo. Habla conmigo (V) cuando quieras. El catálogo está en la pestaña Péptidos de la Aminodex [X].':
-        "Now I can give you synthesis orders: real peptides ({n} in the catalog) that you'll translate from their mRNA and build with your team's residues. Talk to me (V) whenever you like. The catalog is in the Peptides tab of the Aminodex [X].",
     'La hemoglobina (Hb) lleva el O2 en los eritrocitos. Es una proteína soluble: sus residuos de superficie están en contacto con el agua.':
         'Hemoglobin (Hb) carries O2 in red blood cells. It is a soluble protein: its surface residues are in contact with water.',
     'Es el mismo residuo 6 de la β-globina, en la superficie de la Hb.':

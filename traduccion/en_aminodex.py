@@ -9,8 +9,6 @@ EN = {
         'level {n}',
     'Grupo R  ':
         'R group  ',
-    'modificación postraduccional':
-        'post-translational modification',
     'péptido sintetizado para el René-virus':
         'peptide synthesized for the René-virus',
     'capturados {n}/20':

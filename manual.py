@@ -119,9 +119,7 @@ def p_jugar(juego, rival, an):
         *parrafo(tr("Cada jefe pide construir un péptido con lo que ya capturaste; puedes usar cada aminoácido tantas veces como lo tengas en tu equipo. El poro nuclear también es un jefe: para entrar al núcleo necesitas una NLS con al menos 4 Lys (viven en los ribosomas ÷)."), an),
         L(""),
         T(tr("Después de la Chaperona")),
-        *parrafo(tr("Habla con el René-virus (V): su examen final te pide traducir "
-                    "ARNm y analizar mutaciones reales (anemia falciforme, fibrosis "
-                    "quística, KRAS, Huntington…)."), an),
+        *parrafo(tr("Habla con el René-virus (V): su examen final te pide traducir ARNm y analizar mutaciones reales (anemia falciforme, fibrosis quística, KRAS, Huntington…). Con los 20 aminoácidos capturados también te cuenta de la selenocisteína (Sec, U), que no es de los 20: si contestas bien sus 3 preguntas, se une a tu equipo."), an),
         L(""),
         T(tr("Después del examen final")),
         *parrafo(tr("El René-virus te hace 6 encargos de síntesis, del RGD al péptido Tat. Cada péptido se arma en un ribosoma: a cada codón que llega al sitio A le eliges su ARNt antes de que se acabe el tiempo. Si fallas no te da la respuesta: te marca los codones malos y lo repites con otros. Al terminar se abre la síntesis libre con el resto del catálogo, y todo lo que sintetizas entra a la pestaña Péptidos de la Aminodex."), an),

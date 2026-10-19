@@ -122,7 +122,7 @@ def tarjeta_sec(win):
     d.put(win, 0, 1, tr("SELENOCISTEÍNA · Sec · U  (fuera de los 20)"), d.c("titulo", curses.A_BOLD))
     d.estructura(win, 2, 2, SEC_ARTE, etiqueta_r=datos.SEC["grupo_r"][0], color_r="POL")
     y = 2
-    x = 30
+    x = max(30, 2 + d.ancho_estructura(SEC_ARTE, datos.SEC["grupo_r"][0]) + 3)
     col = max(len(r) for r, _ in filas_sec()) + 2
     for rotulo, valor in filas_sec():
         for i, l in enumerate(d.envolver(valor, max(20, ancho - x - col - 2))):
@@ -306,7 +306,8 @@ def _titulacion(win, juego):
             cursor = min(len(camino) - 1, cursor + paso)
     # se califica por pH: en un salto vertical todos los puntos tienen casi
     # los mismos equivalentes y lo que cambia es el pH
-    tolerancia = max(0.3, 0.6 * 14 / (h - 1))
+    # (en las mesetas el pH cambia poco por paso; en el salto, una fila entera)
+    tolerancia = max(0.3, 0.6 * 14 / (h - 1)) if pide == "pI" else 0.3
     bien = abs(ph - objetivo) <= tolerancia
     # se revelan todos los puntos sobre la curva
     for k2, v in puntos.items():
@@ -541,8 +542,7 @@ def _ayuda_lab():
 
 def laboratorio(win, juego):
     """El laboratorio del René-virus: un cuarto con tres mesas."""
-    d.dialogo(win, [tr("Bienvenida a mi laboratorio de proteómica: aquí la química de cada "
-                       "aminoácido se mide."), _ayuda_lab()], tr("René-virus"))
+    d.dialogo(win, [tr("Te doy la bienvenida a mi laboratorio de proteómica: aquí la química de cada aminoácido se mide."), _ayuda_lab()], tr("René-virus"))
     pos = [27, 9]
     hechos = aciertos = 0
     por_mesa = {m: 0 for m in MESAS}
@@ -574,8 +574,9 @@ def laboratorio(win, juego):
                     d.put(win, y0 + y, x0 + x + 2, rotulos[t], d.c("bien"))
         d.put(win, y0 + pos[1], x0 + pos[0], "@", d.c("texto", curses.A_BOLD | curses.A_REVERSE))
         xl = x0 + len(CUARTO[0]) + 3
-        for i, l in enumerate(d.envolver(_ayuda_lab(), 32)):
-            d.put(win, y0 + i, xl, l, d.c("titulo" if i == 0 else "tenue"))
+        if ancho - xl >= 24:                 # en 80 columnas no cabe: queda en H
+            for i, l in enumerate(d.envolver(_ayuda_lab(), min(32, ancho - xl - 1))):
+                d.put(win, y0 + i, xl, l, d.c("titulo" if i == 0 else "tenue"))
         d.put(win, y0 + len(CUARTO) + 1, x0, mensaje, d.c("texto"))
         d.put(win, alto - 1, 1, tr("WASD/flechas caminar · Esc salir del laboratorio"), d.c("tenue"))
         win.refresh()

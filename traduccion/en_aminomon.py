@@ -125,10 +125,6 @@ EN = {
         'You found 1 {objeto}: {desc}',
     'Ya llevas el máximo de {objeto} (3).':
         'You already carry the maximum of {objeto} (3).',
-    'Encargos de síntesis: {n}/{total} péptidos del catálogo. Los largos piden varias copias del mismo aminoácido: sigue capturando.':
-        'Synthesis orders: {n}/{total} peptides in the catalog. The long ones need several copies of the same amino acid: keep catching.',
-    'Catálogo de péptidos completo. Puedes repetir encargos y mi examen para seguir practicando.':
-        'Peptide catalog complete. You can repeat orders and my exam to keep practicing.',
     'Ahora no':
         'Not now',
     'Cadena visible.':

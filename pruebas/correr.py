@@ -8,7 +8,8 @@ Revisa lo que no se ve sin jugar:
   2. cada tr("…") tiene su traducción y ninguno recibe un f-string (con un
      f-string la clave nunca coincide);
   3. una misma clave no tiene dos traducciones distintas en traduccion/;
-  4. los datos ya traducidos (aminoácidos, zonas, jefes…) no quedan en español;
+  4. los datos ya traducidos (aminoácidos, zonas, jefes…) no quedan en español,
+     ni los grupos de las interacciones;
   5. en el examen del René-virus la correcta no es casi siempre la más larga;
   6. solo hay símbolos que la consola de Windows sabe dibujar (WGL4).
 Sale con código 1 si algo falla.
@@ -118,6 +119,16 @@ for registros, campos in REGISTROS:
             buscar(r.get(campo))
 revisar("los datos en inglés no quedan en español", not en_espanol,
         "\n".join(repr(t) for t in sorted(en_espanol)[:20]))
+
+# los grupos de las interacciones del grupo R pasan por tr() con una variable,
+# así que la prueba 2 no los ve (y «selenolato» no tiene acentos)
+_grupos = set()
+for n in ast.walk(ast.parse(open(os.path.join(RAIZ, "datos.py"), encoding="utf-8").read())):
+    if (isinstance(n, ast.Assign) and getattr(n.targets[0], "id", "") == "INTERACCIONES_R"
+            and isinstance(n.value, ast.Dict)):
+        _grupos |= {g for v in ast.literal_eval(n.value).values() for _, g, _ in v}
+sin_trad = sorted(g for g in _grupos if g not in EN and g not in IGUALES)
+revisar("los grupos de las interacciones tienen traducción", not sin_trad, ", ".join(sin_trad))
 
 # ------------------------------------- 5. la respuesta larga no se delata
 # Si la correcta suele ser la opción más larga, se adivina sin saber.

@@ -75,8 +75,6 @@ EN = {
         'With affinity ≥ 50 throw a tRNA (T) and answer the question correctly. The rival responds with thermal agitation that lowers your ENERGY.',
     'Las animaciones muestran los grupos químicos reales y un subtítulo con cada paso; cualquier tecla las salta. Con V puedes elegir «sin animación» si solo quieres practicar.':
         'The animations show the real chemical groups and a subtitle for each step; any key skips them. With V you can choose «no animation» if you only want to practice.',
-    'Habla con el René-virus (V): su examen final te pide traducir ARNm y analizar mutaciones reales (anemia falciforme, fibrosis quística, KRAS, Huntington…).':
-        "Talk to the René-virus (V): its final exam asks you to translate mRNA and analyze real mutations (sickle cell anemia, cystic fibrosis, KRAS, Huntington's…).",
     'Cada aminoácido tiene un tipo (puro) o dos (doble). √ = ya lo capturaste.':
         "Each amino acid has one type (pure) or two (dual). √ = you've caught it.",
     'Los tipos del juego son exactamente los 5 grupos de Lehninger. Solo los aromáticos llevan un segundo tipo, y sale del mismo libro: «Phe, Tyr y Trp son relativamente no polares; Tyr y Trp son bastante más polares que Phe por el OH de Tyr y el N del indol de Trp».':
@@ -257,12 +255,12 @@ EN = {
         'To catch it you must recognize its structure: first the name, then the 3-letter code, then the 1-letter code. Later, charge, group, pKR, pI, nutrition, codons and hydropathy are mixed in. The ones you miss show up more in the field, and recognizing one you already caught gives extra affinity.',
     'Cada jefe pide construir un péptido con lo que ya capturaste; puedes usar cada aminoácido tantas veces como lo tengas en tu equipo. El poro nuclear también es un jefe: para entrar al núcleo necesitas una NLS con al menos 4 Lys (viven en los ribosomas ÷).':
         "Each boss asks you to build a peptide with what you've caught; you can use each amino acid as many times as you have it on your team. The nuclear pore is a boss too: to enter the nucleus you need an NLS with at least 4 Lys (they live in the ribosomes ÷).",
-    'El René-virus te hace encargos de síntesis: péptidos reales (encefalinas, oxitocina, angiotensina II, sustancia P…). Traduces su ARNm y, si tu equipo tiene suficientes copias de cada residuo, se sintetiza y entra a la pestaña Péptidos de la Aminodex.':
-        "René-virus gives you synthesis orders: real peptides (enkephalins, oxytocin, angiotensin II, substance P…). You translate their mRNA and, if your team has enough copies of each residue, it's synthesized and goes into the Peptides tab of the Aminodex.",
     'En la célula se hacen sobre residuos de una proteína, durante o después de la traducción, no sobre aminoácidos libres: en el juego, cada miembro de tu equipo representa uno de esos residuos.':
         'In the cell they are made on residues of a protein, during or after translation, not on free amino acids: in the game, each member of your team stands for one of those residues.',
     'En su grupo: ':
         'Within its group: ',
     'El René-virus te hace 6 encargos de síntesis, del RGD al péptido Tat. Cada péptido se arma en un ribosoma: a cada codón que llega al sitio A le eliges su ARNt antes de que se acabe el tiempo. Si fallas no te da la respuesta: te marca los codones malos y lo repites con otros. Al terminar se abre la síntesis libre con el resto del catálogo, y todo lo que sintetizas entra a la pestaña Péptidos de la Aminodex.':
         "The René-virus gives you 6 synthesis orders, from RGD to the Tat peptide. Each peptide is built on a ribosome: for every codon that reaches the A site you pick its tRNA before time runs out. If you miss, it doesn't tell you the answer: it marks the wrong codons and you repeat it with other ones. When you finish, free synthesis opens with the rest of the catalog, and everything you synthesize goes into the Peptides tab of the Aminodex.",
+    'Habla con el René-virus (V): su examen final te pide traducir ARNm y analizar mutaciones reales (anemia falciforme, fibrosis quística, KRAS, Huntington…). Con los 20 aminoácidos capturados también te cuenta de la selenocisteína (Sec, U), que no es de los 20: si contestas bien sus 3 preguntas, se une a tu equipo.':
+        "Talk to the René-virus (V): its final exam asks you to translate mRNA and analyze real mutations (sickle cell anemia, cystic fibrosis, KRAS, Huntington…). Once you've caught the 20 amino acids it also tells you about selenocysteine (Sec, U), which isn't one of the 20: answer its 3 questions correctly and it joins your team.",
 }
