@@ -57,6 +57,8 @@ HISTORIA = [
         "lees ARNm como un ribosoma.")),
 ]
 
+HISTORIA_IDS = [h[0] for h in HISTORIA]
+LIBRES = [p for p in datos.PEPTIDOS if p not in HISTORIA_IDS]   # se abren al terminar
 LIBRE_SEG = 12
 SEP = 8                 # columnas entre codones en el dibujo del ARNm
 
@@ -345,6 +347,12 @@ def capitulo(juego):
     return len(HISTORIA)
 
 
+def hechos(juego):
+    """Cuántos encargos de la historia están cumplidos (en partidas viejas
+    pueden estar salteados)."""
+    return sum(p in juego["peptidos"] for p in HISTORIA_IDS)
+
+
 def historia_completa(juego):
     return capitulo(juego) >= len(HISTORIA)
 
@@ -373,7 +381,7 @@ def _jugar_capitulo(win, juego, n):
 
 
 def _libre(win, juego):
-    otros = [p for p in datos.PEPTIDOS if p not in [h[0] for h in HISTORIA]]
+    otros = LIBRES
     hechos = juego["peptidos"]
     opciones = [f"{'√' if p in hechos else ' '} {datos.PEPTIDOS[p]['nombre']} "
                 f"({len(datos.PEPTIDOS[p]['seq'])} aa)" for p in otros]
@@ -409,23 +417,23 @@ def encargo(win, juego):
         if n < len(HISTORIA):
             ops.append(("sig", tr("Encargo {n}/{t}: {nombre}", n=n + 1, t=len(HISTORIA),
                                   nombre=datos.PEPTIDOS[HISTORIA[n][0]]["nombre"])))
-        if n > 0:
+        if hechos(juego):
             ops.append(("rep", tr("Repetir un encargo")))
         if n >= len(HISTORIA):
             ops.append(("libre", tr("Síntesis libre (los otros péptidos del catálogo)")))
         ops += [("como", tr("¿Cómo funciona?")), ("nada", tr("Volver"))]
         win.erase()
-        op = d.menu(win, tr("Encargos de síntesis ({n}/{t})", n=min(n, len(HISTORIA)),
+        op = d.menu(win, tr("Encargos de síntesis ({n}/{t})", n=hechos(juego),
                             t=len(HISTORIA)), [t for _, t in ops])
         clave = ops[op][0] if op is not None else "nada"
         if clave == "sig":
             _jugar_capitulo(win, juego, n)
         elif clave == "rep":
-            hechos = [k for k in range(len(HISTORIA)) if HISTORIA[k][0] in juego["peptidos"]]
+            listos = [k for k in range(len(HISTORIA)) if HISTORIA[k][0] in juego["peptidos"]]
             sel = d.menu(win, tr("Repetir un encargo"),
-                         [f"{k + 1}. {datos.PEPTIDOS[HISTORIA[k][0]]['nombre']}" for k in hechos])
+                         [f"{k + 1}. {datos.PEPTIDOS[HISTORIA[k][0]]['nombre']}" for k in listos])
             if sel is not None:
-                _jugar_capitulo(win, juego, hechos[sel])
+                _jugar_capitulo(win, juego, listos[sel])
         elif clave == "libre":
             _libre(win, juego)
         elif clave == "como":

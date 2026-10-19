@@ -61,8 +61,6 @@ EN = {
         'Levels {a}–{b}',
     '  … y {n} más [E]':
         '  … and {n} more [E]',
-    'Péptidos {n}/{total}':
-        'Peptides {n}/{total}',
     'MAPA':
         'MAP',
     'La envoltura nuclear no deja pasar: entra por un poro (O).':
@@ -191,4 +189,6 @@ EN = {
         'Synthesis orders: {n}/{total} done. Each one is a real peptide you build on the ribosome.',
     'Terminaste mis encargos. En «Síntesis libre» quedan los otros péptidos del catálogo, y puedes repetir mi examen.':
         'You finished my orders. "Free synthesis" has the other peptides in the catalog, and you can retake my exam.',
+    'Encargos {n}/{total}':
+        'Orders {n}/{total}',
 }

@@ -215,8 +215,6 @@ EN = {
         'The pI, between the two pKs',
     'rodean la forma neutra.':
         'around the neutral form.',
-    'Casi: {k} estaba en {eq:.2f} eq (marcado con X); dejaste el cursor en {tu:.2f}.':
-        'Close: {k} was at {eq:.2f} eq (marked with X); you left the cursor at {tu:.2f}.',
     'al cátodo':
         'to the cathode',
     'casi no se mueve':
@@ -235,10 +233,18 @@ EN = {
         '√ Solved.',
     'x Esta vez no.':
         'x Not this time.',
-    'Capturaste los 20 aminoácidos, conseguiste las {m} modificaciones, ganaste las {i} insignias, aprobaste los dos exámenes, conociste a la selenocisteína, sintetizaste los {p} péptidos y resolviste el laboratorio.':
-        'You caught the 20 amino acids, got the {m} modifications, won the {i} badges, passed both exams, met selenocysteine, synthesized the {p} peptides and solved the lab.',
     'No. Era: {r}.':
         'No. It was: {r}.',
     'hechos: {n}':
         'done: {n}',
+    'Casi: {k} estaba en pH {ph:.2f} (marcado con X); dejaste el cursor en pH {tu:.1f}.':
+        'Close: {k} was at pH {ph:.2f} (marked with X); you left the cursor at pH {tu:.1f}.',
+    'Capturaste los 20 aminoácidos, conseguiste las {m} modificaciones, ganaste las {i} insignias, aprobaste los dos exámenes, conociste a la selenocisteína, cumpliste los {p} encargos de síntesis y resolviste el laboratorio.':
+        'You caught the 20 amino acids, got the {m} modifications, won the {i} badges, passed both exams, met selenocysteine, completed the {p} synthesis orders and solved the lab.',
+    'pH en el cursor: {ph:.1f}':
+        'pH at the cursor: {ph:.1f}',
+    'En los tramos verticales el':
+        'On the vertical stretches the',
+    'cursor sube por la curva.':
+        'cursor climbs along the curve.',
 }

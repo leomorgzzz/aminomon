@@ -51,14 +51,10 @@ EN = {
         'How',
     'Cambio':
         'Change',
-    'péptidos {n}/{total}':
-        'peptides {n}/{total}',
     '↑/↓ elegir   ←/→ saltar de aminoácido   P practicar   L logros   M manual   Esc salir':
         '↑/↓ select   ←/→ jump between amino acids   P practice   L achievements   M manual   Esc exit',
     '— (cadena no ionizable)':
         '— (non-ionizable side chain)',
-    'Péptido {n}: aún no lo sintetizas. Pídeselo al René-virus (V).':
-        'Peptide {n}: not synthesized yet. Ask the René-virus (V) for it.',
     'su forma base':
         'its base form',
     'Captura primero a {base}.':
@@ -99,4 +95,10 @@ EN = {
         '─ outside the 20 ─',
     'Hay un aminoácido fuera de los 20. Habla con el René-virus (V) para su evento.':
         'There is an amino acid outside the 20. Talk to René-virus (V) for its event.',
+    'encargos {n}/{total}':
+        'orders {n}/{total}',
+    '{n}: aún no lo sintetizas. Pídeselo al René-virus (V).':
+        '{n}: not synthesized yet. Ask the René-virus (V) for it.',
+    '─ síntesis libre ─':
+        '─ free synthesis ─',
 }

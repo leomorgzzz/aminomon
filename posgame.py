@@ -256,32 +256,35 @@ def _titulacion(win, juego):
                "pK2": tr("el pK2: donde amortigua el α-NH3+"),
                "pKR": tr("el pKR: donde amortigua la cadena lateral"),
                "pI": tr("el pI: donde la carga neta es 0")}
-    objetivo = _equivalentes(aa, puntos[pide])
+    objetivo = puntos[pide]
     cursor = 0
     while True:
         alto, ancho = win.getmaxyx()
         h = max(10, min(22, alto - 12))
         w = max(30, min(72, ancho - 40))
         x0, y0 = 7, 3
+        camino = _camino(aa, y0, x0, h, w, n_eq)
+        cursor = min(cursor, len(camino) - 1)
         win.erase()
         d.put(win, 0, 1, tr("TITULACIÓN · {nombre} 0.1 M con NaOH", nombre=a["nombre"]),
               d.c("titulo", curses.A_BOLD))
         d.put(win, 1, 1, tr("Pon el cursor en {que}", que=nombres[pide]),
               d.c("titulo", curses.A_BOLD | curses.A_REVERSE))
-        _dibujar_curva(win, aa, y0, x0, h, w, n_eq)
-        eq = cursor / (w - 1) * n_eq
-        ph = _ph_de(aa, eq)
-        fila = y0 + h - 1 - round(ph / 14 * (h - 1))
+        _dibujar_curva(win, aa, y0, x0, h, w, n_eq, camino)
+        col, fila, ph, eq = camino[cursor]
         for yy in range(fila + 1, y0 + h):
-            d.put(win, yy, x0 + cursor, "·", d.c("tenue"))
-        d.put(win, fila, x0 + cursor, "♦", d.c("titulo", curses.A_BOLD))
+            d.put(win, yy, col, "·", d.c("tenue"))
+        d.put(win, fila, col, "♦", d.c("titulo", curses.A_BOLD))
         xl = x0 + w + 4
         leyenda = [(tr("Valores (Lehninger, 25 °C)"), "titulo"),
                    (f"pK1 (α-COOH)   {a['pk1']:.2f}", "texto"),
                    (f"pK2 (α-NH3+)   {a['pk2']:.2f}", "texto")]
         if a["pkr"]:
             leyenda.append((tr("pKR (cadena)   {v:.2f}", v=a["pkr"]), "texto"))
-        leyenda += [("", "texto"), (tr("Cursor: {eq:.2f} eq de OH−", eq=eq), "agua"), ("", "texto"),
+        leyenda += [("", "texto"), (tr("Cursor: {eq:.2f} eq de OH−", eq=eq), "agua"),
+                    (tr("pH en el cursor: {ph:.1f}", ph=ph), "agua"), ("", "texto"),
+                    (tr("En los tramos verticales el"), "tenue"),
+                    (tr("cursor sube por la curva."), "tenue"), ("", "texto"),
                     (tr("Pista: un pK está en la mitad"), "tenue"),
                     (tr("de una meseta (ahí amortigua)."), "tenue"),
                     (tr("El pI, entre los dos pK que"), "tenue"),
@@ -300,9 +303,11 @@ def _titulacion(win, juego):
         if d.es(k, curses.KEY_LEFT, "a", curses.KEY_SLEFT):
             cursor = max(0, cursor - paso)
         elif d.es(k, curses.KEY_RIGHT, "d", curses.KEY_SRIGHT):
-            cursor = min(w - 1, cursor + paso)
-    tolerancia = max(0.12, 1.5 * n_eq / (w - 1))
-    bien = abs(eq - objetivo) <= tolerancia
+            cursor = min(len(camino) - 1, cursor + paso)
+    # se califica por pH: en un salto vertical todos los puntos tienen casi
+    # los mismos equivalentes y lo que cambia es el pH
+    tolerancia = max(0.3, 0.6 * 14 / (h - 1))
+    bien = abs(ph - objetivo) <= tolerancia
     # se revelan todos los puntos sobre la curva
     for k2, v in puntos.items():
         e2 = _equivalentes(aa, v)
@@ -314,8 +319,8 @@ def _titulacion(win, juego):
                                                               curses.A_BOLD))
         d.put(win, fila, col + 2, f"{k2} {v:.2f}", d.c("bien" if k2 == pide else "agua"))
     texto = ((tr("Correcto.") if bien else
-              tr("Casi: {k} estaba en {eq:.2f} eq (marcado con X); dejaste el cursor en {tu:.2f}.",
-                 k=pide, eq=objetivo, tu=eq)) + " "
+              tr("Casi: {k} estaba en pH {ph:.2f} (marcado con X); dejaste el cursor en pH {tu:.1f}.",
+                 k=pide, ph=objetivo, tu=ph)) + " "
              + tr("Cada pK queda a media meseta: ahí la mitad del grupo ya soltó su H+ y el pH "
                   "cambia poco. El pI queda entre dos mesetas: ahí la carga neta es 0."))
     yt = y0 + h + 2
@@ -329,9 +334,27 @@ def _titulacion(win, juego):
     return bien
 
 
-def _dibujar_curva(win, aa, y0, x0, h, w, n_eq):
-    """Ejes con marcas (pH de 2 en 2, equivalentes de 0.5 en 0.5) y la curva
-    sin huecos: en los saltos se rellena la columna."""
+def _camino(aa, y0, x0, h, w, n_eq):
+    """Los puntos de la curva en orden, [(columna, fila, pH, eq)], sin huecos:
+    en los saltos verticales se agregan las filas intermedias, así el cursor
+    también puede pararse a media subida (donde suele estar el pI)."""
+    camino = []
+    anterior = None
+    for i in range(w):
+        eq = i / (w - 1) * n_eq
+        ph = _ph_de(aa, eq)
+        fila = y0 + h - 1 - round(ph / 14 * (h - 1))
+        if anterior is not None and abs(fila - anterior) > 1:
+            paso = 1 if fila > anterior else -1
+            for yy in range(anterior + paso, fila, paso):
+                camino.append((x0 + i, yy, (y0 + h - 1 - yy) / (h - 1) * 14, eq))
+        camino.append((x0 + i, fila, ph, eq))
+        anterior = fila
+    return camino
+
+
+def _dibujar_curva(win, aa, y0, x0, h, w, n_eq, camino):
+    """Ejes con marcas (pH de 2 en 2, equivalentes de 0.5 en 0.5) y la curva."""
     for ph in range(0, 15, 2):
         fila = y0 + h - 1 - round(ph / 14 * (h - 1))
         d.put(win, fila, x0 - 4, f"{ph:>2} ┤", d.c("tenue"))
@@ -343,16 +366,8 @@ def _dibujar_curva(win, aa, y0, x0, h, w, n_eq):
         etiqueta = f"{i / 2:g}"
         d.put(win, y0 + h + 1, col - len(etiqueta) // 2, etiqueta, d.c("tenue"))
     d.put(win, y0 + h + 1, x0 + w + 1, tr("eq de OH−"), d.c("tenue", curses.A_BOLD))
-    anterior = None
-    for i in range(w):
-        ph = _ph_de(aa, i / (w - 1) * n_eq)
-        fila = y0 + h - 1 - round(ph / 14 * (h - 1))
-        if anterior is not None and abs(fila - anterior) > 1:
-            paso = 1 if fila > anterior else -1
-            for yy in range(anterior + paso, fila, paso):
-                d.put(win, yy, x0 + i, "•", d.c("agua"))
-        d.put(win, fila, x0 + i, "•", d.c("agua"))
-        anterior = fila
+    for col, fila, _, _ in camino:
+        d.put(win, fila, col, "•", d.c("agua"))
 
 
 def _muestras(ph, n, separacion, rango=None):
@@ -665,14 +680,15 @@ def final(win, juego):
             d.put(win, yy, x, c, d.c(g, curses.A_BOLD))
         win.refresh()
         curses.napms(80)
+    import sintesis
     # 3. el certificado
     win.erase()
     reloj = juego.get("records", {})
     aciertos = sum(juego["aciertos"].values())
     texto = (tr("Capturaste los 20 aminoácidos, conseguiste las {m} modificaciones, ganaste "
                 "las {i} insignias, aprobaste los dos exámenes, conociste a la selenocisteína, "
-                "sintetizaste los {p} péptidos y resolviste el laboratorio.",
-                m=len(datos.MODIFICACIONES), i=len(juego["insignias"]), p=len(datos.PEPTIDOS))
+                "cumpliste los {p} encargos de síntesis y resolviste el laboratorio.",
+                m=len(datos.MODIFICACIONES), i=len(juego["insignias"]), p=len(sintesis.HISTORIA))
              + "\n\n" + tr("Aciertos de reconocimiento: {a} · contrarreloj: {r} · laboratorio: {l}/6",
                            a=aciertos, r=reloj.get("reloj", 0), l=reloj.get("laboratorio", 0))
              + "\n\n" + tr("De regalo: un ♦ junto al título del mapa. Gracias por jugar; puedes "

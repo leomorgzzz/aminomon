@@ -181,13 +181,25 @@ def ficha_peptido(win, juego, pid, y, x, ancho):
     jefes.dibujar_resumen(win, y + 3, x, ancho, pep)
 
 
+def _num_peptido(pid):
+    """E1…E6 para los encargos de la historia; L1… para la síntesis libre."""
+    import sintesis
+    if pid in sintesis.HISTORIA_IDS:
+        return f"E{sintesis.HISTORIA_IDS.index(pid) + 1}"
+    return f"L{sintesis.LIBRES.index(pid) + 1}"
+
+
 def entradas(juego, pestana="aa"):
     """Lista de la Aminodex. Pestaña «aa»: cada aminoácido seguido de las formas
     modificadas que ya conseguiste (las demás no aparecen) y, en una sección
     aparte, la Sec. Pestaña «pep» (tras el examen final): el catálogo de
     péptidos."""
     if pestana == "pep":
-        return [("pep", p) for p in datos.PEPTIDOS]
+        import sintesis
+        lista = [("pep", p) for p in sintesis.HISTORIA_IDS]
+        if sintesis.historia_completa(juego):
+            lista += [("seplib", None)] + [("pep", p) for p in sintesis.LIBRES]
+        return lista
     lista = []
     for c in datos.ORDEN:
         lista.append(("aa", c))
@@ -219,7 +231,7 @@ def columna_ficha(lista, cid, ancho):
     angosta, a la derecha de la estructura actual."""
     base = 46 if ancho < 100 else 50
     comun = max(base, X_ESTRUCTURA + max([_ancho_dibujo(c) for clase, c in lista
-                                          if clase not in ("pep", "sep")] or [0]) + 3)
+                                          if clase not in ("pep", "sep", "seplib")] or [0]) + 3)
     if ancho - comun >= 48:
         return comun
     return max(base, X_ESTRUCTURA + _ancho_dibujo(cid) + 3)
@@ -239,8 +251,9 @@ def mostrar(win, juego):
                   tr("vistos {n}/20", n=len(juego["vistos"])),
                   tr("modificaciones {n}/{total}", n=ne, total=len(datos.MODIFICACIONES))]
         if juego.get("doctorado"):
-            partes.append(tr("péptidos {n}/{total}", n=len(juego["peptidos"]),
-                             total=len(datos.PEPTIDOS)))
+            import sintesis
+            partes.append(tr("encargos {n}/{total}", n=sintesis.hechos(juego),
+                             total=len(sintesis.HISTORIA)))
         partes.insert(3, tr("repasar hoy {n}", n=len(progreso.para_hoy(juego))))
         cabecera = "  ·  ".join(partes)
         for quitar in (4, 4):               # en 80 columnas no cabe todo: vistos, modificaciones
@@ -273,21 +286,23 @@ def mostrar(win, juego):
                     texto, attr = f"{num:2}   ------", d.c("tenue")
             elif clase == "sep":
                 texto, attr = tr("─ fuera de los 20 ─"), d.c("tenue")
+            elif clase == "seplib":
+                texto, attr = tr("─ síntesis libre ─"), d.c("tenue")
             elif clase == "sec":
                 if juego.get("sec"):
                     texto, attr = f" U √ {datos.SEC['nombre']}", d.c("POL")
                 else:
                     texto, attr = "    ------", d.c("tenue")
             elif clase == "pep":
-                num = list(datos.PEPTIDOS).index(cid) + 1
+                num = _num_peptido(cid)
                 if cid in juego["peptidos"]:
-                    texto, attr = f"P{num:<2}√ {datos.PEPTIDOS[cid]['nombre'][:15]}", d.c("titulo")
+                    texto, attr = f"{num:<3}√ {datos.PEPTIDOS[cid]['nombre'][:15]}", d.c("titulo")
                 else:
-                    texto, attr = f"P{num:<2}  ------", d.c("tenue")
+                    texto, attr = f"{num:<3}  ------", d.c("tenue")
             else:
                 ev = datos.MODIFICACIONES[cid]
                 texto, attr = f"   └ {ev['nombre'][:16]}", d.c(ev["tipos"][0])
-            if i == sel and clase != "sep":
+            if i == sel and clase not in ("sep", "seplib"):
                 attr |= curses.A_REVERSE
             d.put(win, 2 + fila, 1, f"{texto:<21}", attr)
 
@@ -297,9 +312,8 @@ def mostrar(win, juego):
             if cid in juego["peptidos"]:
                 ficha_peptido(win, juego, cid, 2, x_ficha, ancho - x_ficha - 1)
             else:
-                d.put(win, 8, x_ficha, tr("Péptido {n}: aún no lo sintetizas. Pídeselo al "
-                                          "René-virus (V).", n=list(datos.PEPTIDOS).index(cid) + 1),
-                      d.c("tenue"))
+                d.put(win, 8, x_ficha, tr("{n}: aún no lo sintetizas. Pídeselo al "
+                                          "René-virus (V).", n=_num_peptido(cid)), d.c("tenue"))
         elif clase == "sec":
             if juego.get("sec"):
                 import posgame
@@ -349,11 +363,11 @@ def mostrar(win, juego):
             lista, sel = entradas(juego, pestana), 0
         elif d.es(k, curses.KEY_DOWN, "j", "s"):
             sel = (sel + 1) % n_lista
-            if lista[sel][0] == "sep":
+            if lista[sel][0] in ("sep", "seplib"):
                 sel = (sel + 1) % n_lista
         elif d.es(k, curses.KEY_UP, "k", "w"):
             sel = (sel - 1) % n_lista
-            if lista[sel][0] == "sep":
+            if lista[sel][0] in ("sep", "seplib"):
                 sel = (sel - 1) % n_lista
         elif d.es(k, curses.KEY_RIGHT, "d") and pestana == "aa":
             sel = next((i for i in range(sel + 1, n_lista) if lista[i][0] == "aa"), 0)
