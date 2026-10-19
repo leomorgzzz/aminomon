@@ -617,8 +617,6 @@ EN = {
         '–CH2–SeH',
     'selenol':
         'selenol',
-    'selenolato':
-        'selenolate',
     'disulfuro':
         'disulfide',
 }

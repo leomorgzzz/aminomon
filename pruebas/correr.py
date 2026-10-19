@@ -121,7 +121,7 @@ revisar("los datos en inglés no quedan en español", not en_espanol,
         "\n".join(repr(t) for t in sorted(en_espanol)[:20]))
 
 # los grupos de las interacciones del grupo R pasan por tr() con una variable,
-# así que la prueba 2 no los ve (y «selenolato» no tiene acentos)
+# así que la prueba 2 no los ve (y un nombre sin acentos no lo detecta la prueba 4)
 _grupos = set()
 for n in ast.walk(ast.parse(open(os.path.join(RAIZ, "datos.py"), encoding="utf-8").read())):
     if (isinstance(n, ast.Assign) and getattr(n.targets[0], "id", "") == "INTERACCIONES_R"

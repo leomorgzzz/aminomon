@@ -823,7 +823,7 @@ INTERACCIONES_R = {
     "gS": [("POL", "O-glicano (O–H)", 55)],
     "gT": [("POL", "O-glicano (O–H)", 55)],
     "Cit": [("POL", "ureido", 50)],
-    "U": [("POL", "selenol", 40), ("NEG", "selenolato", 40)],
+    "U": [("POL", "selenol", 40)],
 }
 
 
