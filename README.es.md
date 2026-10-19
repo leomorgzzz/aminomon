@@ -26,6 +26,39 @@ Valores de Lehninger a 25 °C; hidropatía de Kyte-Doolittle (1982)
 > Tu partida se conserva. Errores, ideas o datos que corregir:
 > [Issues](https://github.com/leomorgzzz/aminomon/issues).
 
+## Qué hay en el juego
+
+**La partida.** Recorres una célula (citosol, membrana, ribosomas, RE, Golgi,
+lisosoma, matriz extracelular, núcleo…) y en cada zona aparecen los
+aminoácidos que tienen sentido ahí. Para capturar uno hay que reconocer su
+estructura: nombre, códigos de 3 y 1 letras, y luego carga, grupo, pKR, pI,
+codones o hidropatía. Los que fallas salen más. En combate cada movimiento es
+una interacción real de su grupo R (puente salino, catión–π, puente de H…).
+Al subir de nivel (y a veces con un objeto o en cierta zona) tus residuos
+consiguen 13 modificaciones postraduccionales (fosfoserina, hidroxiprolina, cistina, Gla…).
+
+**Los jefes.** 7 jefes de zona te piden construir un péptido que cumpla una
+condición (una NLS para entrar al núcleo, un patrón Gly-X-Y para el colágeno,
+un péptido que se cargue en el lisosoma…). Después viene el examen de la
+Chaperona.
+
+**Después de la Chaperona**, con el René-virus (V):
+
+- **Examen final:** traducir ARNm y analizar mutaciones reales (anemia
+  falciforme, fibrosis quística, KRAS, Huntington…).
+- **La selenocisteína (Sec, U):** el aminoácido que no está en los 20. Si
+  contestas bien cómo la mete la célula, se une a tu equipo.
+- **Laboratorio:** un cuarto con tres mesas: titulación (pon el cursor en un
+  pK o el pI de la curva), electroforesis e intercambio iónico.
+- **Encargos de síntesis:** 6 péptidos reales con historia (del RGD a la
+  oxitocina y el péptido Tat) que se arman en un ribosoma, codón por codón y
+  contra el tiempo. Hay un encargo especial con la Sec, donde un UGA se lee
+  como Sec gracias al SECIS.
+- **El final:** al terminar todo hay una animación y un certificado.
+
+También hay práctica aparte (repaso espaciado, contrarreloj, elegir la
+estructura), logros y un manual con chuleta de codones.
+
 ## Capturas
 
 ![Pantalla de inicio](capturas/pantalla-de-inicio.png)
@@ -131,4 +164,7 @@ python3 pruebas/correr.py
 Revisan que todo importe en los dos idiomas, que cada `tr("…")` tenga su
 traducción en `traduccion/`, que los datos no queden en español en la versión
 en inglés y que solo haya símbolos que la consola de Windows sabe dibujar.
+También revisan la lógica: que el ribosoma siempre ofrezca el ARNt correcto,
+que el ARNm de cada encargo codifique su péptido, que en la titulación se
+pueda llegar a cada pK y al pI, y que una partida vieja cargue.
 Corren solas en GitHub en cada push y antes de compilar una versión.
