@@ -686,9 +686,7 @@ def final(win, juego):
     win.erase()
     reloj = juego.get("records", {})
     aciertos = sum(juego["aciertos"].values())
-    texto = (tr("Capturaste los 20 aminoácidos, conseguiste las {m} modificaciones, ganaste "
-                "las {i} insignias, aprobaste los dos exámenes, conociste a la selenocisteína, "
-                "cumpliste los {p} encargos de síntesis y resolviste el laboratorio.",
+    texto = (tr("Capturaste los 20 aminoácidos, conseguiste las {m} modificaciones, ganaste las {i} insignias, aprobaste los dos exámenes, conociste a la selenocisteína, cumpliste los {p} encargos de síntesis (y la selenoproteína) y resolviste el laboratorio.",
                 m=len(datos.MODIFICACIONES), i=len(juego["insignias"]), p=len(sintesis.HISTORIA))
              + "\n\n" + tr("Aciertos de reconocimiento: {a} · contrarreloj: {r} · laboratorio: {l}/6",
                            a=aciertos, r=reloj.get("reloj", 0), l=reloj.get("laboratorio", 0))

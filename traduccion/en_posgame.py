@@ -169,8 +169,6 @@ EN = {
         'done: {n}',
     'Casi: {k} estaba en pH {ph:.2f} (marcado con X); dejaste el cursor en pH {tu:.1f}.':
         'Close: {k} was at pH {ph:.2f} (marked with X); you left the cursor at pH {tu:.1f}.',
-    'Capturaste los 20 aminoácidos, conseguiste las {m} modificaciones, ganaste las {i} insignias, aprobaste los dos exámenes, conociste a la selenocisteína, cumpliste los {p} encargos de síntesis y resolviste el laboratorio.':
-        'You caught the 20 amino acids, got the {m} modifications, won the {i} badges, passed both exams, met selenocysteine, completed the {p} synthesis orders and solved the lab.',
     'pH en el cursor: {ph:.1f}':
         'pH at the cursor: {ph:.1f}',
     'En los tramos verticales el':
@@ -179,4 +177,6 @@ EN = {
         'cursor climbs along the curve.',
     'Te doy la bienvenida a mi laboratorio de proteómica: aquí la química de cada aminoácido se mide.':
         "Welcome to my proteomics lab: here each amino acid's chemistry gets measured.",
+    'Capturaste los 20 aminoácidos, conseguiste las {m} modificaciones, ganaste las {i} insignias, aprobaste los dos exámenes, conociste a la selenocisteína, cumpliste los {p} encargos de síntesis (y la selenoproteína) y resolviste el laboratorio.':
+        'You caught the 20 amino acids, got the {m} modifications, won the {i} badges, passed both exams, met selenocysteine, completed the {p} synthesis orders (and the selenoprotein) and solved the lab.',
 }

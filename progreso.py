@@ -122,6 +122,7 @@ def pendientes(juego):
         (tr("El evento de la selenocisteína"), bool(juego.get("sec"))),
         (tr("Terminar los {n} encargos de síntesis", n=len(sintesis.HISTORIA)),
          sintesis.historia_completa(juego)),
+        (tr("El encargo especial de la selenoproteína"), sintesis.seleno_hecho(juego)),
         (tr("Resolver 5 de 6 en el laboratorio del René-virus"),
          juego.get("records", {}).get("laboratorio", 0) >= 5),
     ]

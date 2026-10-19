@@ -107,4 +107,20 @@ EN = {
         '{cod} is a stop codon: no tRNA recognizes it.',
     'Volver':
         'Back',
+    'Selenoproteína sintetizada':
+        'Selenoprotein synthesized',
+    'ENCARGO ESPECIAL · La selenoproteína\n\nQuiero el final de la tiorredoxina reductasa 1 humana, la enzima que recarga a la tiorredoxina (la que repara proteínas oxidadas): Gly-Cys-Sec-Gly. Su Sec y la Cys vecina forman el puente selenilsulfuro que ya conoces.':
+        'SPECIAL ORDER · The selenoprotein\n\nI want the end of human thioredoxin reductase 1, the enzyme that recharges thioredoxin (the one that repairs oxidized proteins): Gly-Cys-Sec-Gly. Its Sec and the neighboring Cys form the selenylsulfide bridge you already know.',
+    'REPASO · ¿Cómo entra la Sec?\n\n• La Sec no tiene codón propio: usa UGA, que normalmente es de paro.\n• En el ARNm de una selenoproteína, después del codón de paro, hay una horquilla llamada SECIS (en el dibujo: ···SECIS).\n• Con ayuda de unas proteínas (SBP2 y EFSec), el SECIS atrae al ARNt-Sec, que ya trae la Sec (se armó sobre una Ser). Con él, ese UGA se lee como Sec.':
+        "REVIEW · How does Sec get in?\n\n• Sec has no codon of its own: it uses UGA, which is normally a stop.\n• In a selenoprotein's mRNA, after the stop codon, there is a hairpin called SECIS (in the drawing: ···SECIS).\n• With the help of some proteins (SBP2 and EFSec), the SECIS recruits the Sec-tRNA, which already carries Sec (built on a Ser). With it, that UGA is read as Sec.",
+    "CÓMO FUNCIONA\n\n• Igual que los otros encargos, con anticodones a la vista.\n• El anticodón del ARNt-Sec es 3'-ACU-5': se aparea con UGA.\n• Aquí el paro es UAA o UAG; en ese codón sí va el factor de liberación.\n• Son 4 aminoácidos y {s} s por codón.":
+        "HOW IT WORKS\n\n• Same as the other orders, with the anticodons shown.\n• The Sec-tRNA's anticodon is 3'-ACU-5': it pairs with UGA.\n• Here the stop is UAA or UAG; that codon does take the release factor.\n• It's 4 amino acids and {s} s per codon.",
+    'ENCARGO ESPECIAL · Tiorredoxina reductasa (Gly-Cys-Sec-Gly)':
+        'SPECIAL ORDER · Thioredoxin reductase (Gly-Cys-Sec-Gly)',
+    'Sintetizaste Gly-Cys-Sec-Gly. El UGA se leyó como Sec gracias al SECIS, y el paro UAA/UAG soltó la cadena. En la enzima completa (casi 500 aminoácidos) este final es el sitio activo: la Sec y la Cys vecina reducen a la tiorredoxina y quedan unidas por un puente Se–S, que la propia enzima vuelve a abrir con NADPH.':
+        'You synthesized Gly-Cys-Sec-Gly. The UGA was read as Sec thanks to the SECIS, and the UAA/UAG stop released the chain. In the full enzyme (almost 500 amino acids) this end is the active site: the Sec and the neighboring Cys reduce thioredoxin and end up joined by a Se–S bridge, which the enzyme itself opens again with NADPH.',
+    'Encargo especial: la selenoproteína':
+        'Special order: the selenoprotein',
+    'Liberaste la cadena: con el SECIS, este UGA no es de paro.':
+        'You released the chain: with the SECIS, this UGA is not a stop.',
 }

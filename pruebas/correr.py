@@ -11,7 +11,10 @@ Revisa lo que no se ve sin jugar:
   4. los datos ya traducidos (aminoácidos, zonas, jefes…) no quedan en español,
      ni los grupos de las interacciones;
   5. en el examen del René-virus la correcta no es casi siempre la más larga;
-  6. solo hay símbolos que la consola de Windows sabe dibujar (WGL4).
+  6. solo hay símbolos que la consola de Windows sabe dibujar (WGL4);
+  7. la lógica: el ribosoma ofrece el ARNt correcto, cada ARNm codifica su
+     péptido, en la titulación se llega a todos los puntos y una partida vieja
+     carga.
 Sale con código 1 si algo falla.
 """
 
@@ -147,6 +150,91 @@ for idioma_ in ("es", "en"):
 malos = wgl4.revisar([RAIZ])
 revisar("solo símbolos WGL4 (los que dibuja la consola de Windows)", not malos,
         "\n".join(f"{ch} U+{ord(ch):04X}  {' '.join(l[:3])}" for ch, l in sorted(malos.items())))
+
+# ------------------------------------------------------------- 7. lógica
+import json  # noqa: E402
+import random  # noqa: E402
+
+import aminodex  # noqa: E402
+import posgame  # noqa: E402
+import progreso  # noqa: E402
+import sintesis  # noqa: E402
+
+# el ribosoma siempre ofrece el ARNt correcto, sin aminoácidos repetidos, y
+# cada anticodón se aparea de verdad con un codón de su aminoácido
+random.seed(1)
+malos_arnt = []
+for cod in list(jefes.CODIGO) + ["UGA*"]:
+    correcta = "U" if cod == "UGA*" else None
+    cod = cod[:3]
+    for _ in range(30):
+        ops = sintesis.opciones_arnt(cod, correcta)
+        aas = [aa for aa, _ in ops]
+        esperado = correcta or jefes.CODIGO[cod]
+        if len(set(aas)) != len(aas) or len(ops) != 4:
+            malos_arnt.append(f"{cod}: {ops}")
+        if esperado != "*" and esperado not in aas:
+            malos_arnt.append(f"{cod}: falta {esperado} en {ops}")
+        for aa, anti in ops:
+            par = sintesis._comp(anti)
+            if aa != "U" and jefes.CODIGO.get(par) != aa:
+                malos_arnt.append(f"{cod}: {aa} con anticodón {anti}")
+revisar("el ribosoma ofrece el ARNt correcto y anticodones que sí se aparean", not malos_arnt,
+        "\n".join(sorted(set(malos_arnt))[:10]))
+
+# el ARNm de cada encargo se traduce de vuelta a su péptido
+malos_arn = []
+for seq in [p["seq"] for p in datos.PEPTIDOS.values()] + [sintesis.SELENO["seq"]]:
+    for _ in range(20):
+        cods = sintesis._arn(seq)
+        leido = "".join("U" if c == "UGA" and i <= len(seq) else jefes.CODIGO[c]
+                        for i, c in enumerate(cods))
+        if leido != "M" + seq + "*" or cods[0] != "AUG":
+            malos_arn.append(f"{seq}: {cods}")
+revisar("el ARNm de cada encargo codifica su péptido (y la Sec va en UGA)", not malos_arn,
+        "\n".join(malos_arn[:5]))
+
+# en la titulación se puede llegar a cada pK y al pI, en pantallas chicas y grandes
+inalcanzables = []
+for alto, ancho in ((24, 80), (30, 100), (42, 130)):
+    h, w = max(10, min(22, alto - 12)), max(30, min(72, ancho - 40))
+    for aa in "GAVDEKHC":
+        a = datos.AMINOACIDOS[aa]
+        camino = posgame._camino(aa, 3, 7, h, w, len(posgame._pks(aa)))
+        puntos = {"pK1": a["pk1"], "pK2": a["pk2"], "pI": a["pi"]}
+        if a["pkr"]:
+            puntos["pKR"] = a["pkr"]
+        for k, v in puntos.items():
+            tol = max(0.3, 0.6 * 14 / (h - 1)) if k == "pI" else 0.3
+            if min(abs(p[2] - v) for p in camino) > tol:
+                inalcanzables.append(f"{ancho}×{alto} {aa} {k}")
+revisar("en la titulación se puede llegar a todos los pK y al pI", not inalcanzables,
+        ", ".join(inalcanzables))
+
+# una partida de una versión vieja (sin campos nuevos y con 2 péptidos del
+# catálogo viejo) carga y se puede usar
+viejo = {"pos": [60, 24], "equipo": [{"id": "K", "nivel": 5, "xp": 0, "energia": 10},
+                                      {"id": "Zzz", "nivel": 3, "xp": 0, "energia": 5}],
+         "capturados": {"K": 1}, "vistos": ["K"], "evos_vistas": [], "objetos": {"ATP": 1},
+         "insignias": [], "zonas_visitadas": [], "fallos": {}, "aciertos": {},
+         "terminado": True, "doctorado": True, "peptidos": ["nls", "bradi"]}
+with open(progreso.ARCHIVO, "w", encoding="utf-8") as f:
+    json.dump(viejo, f)
+try:
+    j = progreso.cargar()
+    problemas = []
+    if [m["id"] for m in j["equipo"]] != ["K"]:
+        problemas.append("el equipo no quitó el residuo desconocido")
+    if sintesis.hechos(j) != 1 or sintesis.capitulo(j) != 0:
+        problemas.append(f"encargos hechos {sintesis.hechos(j)}, capítulo {sintesis.capitulo(j)}")
+    progreso.pendientes(j)
+    progreso.todo_completo(j)
+    aminodex.entradas(j, "aa")
+    if len(aminodex.entradas(j, "pep")) != len(sintesis.HISTORIA):
+        problemas.append("la pestaña de péptidos no muestra solo los encargos")
+except Exception as e:  # noqa: BLE001
+    problemas = [repr(e)]
+revisar("una partida vieja carga y se puede usar", not problemas, "\n".join(problemas))
 
 print()
 print(f"{len(fallas)} prueba(s) fallaron." if fallas else "Todo bien.")

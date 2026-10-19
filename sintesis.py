@@ -72,14 +72,26 @@ def _arnt(cod):
     return CODIGO[cod], _comp(cod)
 
 
-def opciones_arnt(cod, n=4):
+def _tres(c):
+    return AA[c]["tres"] if c in AA else "Sec" if c == "U" else "???"
+
+
+def _nombre(c):
+    return AA[c]["nombre"] if c in AA else datos.SEC["nombre"]
+
+
+def opciones_arnt(cod, correcta=None, n=4):
     """n ARNt distintos para el codón cod, con la respuesta si no es de paro.
     Incluye las trampas típicas: el anticodón con las mismas letras que el
-    codón y el que falla en una sola base."""
-    correcta = CODIGO[cod]
+    codón y el que falla en una sola base. correcta="U": el UGA de una
+    selenoproteína, que lee el ARNt-Sec (anticodón 3'-ACU-5')."""
+    correcta = correcta or CODIGO[cod]
     ops = []
     usados = set()
-    if correcta != PARO:
+    if correcta == "U":
+        ops.append(("U", _comp(cod)))
+        usados.add("U")
+    elif correcta != PARO:
         ops.append(_arnt(cod))
         usados.add(correcta)
     candidatos = [_comp(cod)]                   # anticodón = mismas letras
@@ -100,13 +112,17 @@ def opciones_arnt(cod, n=4):
 
 
 def _arn(seq):
-    """AUG + el péptido + un codón de paro, con codones al azar."""
+    """AUG + el péptido + un codón de paro, con codones al azar. La Sec (U) va
+    en UGA; entonces el paro es UAA o UAG, para que no haya dos UGA."""
+    if "U" in seq:
+        return (["AUG"] + ["UGA" if c == "U" else random.choice(AA[c]["codones"]) for c in seq]
+                + [random.choice(("UAA", "UAG"))])
     return ["AUG"] + [random.choice(AA[c]["codones"]) for c in seq] + [random.choice(STOP)]
 
 
 # ------------------------------------------------------------- el ribosoma
 def _dibujar(win, titulo, codones, i, cadena, antis, malos, ops, ver_anti, quedan, total_seg,
-             aviso, entrando=None):
+             aviso, entrando=None, secis=False):
     alto, ancho = win.getmaxyx()
     win.erase()
     d.put(win, 0, 1, titulo, d.c("titulo", curses.A_BOLD))
@@ -114,7 +130,7 @@ def _dibujar(win, titulo, codones, i, cadena, antis, malos, ops, ver_anti, queda
     d.put(win, 2, 2, tr("Cadena (N → C):"), d.c("tenue"))
     x = 2
     for k, c in enumerate(cadena):
-        texto = AA[c]["tres"] if c in AA else "???"
+        texto = _tres(c)
         if x + len(texto) + 1 >= ancho:
             break
         d.put(win, 3, x, texto, d.c("mal" if k - 1 in malos else "bien", curses.A_BOLD))
@@ -129,11 +145,11 @@ def _dibujar(win, titulo, codones, i, cadena, antis, malos, ops, ver_anti, queda
     d.put(win, y_r + 1, x_p + 1, "P", d.c("titulo", curses.A_BOLD))
     d.put(win, y_r + 1, x_p + 1 + SEP, "A", d.c("titulo", curses.A_BOLD))
     ultimo = cadena[-1]
-    d.put(win, y_r + 2, x_p - 1, f"[{AA[ultimo]['tres'] if ultimo in AA else '???'}]", d.c("texto"))
+    d.put(win, y_r + 2, x_p - 1, f"[{_tres(ultimo)}]", d.c("texto"))
     d.put(win, y_r + 3, x_p - 2, f"3'{antis[-1]}5'", d.c("tenue"))
     if entrando:
         aa, anti = entrando
-        d.put(win, y_r + 2, x_p - 1 + SEP, f"[{AA[aa]['tres']}]", d.c("titulo", curses.A_BOLD))
+        d.put(win, y_r + 2, x_p - 1 + SEP, f"[{_tres(aa)}]", d.c("titulo", curses.A_BOLD))
         d.put(win, y_r + 3, x_p - 2 + SEP, f"3'{anti}5'", d.c("titulo"))
     else:
         d.put(win, y_r + 2, x_p - 1 + SEP, "[ ? ]", d.c("titulo", curses.A_BOLD))
@@ -155,6 +171,8 @@ def _dibujar(win, titulo, codones, i, cadena, antis, malos, ops, ver_anti, queda
         else:
             attr = d.c("texto")
         d.put(win, y_m, xc, cod, attr)
+        if secis and k == len(codones) - 1 and xc + 16 < ancho - 4:
+            d.put(win, y_m, xc + 5, "···SECIS", d.c("POL", curses.A_BOLD))
     # el tiempo
     y = y_r + 8
     barra = min(40, ancho - 22)
@@ -168,9 +186,9 @@ def _dibujar(win, titulo, codones, i, cadena, antis, malos, ops, ver_anti, queda
            resaltar=True)
     for k, (aa, anti) in enumerate(ops):
         if ver_anti:
-            texto = f"{k + 1}) {AA[aa]['tres']}  " + tr("anticodón") + f" 3'-{anti}-5'"
+            texto = f"{k + 1}) {_tres(aa)}  " + tr("anticodón") + f" 3'-{anti}-5'"
         else:
-            texto = f"{k + 1}) {AA[aa]['tres']}  {AA[aa]['nombre']}"
+            texto = f"{k + 1}) {_tres(aa)}  {_nombre(aa)}"
         d.put(win, y + 1 + k, 3, texto, d.c("texto", curses.A_BOLD))
     d.put(win, y + 1 + len(ops), 3, f"{len(ops) + 1}) " + tr("Factor de liberación (codón de paro)"),
           d.c("texto", curses.A_BOLD))
@@ -182,8 +200,10 @@ def _dibujar(win, titulo, codones, i, cadena, antis, malos, ops, ver_anti, queda
 
 def ribosoma(win, juego, titulo, seq, segundos, ver_anti):
     """Una síntesis. Devuelve (bien, codones, posiciones mal, último codón leído)
-    o None si se sale."""
+    o None si se sale. Si seq trae una Sec (U), el ARNm lleva un SECIS."""
     codones = _arn(seq)
+    esperado = ["M"] + list(seq) + [PARO]
+    secis = "U" in seq
     cadena = ["M"]          # el ARNt iniciador ya trae la Met al sitio P
     antis = ["UAC"]
     malos = set()
@@ -193,7 +213,7 @@ def ribosoma(win, juego, titulo, seq, segundos, ver_anti):
     try:
         while i < len(codones):
             cod = codones[i]
-            ops = opciones_arnt(cod)
+            ops = opciones_arnt(cod, esperado[i])
             fin = time.monotonic() + segundos
             eleccion = None
             while eleccion is None:
@@ -201,7 +221,8 @@ def ribosoma(win, juego, titulo, seq, segundos, ver_anti):
                 if quedan <= 0:
                     eleccion = "tiempo"
                     break
-                _dibujar(win, titulo, codones, i, cadena, antis, malos, ops, ver_anti, quedan, segundos, aviso)
+                _dibujar(win, titulo, codones, i, cadena, antis, malos, ops, ver_anti, quedan, segundos,
+                         aviso, secis=secis)
                 k = win.getch()
                 if k == 27:
                     pausa = time.monotonic()
@@ -213,7 +234,7 @@ def ribosoma(win, juego, titulo, seq, segundos, ver_anti):
                     fin += time.monotonic() - pausa
                 elif 49 <= k <= 49 + len(ops):
                     eleccion = k - 49
-            paro = CODIGO[cod] == PARO
+            paro = esperado[i] == PARO
             if eleccion == "tiempo":
                 malos.add(i - 1)
                 cadena.append("?")
@@ -226,22 +247,25 @@ def ribosoma(win, juego, titulo, seq, segundos, ver_anti):
                     break
                 malos.add(i - 1)
                 aviso = (tr("Liberaste la cadena antes de tiempo: {cod} no es de paro.", cod=cod), "mal")
+                if esperado[i] == "U":
+                    aviso = (tr("Liberaste la cadena: con el SECIS, este UGA no es de paro."), "mal")
                 break
             else:
                 aa = ops[eleccion][0]
                 _dibujar(win, titulo, codones, i, cadena, antis, malos, ops, ver_anti,
-                         fin - time.monotonic(), segundos, aviso, entrando=ops[eleccion])
+                         fin - time.monotonic(), segundos, aviso, entrando=ops[eleccion],
+                         secis=secis)
                 time.sleep(0.35)
                 cadena.append(aa)
                 antis.append(ops[eleccion][1])
-                if paro or aa != CODIGO[cod]:
+                if paro or aa != esperado[i]:
                     malos.add(i - 1)
                     aviso = (tr("Ese ARNt no se aparea con {cod}.", cod=cod), "mal")
                     if paro:
                         aviso = (tr("{cod} es de paro: ningún ARNt lo reconoce.", cod=cod), "mal")
                         break
                 else:
-                    aviso = (tr("√ {aa} unida a la cadena.", aa=AA[aa]["tres"]), "bien")
+                    aviso = (tr("√ {aa} unida a la cadena.", aa=_tres(aa)), "bien")
             i += 1
     finally:
         win.timeout(-1)
@@ -380,6 +404,63 @@ def _jugar_capitulo(win, juego, n):
             return
 
 
+# ------------------------------------------------- encargo especial: la Sec
+# El final de la tiorredoxina reductasa 1 humana es Gly-Cys-Sec-Gly-COOH: la
+# Sec y la Cys vecina forman el puente selenilsulfuro del sitio activo.
+SELENO = dict(seq="GCUG", seg=15)
+
+
+def seleno_hecho(juego):
+    return "encargo_sec" in juego["recompensas"]
+
+
+def _seleno(win, juego):
+    win.erase()
+    d.dialogo(win, [
+        tr("ENCARGO ESPECIAL · La selenoproteína\n\nQuiero el final de la tiorredoxina "
+           "reductasa 1 humana, la enzima que recarga a la tiorredoxina (la que repara "
+           "proteínas oxidadas): Gly-Cys-Sec-Gly. "
+           "Su Sec y la Cys vecina forman el puente selenilsulfuro que ya conoces."),
+        tr("REPASO · ¿Cómo entra la Sec?\n\n• La Sec no tiene codón propio: usa UGA, que "
+           "normalmente es de paro.\n• En el ARNm de una selenoproteína, después del codón "
+           "de paro, hay una horquilla llamada SECIS (en el dibujo: ···SECIS).\n• Con ayuda "
+           "de unas proteínas (SBP2 y EFSec), el SECIS atrae al ARNt-Sec, que ya trae la Sec (se armó sobre una Ser). Con él, ese UGA "
+           "se lee como Sec."),
+        tr("CÓMO FUNCIONA\n\n• Igual que los otros encargos, con anticodones a la vista.\n"
+           "• El anticodón del ARNt-Sec es 3'-ACU-5': se aparea con UGA.\n• Aquí el paro "
+           "es UAA o UAG; en ese codón sí va el factor de liberación.\n• Son 4 aminoácidos "
+           "y {s} s por codón.", s=SELENO["seg"]),
+    ], tr("René-virus"))
+    while True:
+        r = ribosoma(win, juego, tr("ENCARGO ESPECIAL · Tiorredoxina reductasa (Gly-Cys-Sec-Gly)"),
+                     SELENO["seq"], SELENO["seg"], True)
+        if r is None:
+            return
+        bien, codones, malos, leido = r
+        if bien:
+            break
+        _revision(win, codones, malos, leido, True)
+        win.erase()
+        if d.menu(win, tr("¿Otra vez?"), [tr("Sí, con otros codones"), tr("Ahora no")]) != 0:
+            return
+    primera = not seleno_hecho(juego)
+    if primera:
+        juego["recompensas"].append("encargo_sec")
+        juego["objetos"]["ATP"] += 1
+    for m in juego["equipo"]:
+        progreso.dar_xp(m, 5)
+    progreso.guardar(juego)
+    win.erase()
+    d.popup(win, tr("Sintetizaste Gly-Cys-Sec-Gly. El UGA se leyó como Sec gracias al SECIS, "
+                    "y el paro UAA/UAG soltó la cadena. En la enzima completa (casi 500 "
+                    "aminoácidos) este final es el sitio activo: la Sec y la Cys vecina reducen "
+                    "a la tiorredoxina y quedan unidas por un puente Se–S, que la propia enzima "
+                    "vuelve a abrir con NADPH.")
+            + "\n\n" + (tr("+5 XP para todo tu equipo y 1 ATP.") if primera
+                         else tr("+5 XP para todo tu equipo.")),
+            tr("Selenoproteína sintetizada"), ancho=72, attr=d.c("bien"))
+
+
 def _libre(win, juego):
     otros = LIBRES
     hechos = juego["peptidos"]
@@ -419,6 +500,9 @@ def encargo(win, juego):
                                   nombre=datos.PEPTIDOS[HISTORIA[n][0]]["nombre"])))
         if hechos(juego):
             ops.append(("rep", tr("Repetir un encargo")))
+        if n >= len(HISTORIA) and juego.get("sec"):
+            ops.append(("sec", ("√ " if seleno_hecho(juego) else "")
+                        + tr("Encargo especial: la selenoproteína")))
         if n >= len(HISTORIA):
             ops.append(("libre", tr("Síntesis libre (los otros péptidos del catálogo)")))
         ops += [("como", tr("¿Cómo funciona?")), ("nada", tr("Volver"))]
@@ -436,6 +520,8 @@ def encargo(win, juego):
                 _jugar_capitulo(win, juego, listos[sel])
         elif clave == "libre":
             _libre(win, juego)
+        elif clave == "sec":
+            _seleno(win, juego)
         elif clave == "como":
             explicar(win)
         else:

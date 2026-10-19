@@ -187,4 +187,6 @@ EN = {
         'You finished my orders. "Free synthesis" has the other peptides in the catalog, and you can retake my exam.',
     'Encargos {n}/{total}':
         'Orders {n}/{total}',
+    'Terminaste mis encargos. Me queda uno especial: una selenoproteína, con la Sec dentro del ribosoma.':
+        'You finished my orders. I have one special one left: a selenoprotein, with Sec inside the ribosome.',
 }

@@ -615,6 +615,9 @@ class Partida:
             if n < total:
                 partes.append(tr("Encargos de síntesis: llevas {n}/{total}. Cada uno es un "
                                  "péptido real que armas en el ribosoma.", n=n, total=total))
+            elif j.get("sec") and not sintesis.seleno_hecho(j):
+                partes.append(tr("Terminaste mis encargos. Me queda uno especial: una "
+                                 "selenoproteína, con la Sec dentro del ribosoma."))
             else:
                 partes.append(tr("Terminaste mis encargos. En «Síntesis libre» quedan los "
                                  "otros péptidos del catálogo, y puedes repetir mi examen."))

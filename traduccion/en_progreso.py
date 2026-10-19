@@ -29,4 +29,6 @@ EN = {
         "Solve 5 of 6 in René-virus's lab",
     'Terminar los {n} encargos de síntesis':
         'Finish the {n} synthesis orders',
+    'El encargo especial de la selenoproteína':
+        'The special selenoprotein order',
 }
