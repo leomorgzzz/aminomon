@@ -1,5 +1,5 @@
 """Datos de los 20 aminoácidos estándar, sus modificaciones
-postraduccionales, tipos, movimientos, zonas del mapa y glosario.
+covalentes, tipos, movimientos, zonas del mapa y glosario.
 
 Valores fisicoquímicos: Lehninger, 25 °C (masa del aminoácido libre en g/mol;
 pK1 = α-COOH, pK2 = α-NH3+, pKR = cadena lateral, pI = punto isoeléctrico).
@@ -132,16 +132,14 @@ AMINOACIDOS = {
         carga="Neutra", pk1=2.34, pk2=9.60, pkr=None, pi=5.97,
         hidropatia=-0.4, masa=75.07, nutricion="Condicional", codones=["GGU", "GGC", "GGA", "GGG"],
         cadena=["        H"],
-        pista="La más pequeña y la única sin carbono quiral (su R es un H). "
-              "Es 1 de cada 3 residuos del colágeno.",
+        pista="Su R es un H: la más pequeña y la única sin carbono quiral. Cabe donde ninguna otra (es 1 de cada 3 residuos del colágeno) y da flexibilidad a la cadena.",
     ),
     "A": dict(
         nombre="Alanina", tres="Ala", grupo="alifatico", tipos=("NP",),
         carga="Neutra", pk1=2.34, pk2=9.69, pkr=None, pi=6.01,
         hidropatia=1.8, masa=89.09, nutricion="No esencial", codones=["GCU", "GCC", "GCA", "GCG"],
         cadena=["        CH3"],
-        pista="Un simple metilo. Es la mejor formadora de hélices α y viaja "
-              "del músculo al hígado en el ciclo glucosa-alanina.",
+        pista="Su R es un metilo: pequeño, no polar y sin nada que estorbe. Es la mejor formadora de hélices α.",
     ),
     "V": dict(
         nombre="Valina", tres="Val", grupo="alifatico", tipos=("NP",),
@@ -152,8 +150,7 @@ AMINOACIDOS = {
             "       /  \\",
             "    H3C    CH3",
         ],
-        pista="Ramificada en β (forma de 'V'). Aminoácido de cadena "
-              "ramificada (BCAA) como Leu e Ile.",
+        pista="Ramificada en el carbono β (forma de «V»): esa rama estorba en la hélice α, así que prefiere las hojas β.",
     ),
     "L": dict(
         nombre="Leucina", tres="Leu", grupo="alifatico", tipos=("NP",),
@@ -167,8 +164,7 @@ AMINOACIDOS = {
             "       /  \\",
             "    H3C    CH3",
         ],
-        pista="Isobutilo. Forma cremalleras de leucina en factores de "
-              "transcripción como Fos y Jun.",
+        pista="Isobutilo: no polar y flexible. En las cremalleras de leucina, sus R encajan entre dos hélices como dientes.",
     ),
     "I": dict(
         nombre="Isoleucina", tres="Ile", grupo="alifatico", tipos=("NP",),
@@ -181,8 +177,7 @@ AMINOACIDOS = {
             "        |",
             "        CH3",
         ],
-        pista="La más hidrofóbica (KD 4.5). Tiene dos carbonos quirales "
-              "(Cα y Cβ). Isómero de Leu.",
+        pista="Ramificada en β como la Val, con dos carbonos quirales (Cα y Cβ). Isómero de la Leu y la más hidrofóbica (KD 4.5).",
     ),
     "M": dict(
         nombre="Metionina", tres="Met", grupo="alifatico", tipos=("NP",),
@@ -197,7 +192,7 @@ AMINOACIDOS = {
             "        |",
             "        CH3",
         ],
-        pista="Tioéter (S sin H). AUG es el codón de inicio: casi toda proteína se empieza a sintetizar con Met. Da origen a la SAM, el donador de metilos.",
+        pista="Tioéter: su S no tiene H, así que no forma disulfuros y es casi no polar. AUG (Met) es el codón de inicio.",
     ),
     "P": dict(
         nombre="Prolina", tres="Pro", grupo="alifatico", tipos=("NP",),
@@ -213,17 +208,14 @@ AMINOACIDOS = {
             "     \\  /",
             "      CH2",
         ],
-        pista="Su α-amino es secundario: la cadena lateral se cierra sobre el N. "
-              "Ese anillo rígido rompe hélices α y forma giros. Su pK2 (10.96) "
-              "es el más alto de todos.",
+        pista="Su R se cierra sobre el N del α-amino (amina secundaria). Sin H en ese N no da el puente de H de la hélice, y el anillo rígido la tuerce: rompe hélices α y forma giros.",
     ),
     "F": dict(
         nombre="Fenilalanina", tres="Phe", grupo="aromatico", tipos=("ARO", "NP"),
         carga="Neutra", pk1=1.83, pk2=9.13, pkr=None, pi=5.48,
         hidropatia=2.8, masa=165.19, nutricion="Esencial", codones=["UUU", "UUC"],
         cadena=["        CH2", "        |"] + BENCENO + ["        CH"],
-        pista="Bencilo. La fenilalanina hidroxilasa la convierte en Tyr; "
-              "si falla esa enzima → fenilcetonuria (PKU).",
+        pista="Bencilo: un anillo aromático sin grupos polares, muy hidrofóbico. Se apila con otros anillos (π–π) y atrae cationes (catión–π).",
     ),
     "Y": dict(
         nombre="Tirosina", tres="Tyr", grupo="aromatico", tipos=("ARO", "POL"),
@@ -234,8 +226,7 @@ AMINOACIDOS = {
             "        |",
             "        OH",
         ],
-        pista="Phe + OH (fenol). Absorbe a 280 nm. Precursora de dopamina, "
-              "adrenalina, melanina y hormonas tiroideas.",
+        pista="Phe + OH: el fenol (pKR 10.07) forma puentes de H y se puede fosforilar. Su anillo absorbe luz a 280 nm.",
     ),
     "W": dict(
         nombre="Triptófano", tres="Trp", grupo="aromatico", tipos=("ARO", "POL"),
@@ -252,8 +243,7 @@ AMINOACIDOS = {
             "  \\       /",
             "   CH===CH",
         ],
-        pista="Indol (anillo doble con N). El más grande y el que más "
-              "absorbe a 280 nm. Precursor de serotonina y melatonina.",
+        pista="Indol: el R más grande, con un N–H que forma puentes de H. Es el que más absorbe a 280 nm.",
     ),
     "S": dict(
         nombre="Serina", tres="Ser", grupo="polar", tipos=("POL",),
@@ -261,25 +251,21 @@ AMINOACIDOS = {
         hidropatia=-0.8, masa=105.09, nutricion="No esencial",
         codones=["UCU", "UCC", "UCA", "UCG", "AGU", "AGC"],
         cadena=["        CH2", "        |", "        OH"],
-        pista="Hidroximetilo. Nucleófilo de las serín-proteasas "
-              "(tripsina, quimotripsina). Blanco clásico de quinasas.",
+        pista="Hidroximetilo: su OH forma puentes de H y es nucleófilo. Por ese OH se fosforila, y es el nucleófilo de las serín-proteasas.",
     ),
     "T": dict(
         nombre="Treonina", tres="Thr", grupo="polar", tipos=("POL",),
         carga="Neutra", pk1=2.11, pk2=9.62, pkr=None, pi=5.87,
         hidropatia=-0.7, masa=119.12, nutricion="Esencial", codones=["ACU", "ACC", "ACA", "ACG"],
         cadena=["        CH-OH", "        |", "        CH3"],
-        pista="Como Ser pero con un CH3 extra; también tiene dos carbonos "
-              "quirales. Se fosforila igual que Ser.",
+        pista="Como la Ser, con un CH3 extra (y dos carbonos quirales). Su OH también forma puentes de H y se fosforila.",
     ),
     "C": dict(
         nombre="Cisteína", tres="Cys", grupo="polar", tipos=("POL",),
         carga="Neutra", pk1=1.96, pk2=10.28, pkr=8.18, pi=5.07,
         hidropatia=2.5, masa=121.16, nutricion="Condicional", codones=["UGU", "UGC"],
         cadena=["        CH2", "        |", "        SH"],
-        pista="Tiol (SH). Dos Cys se oxidan y forman un puente disulfuro "
-              "(cistina). Lehninger la clasifica como polar sin carga, aunque "
-              "su KD (+2.5) indica que es bastante hidrofóbica.",
+        pista="Tiol (SH, pKR 8.18): su S− es muy nucleófilo y se oxida; dos Cys forman un puente disulfuro (cistina). Lehninger la pone en polares sin carga, aunque su KD (+2.5) dice que es bastante hidrofóbica.",
     ),
     "N": dict(
         nombre="Asparagina", tres="Asn", grupo="polar", tipos=("POL",),
@@ -292,8 +278,7 @@ AMINOACIDOS = {
             "       // \\",
             "      O    NH2",
         ],
-        pista="Amida de Asp. Primer aminoácido aislado (de los espárragos). "
-              "Sitio de N-glicosilación (secuencia consenso N-X-S/T).",
+        pista="Amida del Asp: neutra, con un C=O que acepta y un NH2 que dona puentes de H. En la secuencia N-X-S/T recibe azúcares en su N.",
     ),
     "Q": dict(
         nombre="Glutamina", tres="Gln", grupo="polar", tipos=("POL",),
@@ -308,8 +293,7 @@ AMINOACIDOS = {
             "       // \\",
             "      O    NH2",
         ],
-        pista="Amida de Glu. El aminoácido más abundante en sangre: "
-              "transporta nitrógeno (NH3) de forma no tóxica.",
+        pista="Amida del Glu, un CH2 más larga que la Asn. Neutra: su amida acepta y dona puentes de H.",
     ),
     "D": dict(
         nombre="Aspartato", tres="Asp", grupo="acido", tipos=("NEG",),
@@ -322,9 +306,7 @@ AMINOACIDOS = {
             "       // \\",
             "      O    O-",
         ],
-        pista="Carboxilato a pH 7. El pI más bajo de todos (2.77). Dona N al "
-              "ciclo de la urea y forma parte de la tríada catalítica "
-              "(Ser-His-Asp).",
+        pista="Carboxilato (pKR 3.65): a pH 7 tiene carga −, y su pI (2.77) es el más bajo de todos. Forma puentes salinos y une cationes como el Ca²+.",
     ),
     "E": dict(
         nombre="Glutamato", tres="Glu", grupo="acido", tipos=("NEG",),
@@ -339,9 +321,7 @@ AMINOACIDOS = {
             "       // \\",
             "      O    O-",
         ],
-        pista="Un CH2 más que Asp. Principal neurotransmisor excitador y "
-              "sabor 'umami'. Centro del metabolismo del nitrógeno; precursor "
-              "de Gln y Pro.",
+        pista="Un CH2 más que el Asp (pKR 4.25): también − a pH 7. Con la cadena más larga, forma hélices α mejor que el Asp.",
     ),
     "K": dict(
         nombre="Lisina", tres="Lys", grupo="basico", tipos=("POS",),
@@ -358,8 +338,7 @@ AMINOACIDOS = {
             "        |",
             "        NH3+",
         ],
-        pista="Cadena de 4 CH2 con amonio. Abunda en histonas y proteínas "
-              "ribosomales; se acetila, metila y ubiquitina.",
+        pista="Amonio al final de 4 CH2 (pKR 10.53): + a pH 7. Cuando pierde su H+, ese N es nucleófilo: por eso se acetila, se metila y se ubiquitina.",
     ),
     "R": dict(
         nombre="Arginina", tres="Arg", grupo="basico", tipos=("POS",),
@@ -379,9 +358,7 @@ AMINOACIDOS = {
             "       // \\",
             "   +H2N    NH2",
         ],
-        pista="Guanidinio: la base más fuerte (pKR 12.5), siempre +. El pI "
-              "más alto (10.76) y la más hidrofílica (KD −4.5). Origen del "
-              "óxido nítrico (NO).",
+        pista="Guanidinio (pKR 12.48): su carga + se reparte entre 3 N por resonancia, así que casi nunca la pierde. El pI más alto (10.76) y la más hidrofílica (KD −4.5).",
     ),
     "H": dict(
         nombre="Histidina", tres="His", grupo="basico", tipos=("POS",),
@@ -396,9 +373,7 @@ AMINOACIDOS = {
             "        ||       //",
             "        HC------N",
         ],
-        pista="Imidazol con pKR ≈ 6: a pH 7 solo ~10% está "
-              "protonada, a pH 5 casi toda. Por eso cede o toma H+ en sitios "
-              "activos y en la hemoglobina.",
+        pista="Imidazol con pKR ≈ 6, cerca del pH de la célula: a pH 7 solo ~10% está protonado y a pH 5 casi todo. Por eso toma y cede H+ en los sitios activos.",
     ),
 }
 
@@ -451,15 +426,13 @@ def carga_cadena(aa, ph):
     return -1 / (1 + 10 ** (pka - ph))
 
 
-# ============================================ modificaciones postraduccionales
+# ============================================ modificaciones covalentes
 MODIFICACIONES = {
     "Hyp": dict(
         base="P", nombre="Hidroxiprolina", tres="Hyp", tipos=("POL",),
         carga="Neutra", req=dict(nivel=5, objeto="Vitamina C"),
         cambio="Gana un OH en el anillo: de No polar a Polar sin carga.",
-        bio="La prolil 4-hidroxilasa (en el RE) le pone un OH usando vitamina "
-            "C (ascorbato) como cofactor. La Hyp estabiliza la triple hélice "
-            "del colágeno; sin vitamina C el colágeno se deshace → escorbuto.",
+        bio="La prolil 4-hidroxilasa del RE le pone el OH en el C4 del anillo; necesita vitamina C para seguir activa. Ese OH fija el pliegue del anillo que pide la triple hélice del colágeno: sin vitamina C el colágeno es inestable (escorbuto).",
         pista="Hay vitamina C en la matriz extracelular (C en el mapa).",
         completa=[
             "        H",
@@ -478,9 +451,7 @@ MODIFICACIONES = {
               "(≈ 9.7 frente a 10.5 de la Lys), pero a pH 7 sigue siendo +1.",
         cambio="Conserva la carga + (sigue en el grupo básico) y gana un OH "
                "en el carbono δ.",
-        bio="La lisil hidroxilasa (también dependiente de vitamina C) la "
-            "forma en el RE. Sus OH reciben azúcares y crean entrecruzamientos "
-            "que dan resistencia a las fibras de colágeno.",
+        bio="La lisil hidroxilasa del RE (también con vitamina C) le pone un OH en el carbono δ. Ese OH es un punto de anclaje: recibe azúcares y ayuda a entrecruzar las fibras de colágeno.",
         pista="Hay vitamina C en la matriz extracelular (C en el mapa).",
         cadena=[
             "        CH2", "        |", "        CH2", "        |",
@@ -493,9 +464,7 @@ MODIFICACIONES = {
         carga="Neutra", req=dict(nivel=6, zona="nucleo"),
         cambio="Pierde la carga +: el amonio se vuelve una amida neutra. De "
                "Cargado + a Polar sin carga.",
-        bio="Las acetiltransferasas de histonas (HAT) le pasan un acetilo del "
-            "acetil-CoA. Sin carga +, la histona suelta al ADN (−): la "
-            "cromatina se abre y los genes se expresan. Las HDAC lo revierten.",
+        bio="Las HAT pasan el acetilo del acetil-CoA al N de la Lys (cuando ese N está sin su H+ y es nucleófilo). Queda una amida sin carga: la histona se une menos al ADN (−) y la cromatina se abre. Las HDAC lo quitan.",
         pista="Las HAT actúan en el núcleo; entra por un poro.",
         cadena=[
             "        CH2", "        |", "        CH2", "        |",
@@ -511,9 +480,7 @@ MODIFICACIONES = {
               "pierde la carga + a ningún pH.",
         cambio="Sigue siendo + (amonio cuaternario: ya no puede perder la "
                "carga ni acetilarse, porque su N no tiene H).",
-        bio="Las metiltransferasas de histonas (HMT) usan SAM, derivada de la "
-            "Met. H3K4me3 marca genes activos; H3K9me3 y H3K27me3, genes "
-            "silenciados. No cambia la carga, cambia quién se une.",
+        bio="Las metiltransferasas (HMT) le pasan tres metilos de la SAM. Sin H en el N ya no dona puentes de H ni se puede acetilar: la reconocen «jaulas» de anillos aromáticos por catión–π. Según el sitio, activa (H3K4me3) o silencia (H3K9me3) genes.",
         pista="Las HMT actúan en el núcleo.",
         cadena=[
             "        CH2", "        |", "        CH2", "        |",
@@ -525,10 +492,8 @@ MODIFICACIONES = {
         base="S", nombre="Fosfoserina", tres="pSer", tipos=("NEG",),
         carga="Negativa (≈ −2)", req=dict(nivel=4, objeto="ATP"),
         cambio="Gana un fosfato: de Polar sin carga a Cargado − (≈ −2).",
-        bio="Las Ser/Thr quinasas (PKA, PKC, MAPK…) le transfieren el "
-            "fosfato γ del ATP. Es el interruptor más común de la célula; las "
-            "fosfatasas lo quitan.",
-        pista="La mitocondria (☼) recarga ATP.",
+        bio="¿Por qué Ser, Thr y Tyr? Son las únicas con un OH en la cadena lateral: ese O ataca al fosfato γ del ATP y queda un fosfoéster. Ese enlace casi no se rompe solo, pero una fosfatasa lo quita en segundos: un interruptor estable y reversible. El residuo pasa de neutro a ≈ −2 y cambia con quién se une. Una quinasa fosforila muchas copias de su blanco, así que la señal se amplifica.",
+        pista="La mitocondria (Θ) recarga ATP.",
         cadena=["        CH2", "        |", "        O", "        |",
                 "        PO3(2-)"],
     ),
@@ -536,9 +501,8 @@ MODIFICACIONES = {
         base="T", nombre="Fosfotreonina", tres="pThr", tipos=("NEG",),
         carga="Negativa (≈ −2)", req=dict(nivel=4, objeto="ATP"),
         cambio="Gana un fosfato: de Polar sin carga a Cargado − (≈ −2).",
-        bio="Mismas Ser/Thr quinasas que la serina. El motivo pThr-Pro lo "
-            "reconoce la isomerasa Pin1 y controla el ciclo celular (CDKs).",
-        pista="La mitocondria (☼) recarga ATP.",
+        bio="Mismo OH que la Ser, pero en un carbono con un CH3 al lado: más voluminosa, y algunas quinasas prefieren a una o a otra. Las CDK del ciclo celular fosforilan Ser y Thr seguidas de Pro.",
+        pista="La mitocondria (Θ) recarga ATP.",
         cadena=["        CH-O-PO3(2-)", "        |", "        CH3"],
     ),
     "pY": dict(
@@ -546,10 +510,8 @@ MODIFICACIONES = {
         carga="Negativa (≈ −2)", req=dict(nivel=5, objeto="ATP"),
         cambio="El OH del fenol se fosforila: conserva el anillo, pero ahora "
                "tiene carga ≈ −2 (Cargado − / Aromático).",
-        bio="Las tirosina quinasas (como el receptor de insulina, un RTK) la "
-            "generan. Los dominios SH2 la reconocen con una Arg que forma un "
-            "puente salino con el fosfato, y así propagan la señal.",
-        pista="La mitocondria (☼) recarga ATP.",
+        bio="Su OH es de un fenol, más largo y rígido que el de Ser o Thr: lo fosforilan otras quinasas, las tirosina quinasas (como el receptor de insulina). La pTyr sobresale y los dominios SH2 la atrapan: una Arg hace puente salino con el fosfato y el anillo encaja en un bolsillo.",
+        pista="La mitocondria (Θ) recarga ATP.",
         cadena=["        CH2", "        |"] + BENCENO + [
             "        C", "        |", "        O-PO3(2-)",
         ],
@@ -560,9 +522,7 @@ MODIFICACIONES = {
         cambio="Dos Cys se unen por un enlace S–S covalente y pierden los SH. "
                "Lehninger: los residuos unidos por disulfuro son fuertemente "
                "hidrofóbicos (no polares).",
-        bio="En el RE (ambiente oxidante) la PDI, proteína disulfuro "
-            "isomerasa, forma y reacomoda puentes S–S. Estabilizan proteínas "
-            "que salen de la célula: insulina y anticuerpos.",
+        bio="El S− de la Cys se oxida fácil, y dos Cys cercanas forman un S–S covalente. Solo se mantiene donde el ambiente es oxidante (RE, exterior); en el citosol el glutatión lo reduce. La PDI del RE los forma y reacomoda: por eso las proteínas secretadas (insulina, anticuerpos) los tienen.",
         pista="El RE es oxidante; lleva otra Cys en el equipo.",
         cadena=[
             "        CH2", "        |", "        S", "        |",
@@ -575,10 +535,7 @@ MODIFICACIONES = {
         carga="Negativa (≈ −2)", req=dict(nivel=5, objeto="Vitamina K"),
         matiz="▲ Más ácido: dos carboxilatos, carga ≈ −2 frente a −1 del Glu.",
         cambio="Gana un segundo carboxilo en el carbono γ: carga ≈ −2.",
-        bio="La γ-glutamil carboxilasa (en el RE) usa vitamina K. Los Gla de "
-            "la protrombina y los factores VII, IX y X atrapan Ca²+ y anclan "
-            "los factores a la membrana: sin vit. K no hay coagulación (la "
-            "warfarina bloquea este ciclo).",
+        bio="La γ-carboxilasa del RE, con vitamina K, le añade un CO2 en el carbono γ. Los dos carboxilatos juntos atrapan un Ca²+ entre ellos: así los factores de coagulación se pegan a la membrana. La warfarina impide reciclar la vitamina K.",
         pista="Hay vitamina K en el retículo (K en el mapa).",
         cadena=[
             "        CH2", "        |", "        CH",
@@ -590,13 +547,12 @@ MODIFICACIONES = {
         carga="Neutra", req=dict(nivel=5, zona="re"),
         matiz="▲ Más polar: el glicano trae muchos OH que forman puentes de H.",
         cambio="Se le une un árbol de azúcares al N de la amida: aún más polar.",
-        bio="La oligosacariltransferasa (OST) del RE la añade en la secuencia consenso "
-            "N-X-S/T (X ≠ Pro). Los glicanos ayudan al plegamiento (ciclo "
-            "calnexina/calreticulina) y al control de calidad.",
+        bio="La OST del RE pasa un bloque de 14 azúcares al N de la amida mientras la cadena aún sale del ribosoma (es cotraduccional). Solo en N-X-S/T (X ≠ Pro): el OH de la Ser/Thr ayuda a activar ese N, y una Pro torcería el sitio. Los OH del glicano hacen la proteína más soluble y la marcan para el control de plegamiento.",
         pista="La OST trabaja en el retículo endoplásmico.",
         cadena=[
             "        CH2", "        |", "        C", "       // \\",
-            "      O    NH", "             \\", "             GlcNAc-GlcNAc-Man…",
+            "      O    NH", "             \\", "             GlcNAc", "               |",
+            "             GlcNAc", "               |", "             Man…",
         ],
     ),
     "gS": dict(
@@ -605,11 +561,7 @@ MODIFICACIONES = {
         matiz="▲ Más polar: la GalNAc trae varios OH que forman puentes de H.",
         cambio="Se le une una N-acetilgalactosamina (GalNAc) al O del OH: sigue "
                "siendo polar, pero ahora carga un azúcar.",
-        bio="Las GalNAc-transferasas (GALNT) del Golgi le ponen la GalNAc y luego "
-            "se alarga a un O-glicano tipo mucina. A diferencia de la "
-            "N-glicosilación de la Asn (en el RE, sobre la secuencia consenso N-X-S/T), no "
-            "tiene secuencia consenso y empieza en el Golgi. La GalNAc sola es el "
-            "antígeno Tn, que aparece en muchos tumores.",
+        bio="Las GalNAc-transferasas (GALNT) del Golgi ponen la GalNAc en el O del OH, ya fuera del RE. A diferencia de la Asn, aquí el azúcar va en un O y no hay secuencia consenso: basta un tramo expuesto de Ser/Thr, a menudo con Pro cerca.",
         pista="Las GALNT trabajan en el aparato de Golgi.",
         cadena=["        CH2", "        |", "        O", "        |", "        GalNAc…"],
     ),
@@ -619,9 +571,7 @@ MODIFICACIONES = {
         matiz="▲ Más polar: la GalNAc trae varios OH que forman puentes de H.",
         cambio="Se le une una GalNAc al O del OH: sigue siendo polar, pero ahora "
                "carga un azúcar.",
-        bio="Mismas GalNAc-transferasas del Golgi; muchas prefieren Thr. En las "
-            "mucinas, los tramos ricos en Pro, Thr y Ser (PTS) quedan cubiertos de "
-            "O-glicanos que atrapan agua: así se forma el moco.",
+        bio="Mismas GALNT del Golgi; muchas prefieren Thr. En las mucinas, tramos de Pro, Thr y Ser se cubren de O-glicanos: sus OH atrapan agua y forman el moco.",
         pista="Las GALNT trabajan en el aparato de Golgi.",
         cadena=["        CH-O-GalNAc…", "        |", "        CH3"],
     ),
@@ -630,10 +580,7 @@ MODIFICACIONES = {
         carga="Neutra", req=dict(nivel=6),
         cambio="Pierde la carga +: el guanidinio se vuelve una urea neutra "
                "(de Cargado + a Polar sin carga).",
-        bio="Las PAD (peptidil-arginina deiminasas, dependientes de Ca²+) la "
-            "generan. PAD4 citrulina histonas en las trampas de neutrófilos "
-            "(NETs). En la artritis reumatoide aparecen anticuerpos anti-CCP. "
-            "La citrulina libre también es parte del ciclo de la urea.",
+        bio="Las PAD (con Ca²+) hidrolizan el guanidinio de la Arg: sale NH4+ y queda una urea neutra. Perder un + cambia con qué se une la proteína: la PAD4 citrulina histonas y descompacta la cromatina. El sistema inmune puede tomar estas proteínas por extrañas (artritis reumatoide).",
         pista="Solo requiere nivel.",
         cadena=[
             "        CH2", "        |", "        CH2", "        |",
@@ -911,35 +858,22 @@ ZONAS = {
     "ribosomas": dict(
         nombre="Ribosomas", aminos=list("K"), niveles=(3, 5),
         glifo="÷", color="POS",
-        por_que="Ribosomas libres traduciendo ARNm en el citosol. Sus proteínas "
-                "ribosomales son muy ricas en Lys: sus cargas + neutralizan los "
-                "fosfatos (−) del ARN ribosomal. Aquí "
-                "consigues las Lys para tu NLS; en el juego, la Arg solo vive dentro del "
-                "núcleo.",
+        por_que="Ribosomas libres traduciendo ARNm. Sus proteínas son ricas en Lys: sus cargas + neutralizan los fosfatos (−) del ARN ribosomal. Aquí consigues las Lys para tu NLS; la Arg solo vive en el núcleo.",
     ),
     "nucleo": dict(
         nombre="Núcleo (cromatina)", aminos=list("KR"), niveles=(5, 8),
         glifo="§", color="POS",
-        por_que="Las histonas son ricas en Lys y Arg y abrazan al ADN, "
-                "cargado (−) por sus fosfatos; H3 y H4 son las histonas "
-                "«ricas en Arg». La Arg solo aparece aquí y en el nucléolo. "
-                "Para entrar, tu proteína necesita una señal de localización "
-                "nuclear (NLS).",
+        por_que="Las histonas son ricas en Lys y Arg: sus cargas + abrazan al ADN, cargado (−) por sus fosfatos. Para entrar, tu proteína necesita una señal de localización nuclear (NLS).",
     ),
     "nucleolo": dict(
         nombre="Nucléolo", aminos=list("RG"), niveles=(6, 8),
         glifo="▓", color="POS",
-        por_que="Aquí se ensamblan los ribosomas. La nucleolina y la "
-                "fibrilarina tienen dominios RGG/GAR (repeticiones Arg-Gly-Gly) "
-                "que se unen al ARN.",
+        por_que="Aquí se ensamblan los ribosomas. Proteínas como la nucleolina repiten Arg-Gly-Gly: las Arg (+) se unen al ARN (−) y las Gly le dan flexibilidad.",
     ),
     "re": dict(
         nombre="Retículo endoplásmico", aminos=list("DE"), niveles=(4, 7),
         glifo="░", color="NEG",
-        por_que="Aquí viven los ácidos (−): el RE es el almacén de Ca²+ de "
-                "la célula y proteínas como la calreticulina están llenas de "
-                "Asp y Glu para retenerlo. Su membrana es continua con la "
-                "envoltura nuclear.",
+        por_que="Aquí viven los ácidos (−): el RE guarda Ca²+, y proteínas como la calreticulina lo retienen con muchos Asp y Glu.",
     ),
     "golgi": dict(
         nombre="Aparato de Golgi", aminos=list("NST"), niveles=(4, 7),
@@ -950,9 +884,7 @@ ZONAS = {
     "lisosoma": dict(
         nombre="Lisosoma", aminos=list("HC"), niveles=(5, 8),
         glifo="●", color="NEG",
-        por_que="pH ≈ 4.5–5: la His (pKR 6) queda protonada (+). Las "
-                "catepsinas B y L son cisteín-proteasas: su Cys catalítica "
-                "trabaja junto con una His (díada catalítica).",
+        por_que="pH ≈ 4.5–5, por debajo del pKR de la His (6): aquí queda protonada (+). Sus proteasas (catepsinas B y L) usan una Cys catalítica junto a una His.",
     ),
     "mec": dict(
         nombre="Matriz extracelular", aminos=list("GP"), niveles=(5, 8),
@@ -963,10 +895,8 @@ ZONAS = {
     ),
     "mitocondria": dict(
         nombre="Mitocondria", aminos=[], niveles=(0, 0),
-        glifo="☼", color="titulo",
-        por_que="La fosforilación oxidativa produce ATP: aquí tu equipo "
-                "restablece su energía y tú recargas ATP. También es donde se "
-                "degradan los aminoácidos ramificados (Val, Leu, Ile).",
+        glifo="Θ", color="titulo",
+        por_que="La fosforilación oxidativa produce ATP: aquí tu equipo restablece su energía y tú recargas ATP.",
     ),
 }
 
@@ -1014,10 +944,10 @@ GLOSARIO = [
                           "D=Asp, E=Glu, K=Lys, R=Arg."),
     ("Codón / anticodón", "Triplete del ARNm y su complemento en el ARNt "
                           "(antiparalelo). AUG = Met = inicio."),
-    ("Modificación postraduccional", "Cambio químico de un residuo dentro de una "
-                                     "proteína, durante o después de la traducción: "
-                                     "fosforilación, acetilación, "
-                                     "hidroxilación, glicosilación…"),
+    ("Modificación covalente", "Enlace nuevo en la cadena lateral de un residuo de una "
+                               "proteína. Cotraduccional si ocurre mientras el ribosoma "
+                               "traduce (N-glicosilación) y postraduccional si ocurre "
+                               "después (fosforilación, acetilación)."),
     ("Puente salino", "Atracción entre una carga + y una − (Lys–Asp)."),
     ("Efecto hidrofóbico", "Las cadenas no polares se juntan porque así "
                            "liberan agua ordenada a su alrededor."),

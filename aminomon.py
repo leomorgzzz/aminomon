@@ -107,6 +107,7 @@ from idioma import tr
 PROB_ENCUENTRO = 0.10
 PANEL_W = 34
 LARGO_CADENA = 12         # residuos del equipo que te siguen por el mapa
+PASOS_CORRER = 4          # casillas por tecla al correr
 LOGO = [
     "   _   __  __ ___ _  _  ___  __  __  ___  _  _ ",
     "  /_\\ |  \\/  |_ _| \\| |/ _ \\|  \\/  |/ _ \\| \\| |",
@@ -278,8 +279,8 @@ def intro(win):
     pedir_nombre(win, juego)
     d.dialogo(win, [
         tr("Hola, {jugador}.", jugador=progreso.jugador(juego)) + " " +
-        tr("Soy el René-virus: no enfermo a nadie, solo estudio proteómica. Como la mayoría de los virus, no traigo ribosomas: mis proteínas las hacen los de la célula con los 20 aminoácidos estándar. (Algunos virus gigantes y fagos traen genes de unas pocas proteínas ribosomales, pero ninguno arma un ribosoma completo.) Tu trabajo: encontrar y caracterizar esos 20."),
-        tr("En el juego, cada aminoácido vive donde su química es protagonista: los no polares en la membrana, los básicos junto al ARN y al ADN. En una célula real hay aminoácidos libres en todas partes."),
+        tr("Soy el René-virus y estudio proteómica. No traigo ribosomas: mis proteínas las hace la célula con los 20 aminoácidos estándar. Tu trabajo: encontrar y caracterizar esos 20."),
+        tr("En el juego, cada aminoácido vive donde su química importa: los no polares en la membrana, los básicos junto al ARN y al ADN (en una célula real, los libres están en todas partes)."),
         tr("Cada aminoácido es de uno de los 5 grupos de Lehninger y cada movimiento usa la química de uno de ellos. La afinidad depende de la interacción real entre los dos grupos (tabla en el manual [M])."),
         tr("Empiezas con Metionina: AUG es el codón de inicio, así que casi toda proteína se empieza a sintetizar con ella."),
     ], tr("René-virus"))
@@ -322,7 +323,7 @@ def intro(win):
            "En las zonas marcadas con símbolos aparecen aminoácidos salvajes. "
            "Deduce su grupo [D], usa movimientos afines y, con afinidad ≥ 50, "
            "lanza un ARNt [T].", nombre=a["nombre"], jugador=progreso.jugador(juego)),
-        tr("La mitocondria (☼) restablece a tu equipo y recarga el ATP, que se gasta al fosforilar (Equipo → V). Los jefes (J) piden construir péptidos. Para entrar al núcleo necesitas una NLS: junta 4 Lys (K) en los ribosomas (÷). Los carteles (i) explican cada zona. Yo soy la V del mapa: búscame para pedir consejo."),
+        tr("La mitocondria (Θ) recupera a tu equipo y recarga ATP. Los jefes (J) piden construir péptidos. Para entrar al núcleo junta 4 Lys (K) en los ribosomas (÷): son tu NLS. Los carteles (i) explican cada zona; yo soy la V del mapa."),
         tr("Para atrapar un aminoácido hay que reconocer su estructura. Practica en la Aminodex ([X] y luego [P]): los que fallas saldrán más seguido."),
     ], tr("René-virus"))
     progreso.guardar(juego)
@@ -373,7 +374,7 @@ class Partida:
                   d.c("tenue"))
         mapa.dibujar(w, 1, 0, vh, vw, j, self.cadena())
         d.put(w, alto - 2, 1, self.mensaje[: ancho - 2], d.c("texto"))
-        pie = tr("WASD/flechas mover · M manual · X Aminodex (P practicar) · E equipo · G guardar · Q salir")
+        pie = tr("WASD mover · C correr · M manual · X Aminodex · E equipo · G guardar · Q salir")
         if "cadena" in j["recompensas"]:
             pie += tr(" · P cadena")
         d.put(w, alto - 1, 1, pie, d.c("tenue"))
@@ -473,35 +474,50 @@ class Partida:
             mapa.minimapa(w, y + 1, x + 1, mh, PANEL_W - 2, j)
 
     # ---------------------------------------------------------- acciones
+    def caminar(self, dx, dy, k):
+        """Un paso; corriendo (Mayús + WASD, o C para dejarlo fijo) son hasta
+        PASOS_CORRER, y se para en cuanto pasa algo."""
+        corre = (isinstance(k, str) and k.isupper()) or self.juego.get("ajustes", {}).get("correr")
+        for i in range(PASOS_CORRER if corre else 1):
+            if i:
+                self.dibujar()
+                curses.napms(12)
+            if not self.mover(dx, dy):
+                return
+
     def mover(self, dx, dy):
+        """Da un paso. Devuelve True si se puede seguir corriendo (no pasó nada)."""
         j = self.juego
         x, y = j["pos"]
         nx, ny = x + dx, y + dy
         if not mapa.transitable(nx, ny):
             if mapa.tile(nx, ny) == "=":
                 self.mensaje = tr("La envoltura nuclear no deja pasar: entra por un poro (O).")
-            return
+            return False
         if mapa.tile(nx, ny) == "O" and "nucleo" not in j["insignias"]:
             if not jefes.retar(self.win, j, "nucleo"):
                 self.mensaje = tr("El poro nuclear no te deja pasar sin una NLS (≥ 4 Lys). "
                                   "Búscalas en los ribosomas (÷).")
-                return
+                return False
             progreso.guardar(j)
         self.rastro.insert(0, (x, y))
         del self.rastro[LARGO_CADENA:]
         j["pos"] = [nx, ny]
         self.mensaje = ""
         zona = mapa.zona(nx, ny)
-        if zona != self.zona:
+        nueva = zona != self.zona
+        if nueva:
             self.entrar_zona(zona)
         self.zona = zona
         especial = mapa.especial_en(nx, ny)
         if especial:
             self.interactuar(especial)
-            return
+            return False
         t = mapa.tile(nx, ny)
         if t in mapa.HIERBA and random.random() < PROB_ENCUENTRO:
             self.encuentro(mapa.HIERBA[t])
+            return False
+        return not nueva
 
     def entrar_zona(self, zona):
         j = self.juego
@@ -528,12 +544,23 @@ class Partida:
         if especial == "rene":
             self.regalos()
             self.consejo()
-            if j.get("doctorado"):
-                ops = [("encargo", tr("Encargo de síntesis")),
-                       ("lab", tr("Laboratorio del René-virus (titulación, electroforesis…)")),
-                       ("sec", tr("Selenocisteína (ficha)") if j.get("sec")
-                        else tr("Selenocisteína (evento)")),
-                       ("examen", tr("Repetir el examen final")), ("nada", tr("Nada por ahora"))]
+            if (posgame.sec_disponible(j) and not j.get("sec")
+                    and "sec_intro" not in j["recompensas"]):
+                # la primera vez que se puede, el René-virus lo cuenta él mismo
+                j["recompensas"].append("sec_intro")
+                progreso.guardar(j)
+                posgame.evento_sec(self.win, j, intro=True)
+            elif j.get("terminado"):
+                if j.get("doctorado"):
+                    ops = [("encargo", tr("Encargo de síntesis")),
+                           ("lab", tr("Laboratorio del René-virus (titulación, electroforesis…)")),
+                           ("examen", tr("Repetir el examen final"))]
+                else:
+                    ops = [("examen", tr("Examen final del René-virus"))]
+                if posgame.sec_disponible(j):
+                    ops.append(("sec", tr("Selenocisteína (ficha)") if j.get("sec")
+                                else tr("Selenocisteína (evento)")))
+                ops.append(("nada", tr("Nada por ahora")))
                 op = d.menu(self.win, tr("René-virus"), [t for _, t in ops])
                 clave = ops[op][0] if op is not None else "nada"
                 if clave == "encargo":
@@ -545,15 +572,6 @@ class Partida:
                 elif clave == "examen":
                     jefes.examen_rene(self.win, j)
                 progreso.guardar(j)
-            elif progreso.aminodex_completa(j) and not j.get("sec"):
-                if d.menu(self.win, tr("¿Ver el evento de la selenocisteína?"),
-                          [tr("Sí"), tr("Ahora no")]) == 0:
-                    posgame.evento_sec(self.win, j)
-            elif j.get("terminado"):
-                if d.menu(self.win, tr("¿Tomar el examen final del René-virus?"),
-                          [tr("Sí"), tr("Ahora no")]) == 0:
-                    jefes.examen_rene(self.win, j)
-                    progreso.guardar(j)
         elif especial == "chaperona":
             jefes.chaperona(self.win, j)
             progreso.guardar(j)
@@ -592,11 +610,7 @@ class Partida:
         if progreso.modificaciones_completas(j) and "ptm" not in j["recompensas"]:
             j["recompensas"].append("ptm")
             self.dibujar()
-            d.popup(self.win, tr("¡{jugador}, conseguiste todas las modificaciones "
-                                 "postraduccionales! En tu cadena, los residuos "
-                                 "modificados ahora se ven marcados con el color de su "
-                                 "nuevo grupo, y el título del mapa se pinta con los 5 "
-                                 "grupos de Lehninger.", jugador=progreso.jugador(j)),
+            d.popup(self.win, tr("¡{jugador}, conseguiste todas las modificaciones covalentes! Ahora en tu cadena los residuos modificados llevan el color de su nuevo grupo.", jugador=progreso.jugador(j)),
                     tr("René-virus"), attr=d.c("bien"))
         if progreso.todo_completo(j) and "final" not in j["recompensas"]:
             j["recompensas"].append("final")
@@ -648,7 +662,7 @@ class Partida:
                 partes.append(tr("Terminaste mis encargos. En «Síntesis libre» quedan los "
                                  "otros péptidos del catálogo, y puedes repetir mi examen."))
         if not all(m["energia"] > 0 for m in j["equipo"]):
-            partes.append(tr("Tu equipo está cansado: ve a la mitocondria (☼)."))
+            partes.append(tr("Tu equipo está cansado: ve a la mitocondria (Θ)."))
         lista = progreso.pendientes(j)
         hechos = sum(h for _, h in lista)
         partes.append(tr("Para terminar todo ({h}/{n}):", h=hechos, n=len(lista)) + "\n"
@@ -677,7 +691,11 @@ class Partida:
                 j["recompensas"].append("aviso_aminodex")
                 self.dibujar()          # sin el aviso de captura detrás
                 d.popup(self.win, tr("¡{jugador}, capturaste los 20 aminoácidos estándar! Habla con "
-                                     "el René-virus (V): tiene algo para ti.", jugador=progreso.jugador(j)),
+                                     "el René-virus (V): tiene algo para ti.", jugador=progreso.jugador(j))
+                        if j.get("terminado") else
+                        tr("¡{jugador}, capturaste los 20 aminoácidos estándar! Con la Maestría "
+                           "de la Chaperona, el René-virus (V) tendrá algo para ti.",
+                           jugador=progreso.jugador(j)),
                         tr("Aminodex completa"),
                         attr=d.c("bien"))
             progreso.guardar(j)
@@ -700,13 +718,13 @@ class Partida:
             self.dibujar()
             k = d.tecla(self.win)
             if d.es(k, curses.KEY_UP, "w"):
-                self.mover(0, -1)
+                self.caminar(0, -1, k)
             elif d.es(k, curses.KEY_DOWN, "s"):
-                self.mover(0, 1)
+                self.caminar(0, 1, k)
             elif d.es(k, curses.KEY_LEFT, "a"):
-                self.mover(-1, 0)
+                self.caminar(-1, 0, k)
             elif d.es(k, curses.KEY_RIGHT, "d"):
-                self.mover(1, 0)
+                self.caminar(1, 0, k)
             elif d.es(k, "m", "?"):
                 manual.mostrar(self.win, self.juego)
             elif d.es(k, "x"):
@@ -724,6 +742,11 @@ class Partida:
                                 if ajustes["sonido"] else tr("Sonido desactivado."))
                 if ajustes["sonido"]:
                     progreso.sonar(True)
+            elif d.es(k, "c"):
+                ajustes = self.juego.setdefault("ajustes", {})
+                ajustes["correr"] = not ajustes.get("correr", False)
+                self.mensaje = (tr("Corriendo: avanzas {n} casillas por tecla (C para caminar).",
+                                   n=PASOS_CORRER) if ajustes["correr"] else tr("Caminando."))
             elif d.es(k, "g"):
                 progreso.guardar(self.juego)
                 self.mensaje = tr("Partida guardada en ~/.aminomon.json")

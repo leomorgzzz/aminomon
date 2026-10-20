@@ -166,6 +166,8 @@ import aminodex  # noqa: E402
 import posgame  # noqa: E402
 import progreso  # noqa: E402
 import sintesis  # noqa: E402
+import dibujo as d  # noqa: E402
+import preguntas  # noqa: E402
 
 # el ribosoma siempre ofrece el ARNt correcto, sin aminoácidos repetidos, y
 # cada anticodón se aparea de verdad con un codón de su aminoácido
@@ -217,6 +219,34 @@ for alto, ancho in ((24, 80), (30, 100), (42, 130)):
                 inalcanzables.append(f"{ancho}×{alto} {aa} {k}")
 revisar("en la titulación se puede llegar a todos los pK y al pI", not inalcanzables,
         ", ".join(inalcanzables))
+
+# las estructuras caben en el hueco del sprite del combate y de la pantalla de
+# modificación (24 columnas): si una es más ancha, se encima con el texto
+anchas = [f"{k} ({d.ancho_estructura(datos.forma(k)['arte'])})"
+          for k in list(datos.ORDEN) + list(datos.MODIFICACIONES)
+          if d.ancho_estructura(datos.forma(k)["arte"]) > 22]
+anchas += ["Sec"] if d.ancho_estructura(posgame.SEC_ARTE) > 22 else []
+revisar("ninguna estructura es más ancha que su hueco (22 columnas)", not anchas,
+        ", ".join(anchas))
+
+# el gel y la columna arman sus muestras sin trabarse, a cualquier pH
+trabados = []
+for ph in (3.0, 6.0, 7.0, 9.5):
+    for _ in range(200):
+        tres = posgame._carriles(ph)
+        lados = [posgame._lado(c, ph) for c in tres]
+        if None in lados or len(set(lados)) < 2 or len(set(tres)) < 3:
+            trabados.append(f"pH {ph}: {tres}")
+            break
+revisar("la electroforesis siempre tiene carriles válidos (y no se traba)", not trabados,
+        ", ".join(trabados))
+
+# el examen de la Chaperona no repite aminoácido ni tipo de pregunta
+hechas = []
+for _ in range(jefes.PREGUNTAS_CHAPERONA):
+    hechas.append(preguntas.elegir_aleatoria(progreso.nuevo_juego([0, 0]), hechas))
+revisar("el examen de la Chaperona no repite preguntas",
+        len({a for a, _ in hechas}) == len(hechas) == len({t for _, t in hechas}), str(hechas))
 
 # una partida de una versión vieja (sin campos nuevos y con 2 péptidos del
 # catálogo viejo) carga y se puede usar

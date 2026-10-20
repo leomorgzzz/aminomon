@@ -233,84 +233,44 @@ EN = {
         'We synthesize enough of it.',
     'Glicina':
         'Glycine',
-    'La más pequeña y la única sin carbono quiral (su R es un H). Es 1 de cada 3 residuos del colágeno.':
-        "The smallest and the only one without a chiral carbon (its R is an H). It's 1 of every 3 residues in collagen.",
     'Alanina':
         'Alanine',
-    'Un simple metilo. Es la mejor formadora de hélices α y viaja del músculo al hígado en el ciclo glucosa-alanina.':
-        "A simple methyl. It's the best α-helix former and travels from muscle to liver in the glucose-alanine cycle.",
     'Valina':
         'Valine',
-    "Ramificada en β (forma de 'V'). Aminoácido de cadena ramificada (BCAA) como Leu e Ile.":
-        "Branched at β ('V' shape). A branched-chain amino acid (BCAA) like Leu and Ile.",
     'Leucina':
         'Leucine',
-    'Isobutilo. Forma cremalleras de leucina en factores de transcripción como Fos y Jun.':
-        'Isobutyl. It forms leucine zippers in transcription factors such as Fos and Jun.',
     'Isoleucina':
         'Isoleucine',
-    'La más hidrofóbica (KD 4.5). Tiene dos carbonos quirales (Cα y Cβ). Isómero de Leu.':
-        'The most hydrophobic (KD 4.5). It has two chiral carbons (Cα and Cβ). Isomer of Leu.',
     'Metionina':
         'Methionine',
-    'Tioéter (S sin H). AUG es el codón de inicio: casi toda proteína se empieza a sintetizar con Met. Da origen a la SAM, el donador de metilos.':
-        'Thioether (S without H). AUG is the start codon: almost every protein starts being made with Met. It gives rise to SAM, the methyl donor.',
     'Prolina':
         'Proline',
-    'Su α-amino es secundario: la cadena lateral se cierra sobre el N. Ese anillo rígido rompe hélices α y forma giros. Su pK2 (10.96) es el más alto de todos.':
-        'Its α-amino is secondary: the side chain closes back onto the N. That rigid ring breaks α helices and forms turns. Its pK2 (10.96) is the highest of all.',
     'Fenilalanina':
         'Phenylalanine',
-    'Bencilo. La fenilalanina hidroxilasa la convierte en Tyr; si falla esa enzima → fenilcetonuria (PKU).':
-        'Benzyl. Phenylalanine hydroxylase converts it into Tyr; if that enzyme fails → phenylketonuria (PKU).',
     'Tirosina':
         'Tyrosine',
-    'Phe + OH (fenol). Absorbe a 280 nm. Precursora de dopamina, adrenalina, melanina y hormonas tiroideas.':
-        'Phe + OH (phenol). Absorbs at 280 nm. Precursor of dopamine, adrenaline, melanin and thyroid hormones.',
     'Triptófano':
         'Tryptophan',
-    'Indol (anillo doble con N). El más grande y el que más absorbe a 280 nm. Precursor de serotonina y melatonina.':
-        'Indole (double ring with N). The largest one and the strongest absorber at 280 nm. Precursor of serotonin and melatonin.',
     'Serina':
         'Serine',
-    'Hidroximetilo. Nucleófilo de las serín-proteasas (tripsina, quimotripsina). Blanco clásico de quinasas.':
-        'Hydroxymethyl. The nucleophile of serine proteases (trypsin, chymotrypsin). A classic kinase target.',
     'Treonina':
         'Threonine',
-    'Como Ser pero con un CH3 extra; también tiene dos carbonos quirales. Se fosforila igual que Ser.':
-        "Like Ser but with an extra CH3; it also has two chiral carbons. It's phosphorylated just like Ser.",
     'Cisteína':
         'Cysteine',
-    'Tiol (SH). Dos Cys se oxidan y forman un puente disulfuro (cistina). Lehninger la clasifica como polar sin carga, aunque su KD (+2.5) indica que es bastante hidrofóbica.':
-        "Thiol (SH). Two Cys oxidize and form a disulfide bridge (cystine). Lehninger classifies it as polar uncharged, although its KD (+2.5) shows it's quite hydrophobic.",
     'Asparagina':
         'Asparagine',
-    'Amida de Asp. Primer aminoácido aislado (de los espárragos). Sitio de N-glicosilación (secuencia consenso N-X-S/T).':
-        'Amide of Asp. The first amino acid ever isolated (from asparagus). N-glycosylation site (sequon N-X-S/T).',
     'Glutamina':
         'Glutamine',
-    'Amida de Glu. El aminoácido más abundante en sangre: transporta nitrógeno (NH3) de forma no tóxica.':
-        'Amide of Glu. The most abundant amino acid in blood: it carries nitrogen (NH3) in a non-toxic form.',
     'Aspartato':
         'Aspartate',
-    'Carboxilato a pH 7. El pI más bajo de todos (2.77). Dona N al ciclo de la urea y forma parte de la tríada catalítica (Ser-His-Asp).':
-        'Carboxylate at pH 7. The lowest pI of all (2.77). It donates N to the urea cycle and is part of the catalytic triad (Ser-His-Asp).',
     'Glutamato':
         'Glutamate',
-    "Un CH2 más que Asp. Principal neurotransmisor excitador y sabor 'umami'. Centro del metabolismo del nitrógeno; precursor de Gln y Pro.":
-        "One CH2 more than Asp. The main excitatory neurotransmitter and the 'umami' taste. Hub of nitrogen metabolism; precursor of Gln and Pro.",
     'Lisina':
         'Lysine',
-    'Cadena de 4 CH2 con amonio. Abunda en histonas y proteínas ribosomales; se acetila, metila y ubiquitina.':
-        'Chain of 4 CH2 with an ammonium. Abundant in histones and ribosomal proteins; it gets acetylated, methylated and ubiquitinated.',
     'Arginina':
         'Arginine',
-    'Guanidinio: la base más fuerte (pKR 12.5), siempre +. El pI más alto (10.76) y la más hidrofílica (KD −4.5). Origen del óxido nítrico (NO).':
-        'Guanidinium: the strongest base (pKR 12.5), always +. The highest pI (10.76) and the most hydrophilic (KD −4.5). Source of nitric oxide (NO).',
     'Histidina':
         'Histidine',
-    'Imidazol con pKR ≈ 6: a pH 7 solo ~10% está protonada, a pH 5 casi toda. Por eso cede o toma H+ en sitios activos y en la hemoglobina.':
-        "Imidazole with pKR ≈ 6: at pH 7 only ~10% is protonated, at pH 5 almost all of it. That's why it gives or takes H+ in active sites and in hemoglobin.",
     'Es polar sin carga por el S–H, pero el S casi no es más electronegativo que el C (2.58 frente a 2.55): el S–H es muy poco polar y forma puentes de H débiles. Además suele estar enterrada en las proteínas (sola o en disulfuros), así que su KD es +2.5. Otros libros la ponen con los hidrofóbicos.':
         "It's polar uncharged because of the S–H, but S is barely more electronegative than C (2.58 vs 2.55): the S–H is only weakly polar and forms weak H-bonds. It's also usually buried inside proteins (alone or in disulfides), so its KD is +2.5. Other textbooks put it with the hydrophobic ones.",
     'Su anillo es poco polar, pero el O–H del fenol forma puentes de H con el agua: KD −1.3, mucho menos hidrofóbica que la Phe (+2.8).':
@@ -321,22 +281,16 @@ EN = {
         'Hydroxyproline',
     'Gana un OH en el anillo: de No polar a Polar sin carga.':
         'Gains an OH on the ring: from Nonpolar to Polar uncharged.',
-    'La prolil 4-hidroxilasa (en el RE) le pone un OH usando vitamina C (ascorbato) como cofactor. La Hyp estabiliza la triple hélice del colágeno; sin vitamina C el colágeno se deshace → escorbuto.':
-        'Prolyl 4-hydroxylase (in the ER) adds an OH using vitamin C (ascorbate) as a cofactor. Hyp stabilizes the collagen triple helix; without vitamin C collagen falls apart → scurvy.',
     'Hay vitamina C en la matriz extracelular (C en el mapa).':
         "There's vitamin C in the extracellular matrix (C on the map).",
     'Hidroxilisina':
         'Hydroxylysine',
     'Conserva la carga + (sigue en el grupo básico) y gana un OH en el carbono δ.':
         'Keeps its + charge (stays in the basic group) and gains an OH on the δ carbon.',
-    'La lisil hidroxilasa (también dependiente de vitamina C) la forma en el RE. Sus OH reciben azúcares y crean entrecruzamientos que dan resistencia a las fibras de colágeno.':
-        'Lysyl hydroxylase (also vitamin C-dependent) makes it in the ER. Its OH groups receive sugars and form cross-links that make collagen fibers strong.',
     'Acetil-lisina':
         'Acetyl-lysine',
     'Pierde la carga +: el amonio se vuelve una amida neutra. De Cargado + a Polar sin carga.':
         'Loses its + charge: the ammonium becomes a neutral amide. From Charged + to Polar uncharged.',
-    'Las acetiltransferasas de histonas (HAT) le pasan un acetilo del acetil-CoA. Sin carga +, la histona suelta al ADN (−): la cromatina se abre y los genes se expresan. Las HDAC lo revierten.':
-        'Histone acetyltransferases (HATs) transfer an acetyl from acetyl-CoA. Without the + charge, the histone lets go of the DNA (−): chromatin opens up and genes are expressed. HDACs reverse it.',
     'Las HAT actúan en el núcleo; entra por un poro.':
         'HATs act in the nucleus; enter through a pore.',
     'Trimetil-lisina':
@@ -345,8 +299,6 @@ EN = {
         'Positive (+1, permanent)',
     'Sigue siendo + (amonio cuaternario: ya no puede perder la carga ni acetilarse, porque su N no tiene H).':
         'Still + (quaternary ammonium: it can no longer lose its charge or be acetylated, because its N has no H).',
-    'Las metiltransferasas de histonas (HMT) usan SAM, derivada de la Met. H3K4me3 marca genes activos; H3K9me3 y H3K27me3, genes silenciados. No cambia la carga, cambia quién se une.':
-        "Histone methyltransferases (HMTs) use SAM, derived from Met. H3K4me3 marks active genes; H3K9me3 and H3K27me3, silenced genes. It doesn't change the charge, it changes who binds.",
     'Las HMT actúan en el núcleo.':
         'HMTs act in the nucleus.',
     'Fosfoserina':
@@ -355,64 +307,46 @@ EN = {
         'Negative (≈ −2)',
     'Gana un fosfato: de Polar sin carga a Cargado − (≈ −2).':
         'Gains a phosphate: from Polar uncharged to Charged − (≈ −2).',
-    'Las Ser/Thr quinasas (PKA, PKC, MAPK…) le transfieren el fosfato γ del ATP. Es el interruptor más común de la célula; las fosfatasas lo quitan.':
-        "Ser/Thr kinases (PKA, PKC, MAPK…) transfer ATP's γ phosphate to it. It's the most common switch in the cell; phosphatases remove it.",
-    'La mitocondria (☼) recarga ATP.':
-        'The mitochondrion (☼) recharges ATP.',
+    'La mitocondria (Θ) recarga ATP.':
+        'The mitochondrion (Θ) recharges ATP.',
     'Fosfotreonina':
         'Phosphothreonine',
-    'Mismas Ser/Thr quinasas que la serina. El motivo pThr-Pro lo reconoce la isomerasa Pin1 y controla el ciclo celular (CDKs).':
-        'Same Ser/Thr kinases as serine. The pThr-Pro motif is recognized by the isomerase Pin1 and controls the cell cycle (CDKs).',
     'Fosfotirosina':
         'Phosphotyrosine',
     'El OH del fenol se fosforila: conserva el anillo, pero ahora tiene carga ≈ −2 (Cargado − / Aromático).':
         'The phenol OH gets phosphorylated: it keeps the ring, but now has a ≈ −2 charge (Charged − / Aromatic).',
-    'Las tirosina quinasas (como el receptor de insulina, un RTK) la generan. Los dominios SH2 la reconocen con una Arg que forma un puente salino con el fosfato, y así propagan la señal.':
-        "Tyrosine kinases (like the insulin receptor, an RTK) produce it. SH2 domains recognize it with an Arg that forms a salt bridge with the phosphate, and that's how they pass the signal on.",
     'Cistina':
         'Cystine',
     'Dos Cys se unen por un enlace S–S covalente y pierden los SH. Lehninger: los residuos unidos por disulfuro son fuertemente hidrofóbicos (no polares).':
         'Two Cys join through a covalent S–S bond and lose their SH. Lehninger: residues linked by a disulfide are strongly hydrophobic (nonpolar).',
-    'En el RE (ambiente oxidante) la PDI, proteína disulfuro isomerasa, forma y reacomoda puentes S–S. Estabilizan proteínas que salen de la célula: insulina y anticuerpos.':
-        'In the ER (an oxidizing environment) PDI, protein disulfide isomerase, forms and rearranges S–S bridges. They stabilize proteins that leave the cell: insulin and antibodies.',
     'El RE es oxidante; lleva otra Cys en el equipo.':
         'The ER is oxidizing; bring another Cys in your team.',
     'γ-carboxiglutamato':
         'γ-carboxyglutamate',
     'Gana un segundo carboxilo en el carbono γ: carga ≈ −2.':
         'Gains a second carboxyl on the γ carbon: charge ≈ −2.',
-    'La γ-glutamil carboxilasa (en el RE) usa vitamina K. Los Gla de la protrombina y los factores VII, IX y X atrapan Ca²+ y anclan los factores a la membrana: sin vit. K no hay coagulación (la warfarina bloquea este ciclo).':
-        "γ-glutamyl carboxylase (in the ER) uses vitamin K. The Gla residues of prothrombin and factors VII, IX and X trap Ca²+ and anchor the factors to the membrane: without vit. K there's no clotting (warfarin blocks this cycle).",
     'Hay vitamina K en el retículo (K en el mapa).':
         "There's vitamin K in the reticulum (K on the map).",
     'Asn N-glicosilada':
         'N-glycosyl Asn',
     'Se le une un árbol de azúcares al N de la amida: aún más polar.':
         'A tree of sugars attaches to the amide N: even more polar.',
-    'La oligosacariltransferasa (OST) del RE la añade en la secuencia consenso N-X-S/T (X ≠ Pro). Los glicanos ayudan al plegamiento (ciclo calnexina/calreticulina) y al control de calidad.':
-        "The ER's oligosaccharyltransferase (OST) adds it at the sequon N-X-S/T (X ≠ Pro). Glycans help folding (calnexin/calreticulin cycle) and quality control.",
     'La OST trabaja en el retículo endoplásmico.':
         'OST works in the endoplasmic reticulum.',
     'Ser O-glicosilada':
         'O-glycosyl Ser',
     'Se le une una N-acetilgalactosamina (GalNAc) al O del OH: sigue siendo polar, pero ahora carga un azúcar.':
         "An N-acetylgalactosamine (GalNAc) attaches to the O of the OH: it's still polar, but now carries a sugar.",
-    'Las GalNAc-transferasas (GALNT) del Golgi le ponen la GalNAc y luego se alarga a un O-glicano tipo mucina. A diferencia de la N-glicosilación de la Asn (en el RE, sobre la secuencia consenso N-X-S/T), no tiene secuencia consenso y empieza en el Golgi. La GalNAc sola es el antígeno Tn, que aparece en muchos tumores.':
-        "The Golgi's GalNAc-transferases (GALNTs) add the GalNAc, which is then extended into a mucin-type O-glycan. Unlike Asn N-glycosylation (in the ER, on the N-X-S/T sequon), it has no consensus sequence and starts in the Golgi. GalNAc alone is the Tn antigen, which shows up in many tumors.",
     'Las GALNT trabajan en el aparato de Golgi.':
         'GALNTs work in the Golgi apparatus.',
     'Thr O-glicosilada':
         'O-glycosyl Thr',
     'Se le une una GalNAc al O del OH: sigue siendo polar, pero ahora carga un azúcar.':
         "A GalNAc attaches to the O of the OH: it's still polar, but now carries a sugar.",
-    'Mismas GalNAc-transferasas del Golgi; muchas prefieren Thr. En las mucinas, los tramos ricos en Pro, Thr y Ser (PTS) quedan cubiertos de O-glicanos que atrapan agua: así se forma el moco.':
-        "Same Golgi GalNAc-transferases; many prefer Thr. In mucins, stretches rich in Pro, Thr and Ser (PTS) get covered with O-glycans that trap water: that's how mucus forms.",
     'Citrulina':
         'Citrulline',
     'Pierde la carga +: el guanidinio se vuelve una urea neutra (de Cargado + a Polar sin carga).':
         'Loses its + charge: the guanidinium becomes a neutral urea (from Charged + to Polar uncharged).',
-    'Las PAD (peptidil-arginina deiminasas, dependientes de Ca²+) la generan. PAD4 citrulina histonas en las trampas de neutrófilos (NETs). En la artritis reumatoide aparecen anticuerpos anti-CCP. La citrulina libre también es parte del ciclo de la urea.':
-        'PADs (peptidyl-arginine deiminases, Ca²+-dependent) produce it. PAD4 citrullinates histones in neutrophil extracellular traps (NETs). In rheumatoid arthritis, anti-CCP antibodies appear. Free citrulline is also part of the urea cycle.',
     'Solo requiere nivel.':
         'Only requires level.',
     'Donador de fosfato para las quinasas. Lo da la mitocondria.':
@@ -435,36 +369,24 @@ EN = {
         'The polar ones live here: on the surface of soluble proteins they form H-bonds with water.',
     'Ribosomas':
         'Ribosomes',
-    'Ribosomas libres traduciendo ARNm en el citosol. Sus proteínas ribosomales son muy ricas en Lys: sus cargas + neutralizan los fosfatos (−) del ARN ribosomal. Aquí consigues las Lys para tu NLS; en el juego, la Arg solo vive dentro del núcleo.':
-        'Free ribosomes translating mRNA in the cytosol. Their ribosomal proteins are very rich in Lys: their + charges neutralize the (−) phosphates of ribosomal RNA. Here you get the Lys for your NLS; in the game, Arg only lives inside the nucleus.',
     'Núcleo (cromatina)':
         'Nucleus (chromatin)',
-    'Las histonas son ricas en Lys y Arg y abrazan al ADN, cargado (−) por sus fosfatos; H3 y H4 son las histonas «ricas en Arg». La Arg solo aparece aquí y en el nucléolo. Para entrar, tu proteína necesita una señal de localización nuclear (NLS).':
-        'Histones are rich in Lys and Arg and wrap around DNA, which is (−) because of its phosphates; H3 and H4 are the «Arg-rich» histones. Arg only appears here and in the nucleolus. To get in, your protein needs a nuclear localization signal (NLS).',
     'Nucléolo':
         'Nucleolus',
-    'Aquí se ensamblan los ribosomas. La nucleolina y la fibrilarina tienen dominios RGG/GAR (repeticiones Arg-Gly-Gly) que se unen al ARN.':
-        'Ribosomes are assembled here. Nucleolin and fibrillarin have RGG/GAR domains (Arg-Gly-Gly repeats) that bind RNA.',
     'Retículo endoplásmico':
         'Endoplasmic reticulum',
-    'Aquí viven los ácidos (−): el RE es el almacén de Ca²+ de la célula y proteínas como la calreticulina están llenas de Asp y Glu para retenerlo. Su membrana es continua con la envoltura nuclear.':
-        "The acidic ones (−) live here: the ER is the cell's Ca²+ store, and proteins like calreticulin are full of Asp and Glu to hold onto it. Its membrane is continuous with the nuclear envelope.",
     'Aparato de Golgi':
         'Golgi apparatus',
     'Aquí se recortan y amplían los N-glicanos que la Asn trae del RE, y se añaden O-glicanos (O-GalNAc) al OH de Ser y Thr.':
         'Here the N-glycans that Asn brings from the ER are trimmed and extended, and O-glycans (O-GalNAc) are added to the OH of Ser and Thr.',
     'Lisosoma':
         'Lysosome',
-    'pH ≈ 4.5–5: la His (pKR 6) queda protonada (+). Las catepsinas B y L son cisteín-proteasas: su Cys catalítica trabaja junto con una His (díada catalítica).':
-        'pH ≈ 4.5–5: His (pKR 6) stays protonated (+). Cathepsins B and L are cysteine proteases: their catalytic Cys works together with a His (catalytic dyad).',
     'Matriz extracelular':
         'Extracellular matrix',
     'Aquí viven Gly y Pro: el colágeno repite Gly-Pro-Hyp. La Gly es la única que cabe en el centro de la triple hélice y la Pro la rigidiza.':
         'Gly and Pro live here: collagen repeats Gly-Pro-Hyp. Gly is the only one that fits in the center of the triple helix, and Pro stiffens it.',
     'Mitocondria':
         'Mitochondrion',
-    'La fosforilación oxidativa produce ATP: aquí tu equipo restablece su energía y tú recargas ATP. También es donde se degradan los aminoácidos ramificados (Val, Leu, Ile).':
-        "Oxidative phosphorylation makes ATP: here your team restores its energy and you recharge ATP. It's also where the branched-chain amino acids (Val, Leu, Ile) are broken down.",
     'pH fisiológico':
         'Physiological pH',
     'Sangre ≈ 7.4, citosol ≈ 7.2, lisosoma ≈ 4.5–5.':
@@ -515,8 +437,6 @@ EN = {
         'Codon / anticodon',
     'Triplete del ARNm y su complemento en el ARNt (antiparalelo). AUG = Met = inicio.':
         'A triplet in the mRNA and its complement in the tRNA (antiparallel). AUG = Met = start.',
-    'Modificación postraduccional':
-        'Post-translational modification',
     'Puente salino':
         'Salt bridge',
     'Atracción entre una carga + y una − (Lys–Asp).':
@@ -619,4 +539,86 @@ EN = {
         'selenol',
     'disulfuro':
         'disulfide',
+    'Su R es un H: la más pequeña y la única sin carbono quiral. Cabe donde ninguna otra (es 1 de cada 3 residuos del colágeno) y da flexibilidad a la cadena.':
+        'Its R is an H: the smallest and the only one without a chiral carbon. It fits where no other can (1 in 3 residues of collagen) and makes the chain flexible.',
+    'Su R es un metilo: pequeño, no polar y sin nada que estorbe. Es la mejor formadora de hélices α.':
+        "Its R is a methyl: small, nonpolar and with nothing in the way. It's the best α-helix former.",
+    'Ramificada en el carbono β (forma de «V»): esa rama estorba en la hélice α, así que prefiere las hojas β.':
+        "Branched at the β carbon (a 'V' shape): that branch gets in the way in an α helix, so it prefers β sheets.",
+    'Isobutilo: no polar y flexible. En las cremalleras de leucina, sus R encajan entre dos hélices como dientes.':
+        'Isobutyl: nonpolar and flexible. In leucine zippers, its R groups interlock between two helices like teeth.',
+    'Ramificada en β como la Val, con dos carbonos quirales (Cα y Cβ). Isómero de la Leu y la más hidrofóbica (KD 4.5).':
+        'β-branched like Val, with two chiral carbons (Cα and Cβ). An isomer of Leu and the most hydrophobic (KD 4.5).',
+    'Tioéter: su S no tiene H, así que no forma disulfuros y es casi no polar. AUG (Met) es el codón de inicio.':
+        "Thioether: its S has no H, so it can't form disulfides and is almost nonpolar. AUG (Met) is the start codon.",
+    'Su R se cierra sobre el N del α-amino (amina secundaria). Sin H en ese N no da el puente de H de la hélice, y el anillo rígido la tuerce: rompe hélices α y forma giros.':
+        "Its R closes back onto the α-amino N (a secondary amine). With no H on that N it can't give the helix its H-bond, and the rigid ring bends it: it breaks α helices and makes turns.",
+    'Bencilo: un anillo aromático sin grupos polares, muy hidrofóbico. Se apila con otros anillos (π–π) y atrae cationes (catión–π).':
+        'Benzyl: an aromatic ring with no polar groups, very hydrophobic. It stacks with other rings (π–π) and attracts cations (cation–π).',
+    'Phe + OH: el fenol (pKR 10.07) forma puentes de H y se puede fosforilar. Su anillo absorbe luz a 280 nm.':
+        'Phe + OH: the phenol (pKR 10.07) forms H-bonds and can be phosphorylated. Its ring absorbs light at 280 nm.',
+    'Indol: el R más grande, con un N–H que forma puentes de H. Es el que más absorbe a 280 nm.':
+        'Indole: the largest R, with an N–H that forms H-bonds. It absorbs the most at 280 nm.',
+    'Hidroximetilo: su OH forma puentes de H y es nucleófilo. Por ese OH se fosforila, y es el nucleófilo de las serín-proteasas.':
+        "Hydroxymethyl: its OH forms H-bonds and is a nucleophile. That OH is where it gets phosphorylated, and it's the nucleophile of serine proteases.",
+    'Como la Ser, con un CH3 extra (y dos carbonos quirales). Su OH también forma puentes de H y se fosforila.':
+        'Like Ser with an extra CH3 (and two chiral carbons). Its OH also forms H-bonds and gets phosphorylated.',
+    'Tiol (SH, pKR 8.18): su S− es muy nucleófilo y se oxida; dos Cys forman un puente disulfuro (cistina). Lehninger la pone en polares sin carga, aunque su KD (+2.5) dice que es bastante hidrofóbica.':
+        "Thiol (SH, pKR 8.18): its S− is very nucleophilic and gets oxidized; two Cys form a disulfide bridge (cystine). Lehninger lists it as polar uncharged, though its KD (+2.5) says it's quite hydrophobic.",
+    'Amida del Asp: neutra, con un C=O que acepta y un NH2 que dona puentes de H. En la secuencia N-X-S/T recibe azúcares en su N.':
+        'Amide of Asp: neutral, with a C=O that accepts and an NH2 that donates H-bonds. In the N-X-S/T sequence it receives sugars on its N.',
+    'Amida del Glu, un CH2 más larga que la Asn. Neutra: su amida acepta y dona puentes de H.':
+        'Amide of Glu, one CH2 longer than Asn. Neutral: its amide accepts and donates H-bonds.',
+    'Carboxilato (pKR 3.65): a pH 7 tiene carga −, y su pI (2.77) es el más bajo de todos. Forma puentes salinos y une cationes como el Ca²+.':
+        'Carboxylate (pKR 3.65): at pH 7 it carries a − charge, and its pI (2.77) is the lowest of all. It forms salt bridges and binds cations like Ca²+.',
+    'Un CH2 más que el Asp (pKR 4.25): también − a pH 7. Con la cadena más larga, forma hélices α mejor que el Asp.':
+        'One CH2 more than Asp (pKR 4.25): also − at pH 7. With its longer chain, it forms α helices better than Asp.',
+    'Amonio al final de 4 CH2 (pKR 10.53): + a pH 7. Cuando pierde su H+, ese N es nucleófilo: por eso se acetila, se metila y se ubiquitina.':
+        "An ammonium at the end of 4 CH2 (pKR 10.53): + at pH 7. When it loses its H+, that N is a nucleophile: that's why it gets acetylated, methylated and ubiquitinated.",
+    'Guanidinio (pKR 12.48): su carga + se reparte entre 3 N por resonancia, así que casi nunca la pierde. El pI más alto (10.76) y la más hidrofílica (KD −4.5).':
+        'Guanidinium (pKR 12.48): its + charge is spread over 3 N by resonance, so it almost never loses it. The highest pI (10.76) and the most hydrophilic (KD −4.5).',
+    'Imidazol con pKR ≈ 6, cerca del pH de la célula: a pH 7 solo ~10% está protonado y a pH 5 casi todo. Por eso toma y cede H+ en los sitios activos.':
+        "Imidazole with pKR ≈ 6, close to the cell's pH: at pH 7 only ~10% is protonated and at pH 5 almost all of it. That's why it takes and gives H+ in active sites.",
+    'Ribosomas libres traduciendo ARNm. Sus proteínas son ricas en Lys: sus cargas + neutralizan los fosfatos (−) del ARN ribosomal. Aquí consigues las Lys para tu NLS; la Arg solo vive en el núcleo.':
+        'Free ribosomes translating mRNA. Their proteins are rich in Lys: its + charges neutralize the (−) phosphates of ribosomal RNA. Here you get the Lys for your NLS; Arg only lives in the nucleus.',
+    'Las histonas son ricas en Lys y Arg: sus cargas + abrazan al ADN, cargado (−) por sus fosfatos. Para entrar, tu proteína necesita una señal de localización nuclear (NLS).':
+        'Histones are rich in Lys and Arg: their + charges wrap the DNA, which is (−) because of its phosphates. To get in, your protein needs a nuclear localization signal (NLS).',
+    'Aquí se ensamblan los ribosomas. Proteínas como la nucleolina repiten Arg-Gly-Gly: las Arg (+) se unen al ARN (−) y las Gly le dan flexibilidad.':
+        'Ribosomes are assembled here. Proteins like nucleolin repeat Arg-Gly-Gly: the Arg (+) bind RNA (−) and the Gly make it flexible.',
+    'Aquí viven los ácidos (−): el RE guarda Ca²+, y proteínas como la calreticulina lo retienen con muchos Asp y Glu.':
+        'Acidic residues (−) live here: the ER stores Ca²+, and proteins like calreticulin hold on to it with many Asp and Glu.',
+    'pH ≈ 4.5–5, por debajo del pKR de la His (6): aquí queda protonada (+). Sus proteasas (catepsinas B y L) usan una Cys catalítica junto a una His.':
+        'pH ≈ 4.5–5, below the pKR of His (6): here it stays protonated (+). Its proteases (cathepsins B and L) use a catalytic Cys next to a His.',
+    'La fosforilación oxidativa produce ATP: aquí tu equipo restablece su energía y tú recargas ATP.':
+        'Oxidative phosphorylation makes ATP: here your team gets its energy back and you recharge ATP.',
+    'La prolil 4-hidroxilasa del RE le pone el OH en el C4 del anillo; necesita vitamina C para seguir activa. Ese OH fija el pliegue del anillo que pide la triple hélice del colágeno: sin vitamina C el colágeno es inestable (escorbuto).':
+        "Prolyl 4-hydroxylase in the ER puts the OH on C4 of the ring; it needs vitamin C to stay active. That OH locks the ring pucker that collagen's triple helix needs: without vitamin C collagen is unstable (scurvy).",
+    'La lisil hidroxilasa del RE (también con vitamina C) le pone un OH en el carbono δ. Ese OH es un punto de anclaje: recibe azúcares y ayuda a entrecruzar las fibras de colágeno.':
+        'Lysyl hydroxylase in the ER (also vitamin C dependent) adds an OH on the δ carbon. That OH is an anchor point: it receives sugars and helps cross-link collagen fibers.',
+    'Las HAT pasan el acetilo del acetil-CoA al N de la Lys (cuando ese N está sin su H+ y es nucleófilo). Queda una amida sin carga: la histona se une menos al ADN (−) y la cromatina se abre. Las HDAC lo quitan.':
+        "HATs transfer the acetyl from acetyl-CoA to the Lys N (when that N has lost its H+ and is nucleophilic). What's left is an uncharged amide: the histone binds DNA (−) less and chromatin opens. HDACs remove it.",
+    'Las metiltransferasas (HMT) le pasan tres metilos de la SAM. Sin H en el N ya no dona puentes de H ni se puede acetilar: la reconocen «jaulas» de anillos aromáticos por catión–π. Según el sitio, activa (H3K4me3) o silencia (H3K9me3) genes.':
+        "Methyltransferases (HMTs) transfer three methyls from SAM. With no H on the N it can no longer donate H-bonds or be acetylated: aromatic-ring 'cages' recognize it by cation–π. Depending on the site, it activates (H3K4me3) or silences (H3K9me3) genes.",
+    '¿Por qué Ser, Thr y Tyr? Son las únicas con un OH en la cadena lateral: ese O ataca al fosfato γ del ATP y queda un fosfoéster. Ese enlace casi no se rompe solo, pero una fosfatasa lo quita en segundos: un interruptor estable y reversible. El residuo pasa de neutro a ≈ −2 y cambia con quién se une. Una quinasa fosforila muchas copias de su blanco, así que la señal se amplifica.':
+        "Why Ser, Thr and Tyr? They're the only ones with an OH on the side chain: that O attacks ATP's γ phosphate and a phosphoester is left. That bond almost never breaks on its own, but a phosphatase removes it in seconds: a stable, reversible switch. The residue goes from neutral to ≈ −2 and changes what it binds. One kinase phosphorylates many copies of its target, so the signal is amplified.",
+    'Mismo OH que la Ser, pero en un carbono con un CH3 al lado: más voluminosa, y algunas quinasas prefieren a una o a otra. Las CDK del ciclo celular fosforilan Ser y Thr seguidas de Pro.':
+        'Same OH as Ser, but on a carbon with a CH3 next to it: bulkier, and some kinases prefer one or the other. The cell-cycle CDKs phosphorylate Ser and Thr followed by Pro.',
+    'Su OH es de un fenol, más largo y rígido que el de Ser o Thr: lo fosforilan otras quinasas, las tirosina quinasas (como el receptor de insulina). La pTyr sobresale y los dominios SH2 la atrapan: una Arg hace puente salino con el fosfato y el anillo encaja en un bolsillo.':
+        "Its OH belongs to a phenol, longer and more rigid than that of Ser or Thr: it's phosphorylated by other kinases, the tyrosine kinases (like the insulin receptor). pTyr sticks out and SH2 domains grab it: an Arg makes a salt bridge with the phosphate and the ring fits into a pocket.",
+    'El S− de la Cys se oxida fácil, y dos Cys cercanas forman un S–S covalente. Solo se mantiene donde el ambiente es oxidante (RE, exterior); en el citosol el glutatión lo reduce. La PDI del RE los forma y reacomoda: por eso las proteínas secretadas (insulina, anticuerpos) los tienen.':
+        "The Cys S− is easily oxidized, and two nearby Cys form a covalent S–S. It only lasts where the environment is oxidizing (ER, outside the cell); in the cytosol glutathione reduces it. The ER's PDI forms and reshuffles them: that's why secreted proteins (insulin, antibodies) have them.",
+    'La γ-carboxilasa del RE, con vitamina K, le añade un CO2 en el carbono γ. Los dos carboxilatos juntos atrapan un Ca²+ entre ellos: así los factores de coagulación se pegan a la membrana. La warfarina impide reciclar la vitamina K.':
+        "The ER's γ-carboxylase, with vitamin K, adds a CO2 at the γ carbon. The two carboxylates together trap a Ca²+ between them: that's how clotting factors stick to the membrane. Warfarin blocks vitamin K recycling.",
+    'La OST del RE pasa un bloque de 14 azúcares al N de la amida mientras la cadena aún sale del ribosoma (es cotraduccional). Solo en N-X-S/T (X ≠ Pro): el OH de la Ser/Thr ayuda a activar ese N, y una Pro torcería el sitio. Los OH del glicano hacen la proteína más soluble y la marcan para el control de plegamiento.':
+        "The ER's OST transfers a block of 14 sugars to the amide N while the chain is still leaving the ribosome (it's co-translational). Only at N-X-S/T (X ≠ Pro): the Ser/Thr OH helps activate that N, and a Pro would bend the site. The glycan's OH groups make the protein more soluble and tag it for folding quality control.",
+    'Las GalNAc-transferasas (GALNT) del Golgi ponen la GalNAc en el O del OH, ya fuera del RE. A diferencia de la Asn, aquí el azúcar va en un O y no hay secuencia consenso: basta un tramo expuesto de Ser/Thr, a menudo con Pro cerca.':
+        "The Golgi's GalNAc-transferases (GALNTs) put the GalNAc on the O of the OH, after the ER. Unlike Asn, here the sugar goes on an O and there's no consensus sequence: an exposed stretch of Ser/Thr is enough, often with Pro nearby.",
+    'Mismas GALNT del Golgi; muchas prefieren Thr. En las mucinas, tramos de Pro, Thr y Ser se cubren de O-glicanos: sus OH atrapan agua y forman el moco.':
+        'Same Golgi GALNTs; many prefer Thr. In mucins, stretches of Pro, Thr and Ser get covered in O-glycans: their OH groups trap water and form mucus.',
+    'Las PAD (con Ca²+) hidrolizan el guanidinio de la Arg: sale NH4+ y queda una urea neutra. Perder un + cambia con qué se une la proteína: la PAD4 citrulina histonas y descompacta la cromatina. El sistema inmune puede tomar estas proteínas por extrañas (artritis reumatoide).':
+        'PADs (with Ca²+) hydrolyze the Arg guanidinium: NH4+ leaves and a neutral urea remains. Losing a + changes what the protein binds: PAD4 citrullinates histones and decompacts chromatin. The immune system can mistake these proteins for foreign (rheumatoid arthritis).',
+    'Modificación covalente':
+        'Covalent modification',
+    'Enlace nuevo en la cadena lateral de un residuo de una proteína. Cotraduccional si ocurre mientras el ribosoma traduce (N-glicosilación) y postraduccional si ocurre después (fosforilación, acetilación).':
+        'A new bond on the side chain of a residue in a protein. Co-translational if it happens while the ribosome translates (N-glycosylation) and post-translational if it happens afterwards (phosphorylation, acetylation).',
 }

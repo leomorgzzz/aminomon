@@ -425,8 +425,10 @@ def chaperona(win, juego):
                        "(un puente salino o un disulfuro) y te da 1 ATP.",
                        total=total, nativo=NATIVO)], tr("Chaperona"))
     aciertos = fallos = 0
+    hechas = []
     for i in range(total):
-        aa, tipo = preguntas.elegir_aleatoria(juego)
+        aa, tipo = preguntas.elegir_aleatoria(juego, hechas)
+        hechas.append((aa, tipo))
         alto, ancho = win.getmaxyx()
         win.erase()
         d.put(win, 0, 1, tr("EXAMEN DE LA CHAPERONA · pregunta {i}/{total} · aciertos {n}",

@@ -227,8 +227,6 @@ EN = {
         'Modifications: which change is it? ({n} discovered)',
     'Todavía no descubres ninguna modificación: se consiguen subiendo de nivel a tu equipo en la zona correcta (Equipo → V).':
         "You haven't discovered any modification yet: you get them by leveling up your team in the right area (Team → V).",
-    '¿Qué modificación postraduccional es esta?':
-        'Which post-translational modification is this?',
     '¿De qué aminoácido viene este residuo modificado?':
         'Which amino acid does this modified residue come from?',
     'MODIFICACIONES · {i}/{total} · aciertos {n}':
@@ -241,4 +239,136 @@ EN = {
         '► Press the number of your answer',
     '¿Cys o Sec? (selenocisteína)':
         'Cys or Sec? (selenocysteine)',
+    '¿Qué modificación covalente es esta?':
+        'Which covalent modification is this?',
+    '¿Por qué la falta de vitamina C debilita el colágeno?':
+        'Why does a lack of vitamin C weaken collagen?',
+    'Sin ella no se forma la Hyp y la triple hélice pierde estabilidad':
+        'Without it no Hyp forms and the triple helix loses stability',
+    'La vitamina C es uno de los aminoácidos del colágeno':
+        "Vitamin C is one of collagen's amino acids",
+    'Sin ella el ribosoma no puede leer los codones de la Pro':
+        "Without it the ribosome can't read Pro codons",
+    'La vitamina C forma los puentes disulfuro entre las fibras':
+        'Vitamin C forms the disulfide bridges between fibers',
+    '¿Para qué sirve el OH nuevo de la hidroxilisina en el colágeno?':
+        "What is hydroxylysine's new OH for in collagen?",
+    'Recibe azúcares y forma entrecruzamientos':
+        'It receives sugars and forms cross-links',
+    'Le quita la carga + a la Lys para que se pliegue':
+        'It removes the Lys + charge so it can fold',
+    'Le da un segundo carboxilo que atrapa Ca²+ entre las fibras':
+        'It gives it a second carboxyl that traps Ca²+ between fibers',
+    'Vuelve aromática a la Lys para que se apile con la Pro':
+        'It makes Lys aromatic so it stacks with Pro',
+    '¿Por qué acetilar las Lys de una histona abre la cromatina?':
+        "Why does acetylating a histone's Lys open chromatin?",
+    'La Lys pierde su + y se une menos al ADN (−)':
+        'Lys loses its + and binds DNA (−) less',
+    'El acetilo le da a la Lys una carga − que repele al ADN':
+        'The acetyl gives Lys a − charge that repels DNA',
+    'El acetilo corta los enlaces fosfodiéster del ADN':
+        "The acetyl cuts DNA's phosphodiester bonds",
+    'La Lys se vuelve aromática y se apila con las bases':
+        'Lys becomes aromatic and stacks with the bases',
+    '¿Por qué la trimetil-lisina ya no se puede acetilar?':
+        "Why can't trimethyl-lysine be acetylated anymore?",
+    'Su N tiene 4 enlaces y ningún par libre: ya no es nucleófilo':
+        "Its N has 4 bonds and no lone pair: it's no longer a nucleophile",
+    'Al metilarse perdió su carga + y ya no atrae al acetilo':
+        'Methylation removed its + charge, so it no longer attracts the acetyl',
+    'Los tres metilos la vuelven un ácido con carga −':
+        'The three methyls turn it into an acid with a − charge',
+    'La SAM se queda unida y tapa a la Lys para siempre':
+        'SAM stays bound and blocks the Lys forever',
+    '¿Por qué Ser, Thr y Tyr son las que más se fosforilan?':
+        'Why are Ser, Thr and Tyr the ones phosphorylated most?',
+    'Su OH ataca al fosfato del ATP: queda un fosfoéster estable que una fosfatasa quita':
+        "Their OH attacks ATP's phosphate: a stable phosphoester is left that a phosphatase removes",
+    'Son las únicas que ya tienen carga − a pH 7':
+        "They're the only ones already charged − at pH 7",
+    'Son las más hidrofóbicas, y el fosfato las vuelve solubles':
+        "They're the most hydrophobic, and the phosphate makes them soluble",
+    'Tienen un azufre que se une directo al fósforo':
+        'They have a sulfur that binds the phosphorus directly',
+    '¿Qué le pasa a un residuo al fosforilarse a pH 7?':
+        "What happens to a residue when it's phosphorylated at pH 7?",
+    'Pasa de neutro a ≈ −2 y cambia con qué se une':
+        'It goes from neutral to ≈ −2 and changes what it binds',
+    'Gana una carga + y se une al ADN':
+        'It gains a + charge and binds DNA',
+    'Se vuelve no polar y entra a la membrana':
+        'It becomes nonpolar and enters the membrane',
+    'Pierde su cadena lateral y se vuelve Gly':
+        'It loses its side chain and becomes Gly',
+    '¿Cómo reconoce un dominio SH2 a una fosfotirosina?':
+        'How does an SH2 domain recognize a phosphotyrosine?',
+    'Una Arg suya hace puente salino con el fosfato y el anillo entra en un bolsillo':
+        'One of its Arg makes a salt bridge with the phosphate and the ring fits into a pocket',
+    'Forma un puente disulfuro con el OH de la Tyr':
+        'It forms a disulfide bridge with the Tyr OH',
+    'La pTyr tiene carga + y atrae al SH2, que es ácido':
+        'pTyr has a + charge and attracts the SH2, which is acidic',
+    'Le quita el fosfato y se queda unido al ATP':
+        'It removes the phosphate and stays bound to ATP',
+    '¿Por qué hay disulfuros en el RE pero casi no en el citosol?':
+        'Why are there disulfides in the ER but hardly any in the cytosol?',
+    'El RE es oxidante; en el citosol el glutatión los reduce':
+        'The ER is oxidizing; in the cytosol glutathione reduces them',
+    'En el citosol no hay Cys libres':
+        'There are no free Cys in the cytosol',
+    'El RE no tiene agua y la reacción no se hidroliza':
+        "The ER has no water so the reaction isn't hydrolyzed",
+    'En el citosol las Cys están todas fosforiladas':
+        'In the cytosol all Cys are phosphorylated',
+    '¿Para qué sirve el segundo carboxilato del Gla?':
+        "What is Gla's second carboxylate for?",
+    'Los dos carboxilatos juntos atrapan un Ca²+':
+        'The two carboxylates together trap a Ca²+',
+    'Le dan carga + para unirse a los fosfolípidos':
+        'They give it a + charge to bind phospholipids',
+    'Forman un puente disulfuro con otro Gla':
+        'They form a disulfide bridge with another Gla',
+    'Lo vuelven hidrofóbico para meterse a la membrana':
+        'They make it hydrophobic so it gets into the membrane',
+    '¿Por qué la N-glicosilación necesita la secuencia N-X-S/T?':
+        'Why does N-glycosylation need the N-X-S/T sequence?',
+    'El OH de la Ser/Thr ayuda a activar al N de la amida de la Asn':
+        'The Ser/Thr OH helps activate the Asn amide N',
+    'El azúcar se une a la Ser/Thr y no a la Asn':
+        'The sugar binds Ser/Thr and not Asn',
+    'La X tiene que ser una Pro para doblar la cadena':
+        'X has to be a Pro to bend the chain',
+    'La Ser/Thr le pasa su carga + al azúcar':
+        'Ser/Thr passes its + charge to the sugar',
+    '¿En qué se diferencia la O-glicosilación de la N-glicosilación?':
+        'How does O-glycosylation differ from N-glycosylation?',
+    'El azúcar va en el O de Ser/Thr, en el Golgi y sin secuencia consenso':
+        'The sugar goes on the O of Ser/Thr, in the Golgi and with no consensus sequence',
+    'El azúcar va en el N de la Asn, en el RE y con N-X-S/T':
+        'The sugar goes on the Asn N, in the ER and with N-X-S/T',
+    'El azúcar va en el S de la Cys, en el citosol':
+        'The sugar goes on the Cys S, in the cytosol',
+    'Solo ocurre mientras el ribosoma traduce, en el núcleo':
+        'It only happens while the ribosome translates, in the nucleus',
+    '¿Por qué las mucinas cubiertas de O-glicanos forman moco?':
+        'Why do mucins covered in O-glycans form mucus?',
+    'Los muchos OH de sus azúcares atrapan agua':
+        'The many OH groups of their sugars trap water',
+    'Sus azúcares son hidrofóbicos y repelen el agua':
+        'Their sugars are hydrophobic and repel water',
+    'Sus azúcares forman puentes disulfuro entre sí':
+        'Their sugars form disulfide bridges with each other',
+    'Sus azúcares tienen carga + y se pegan al ADN':
+        'Their sugars have a + charge and stick to DNA',
+    '¿Qué pierde la Arg al volverse citrulina?':
+        'What does Arg lose when it becomes citrulline?',
+    'Su carga +: el guanidinio se vuelve una urea neutra':
+        'Its + charge: the guanidinium becomes a neutral urea',
+    'Su anillo aromático: se vuelve no polar':
+        'Its aromatic ring: it becomes nonpolar',
+    'Su carga −: el carboxilato se vuelve amida':
+        'Its − charge: the carboxylate becomes an amide',
+    'Su fosfato: la PAD es una fosfatasa':
+        'Its phosphate: PAD is a phosphatase',
 }

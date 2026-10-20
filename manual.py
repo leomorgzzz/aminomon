@@ -75,6 +75,7 @@ def p_jugar(juego, rival, an):
                     "aminoácido en combate."), an), L(""),
         T(tr("Controles en el mapa")),
         *tabla([[("←↑→↓ / WASD", "titulo"), tr("moverse")],
+                [(tr("C o Mayús+WASD"), "titulo"), tr("correr: 4 casillas por tecla")],
                 [(tr("M o ?"), "titulo"), tr("este manual")],
                 [("X", "titulo"), tr("Aminodex")],
                 [("E", "titulo"), tr("equipo: líder, orden y modificaciones")],
@@ -87,7 +88,7 @@ def p_jugar(juego, rival, an):
                 [("÷", "POS"), tr("ribosomas"), ("░", "NEG"), tr("retículo"), ("═", "POL"), "Golgi"],
                 [("●", "NEG"), tr("lisosoma"), ("§", "POS"), tr("cromatina"), ("▓", "POS"),
                  tr("nucléolo")],
-                [("×", "tenue"), tr("colágeno"), ("☼", "titulo"), tr("mitocondria"), ("O", "mal"),
+                [("×", "tenue"), tr("colágeno"), ("Θ", "titulo"), tr("mitocondria"), ("O", "mal"),
                  tr("poro nuclear")],
                 [("█", "oscuro"), tr("envoltura"), ("V", "titulo"), tr("René-virus"),
                  ("H", "titulo"), tr("Chaperona")],
@@ -99,7 +100,7 @@ def p_jugar(juego, rival, an):
                     "Solo ves su estructura: deduce su grupo [D] para ganar +10 de "
                     "afinidad y ver qué interacción formará cada movimiento. Si no, "
                     "el grupo se revela tras 3 turnos."), an),
-        *parrafo(tr("Cada movimiento es una interacción de tu grupo R (o de tu esqueleto) con el rival. La interacción concreta (puente salino, catión–π, repulsión…) depende del grupo del rival y se ve a la derecha del movimiento. Si el rival tiene dos tipos, los factores se multiplican (×2 · ×2 = ×4)."), an),
+        *parrafo(tr("Cada movimiento es una interacción de tu grupo R (o de tu esqueleto) con el rival: puente salino, catión–π, repulsión… según su grupo (se ve a la derecha). Si tiene dos tipos, los factores se multiplican (×2 · ×2 = ×4)."), an),
         *parrafo(tr("Con afinidad ≥ 50 lanza un ARNt (T) y responde bien la pregunta. "
                     "El rival responde con agitación térmica que baja tu ENERGÍA."), an),
         L(""),
@@ -113,16 +114,16 @@ def p_jugar(juego, rival, an):
                     "puedes elegir «sin animación» si solo quieres practicar."), an, "tenue"),
         L(""),
         T(tr("Captura")),
-        *parrafo(tr("Para atraparlo hay que reconocer su estructura: primero el nombre, luego el código de 3 letras y luego el de 1. Después se mezclan carga, grupo, pKR, pI, nutrición, codones e hidropatía. Los que fallas salen más en el campo, y reconocer a uno que ya capturaste da afinidad extra."), an),
+        *parrafo(tr("Para atraparlo, reconoce su estructura: primero el nombre, luego los códigos de 3 y de 1 letra; después, carga, grupo, pKR, pI, nutrición, codones e hidropatía. Los que fallas salen más seguido."), an),
         L(""),
         T(tr("Jefes")),
-        *parrafo(tr("Cada jefe pide construir un péptido con lo que ya capturaste; puedes usar cada aminoácido tantas veces como lo tengas en tu equipo. El poro nuclear también es un jefe: para entrar al núcleo necesitas una NLS con al menos 4 Lys (viven en los ribosomas ÷)."), an),
+        *parrafo(tr("Cada jefe pide construir un péptido con tu equipo (cada aminoácido, tantas veces como lo tengas). El poro nuclear también es un jefe: pide una NLS con al menos 4 Lys (en los ribosomas ÷)."), an),
         L(""),
         T(tr("Después de la Chaperona")),
-        *parrafo(tr("Habla con el René-virus (V): su examen final te pide traducir ARNm y analizar mutaciones reales (anemia falciforme, fibrosis quística, KRAS, Huntington…). Con los 20 aminoácidos capturados también te cuenta de la selenocisteína (Sec, U), que no es de los 20: si contestas bien sus 3 preguntas, se une a tu equipo."), an),
+        *parrafo(tr("Habla con el René-virus (V): su examen final pide traducir ARNm y analizar mutaciones reales. Con los 20 aminoácidos y la Maestría también te cuenta de la selenocisteína (Sec, U): con sus 3 preguntas bien, se une a tu equipo."), an),
         L(""),
         T(tr("Después del examen final")),
-        *parrafo(tr("El René-virus te hace 6 encargos de síntesis, del RGD al péptido Tat. Cada péptido se arma en un ribosoma: a cada codón que llega al sitio A le eliges su ARNt antes de que se acabe el tiempo. Si fallas no te da la respuesta: te marca los codones malos y lo repites con otros. Al terminar se abre la síntesis libre con el resto del catálogo, y todo lo que sintetizas entra a la pestaña Péptidos de la Aminodex. Si ya hiciste el evento de la Sec, hay un encargo especial: una selenoproteína donde un UGA se lee como Sec gracias al SECIS."), an),
+        *parrafo(tr("El René-virus te hace 6 encargos de síntesis: en un ribosoma, a cada codón que llega al sitio A le eliges su ARNt a tiempo. Si fallas, te marca los codones malos y lo repites. Después se abre la síntesis libre; lo que sintetizas queda en Aminodex → Péptidos. Con la Sec hay un encargo especial: una selenoproteína."), an),
     ]
 
 
@@ -259,12 +260,10 @@ def p_interacciones(juego, rival, an):
 
 
 def p_modificaciones(juego, rival, an):
-    out = [T(tr("Modificaciones postraduccionales")),
+    out = [T(tr("Modificaciones covalentes")),
            *parrafo(tr("Se activan desde el menú Equipo [E] → V cuando se cumplen los "
                        "requisitos. √ = ya la conseguiste."), an),
-           *parrafo(tr("En la célula se hacen sobre residuos de una proteína, durante o "
-                       "después de la traducción, no sobre aminoácidos libres: en el juego, "
-                       "cada miembro de tu equipo representa uno de esos residuos."), an, "tenue"),
+           *parrafo(tr("Son enlaces nuevos en la cadena lateral de un residuo de una proteína (en el juego, cada miembro de tu equipo es un residuo). Unas ocurren mientras el ribosoma traduce (N-glicosilación) y otras después (fosforilación): por eso se llaman covalentes y no solo «postraduccionales»."), an, "tenue"),
            L("")]
     for eid, ev in datos.MODIFICACIONES.items():
         base = AA[ev["base"]]
@@ -302,11 +301,7 @@ def p_modificaciones(juego, rival, an):
 
 def p_zonas(juego, rival, an):
     out = [T(tr("Zonas de la célula"))]
-    out += parrafo(tr("Ojo: que cada aminoácido «viva» en una zona es una regla del juego. En "
-                      "una célula real los aminoácidos libres están en todos los "
-                      "compartimentos; la zona solo recuerda dónde su química es "
-                      "protagonista (los básicos junto al ARN, los no polares en la "
-                      "membrana…)."), an, "tenue")
+    out += parrafo(tr("Que cada aminoácido «viva» en una zona es una regla del juego: en una célula real los libres están en todos lados. La zona recuerda dónde importa su química."), an, "tenue")
     out.append(L(""))
     for z, info in datos.ZONAS.items():
         visitada = "" if z in juego["zonas_visitadas"] else tr("   (sin visitar)")

@@ -40,8 +40,23 @@ def dar_sec(juego):
     return True
 
 
-def evento_sec(win, juego):
-    """El evento de la selenocisteína: hay que saber cómo la mete la célula."""
+def sec_disponible(juego):
+    """El evento se abre con los 20 estándar y la Maestría de la Chaperona."""
+    return progreso.aminodex_completa(juego) and bool(juego.get("terminado"))
+
+
+def evento_sec(win, juego, intro=False):
+    """El evento de la selenocisteína: hay que saber cómo la mete la célula.
+    intro: la primera vez el René-virus lo presenta antes de preguntar."""
+    if intro:
+        d.dialogo(win, [tr("{jugador}, ya reuniste los 20 aminoácidos estándar y tienes la "
+                           "Maestría de la Chaperona. Ahora te cuento de un aminoácido 21 que "
+                           "el código genético casi esconde: la selenocisteína (Sec, U).",
+                           jugador=progreso.jugador(juego))], tr("René-virus"))
+        win.erase()
+        if d.menu(win, tr("¿Hacer el evento de la selenocisteína?"),
+                  [tr("Sí"), tr("Ahora no (luego está en mi menú)")]) != 0:
+            return
     if juego.get("sec"):
         if dar_sec(juego):
             progreso.guardar(juego)
@@ -50,15 +65,14 @@ def evento_sec(win, juego):
         tarjeta_sec(win)
         return
     if not any(m["id"] == "S" for m in juego["equipo"]):
-        d.popup(win, tr("Para este evento necesitas una Ser en tu equipo: la Sec se arma "
-                        "sobre una Ser."), tr("René-virus"))
+        win.erase()
+        d.popup(win, tr("Para este evento necesitas una Ser en tu equipo: la Sec se arma sobre una Ser. Cuando la tengas, búscalo en mi menú."), tr("René-virus"))
         return
     d.dialogo(win, [
-        tr("Hay un aminoácido fuera de los 20: la selenocisteína (Sec, U). Unas 25 "
-           "proteínas humanas la usan, como la glutatión peroxidasa."),
-        tr("CÓMO FUNCIONA\n\n• Son 3 preguntas sobre cómo la célula mete la Sec en una "
-           "proteína.\n• Después de cada una te digo si acertaste y por qué.\n• Con las 3 "
-           "bien, una Sec se une a tu equipo. Si fallas alguna, repítelo cuando quieras."),
+        tr("La Sec es una Cys con Se en lugar de S. Su selenol (pKR ≈ 5.2) a pH 7 está casi todo como –Se−: más nucleófilo que el tiol de la Cys y más fácil de oxidar y regenerar. Por eso la usan enzimas redox como la glutatión peroxidasa."),
+        tr("CÓMO FUNCIONA\n\n• 3 preguntas sobre cómo la célula mete la Sec en una "
+           "proteína.\n• Con las 3 bien, una Sec se une a tu equipo. Si fallas, repítelo "
+           "cuando quieras."),
     ], tr("René-virus"))
     preguntas = [
         (tr("En el ARNm de una selenoproteína, ¿qué codón lee la Sec?"), "UGA",
@@ -108,8 +122,7 @@ def filas_sec():
         ("pKR", tr("≈ 5.2 (selenol; el tiol de la Cys es 8.18)")),
         (tr("Masa"), f"{sec['masa']:.2f} g/mol"),
         (tr("Codón"), tr("UGA + un elemento SECIS en el ARNm")),
-        (tr("Cómo se hace"), tr("Sobre su ARNt: se carga con Ser y la Ser se convierte en Sec. "
-                                "No es una modificación postraduccional.")),
+        (tr("Cómo se hace"), tr("Sobre su ARNt: se carga con Ser y la Ser se convierte en Sec. Entra ya hecha al ribosoma: no es una modificación de un residuo.")),
         (tr("Dónde está"), tr("~25 proteínas humanas: glutatión peroxidasas, tiorredoxina "
                               "reductasas y desyodasas tiroideas.")),
         (tr("Interacciones"), movs),
@@ -373,23 +386,44 @@ def _dibujar_curva(win, aa, y0, x0, h, w, n_eq, camino):
 
 def _muestras(ph, n, separacion, rango=None):
     """n aminoácidos con cargas bien distintas a ese pH (sin empates dudosos)."""
-    while True:
+    for _ in range(5000):
         tres = random.sample(rango or datos.ORDEN, n)
         q = sorted(carga(c, ph) for c in tres)
         if all(q[i + 1] - q[i] >= separacion for i in range(n - 1)):
             return tres
+    raise ValueError(f"no hay {n} aminoácidos separados {separacion} a pH {ph}")
+
+
+def _lado(c, ph):
+    """-1 al cátodo, 0 casi quieto, 1 al ánodo (None si la carga es dudosa)."""
+    q = carga(c, ph)
+    if abs(q) < 0.1:
+        return 0
+    if abs(q) > 0.35:
+        return -1 if q > 0 else 1
+    return None
+
+
+def _carriles(ph):
+    """Tres aminoácidos sin cargas dudosas que no vayan todos al mismo lado.
+    Se arma desde los candidatos (no sorteando a ciegas): así nunca se traba."""
+    por_lado = {}
+    for c in datos.ORDEN:
+        if _lado(c, ph) is not None:
+            por_lado.setdefault(_lado(c, ph), []).append(c)
+    a, b = random.sample(list(por_lado), 2)
+    resto = [c for c in datos.ORDEN if _lado(c, ph) is not None]
+    primeros = [random.choice(por_lado[a]), random.choice(por_lado[b])]
+    tres = primeros + [random.choice([c for c in resto if c not in primeros])]
+    random.shuffle(tres)
+    return tres
 
 
 def _electroforesis(win, juego):
     """Tres carriles: eliges hacia dónde va cada banda y luego se corre el gel."""
     ph = random.choice([3.0, 6.0, 7.0, 9.5])
-    while True:
-        carriles = random.sample(datos.ORDEN, 3)
-        lados = {0 if abs(carga(c, ph)) < 0.1 else carga(c, ph) > 0 for c in carriles}
-        if len(lados) >= 2 and all(abs(carga(c, ph)) < 0.1 or abs(carga(c, ph)) > 0.35
-                                   for c in carriles):
-            break
-    real = [0 if abs(carga(c, ph)) < 0.1 else (-1 if carga(c, ph) > 0 else 1) for c in carriles]
+    carriles = _carriles(ph)
+    real = [_lado(c, ph) for c in carriles]
     elegido = [0, 0, 0]
     sel = 0
     alto, ancho = win.getmaxyx()

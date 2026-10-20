@@ -7,8 +7,6 @@ EN = {
         'René-virus',
     'Explora la célula. [M] abre el manual.':
         'Explore the cell. [M] opens the manual.',
-    'WASD/flechas mover · M manual · X Aminodex (P practicar) · E equipo · G guardar · Q salir':
-        'WASD/arrows move · M manual · X Aminodex (P practice) · E team · G save · Q quit',
     'Insignias ':
         'Badges ',
     'Entraste a: {zona}':
@@ -71,8 +69,8 @@ EN = {
         'Amino acids still to catch: {n}. Areas with species still to find: {zonas}.',
     'Retos pendientes: {retos}.':
         'Pending challenges: {retos}.',
-    'Tu equipo está cansado: ve a la mitocondria (☼).':
-        'Your team is tired: go to the mitochondrion (☼).',
+    'Tu equipo está cansado: ve a la mitocondria (Θ).':
+        'Your team is tired: go to the mitochondrion (Θ).',
     '¿Borrar la partida guardada?':
         'Delete the saved game?',
     '¿Elegir a {nombre}?':
@@ -113,8 +111,6 @@ EN = {
         "You already have this area's badge.",
     'Ya tienes la Maestría de la Chaperona. Solo te falta mi examen final.':
         "You already have the Chaperone's Master's degree. All that's left is my final exam.",
-    '¿Tomar el examen final del René-virus?':
-        "Take the René-virus's final exam?",
     'Encontraste 1 {objeto}: {desc}':
         'You found 1 {objeto}: {desc}',
     'Ya llevas el máximo de {objeto} (3).':
@@ -153,14 +149,8 @@ EN = {
         "Sound on: one bell when you're right, two when you're wrong.",
     'Sonido desactivado.':
         'Sound off.',
-    'Soy el René-virus: no enfermo a nadie, solo estudio proteómica. Como la mayoría de los virus, no traigo ribosomas: mis proteínas las hacen los de la célula con los 20 aminoácidos estándar. (Algunos virus gigantes y fagos traen genes de unas pocas proteínas ribosomales, pero ninguno arma un ribosoma completo.) Tu trabajo: encontrar y caracterizar esos 20.':
-        "I'm René-virus: I don't make anyone sick, I just study proteomics. Like most viruses, I carry no ribosomes: my proteins are made by the cell's ribosomes with the 20 standard amino acids. (Some giant viruses and phages carry genes for a few ribosomal proteins, but none builds a complete ribosome.) Your job: find and characterize those 20.",
-    'En el juego, cada aminoácido vive donde su química es protagonista: los no polares en la membrana, los básicos junto al ARN y al ADN. En una célula real hay aminoácidos libres en todas partes.':
-        'In the game, each amino acid lives where its chemistry plays the lead role: nonpolar ones in the membrane, basic ones next to RNA and DNA. In a real cell there are free amino acids everywhere.',
     'Cada aminoácido es de uno de los 5 grupos de Lehninger y cada movimiento usa la química de uno de ellos. La afinidad depende de la interacción real entre los dos grupos (tabla en el manual [M]).':
         "Each amino acid belongs to one of Lehninger's 5 groups, and each move uses the chemistry of one of them. Affinity depends on the real interaction between the two groups (table in the manual [M]).",
-    'La mitocondria (☼) restablece a tu equipo y recarga el ATP, que se gasta al fosforilar (Equipo → V). Los jefes (J) piden construir péptidos. Para entrar al núcleo necesitas una NLS: junta 4 Lys (K) en los ribosomas (÷). Los carteles (i) explican cada zona. Yo soy la V del mapa: búscame para pedir consejo.':
-        "The mitochondrion (☼) restores your team and refills ATP, which is spent on phosphorylation (Team → V). Bosses (J) ask you to build peptides. To enter the nucleus you need an NLS: gather 4 Lys (K) in the ribosomes (÷). Signs (i) explain each zone. I'm the V on the map: find me for advice.",
     'Para atrapar un aminoácido hay que reconocer su estructura. Practica en la Aminodex ([X] y luego [P]): los que fallas saldrán más seguido.':
         'To catch an amino acid you must recognize its structure. Practice in the Aminodex ([X], then [P]): the ones you miss will show up more often.',
     '  para modificar: [E] → V':
@@ -173,8 +163,6 @@ EN = {
         'Selenocysteine (card)',
     'Selenocisteína (evento)':
         'Selenocysteine (event)',
-    '¿Ver el evento de la selenocisteína?':
-        'See the selenocysteine event?',
     'Encargos de síntesis: llevas {n}/{total}. Cada uno es un péptido real que armas en el ribosoma.':
         'Synthesis orders: {n}/{total} done. Each one is a real peptide you build on the ribosome.',
     'Terminaste mis encargos. En «Síntesis libre» quedan los otros péptidos del catálogo, y puedes repetir mi examen.':
@@ -195,10 +183,26 @@ EN = {
         '{jugador}, your starting team: Methionine and {nombre}.\n\nWild amino acids show up in the areas marked with symbols. Deduce their group [D], use matching moves and, with affinity ≥ 50, throw a tRNA [T].',
     '¿Qué tal, {jugador}?':
         "How's it going, {jugador}?",
-    '¡{jugador}, conseguiste todas las modificaciones postraduccionales! En tu cadena, los residuos modificados ahora se ven marcados con el color de su nuevo grupo, y el título del mapa se pinta con los 5 grupos de Lehninger.':
-        "{jugador}, you got all the post-translational modifications! In your chain, the modified residues are now marked with the color of their new group, and the map title is painted with Lehninger's 5 groups.",
     'Hola, {jugador}.':
         'Hi, {jugador}.',
     '¡{jugador}, capturaste los 20 aminoácidos estándar! Habla con el René-virus (V): tiene algo para ti.':
         '{jugador}, you caught the 20 standard amino acids! Talk to the René-virus (V): it has something for you.',
+    '¡{jugador}, conseguiste todas las modificaciones covalentes! Ahora en tu cadena los residuos modificados llevan el color de su nuevo grupo.':
+        '{jugador}, you got all the covalent modifications! Now the modified residues in your chain wear the color of their new group.',
+    'Soy el René-virus y estudio proteómica. No traigo ribosomas: mis proteínas las hace la célula con los 20 aminoácidos estándar. Tu trabajo: encontrar y caracterizar esos 20.':
+        "I'm the René-virus and I study proteomics. I don't carry ribosomes: the cell makes my proteins with the 20 standard amino acids. Your job: find and characterize those 20.",
+    'En el juego, cada aminoácido vive donde su química importa: los no polares en la membrana, los básicos junto al ARN y al ADN (en una célula real, los libres están en todas partes).':
+        'In the game, each amino acid lives where its chemistry matters: nonpolar ones in the membrane, basic ones next to RNA and DNA (in a real cell, free ones are everywhere).',
+    'La mitocondria (Θ) recupera a tu equipo y recarga ATP. Los jefes (J) piden construir péptidos. Para entrar al núcleo junta 4 Lys (K) en los ribosomas (÷): son tu NLS. Los carteles (i) explican cada zona; yo soy la V del mapa.':
+        "The mitochondrion (Θ) restores your team and recharges ATP. Bosses (J) ask you to build peptides. To enter the nucleus, gather 4 Lys (K) in the ribosomes (÷): they're your NLS. Signs (i) explain each area; I'm the V on the map.",
+    'WASD mover · C correr · M manual · X Aminodex · E equipo · G guardar · Q salir':
+        'WASD move · C run · M manual · X Aminodex · E team · G save · Q quit',
+    '¡{jugador}, capturaste los 20 aminoácidos estándar! Con la Maestría de la Chaperona, el René-virus (V) tendrá algo para ti.':
+        "{jugador}, you caught the 20 standard amino acids! Once you have the Chaperone's Master's, the René-virus (V) will have something for you.",
+    'Corriendo: avanzas {n} casillas por tecla (C para caminar).':
+        'Running: you move {n} tiles per key (C to walk).',
+    'Caminando.':
+        'Walking.',
+    'Examen final del René-virus':
+        'René-virus final exam',
 }

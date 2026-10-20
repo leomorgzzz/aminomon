@@ -1,8 +1,6 @@
 """Traducción al inglés de los textos de manual.py."""
 
 EN = {
-    'Ojo: que cada aminoácido «viva» en una zona es una regla del juego. En una célula real los aminoácidos libres están en todos los compartimentos; la zona solo recuerda dónde su química es protagonista (los básicos junto al ARN, los no polares en la membrana…).':
-        'Note: each amino acid "living" in one zone is a game rule. In a real cell free amino acids are found in every compartment; the zone only reminds you where its chemistry plays the lead role (basic ones next to RNA, nonpolar ones in the membrane…).',
     "'PVT TIM HaLL': Phe Val Thr Trp Ile Met His (Arg) Leu Lys. La A es Arg, esencial solo en ciertas condiciones (p. ej., en neonatos).":
         "'PVT TIM HaLL' (Private Tim Hall): Phe Val Thr Trp Ile Met His (Arg) Leu Lys. The A is Arg, which is essential only under certain conditions (e.g. in newborns).",
     '←/→ pestaña  ↑/↓ desplazar  1-9 ir  Esc cerrar':
@@ -41,8 +39,6 @@ EN = {
         '— (its R is an H)',
     'Qué hace cada clase de interacción':
         'What each class of interaction does',
-    'Modificaciones postraduccionales':
-        'Post-translational modifications',
     'Zonas de la célula':
         'Areas of the cell',
     '   (sin visitar)':
@@ -249,18 +245,26 @@ EN = {
         'M or ?',
     'sonido al acertar o fallar (sí/no)':
         'sound when right or wrong (on/off)',
-    'Cada movimiento es una interacción de tu grupo R (o de tu esqueleto) con el rival. La interacción concreta (puente salino, catión–π, repulsión…) depende del grupo del rival y se ve a la derecha del movimiento. Si el rival tiene dos tipos, los factores se multiplican (×2 · ×2 = ×4).':
-        "Each move is an interaction of your R group (or your backbone) with the rival. The specific interaction (salt bridge, cation–π, repulsion…) depends on the rival's group and is shown to the right of the move. If the rival has two types, the factors multiply (×2 · ×2 = ×4).",
-    'Para atraparlo hay que reconocer su estructura: primero el nombre, luego el código de 3 letras y luego el de 1. Después se mezclan carga, grupo, pKR, pI, nutrición, codones e hidropatía. Los que fallas salen más en el campo, y reconocer a uno que ya capturaste da afinidad extra.':
-        'To catch it you must recognize its structure: first the name, then the 3-letter code, then the 1-letter code. Later, charge, group, pKR, pI, nutrition, codons and hydropathy are mixed in. The ones you miss show up more in the field, and recognizing one you already caught gives extra affinity.',
-    'Cada jefe pide construir un péptido con lo que ya capturaste; puedes usar cada aminoácido tantas veces como lo tengas en tu equipo. El poro nuclear también es un jefe: para entrar al núcleo necesitas una NLS con al menos 4 Lys (viven en los ribosomas ÷).':
-        "Each boss asks you to build a peptide with what you've caught; you can use each amino acid as many times as you have it on your team. The nuclear pore is a boss too: to enter the nucleus you need an NLS with at least 4 Lys (they live in the ribosomes ÷).",
-    'En la célula se hacen sobre residuos de una proteína, durante o después de la traducción, no sobre aminoácidos libres: en el juego, cada miembro de tu equipo representa uno de esos residuos.':
-        'In the cell they are made on residues of a protein, during or after translation, not on free amino acids: in the game, each member of your team stands for one of those residues.',
     'En su grupo: ':
         'Within its group: ',
-    'Habla con el René-virus (V): su examen final te pide traducir ARNm y analizar mutaciones reales (anemia falciforme, fibrosis quística, KRAS, Huntington…). Con los 20 aminoácidos capturados también te cuenta de la selenocisteína (Sec, U), que no es de los 20: si contestas bien sus 3 preguntas, se une a tu equipo.':
-        "Talk to the René-virus (V): its final exam asks you to translate mRNA and analyze real mutations (sickle cell anemia, cystic fibrosis, KRAS, Huntington…). Once you've caught the 20 amino acids it also tells you about selenocysteine (Sec, U), which isn't one of the 20: answer its 3 questions correctly and it joins your team.",
-    'El René-virus te hace 6 encargos de síntesis, del RGD al péptido Tat. Cada péptido se arma en un ribosoma: a cada codón que llega al sitio A le eliges su ARNt antes de que se acabe el tiempo. Si fallas no te da la respuesta: te marca los codones malos y lo repites con otros. Al terminar se abre la síntesis libre con el resto del catálogo, y todo lo que sintetizas entra a la pestaña Péptidos de la Aminodex. Si ya hiciste el evento de la Sec, hay un encargo especial: una selenoproteína donde un UGA se lee como Sec gracias al SECIS.':
-        "The René-virus gives you 6 synthesis orders, from RGD to the Tat peptide. Each peptide is built on a ribosome: for every codon that reaches the A site you pick its tRNA before time runs out. If you miss, it doesn't tell you the answer: it marks the wrong codons and you repeat it with other ones. When you finish, free synthesis opens with the rest of the catalog, and everything you synthesize goes into the Peptides tab of the Aminodex. If you've done the Sec event, there's a special order: a selenoprotein where a UGA is read as Sec thanks to the SECIS.",
+    'Modificaciones covalentes':
+        'Covalent modifications',
+    'Habla con el René-virus (V): su examen final pide traducir ARNm y analizar mutaciones reales. Con los 20 aminoácidos y la Maestría también te cuenta de la selenocisteína (Sec, U): con sus 3 preguntas bien, se une a tu equipo.':
+        "Talk to the René-virus (V): its final exam asks you to translate mRNA and analyze real mutations. With the 20 amino acids and the Master's, it also tells you about selenocysteine (Sec, U): get its 3 questions right and it joins your team.",
+    'El René-virus te hace 6 encargos de síntesis: en un ribosoma, a cada codón que llega al sitio A le eliges su ARNt a tiempo. Si fallas, te marca los codones malos y lo repites. Después se abre la síntesis libre; lo que sintetizas queda en Aminodex → Péptidos. Con la Sec hay un encargo especial: una selenoproteína.':
+        "The René-virus gives you 6 synthesis orders: in a ribosome, you pick the tRNA for each codon that reaches the A site, in time. If you miss, it marks the wrong codons and you try again. Then free synthesis opens up; what you synthesize goes to Aminodex → Peptides. With Sec there's a special order: a selenoprotein.",
+    'Para atraparlo, reconoce su estructura: primero el nombre, luego los códigos de 3 y de 1 letra; después, carga, grupo, pKR, pI, nutrición, codones e hidropatía. Los que fallas salen más seguido.':
+        'To catch it, recognize its structure: first the name, then the 3- and 1-letter codes; after that, charge, group, pKR, pI, nutrition, codons and hydropathy. The ones you miss show up more often.',
+    'Cada jefe pide construir un péptido con tu equipo (cada aminoácido, tantas veces como lo tengas). El poro nuclear también es un jefe: pide una NLS con al menos 4 Lys (en los ribosomas ÷).':
+        'Each boss asks you to build a peptide with your team (each amino acid as many times as you have it). The nuclear pore is also a boss: it asks for an NLS with at least 4 Lys (in the ribosomes ÷).',
+    'Cada movimiento es una interacción de tu grupo R (o de tu esqueleto) con el rival: puente salino, catión–π, repulsión… según su grupo (se ve a la derecha). Si tiene dos tipos, los factores se multiplican (×2 · ×2 = ×4).':
+        'Each move is an interaction between your R group (or your backbone) and the opponent: salt bridge, cation–π, repulsion… depending on its group (shown on the right). If it has two types, the factors multiply (×2 · ×2 = ×4).',
+    'Que cada aminoácido «viva» en una zona es una regla del juego: en una célula real los libres están en todos lados. La zona recuerda dónde importa su química.':
+        "Each amino acid 'living' in one area is a game rule: in a real cell free ones are everywhere. The area reminds you where its chemistry matters.",
+    'Son enlaces nuevos en la cadena lateral de un residuo de una proteína (en el juego, cada miembro de tu equipo es un residuo). Unas ocurren mientras el ribosoma traduce (N-glicosilación) y otras después (fosforilación): por eso se llaman covalentes y no solo «postraduccionales».':
+        'They are new bonds on the side chain of a residue in a protein (in the game, each member of your team is a residue). Some happen while the ribosome translates (N-glycosylation) and others afterwards (phosphorylation): that\'s why they\'re called covalent and not just "post-translational".',
+    'correr: 4 casillas por tecla':
+        'run: 4 tiles per key',
+    'C o Mayús+WASD':
+        'C or Shift+WASD',
 }

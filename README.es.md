@@ -6,7 +6,7 @@
 
 RPG por turnos en la terminal para aprender los 20 aminoácidos estándar:
 cadena lateral, tipo químico, carga, pK1/pK2/pKR, pI, hidropatía,
-clasificación nutricional, codones y modificaciones postraduccionales.
+clasificación nutricional, codones y modificaciones covalentes.
 
 **¿Para quién es?** Para quien tiene que aprenderse los aminoácidos en un curso
 de bioquímica o biología, de prepa a posgrado. No necesitas saber nada: empiezas
@@ -35,7 +35,7 @@ estructura: nombre, códigos de 3 y 1 letras, y luego carga, grupo, pKR, pI,
 codones o hidropatía. Los que fallas salen más. En combate cada movimiento es
 una interacción real de su grupo R (puente salino, catión–π, puente de H…).
 Al subir de nivel (y a veces con un objeto o en cierta zona) tus residuos
-consiguen 13 modificaciones postraduccionales (fosfoserina, hidroxiprolina, cistina, Gla…).
+consiguen 13 modificaciones covalentes (fosfoserina, hidroxiprolina, cistina, Gla…).
 
 **Los jefes.** 7 jefes de zona te piden construir un péptido que cumpla una
 condición (una NLS para entrar al núcleo, un patrón Gly-X-Y para el colágeno,

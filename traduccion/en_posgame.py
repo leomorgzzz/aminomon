@@ -63,12 +63,6 @@ EN = {
         'Your gift: a ♦ next to the map title. Thanks for playing; you can keep practicing as much as you like.',
     'CERTIFICADO · Aminomon completo':
         'CERTIFICATE · Aminomon complete',
-    'Para este evento necesitas una Ser en tu equipo: la Sec se arma sobre una Ser.':
-        'For this event you need a Ser on your team: Sec is built on a Ser.',
-    'Hay un aminoácido fuera de los 20: la selenocisteína (Sec, U). Unas 25 proteínas humanas la usan, como la glutatión peroxidasa.':
-        "There's an amino acid outside the 20: selenocysteine (Sec, U). About 25 human proteins use it, such as glutathione peroxidase.",
-    'CÓMO FUNCIONA\n\n• Son 3 preguntas sobre cómo la célula mete la Sec en una proteína.\n• Después de cada una te digo si acertaste y por qué.\n• Con las 3 bien, una Sec se une a tu equipo. Si fallas alguna, repítelo cuando quieras.':
-        'HOW IT WORKS\n\n• 3 questions about how the cell puts Sec into a protein.\n• After each one I tell you whether you got it and why.\n• Get all 3 right and a Sec joins your team. If you miss one, try again whenever you like.',
     'UGA, que normalmente es de paro.':
         'UGA, which is normally a stop codon.',
     'La horquilla SECIS recluta las proteínas que traen el ARNt-Sec al ribosoma.':
@@ -89,8 +83,6 @@ EN = {
         'UGA + a SECIS element in the mRNA',
     'Cómo se hace':
         "How it's made",
-    'Sobre su ARNt: se carga con Ser y la Ser se convierte en Sec. No es una modificación postraduccional.':
-        "On its tRNA: it's loaded with Ser and the Ser is converted into Sec. It is not a post-translational modification.",
     'Dónde está':
         'Where it is',
     '~25 proteínas humanas: glutatión peroxidasas, tiorredoxina reductasas y desyodasas tiroideas.':
@@ -181,4 +173,18 @@ EN = {
         '3/3, {jugador}!',
     'Se certifica que {jugador} capturó los 20 aminoácidos, consiguió las {m} modificaciones, ganó las {i} insignias, aprobó los dos exámenes, conoció a la selenocisteína, cumplió los {p} encargos de síntesis (y la selenoproteína) y resolvió el laboratorio.':
         'This certifies that {jugador} caught the 20 amino acids, got the {m} modifications, won the {i} badges, passed both exams, met selenocysteine, completed the {p} synthesis orders (and the selenoprotein) and solved the lab.',
+    'Sobre su ARNt: se carga con Ser y la Ser se convierte en Sec. Entra ya hecha al ribosoma: no es una modificación de un residuo.':
+        "On its tRNA: it's loaded with Ser and the Ser is converted into Sec. It enters the ribosome ready-made: it is not a modification of a residue.",
+    'La Sec es una Cys con Se en lugar de S. Su selenol (pKR ≈ 5.2) a pH 7 está casi todo como –Se−: más nucleófilo que el tiol de la Cys y más fácil de oxidar y regenerar. Por eso la usan enzimas redox como la glutatión peroxidasa.':
+        "Sec is a Cys with Se instead of S. Its selenol (pKR ≈ 5.2) is almost all –Se− at pH 7: more nucleophilic than the Cys thiol and easier to oxidize and regenerate. That's why redox enzymes like glutathione peroxidase use it.",
+    'CÓMO FUNCIONA\n\n• 3 preguntas sobre cómo la célula mete la Sec en una proteína.\n• Con las 3 bien, una Sec se une a tu equipo. Si fallas, repítelo cuando quieras.':
+        'HOW IT WORKS\n\n• 3 questions about how the cell puts Sec into a protein.\n• Get all 3 right and a Sec joins your team. If you miss, try again whenever you want.',
+    '{jugador}, ya reuniste los 20 aminoácidos estándar y tienes la Maestría de la Chaperona. Ahora te cuento de un aminoácido 21 que el código genético casi esconde: la selenocisteína (Sec, U).':
+        "{jugador}, you've gathered the 20 standard amino acids and you hold the Chaperone's Master's. Now let me tell you about a 21st amino acid the genetic code almost hides: selenocysteine (Sec, U).",
+    '¿Hacer el evento de la selenocisteína?':
+        'Do the selenocysteine event?',
+    'Ahora no (luego está en mi menú)':
+        "Not now (it'll be in my menu)",
+    'Para este evento necesitas una Ser en tu equipo: la Sec se arma sobre una Ser. Cuando la tengas, búscalo en mi menú.':
+        'For this event you need a Ser on your team: Sec is built on a Ser. Once you have one, find it in my menu.',
 }

@@ -209,7 +209,7 @@ def generar():
         for x in range(ANCHO):
             if t[y][x] == "m":
                 borde = any(not es(x + a, y + b, "m") for a, b in ((1, 0), (-1, 0), (0, 1), (0, -1)))
-                deco[(x, y)] = ("☼", "titulo") if borde else (("│" if x % 3 == 0 else "·"), "titulo")
+                deco[(x, y)] = ("Θ", "titulo") if borde else (("│" if x % 3 == 0 else "·"), "titulo")
             elif t[y][x] == "e" and rnd.random() < 0.05:
                 deco[(x, y)] = ("·", "oscuro")
             elif t[y][x] == "N" and rnd.random() < 0.04:

@@ -255,10 +255,20 @@ def elegir_tipo(juego, aa):
     return random.choices(tipos, pesos)[0]
 
 
-def elegir_aleatoria(juego):
-    """Para la Chaperona: aminoácido y tipo ponderados por fallos."""
+def elegir_aleatoria(juego, hechas=()):
+    """Para la Chaperona: aminoácido y tipo ponderados por fallos. No repite ni el
+    aminoácido ni el tipo de las ya hechas (mientras queden sin usar)."""
     claves = [(aa, t) for aa in datos.ORDEN for t in TIPOS_PROPIEDAD + ["tres", "una"]
               if aplica(aa, t)]
+    usados_aa = {aa for aa, _ in hechas}
+    usados_t = {t for _, t in hechas}
+    for filtro in (lambda aa, t: aa not in usados_aa and t not in usados_t,
+                   lambda aa, t: aa not in usados_aa,
+                   lambda aa, t: (aa, t) not in hechas):
+        libres = [k for k in claves if filtro(*k)]
+        if libres:
+            claves = libres
+            break
     pesos = [progreso.peso(juego, f"{aa}:{t}") for aa, t in claves]
     return random.choices(claves, pesos)[0]
 
@@ -710,7 +720,77 @@ def _practica_diferente(win, juego):
                 attr=d.c("bien" if aciertos >= 0.8 * hechas else "texto"))
 
 
-# --------------------------------------------- modificaciones postraduccionales
+# --------------------------------------------- modificaciones covalentes
+# ¿Por qué? de cada modificación: (pregunta, correcta, distractores)
+POR_QUE = {
+    "Hyp": (tr("¿Por qué la falta de vitamina C debilita el colágeno?"),
+            tr("Sin ella no se forma la Hyp y la triple hélice pierde estabilidad"),
+            [tr("La vitamina C es uno de los aminoácidos del colágeno"),
+             tr("Sin ella el ribosoma no puede leer los codones de la Pro"),
+             tr("La vitamina C forma los puentes disulfuro entre las fibras")]),
+    "Hyl": (tr("¿Para qué sirve el OH nuevo de la hidroxilisina en el colágeno?"),
+            tr("Recibe azúcares y forma entrecruzamientos"),
+            [tr("Le quita la carga + a la Lys para que se pliegue"),
+             tr("Le da un segundo carboxilo que atrapa Ca²+ entre las fibras"),
+             tr("Vuelve aromática a la Lys para que se apile con la Pro")]),
+    "Kac": (tr("¿Por qué acetilar las Lys de una histona abre la cromatina?"),
+            tr("La Lys pierde su + y se une menos al ADN (−)"),
+            [tr("El acetilo le da a la Lys una carga − que repele al ADN"),
+             tr("El acetilo corta los enlaces fosfodiéster del ADN"),
+             tr("La Lys se vuelve aromática y se apila con las bases")]),
+    "Kme3": (tr("¿Por qué la trimetil-lisina ya no se puede acetilar?"),
+             tr("Su N tiene 4 enlaces y ningún par libre: ya no es nucleófilo"),
+             [tr("Al metilarse perdió su carga + y ya no atrae al acetilo"),
+              tr("Los tres metilos la vuelven un ácido con carga −"),
+              tr("La SAM se queda unida y tapa a la Lys para siempre")]),
+    "pS": (tr("¿Por qué Ser, Thr y Tyr son las que más se fosforilan?"),
+           tr("Su OH ataca al fosfato del ATP: queda un fosfoéster estable que una fosfatasa quita"),
+           [tr("Son las únicas que ya tienen carga − a pH 7"),
+            tr("Son las más hidrofóbicas, y el fosfato las vuelve solubles"),
+            tr("Tienen un azufre que se une directo al fósforo")]),
+    "pT": (tr("¿Qué le pasa a un residuo al fosforilarse a pH 7?"),
+           tr("Pasa de neutro a ≈ −2 y cambia con qué se une"),
+           [tr("Gana una carga + y se une al ADN"),
+            tr("Se vuelve no polar y entra a la membrana"),
+            tr("Pierde su cadena lateral y se vuelve Gly")]),
+    "pY": (tr("¿Cómo reconoce un dominio SH2 a una fosfotirosina?"),
+           tr("Una Arg suya hace puente salino con el fosfato y el anillo entra en un bolsillo"),
+           [tr("Forma un puente disulfuro con el OH de la Tyr"),
+            tr("La pTyr tiene carga + y atrae al SH2, que es ácido"),
+            tr("Le quita el fosfato y se queda unido al ATP")]),
+    "Cis": (tr("¿Por qué hay disulfuros en el RE pero casi no en el citosol?"),
+            tr("El RE es oxidante; en el citosol el glutatión los reduce"),
+            [tr("En el citosol no hay Cys libres"),
+             tr("El RE no tiene agua y la reacción no se hidroliza"),
+             tr("En el citosol las Cys están todas fosforiladas")]),
+    "Gla": (tr("¿Para qué sirve el segundo carboxilato del Gla?"),
+            tr("Los dos carboxilatos juntos atrapan un Ca²+"),
+            [tr("Le dan carga + para unirse a los fosfolípidos"),
+             tr("Forman un puente disulfuro con otro Gla"),
+             tr("Lo vuelven hidrofóbico para meterse a la membrana")]),
+    "Nglc": (tr("¿Por qué la N-glicosilación necesita la secuencia N-X-S/T?"),
+             tr("El OH de la Ser/Thr ayuda a activar al N de la amida de la Asn"),
+             [tr("El azúcar se une a la Ser/Thr y no a la Asn"),
+              tr("La X tiene que ser una Pro para doblar la cadena"),
+              tr("La Ser/Thr le pasa su carga + al azúcar")]),
+    "gS": (tr("¿En qué se diferencia la O-glicosilación de la N-glicosilación?"),
+           tr("El azúcar va en el O de Ser/Thr, en el Golgi y sin secuencia consenso"),
+           [tr("El azúcar va en el N de la Asn, en el RE y con N-X-S/T"),
+            tr("El azúcar va en el S de la Cys, en el citosol"),
+            tr("Solo ocurre mientras el ribosoma traduce, en el núcleo")]),
+    "gT": (tr("¿Por qué las mucinas cubiertas de O-glicanos forman moco?"),
+           tr("Los muchos OH de sus azúcares atrapan agua"),
+           [tr("Sus azúcares son hidrofóbicos y repelen el agua"),
+            tr("Sus azúcares forman puentes disulfuro entre sí"),
+            tr("Sus azúcares tienen carga + y se pegan al ADN")]),
+    "Cit": (tr("¿Qué pierde la Arg al volverse citrulina?"),
+            tr("Su carga +: el guanidinio se vuelve una urea neutra"),
+            [tr("Su anillo aromático: se vuelve no polar"),
+             tr("Su carga −: el carboxilato se vuelve amida"),
+             tr("Su fosfato: la PAD es una fosfatasa")]),
+}
+
+
 def _practica_mods(win, juego):
     """Con la estructura de un residuo modificado: ¿qué modificación es? o ¿de
     qué aminoácido viene? Solo las que ya descubriste."""
@@ -721,8 +801,16 @@ def _practica_mods(win, juego):
     for i in range(PREGUNTAS_PRACTICA):
         e = random.choices(vistas, [progreso.peso(juego, f"{x}:mod") for x in vistas])[0]
         ev = mods[e]
-        if random.random() < 0.6:
-            texto = tr("¿Qué modificación postraduccional es esta?")
+        tirada = random.random()
+        explicacion = tr("{nombre} ({tres}), de {base}: {cambio}", nombre=ev["nombre"],
+                         tres=ev["tres"], base=AA[ev["base"]]["nombre"], cambio=ev["cambio"])
+        if tirada < 0.35 and e in POR_QUE:
+            texto, correcta, otras = POR_QUE[e]
+            ops = [correcta] + otras
+            random.shuffle(ops)
+            explicacion = ev["bio"]
+        elif tirada < 0.75:
+            texto = tr("¿Qué modificación covalente es esta?")
             correcta = ev["nombre"]
             mismas = [m["nombre"] for m in mods.values() if m["base"] == ev["base"]]
             ops = _opciones(correcta, nombres, fijos=mismas)
@@ -740,10 +828,16 @@ def _practica_mods(win, juego):
         x, y = d.ancho_estructura(arte) + 5, 2
         if ancho - x < 40:
             x, y = 1, len(arte) + 3
-        d.put(win, y, x, texto, d.c("texto", curses.A_BOLD))
+        an = max(20, ancho - x - 2)
+        for l in d.envolver(texto, an):
+            d.put(win, y, x, l, d.c("texto", curses.A_BOLD))
+            y += 1
+        y += 1
         for j, o in enumerate(ops):
-            d.put(win, y + 2 + j, x + 2, f"{j + 1}) {o}", d.c("texto"))
-        d.put(win, y + 7, x, tr("Pulsa el número · Esc salir"), d.c("tenue"))
+            for n, l in enumerate(d.envolver(f"{j + 1}) {o}", an - 2)):
+                d.put(win, y, x + 2 + (3 if n else 0), l, d.c("texto"))
+                y += 1
+        d.put(win, y + 1, x, tr("Pulsa el número · Esc salir"), d.c("tenue"))
         win.refresh()
         while True:
             k = d.tecla(win)
@@ -756,9 +850,7 @@ def _practica_mods(win, juego):
         aciertos += bien
         hechas += 1
         d.popup(win, (tr("Correcto.") if bien else tr("Incorrecto. Era: {g}.", g=correcta))
-                + " " + tr("{nombre} ({tres}), de {base}: {cambio}", nombre=ev["nombre"],
-                           tres=ev["tres"], base=AA[ev["base"]]["nombre"], cambio=ev["cambio"]),
-                tr("Resultado"), attr=d.c("bien" if bien else "mal"))
+                + " " + explicacion, tr("Resultado"), attr=d.c("bien" if bien else "mal"))
     progreso.guardar(juego)
     if hechas:
         d.popup(win, tr("{n}/{total} correctas.", n=aciertos, total=hechas), tr("Modificaciones"),

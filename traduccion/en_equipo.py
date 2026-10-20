@@ -1,8 +1,6 @@
 """Traducción al inglés de los textos de equipo.py."""
 
 EN = {
-    'Modificación postraduccional de {nombre}…':
-        'Post-translational modification of {nombre}…',
     'EQUIPO ({n})  ·  el primero (*) es el líder del combate':
         'TEAM ({n})  ·  the first one (*) leads in battle',
     'Objetos   {objetos}':
@@ -39,4 +37,6 @@ EN = {
         'Modifications complete',
     'En su grupo: ':
         'Within its group: ',
+    'Modificación covalente de {nombre}…':
+        'Covalent modification of {nombre}…',
 }

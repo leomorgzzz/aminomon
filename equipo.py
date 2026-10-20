@@ -136,7 +136,7 @@ def modificar(win, juego, mon, zona_actual):
         return
     progreso.modificar(juego, mon, eid)
     win.erase()
-    d.put(win, 0, 1, tr("Modificación postraduccional de {nombre}…", nombre=f["nombre"]),
+    d.put(win, 0, 1, tr("Modificación covalente de {nombre}…", nombre=f["nombre"]),
           d.c("titulo", curses.A_BOLD))
     anim.destello(win, 2, 1, f["arte"], datos.forma(eid)["arte"], f["tipos"][0], ev["tipos"][0])
     d.put(win, 0, 1, " " * 60)
@@ -149,8 +149,11 @@ def modificar(win, juego, mon, zona_actual):
                   despues=datos.nombre_tipos(ev["tipos"])) + "\n"
              + (tr("En su grupo: ") + ev["matiz"] + "\n" if ev.get("matiz") else "")
              + tr("Interacciones: {movs}", movs=propias) + f"\n\n{ev['bio']}")
-    for i, l in enumerate(d.envolver(texto, 52)):
-        d.put(win, 2 + i, 26, l, d.c("texto"))
+    # el texto empieza después de la estructura más ancha (la de antes o la nueva)
+    xt = max(26, 1 + max(d.ancho_estructura(f["arte"]),
+                         d.ancho_estructura(datos.forma(eid)["arte"])) + 4)
+    for i, l in enumerate(d.envolver(texto, max(30, min(60, win.getmaxyx()[1] - xt - 1)))):
+        d.put(win, 2 + i, xt, l, d.c("texto"))
     d.put(win, win.getmaxyx()[0] - 1, 1, tr("[Enter] seguir"), d.c("tenue"))
     win.refresh()
     while d.tecla(win) not in d.ENTER:

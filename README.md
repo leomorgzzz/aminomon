@@ -8,7 +8,7 @@ A turn-based terminal RPG for learning the 20 standard amino acids. To catch
 one you have to recognize its structure, and the ones you miss keep showing up
 until you know them: name, 3- and 1-letter codes, side chain, chemical type,
 charge, pK1/pK2/pKR, pI, hydropathy, nutritional class, codons and
-post-translational modifications.
+covalent modifications.
 
 **Who is it for?** Anyone who has to learn the amino acids for a biochemistry
 or biology course, from high school to grad school. You don't need to know
@@ -36,7 +36,7 @@ that make sense there. To catch one you have to recognize its structure: name,
 3- and 1-letter codes, then charge, group, pKR, pI, codons or hydropathy. The
 ones you miss show up more often. In battle every move is a real interaction of
 its R group (salt bridge, cation–π, H-bond…). Leveling up (sometimes with an
-item or in a certain area) gives your residues 13 post-translational
+item or in a certain area) gives your residues 13 covalent
 modifications (phosphoserine,
 hydroxyproline, cystine, Gla…).
 
