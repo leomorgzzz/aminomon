@@ -2,6 +2,7 @@
 
 import json
 import os
+import time
 
 import datos
 from idioma import tr
@@ -30,10 +31,19 @@ def nuevo_juego(pos):
 
 
 def guardar(juego):
+    """En Windows el antivirus o OneDrive a veces tienen abierta la partida y
+    os.replace falla: se reintenta y, si sigue sin poder, el juego no se
+    cierra (la siguiente vez que guarde lo vuelve a intentar)."""
     tmp = ARCHIVO + ".tmp"
-    with open(tmp, "w", encoding="utf-8") as f:
-        json.dump(juego, f, ensure_ascii=False, indent=1)
-    os.replace(tmp, ARCHIVO)
+    for intento in range(5):
+        try:
+            with open(tmp, "w", encoding="utf-8") as f:
+                json.dump(juego, f, ensure_ascii=False, indent=1)
+            os.replace(tmp, ARCHIVO)
+            return True
+        except OSError:
+            time.sleep(0.1 * (intento + 1))
+    return False
 
 
 def cargar():

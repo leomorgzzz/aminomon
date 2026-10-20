@@ -35,6 +35,11 @@ Name: "en"; MessagesFile: "compiler:Default.isl"
 [Tasks]
 Name: "escritorio"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"
 
+; al instalar encima de una versión vieja, se borran sus bibliotecas antes de
+; copiar las nuevas (si no, se juntan archivos de dos versiones de PyInstaller)
+[InstallDelete]
+Type: filesandordirs; Name: "{app}\_internal"
+
 [Files]
 Source: "dist\Aminomon\*"; DestDir: "{app}"; Flags: recursesubdirs ignoreversion
 

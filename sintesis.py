@@ -224,6 +224,7 @@ def ribosoma(win, juego, titulo, seq, segundos, ver_anti):
                 _dibujar(win, titulo, codones, i, cadena, antis, malos, ops, ver_anti, quedan, segundos,
                          aviso, secis=secis)
                 k = win.getch()
+                d.atender_resize(k)
                 if k == 27:
                     pausa = time.monotonic()
                     win.timeout(-1)

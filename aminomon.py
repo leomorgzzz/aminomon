@@ -16,6 +16,11 @@ def _asegurar_curses():
     except ImportError:
         if os.name != "nt":
             raise
+    if getattr(sys, "frozen", False):   # en el .exe, sys.executable es el juego, no Python
+        input("Al ejecutable le falta curses. Vuelve a descargar el instalador de\n"
+              "https://github.com/leomorgzzz/aminomon/releases/latest\n"
+              "Pulsa Enter para salir...")
+        sys.exit(1)
     import importlib
     import site
     import subprocess
@@ -45,11 +50,19 @@ def _pantalla_completa():
         return
     if os.name != "nt":
         return
+    try:
+        _pantalla_completa_windows()
+    except Exception:  # noqa: BLE001  si falla, la calibración explica qué teclas usar
+        pass
+
+
+def _pantalla_completa_windows():
     import ctypes
     import msvcrt
+    import time
     import pantalla
     if not pantalla.ajustar_consola_windows():
-        user32 = ctypes.windll.user32
+        _, user32 = pantalla._api()
         clase = ctypes.create_unicode_buffer(64)
         for _ in range(20):                 # Windows Terminal tarda un poco en aparecer
             user32.GetClassNameW(user32.GetForegroundWindow(), clase, 64)
@@ -69,6 +82,8 @@ def _con_aviso_de_error(funcion):
         return funcion()
     try:
         return funcion()
+    except KeyboardInterrupt:           # Ctrl+C: salir sin mostrar el error
+        return None
     except Exception:
         import traceback
         texto = traceback.format_exc()

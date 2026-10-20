@@ -281,6 +281,22 @@ def envolver(texto, ancho):
 
 MOVIMIENTO = (curses.KEY_UP, curses.KEY_DOWN, curses.KEY_LEFT, curses.KEY_RIGHT,
               "w", "a", "s", "d", "W", "A", "S", "D")
+# PDCurses (windows-curses) da otros códigos al teclado numérico: las flechas
+# con Bloq Num apagado (KEY_A2, KEY_B1, KEY_B3, KEY_C2) y su Enter (PADENTER).
+TECLADO_NUMERICO = {0x1C2: curses.KEY_UP, 0x1C4: curses.KEY_LEFT,
+                    0x1C6: curses.KEY_RIGHT, 0x1C8: curses.KEY_DOWN,
+                    0x1CB: "\n"} if os.name == "nt" else {}
+
+
+def atender_resize(k):
+    """En Windows, al cambiar el tamaño de la ventana: búfer = ventana (si es
+    más grande, se dibuja fuera de la vista) y PDCurses toma el tamaño nuevo,
+    que no actualiza solo. Lo llaman también los bucles que leen teclas sin
+    tecla()."""
+    if k == curses.KEY_RESIZE and os.name == "nt":
+        import pantalla
+        pantalla.igualar_bufer()
+        curses.resize_term(0, 0)
 
 
 def tecla(win, texto=False):
@@ -294,10 +310,8 @@ def tecla(win, texto=False):
             k = win.get_wch()
         except curses.error:
             continue
-        if k == curses.KEY_RESIZE and os.name == "nt":
-            import pantalla
-            pantalla.igualar_bufer()        # sin búfer más grande que la ventana
-            curses.resize_term(0, 0)        # PDCurses no actualiza el tamaño solo
+        k = TECLADO_NUMERICO.get(k, k)
+        atender_resize(k)
         if not texto and k in MOVIMIENTO:
             _descartar_repetidas(win, k)
         return k

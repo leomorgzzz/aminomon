@@ -396,7 +396,7 @@ def reproducir(win, y, x, h, w, nombre, ctx, velocidad="lenta"):
             t = time.monotonic()
             dibujar_cuadro(win, y, x, h, w, cuadro)
             win.refresh()
-            if win.getch() != -1:
+            if _tecla_o_nada(win):
                 saltar = True
                 break
             d.pausa(pausa, t)
@@ -406,12 +406,22 @@ def reproducir(win, y, x, h, w, nombre, ctx, velocidad="lenta"):
         if not saltar:
             # pausa final para leer el resultado (también se puede saltar)
             for _ in range(espera // 50):
-                if win.getch() != -1:
+                if _tecla_o_nada(win):
                     break
                 curses.napms(50)
     finally:
         win.nodelay(False)
     return cuadros[-1] if cuadros else []
+
+
+def _tecla_o_nada(win):
+    """True si se pulsó una tecla (salta la animación). Cambiar el tamaño de
+    la ventana no cuenta como tecla."""
+    k = win.getch()
+    if k == curses.KEY_RESIZE:
+        d.atender_resize(k)
+        return False
+    return k != -1
 
 
 def dibujar_cuadro(win, y, x, h, w, cuadro):
@@ -434,7 +444,7 @@ def sacudir(win, y, x, arte, color, veces=4):
                 d.put(win, y + k, max(0, x - 1), " " * ancho)
                 d.put(win, y + k, max(0, x + dx), l, d.c(color))
             win.refresh()
-            if win.getch() != -1:
+            if _tecla_o_nada(win):
                 break
             d.pausa(60, t)
         for k, l in enumerate(arte):

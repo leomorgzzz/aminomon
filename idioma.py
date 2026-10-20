@@ -64,8 +64,11 @@ if ACTUAL == "en":
 
 
 def guardar(idioma):
-    with open(ARCHIVO, "w", encoding="utf-8") as f:
-        f.write(idioma + "\n")
+    try:
+        with open(ARCHIVO, "w", encoding="utf-8") as f:
+            f.write(idioma + "\n")
+    except OSError:
+        pass                    # se cambia igual; solo no se recuerda
 
 
 def tr(texto, **valores):

@@ -37,6 +37,24 @@ def _archivo_aviso():
 
 
 # ---------------------------------------------------------------- Windows
+def _api():
+    """kernel32 y user32 con los tipos de las ventanas declarados: sin eso
+    ctypes las trata como int de 32 bits y en Windows de 64 bits se pueden
+    cortar."""
+    import ctypes
+    from ctypes import wintypes
+    kernel32, user32 = ctypes.windll.kernel32, ctypes.windll.user32
+    kernel32.GetConsoleWindow.restype = wintypes.HWND
+    user32.GetForegroundWindow.restype = wintypes.HWND
+    user32.GetClassNameW.argtypes = (wintypes.HWND, wintypes.LPWSTR, ctypes.c_int)
+    user32.ShowWindow.argtypes = (wintypes.HWND, ctypes.c_int)
+    user32.SetForegroundWindow.argtypes = (wintypes.HWND,)
+    user32.MonitorFromWindow.argtypes = (wintypes.HWND, wintypes.DWORD)
+    user32.MonitorFromWindow.restype = wintypes.HMONITOR
+    user32.GetMonitorInfoW.argtypes = (wintypes.HMONITOR, ctypes.c_void_p)
+    return kernel32, user32
+
+
 def ajustar_consola_windows():
     """Maximiza y pone en pantalla completa la consola clásica, elige la
     fuente con el tamaño del monitor y deja el búfer del tamaño de la ventana.
@@ -45,7 +63,7 @@ def ajustar_consola_windows():
         return False
     import ctypes
     from ctypes import wintypes
-    kernel32, user32 = ctypes.windll.kernel32, ctypes.windll.user32
+    kernel32, user32 = _api()
     try:
         user32.SetProcessDPIAware()             # tamaños en píxeles reales
     except AttributeError:
@@ -60,7 +78,9 @@ def ajustar_consola_windows():
     time.sleep(0.2)
     nada = ctypes.c_uint32()
     salida = kernel32.GetStdHandle(-11)
-    if not kernel32.SetConsoleDisplayMode(salida, 1, ctypes.byref(nada)):
+    # el Alt+Enter simulado va a la ventana de enfrente: solo si es la consola
+    if (not kernel32.SetConsoleDisplayMode(salida, 1, ctypes.byref(nada))
+            and user32.GetForegroundWindow() == consola):
         _alt_enter(user32)
     time.sleep(0.5)
 
@@ -124,7 +144,7 @@ def _estructuras():
 def _poner_fuente(alto):
     import ctypes
     COORD, FUENTE, _ = _estructuras()
-    kernel32 = ctypes.windll.kernel32
+    kernel32, _ = _api()
     f = FUENTE()
     f.cbSize = ctypes.sizeof(FUENTE)
     f.nFont, f.dwFontSize, f.FontFamily, f.FontWeight = 0, COORD(0, alto), 54, 400
@@ -139,8 +159,8 @@ def tamano_consola():
     import ctypes
     _, _, BUFER = _estructuras()
     b = BUFER()
-    if not ctypes.windll.kernel32.GetConsoleScreenBufferInfo(
-            ctypes.windll.kernel32.GetStdHandle(-11), ctypes.byref(b)):
+    kernel32, _ = _api()
+    if not kernel32.GetConsoleScreenBufferInfo(kernel32.GetStdHandle(-11), ctypes.byref(b)):
         return 0, 0
     return b.srWindow.Right - b.srWindow.Left + 1, b.srWindow.Bottom - b.srWindow.Top + 1
 
@@ -149,12 +169,11 @@ def igualar_bufer():
     """Búfer = ventana: si el búfer es más grande, se dibuja fuera de la vista."""
     if os.name != "nt":
         return
-    import ctypes
     COORD, _, _ = _estructuras()
     cols, filas = tamano_consola()
     if cols and filas:
-        ctypes.windll.kernel32.SetConsoleScreenBufferSize(
-            ctypes.windll.kernel32.GetStdHandle(-11), COORD(cols, filas))
+        kernel32, _ = _api()
+        kernel32.SetConsoleScreenBufferSize(kernel32.GetStdHandle(-11), COORD(cols, filas))
 
 
 # ----------------------------------------------------------- calibración

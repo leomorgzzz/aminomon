@@ -18,6 +18,7 @@ import functools
 import json
 import os
 import re
+import shutil
 import subprocess
 import sys
 import tempfile
@@ -103,7 +104,11 @@ def preparar():
     if sys.platform == "win32" and getattr(sys, "frozen", False):
         ruta = os.path.join(tempfile.mkdtemp(), INSTALADOR)
         try:
-            urllib.request.urlretrieve(f"{PAGINA}/download/{INSTALADOR}", ruta)
+            # con tiempo límite: sin él, una conexión colgada deja el aviso
+            # «Descargando...» para siempre
+            with urllib.request.urlopen(f"{PAGINA}/download/{INSTALADOR}", timeout=30) as r, \
+                    open(ruta, "wb") as f:
+                shutil.copyfileobj(r, f)
         except Exception:  # noqa: BLE001
             return None
         return ruta

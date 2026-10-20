@@ -554,6 +554,7 @@ def _contrarreloj(win, juego):
                 d.put(win, y + 5, x, tr("Pulsa el número · Esc salir"), d.c("tenue"))
                 win.refresh()
                 k = win.getch()
+                d.atender_resize(k)
                 if k == 27:
                     return
                 if 49 <= k <= 48 + len(p["opciones"]):

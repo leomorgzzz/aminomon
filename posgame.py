@@ -668,6 +668,8 @@ def _saltar(win):
                 k = win.get_wch()
             except curses.error:
                 return False
+            k = d.TECLADO_NUMERICO.get(k, k)
+            d.atender_resize(k)
             if k in d.ENTER:
                 return True
     finally:
