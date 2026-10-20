@@ -27,6 +27,14 @@ python3 pruebas/correr.py   # tienen que pasar todas
 - Solo símbolos que dibuja la consola de Windows (la prueba lo revisa).
 - Commits en español, en pasado y directos, como los que ya hay.
 
+Para publicar una versión: un `git push` **no** llega a Windows ni a macOS.
+El instalador y el aviso «Actualizar a…» salen de la última versión en
+Releases, que se crea al subir una etiqueta:
+
+```bash
+git tag v1.7 && git push origin v1.7   # pruebas en 3 sistemas, compila y publica
+```
+
 ## English
 
 What helps most, in this order:
@@ -41,3 +49,6 @@ To change code, run `python3 pruebas/correr.py` (all must pass). Standard
 library only; texts are written in Spanish inside `tr("…")` and translated in
 `traduccion/en_<module>.py`; values come from Lehninger (25 °C); commit
 messages are in Spanish, past tense, like the existing ones.
+
+A `git push` does not reach the Windows/macOS builds: push a new tag
+(`git tag v1.7 && git push origin v1.7`) to build and publish a release.

@@ -41,6 +41,13 @@ ESPANOL = re.compile(r"[áéíóúñ¿¡]|\b(el|la|los|las|del|que|con|para|una|
 fallas = []
 
 
+def casa_temporal():
+    """Carpeta de usuario falsa para no tocar la partida real. En Windows
+    Python busca ~ en USERPROFILE y no en HOME: hay que cambiar las dos."""
+    carpeta = tempfile.mkdtemp()
+    return {"HOME": carpeta, "USERPROFILE": carpeta}
+
+
 def revisar(nombre, condicion, detalle=""):
     print(("ok    " if condicion else "FALLA ") + nombre)
     if not condicion:
@@ -60,7 +67,7 @@ for idioma_ in ("es", "en"):
               "import importlib\n"
               "for m in %r: importlib.import_module(m)\n") % (idioma_, MODULOS)
     r = subprocess.run([sys.executable, "-c", codigo], cwd=RAIZ, capture_output=True, text=True,
-                       env=dict(os.environ, HOME=tempfile.mkdtemp()))
+                       env=dict(os.environ, **casa_temporal()))
     revisar(f"los módulos importan ({idioma_})", r.returncode == 0, r.stderr[-1500:])
 
 # ------------------------------------------------------- 2. llamadas a tr
@@ -100,7 +107,7 @@ revisar("cada traducción tiene los mismos {campos} que el español", not campos
 
 # ------------------------------------------------ 4. datos en inglés
 sys.argv = ["x", "--en"]
-os.environ["HOME"] = tempfile.mkdtemp()
+os.environ.update(casa_temporal())
 import datos  # noqa: E402
 import jefes  # noqa: E402
 
@@ -148,7 +155,7 @@ for idioma_ in ("es", "en"):
               "print(sum(len(m['correcta']) > max(map(len, m['otras'])) for m in jefes.MUTACIONES),"
               " len(jefes.MUTACIONES))") % idioma_
     r = subprocess.run([sys.executable, "-c", codigo], cwd=RAIZ, capture_output=True, text=True,
-                       env=dict(os.environ, HOME=tempfile.mkdtemp()))
+                       env=dict(os.environ, **casa_temporal()))
     largas, total = map(int, r.stdout.split())
     revisar(f"la correcta del René-virus casi nunca es la más larga ({idioma_})",
             largas <= total * 0.3, f"{largas} de {total} preguntas")
@@ -255,6 +262,8 @@ viejo = {"pos": [60, 24], "equipo": [{"id": "K", "nivel": 5, "xp": 0, "energia":
          "capturados": {"K": 1}, "vistos": ["K"], "evos_vistas": [], "objetos": {"ATP": 1},
          "insignias": [], "zonas_visitadas": [], "fallos": {}, "aciertos": {},
          "terminado": True, "doctorado": True, "peptidos": ["nls", "bradi"]}
+if not progreso.ARCHIVO.startswith(tempfile.gettempdir()):
+    sys.exit(f"La prueba iba a sobrescribir la partida real ({progreso.ARCHIVO})")
 with open(progreso.ARCHIVO, "w", encoding="utf-8") as f:
     json.dump(viejo, f)
 try:
@@ -272,6 +281,23 @@ try:
 except Exception as e:  # noqa: BLE001
     problemas = [repr(e)]
 revisar("una partida vieja carga y se puede usar", not problemas, "\n".join(problemas))
+
+# ------------------------------------------------------------ 8. Windows
+if os.name == "nt":
+    import curses  # noqa: E402
+
+    import pantalla  # noqa: E402
+    try:
+        pantalla._api()
+        pantalla.tamano_consola()
+        pantalla.igualar_bufer()
+        problema = ""
+    except Exception as e:  # noqa: BLE001
+        problema = repr(e)
+    revisar("las llamadas a la consola de Windows no fallan", not problema, problema)
+    revisar("el Enter y las flechas del teclado numérico se traducen",
+            d.TECLADO_NUMERICO.get(0x1CB) in d.ENTER
+            and d.TECLADO_NUMERICO.get(0x1C2) == curses.KEY_UP)
 
 print()
 print(f"{len(fallas)} prueba(s) fallaron." if fallas else "Todo bien.")

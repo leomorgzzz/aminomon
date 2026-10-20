@@ -29,15 +29,17 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - run: pip install pyinstaller
+      - run: pip install "pyinstaller>=6,<7"
       - shell: bash
         run: echo "VERSION = \"${GITHUB_REF_NAME#v}\"" > version.py
       - if: runner.os == 'Windows'
         shell: bash
         run: |
-          pip install windows-curses
+          pip install "windows-curses>=2.3,<3"
           version="${GITHUB_REF_NAME#v}"
-          numeros=$(echo "$version.0.0.0" | cut -d. -f1-4 | tr . ,)
+          # solo los números (v1.8-beta → 1,8,0,0): el .exe no acepta letras
+          set -- $(printf '%s' "$version" | tr -c '0-9' ' ') 0 0 0 0
+          numeros="$1,$2,$3,$4"
           cat > version.txt <<FIN
           VSVersionInfo(
             ffi=FixedFileInfo(filevers=($numeros), prodvers=($numeros)),
@@ -53,6 +55,8 @@ jobs:
           FIN
           pyinstaller --onedir --noconfirm --name Aminomon --icon icono.ico \
             --version-file version.txt aminomon.py
+          # sin el módulo de curses el .exe se abre y se cierra sin hacer nada
+          ls dist/Aminomon/_internal/_curses*.pyd
           if ! command -v iscc >/dev/null; then
             [ -f "/c/Program Files (x86)/Inno Setup 6/ISCC.exe" ] || choco install innosetup -y --no-progress
             export PATH="$PATH:/c/Program Files (x86)/Inno Setup 6"

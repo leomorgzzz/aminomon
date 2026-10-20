@@ -1,5 +1,6 @@
 # Corre pruebas/correr.py en cada push a main y antes de compilar una versión
-# (Ejecutables la llama: si falla, no se publica nada).
+# (Ejecutables la llama: si falla, no se publica nada). Corre en Linux, Windows
+# y macOS: en Windows con windows-curses, como el ejecutable.
 name: Pruebas
 
 on:
@@ -10,10 +11,18 @@ on:
 
 jobs:
   pruebas:
-    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    env:
+      PYTHONUTF8: "1"     # la consola de Windows usa cp1252 y no sabe imprimir − ni ≥
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - run: python3 pruebas/correr.py
+      - if: runner.os == 'Windows'
+        run: pip install "windows-curses>=2.3,<3"
+      - run: python pruebas/correr.py
